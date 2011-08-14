@@ -88,8 +88,8 @@
 		</repository>
 	</distributionManagement>
 	<scm>
-      <connection>scm:svn://192.168.2.153/foreach-java/common-projects/trunk/common-spring</connection>
-      <developerConnection>scm:svn://192.168.2.153/foreach-java/common-projects/trunk/common-spring</developerConnection>
+      <connection>scm:svn:svn://192.168.2.153/foreach-java/common-projects/trunk/common-spring</connection>
+      <developerConnection>scm:svn:svn://192.168.2.153/foreach-java/common-projects/trunk/common-spring</developerConnection>
       <url>http://www.foreach.com/</url>
    </scm> 
 </project>
