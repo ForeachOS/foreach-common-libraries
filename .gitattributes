@@ -1,0 +1,20 @@
+* text=auto !eol
+.idea/.name -text
+.idea/ant.xml -text
+.idea/compiler.xml -text
+.idea/encodings.xml -text
+.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml -text
+.idea/libraries/Maven__commons_logging_commons_logging_1_1_1.xml -text
+.idea/libraries/Maven__log4j_log4j_1_2_16.xml -text
+.idea/libraries/Maven__org_springframework_spring_asm_3_0_5_RELEASE.xml -text
+.idea/libraries/Maven__org_springframework_spring_core_3_0_5_RELEASE.xml -text
+.idea/misc.xml -text
+.idea/modules.xml -text
+.idea/projectCodeStyle.xml -text
+.idea/uiDesigner.xml -text
+.idea/vcs.xml -text
+common-spring/common-spring.iml -text
+common-spring/pom.xml -text
+common-spring/src/main/java/com/foreach/spring/logging/Log4JConfigurator.java -text
+common-spring/src/site/site.xml -text
+common-spring/src/site/xdoc/xdoc.xml -text
