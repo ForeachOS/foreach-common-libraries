@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>libs.foreach.com</groupId>
 	<artifactId>common-spring</artifactId>
-	<version>0.1</version>
+	<version>0.1-SNAPSHOT</version>
 	<dependencies>
 		<!-- Logging -->
 		<dependency>
@@ -88,8 +88,8 @@
 		</repository>
 	</distributionManagement>
 	<scm>
-      <connection>scm:svn:svn://192.168.2.153/foreach-java/common-web-utils/</connection>
-      <developerConnection>scm:svn:svn://192.168.2.153/foreach-java/common-web-utils/</developerConnection>
+      <connection>scm:svn://192.168.2.153/foreach-java/common-projects/trunk/common-spring</connection>
+      <developerConnection>scm:svn://192.168.2.153/foreach-java/common-projects/trunk/common-spring</developerConnection>
       <url>http://www.foreach.com/</url>
    </scm> 
 </project>
