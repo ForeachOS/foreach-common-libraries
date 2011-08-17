@@ -1,0 +1,6 @@
+* text=auto !eol
+/common-spring.iml -text
+/pom.xml -text
+src/main/java/com/foreach/spring/logging/Log4JConfigurator.java -text
+src/site/site.xml -text
+src/site/xdoc/xdoc.xml -text

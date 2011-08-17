@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="Maven" xmlns="http://maven.apache.org/DECORATION/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+	<bannerLeft>
+		<name>common-web-utils</name>
+		<src>http://www.foreach.com/sites/default/themes/foreach2010_theme/images/menu-items/logo.png</src>
+		<href>http://maven.apache.org/</href>
+	</bannerLeft>
+	<bannerRight>
+		<src>http://www.foreach.com/sites/default/themes/foreach2010_theme/images/menu-items/logo.png</src>
+	</bannerRight>
+
+	<body>
+		<links>
+			<item name="Foreach" href="http://www.apache.org/"/>
+			<item name="Java libraries" href="http://maven.apache.org/"/>
+			<item name="common-web-utils" href="http://maven.apache.org/"/>
+		</links>
+
+		<menu name="common-web-utils">
+			<item name="Introduction" href="xdoc.html"/>
+		</menu>
+
+		<menu ref="reports"/>
+	</body>
+</project>
