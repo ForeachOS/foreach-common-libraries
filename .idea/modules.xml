@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/common-spring/common-spring.iml" filepath="$PROJECT_DIR$/common-spring/common-spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-web/common-web.iml" filepath="$PROJECT_DIR$/common-web/common-web.iml" />
     </modules>
   </component>
 </project>

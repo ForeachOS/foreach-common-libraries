@@ -2,6 +2,7 @@
 .idea/.name -text
 .idea/ant.xml -text
 .idea/compiler.xml -text
+.idea/copyright/profiles_settings.xml -text
 .idea/encodings.xml -text
 .idea/libraries/Maven__commons_lang_commons_lang_2_6.xml -text
 .idea/libraries/Maven__commons_logging_commons_logging_1_1_1.xml -text
@@ -18,3 +19,6 @@ common-spring/pom.xml -text
 common-spring/src/main/java/com/foreach/spring/logging/Log4JConfigurator.java -text
 common-spring/src/site/site.xml -text
 common-spring/src/site/xdoc/xdoc.xml -text
+common-web/common-web.iml -text
+common-web/pom.xml -text
+/pom.xml -text

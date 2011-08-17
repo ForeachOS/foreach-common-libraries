@@ -28,6 +28,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/common-spring/pom.xml" />
+        <option value="$PROJECT_DIR$/common-web/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
