@@ -1,4 +1,4 @@
-package com.foreach.spring.logging;
+package com.foreach.logging;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.PropertyConfigurator;

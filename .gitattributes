@@ -16,9 +16,9 @@
 .idea/vcs.xml -text
 common-spring/common-spring.iml -text
 common-spring/pom.xml -text
+common-spring/src/main/java/com/foreach/logging/Log4JConfigurator.java -text
 common-spring/src/main/java/com/foreach/mail/AbstractMailService.java -text
 common-spring/src/main/java/com/foreach/mail/MailService.java -text
-common-spring/src/main/java/com/foreach/spring/logging/Log4JConfigurator.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmails.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmailsValidator.java -text
 common-spring/src/site/site.xml -text
