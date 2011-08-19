@@ -1,7 +1,5 @@
 package com.foreach.mail;
 
-import com.foreach.mail.AbstractMailService;
-import com.foreach.mail.MailService;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.apache.log4j.Logger;
 

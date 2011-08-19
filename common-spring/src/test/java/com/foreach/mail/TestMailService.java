@@ -1,6 +1,5 @@
 package com.foreach.mail;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.junit.Assert;
 import org.springframework.mail.javamail.JavaMailSender;
 
@@ -18,7 +17,6 @@ import javax.mail.internet.MimeMessage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
