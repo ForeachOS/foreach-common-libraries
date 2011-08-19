@@ -11,7 +11,7 @@ public class MailServiceImpl extends AbstractMailService implements MailService
 
 	private String originator;
 
-	private String serviceBccRecipient;
+	private String serviceBccRecipients;
 
 	private Logger logger;
 
@@ -36,14 +36,14 @@ public class MailServiceImpl extends AbstractMailService implements MailService
 		return originator;
 	}
 
-	public final void setServiceBccRecipient( String serviceBccRecipient )
+	public final void setServiceBccRecipients( String serviceBccRecipients )
 	{
-		this.serviceBccRecipient = serviceBccRecipient;
+		this.serviceBccRecipients = serviceBccRecipients;
 	}
 
-	public final String getServiceBccRecipient()
+	public final String getServiceBccRecipients()
 	{
-		return serviceBccRecipient;
+		return serviceBccRecipients;
 	}
 
 	public final void setLogger( Logger logger )

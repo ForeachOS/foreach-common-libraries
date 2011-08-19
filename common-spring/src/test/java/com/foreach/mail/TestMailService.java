@@ -12,6 +12,10 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.mockito.Mockito.*;
 
 public class TestMailService
@@ -20,7 +24,7 @@ public class TestMailService
 
 	private JavaMailSender mailSender;
 	private String originator;
-	private String serviceBccRecipient;
+	private String serviceBccRecipients;
 	private Logger logger;
 
 	private String from;
@@ -32,7 +36,7 @@ public class TestMailService
 	public void prepareForTest()
 	{
 		originator = "testMailService@serverkot.be";
-		serviceBccRecipient = "bigbrother@serverkot.be";
+		serviceBccRecipients = "bigbrother@serverkot.be";
 
 		mailSender = mock( JavaMailSender.class );
 		logger = mock( Logger.class );
@@ -40,7 +44,7 @@ public class TestMailService
 		MailServiceImpl mailServiceImpl = new MailServiceImpl();
 		mailServiceImpl.setOriginator( originator );
 		mailServiceImpl.setMailSender( mailSender );
-		mailServiceImpl.setServiceBccRecipient( serviceBccRecipient );
+		mailServiceImpl.setServiceBccRecipients( serviceBccRecipients );
 		mailServiceImpl.setLogger( logger );
 
 		mailService = mailServiceImpl;
@@ -72,7 +76,7 @@ public class TestMailService
 	}
 
 	@Test
-	public void testMultipleRecipients() throws AddressException, MessagingException
+	public void testMultipleRecipients() throws MessagingException
 	{
 		String tos[] = {"foo1@foreach.com","foo2@foreach.com","foo3@foreach.com"};
 		String bccs[] = {"foo4@foreach.com","foo5@foreach.com","foo6@foreach.com"};
