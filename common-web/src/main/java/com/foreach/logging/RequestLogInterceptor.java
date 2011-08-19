@@ -11,12 +11,12 @@ import java.util.concurrent.atomic.AtomicLong;
 
 
 /**
- * <p>The RequestLogHandlerInterceptor class can be used to log Http request with execution time.
+ * <p>The RequestLogInterceptor class can be used to log Http request with execution time.
  *
  * <p>Usage in spring configuration file:</p>
  * <pre>
  *  &lt;mvc:interceptors&gt;
- *	    &lt;bean class="com.foreach.logging.RequestLogHandlerInterceptor"/&gt;
+ *	    &lt;bean class="com.foreach.logging.RequestLogInterceptor"/&gt;
  *  &lt;/mvc:interceptors&gt;
  * </pre>
  *
@@ -24,8 +24,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * <pre>
  *
  *  Logger definition
- *  log4j.logger.com.foreach.logging.RequestLogHandlerInterceptor=DEBUG,request
- *  log4j.additivity.com.foreach.logging.RequestLogHandlerInterceptor=false
+ *  log4j.logger.com.foreach.logging.RequestLogInterceptor=DEBUG,request
+ *  log4j.additivity.com.foreach.logging.RequestLogInterceptor=false
  *
  *  Appender definition
  *  log4j.appender.request=org.apache.log4j.rolling.RollingFileAppender
@@ -40,14 +40,14 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @version 1.0
  */
-public class RequestLogHandlerInterceptor implements HandlerInterceptor
+public class RequestLogInterceptor implements HandlerInterceptor
 {
 	public static final String ATTRIBUTE_START_TIME = "_log_requestStartTime";
 	public static final String ATTRIBUTE_UNIQUE_ID = "_log_uniqueRequestId";
 	public static final String ATTRIBUTE_VIEW_NAME = "_log_resolvedViewName";
 	public static final String HEADER_REQUEST_ID = "Request-Reference";
 
-	private static final Logger LOG = Logger.getLogger( RequestLogHandlerInterceptor.class );
+	private static final Logger LOG = Logger.getLogger( RequestLogInterceptor.class );
 
 	private final AtomicLong counter = new AtomicLong( System.currentTimeMillis() );
 

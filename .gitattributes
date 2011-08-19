@@ -41,5 +41,5 @@ common-spring/src/test/java/com/foreach/mail/MailServiceImpl.java -text
 common-spring/src/test/java/com/foreach/mail/TestMailService.java -text
 common-web/common-web.iml -text
 common-web/pom.xml -text
-common-web/src/main/java/com/foreach/logging/RequestLogHandlerInterceptor.java -text
+common-web/src/main/java/com/foreach/logging/RequestLogInterceptor.java -text
 /pom.xml -text
