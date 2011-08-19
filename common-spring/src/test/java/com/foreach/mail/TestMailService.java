@@ -1,5 +1,7 @@
 package com.foreach.mail;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.junit.Assert;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import org.junit.Before;
@@ -8,13 +10,18 @@ import org.junit.Test;
 import org.apache.log4j.Logger;
 
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import static org.mockito.Mockito.*;
 
@@ -50,7 +57,7 @@ public class TestMailService
 		mailService = mailServiceImpl;
 
 		from = "someone@foreach.be";
-		to = "someone@foreach.be";
+		to = "someone_else@foreach.be";
 		subject = "hello subject";
 		body = "<html><body>hello body</body></html>";
 	}
@@ -58,21 +65,20 @@ public class TestMailService
 	@Test
 	public void simpleMail() throws Exception
 	{
-		MimeMessage mockMessage = mock( MimeMessage.class );
+		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
 
 		InternetAddress fromAddress = new InternetAddress(from);
 		InternetAddress toAddress = new InternetAddress(to);
-		InternetAddress toAddresses[] = { toAddress };
 
-		when( mailSender.createMimeMessage() ).thenReturn( mockMessage );
+		when( mailSender.createMimeMessage() ).thenReturn( message );
 
 		mailService.sendMimeMail( from, to, null, subject, body, null );
 
-		verify( mailSender ).send( mockMessage );
+		verify( mailSender ).send( message );
 
-		verify( mockMessage ).setFrom( fromAddress );
-		verify( mockMessage ).setSubject( subject );
-		verify( mockMessage ).setRecipients( MimeMessage.RecipientType.TO, toAddresses );
+		Assert.assertEquals( subject, message.getSubject() );
+		Assert.assertEquals( fromAddress, message.getFrom()[0]  );
+		Assert.assertEquals( toAddress, message.getAllRecipients()[0] );
 	}
 
 	@Test
@@ -81,22 +87,59 @@ public class TestMailService
 		String tos[] = {"foo1@foreach.com","foo2@foreach.com","foo3@foreach.com"};
 		String bccs[] = {"foo4@foreach.com","foo5@foreach.com","foo6@foreach.com"};
 
+		InternetAddress fromAddress = new InternetAddress(from);
 		InternetAddress toAddresses[] = adressesFromStrings(tos);
 		InternetAddress bccAddresses[] = adressesFromStrings(bccs);
 
-		MimeMessage mockMessage = mock( MimeMessage.class );
+		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
 
-		when( mailSender.createMimeMessage() ).thenReturn( mockMessage );
+		when( mailSender.createMimeMessage() ).thenReturn( message );
 
 		mailService.sendMimeMail( from, condense(tos), condense(bccs), subject, body, null );
 
-		verify( mailSender ).send( mockMessage );
+		verify( mailSender ).send( message );
 
-		verify( mockMessage ).setFrom( new InternetAddress(from) );
-		verify( mockMessage ).setSubject( subject );
-		verify( mockMessage ).setRecipients( MimeMessage.RecipientType.TO, toAddresses );
-		verify( mockMessage ).setRecipients( MimeMessage.RecipientType.BCC, bccAddresses );
+		Assert.assertEquals( subject, message.getSubject() );
+		Assert.assertEquals( fromAddress, message.getFrom()[0] );
+
+		// this could be rewritten...
+
+		Assert.assertEquals( toAddresses[0], message.getAllRecipients()[0] );
+		Assert.assertEquals( toAddresses[1], message.getAllRecipients()[1] );
+		Assert.assertEquals( toAddresses[2], message.getAllRecipients()[2] );
+
+		Assert.assertEquals( bccAddresses[0], message.getAllRecipients()[3] );
+		Assert.assertEquals( bccAddresses[1], message.getAllRecipients()[4] );
+		Assert.assertEquals( bccAddresses[2], message.getAllRecipients()[5] );
 	}
+
+	@Test
+	public void testAttachments() throws MessagingException, IOException
+	{
+		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
+
+		when( mailSender.createMimeMessage() ).thenReturn( message );
+
+		Map<String,File> files = new LinkedHashMap<String,File>();
+
+		File file1 = new File( "path1" );
+		File file2 = new File( "path2" );
+
+		files.put( "f1", file1 );
+		files.put( "f2", file2 );
+
+		mailService.sendMimeMail( from, to, null, subject, body, files );
+
+		verify( mailSender ).send( message );
+
+		Multipart mp = (Multipart) message.getContent();
+
+		Assert.assertEquals( 3, mp.getCount() );
+
+		Assert.assertEquals( "f1", mp.getBodyPart( 1 ).getFileName() );
+		Assert.assertEquals( "f2", mp.getBodyPart( 2 ).getFileName() );
+	}
+
 
 	private InternetAddress[] adressesFromStrings( String s[] ) throws AddressException
 	{
