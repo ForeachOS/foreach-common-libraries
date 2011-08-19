@@ -14,6 +14,7 @@
 .idea/projectCodeStyle.xml -text
 .idea/uiDesigner.xml -text
 .idea/vcs.xml -text
+/common-projects.iml -text
 common-spring/common-spring.iml -text
 common-spring/pom.xml -text
 common-spring/src/main/java/com/foreach/logging/Log4JConfigurator.java -text
@@ -27,4 +28,5 @@ common-spring/src/test/java/com/foreach/mail/MailServiceImpl.java -text
 common-spring/src/test/java/com/foreach/mail/TestMailService.java -text
 common-web/common-web.iml -text
 common-web/pom.xml -text
+common-web/src/main/java/com/foreach/logging/RequestLogHandlerInterceptor.java -text
 /pom.xml -text
