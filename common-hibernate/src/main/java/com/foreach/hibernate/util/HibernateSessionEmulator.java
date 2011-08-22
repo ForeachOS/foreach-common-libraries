@@ -12,7 +12,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * This class will simulate the open session in view patterns(OpenSessionInViewFilter).
  * The methods in this class can be used in Tasks which needs to perform transactional events in hibernate.
  */
-public class HibernateSessionEmulator
+public final class HibernateSessionEmulator
 {
 	private HibernateSessionEmulator()
 	{
@@ -39,10 +39,14 @@ public class HibernateSessionEmulator
 		Session session = sessionFactory.openSession();
 
 		if ( setFlushModeToManual)
-		 session.setFlushMode( FlushMode.MANUAL );
+        {
+		    session.setFlushMode( FlushMode.MANUAL );
+        }
 
 		if ( !TransactionSynchronizationManager.hasResource( sessionFactory ) )
+        {
 			TransactionSynchronizationManager.bindResource( sessionFactory, new SessionHolder( session ) );
+        }
 	}
 
     /**
@@ -69,7 +73,9 @@ public class HibernateSessionEmulator
 			Session session = holder.getSession();
 
 			if ( !doNotFlush )
+            {
 				session.flush();
+            }
 
 			TransactionSynchronizationManager.unbindResource( sessionFactory );
 
@@ -79,7 +85,9 @@ public class HibernateSessionEmulator
 			// to commit editor session, the session should be open, so we dont close the editor session if the transaction is active
 			// when the http request ends, this editor session will also be closed by OpenSessionInViewFilter
 			if (!TransactionSynchronizationManager.isActualTransactionActive())
+            {
 				SessionFactoryUtils.closeSession( session );
+            }
 		}
 	}
 
@@ -94,6 +102,8 @@ public class HibernateSessionEmulator
 	{
 		SessionHolder holder = (SessionHolder) TransactionSynchronizationManager.getResource( sessionFactory );
 		if ( holder != null )
+        {
 			holder.getSession().setCacheMode( cacheMode );
+        }
 	}
 }

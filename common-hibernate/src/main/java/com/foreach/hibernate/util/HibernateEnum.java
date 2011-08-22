@@ -63,17 +63,18 @@ public class HibernateEnum implements UserType, ParameterizedType
 			throw new HibernateException( "Failed to obtain identifier method",
 					e );
 		}
+
 		type = (NullableType) TypeFactory.basic( identifierType.getName() );
-		if ( type == null )
-			throw new HibernateException( "Unsupported identifier type "
-					+ identifierType.getName() );
+        if ( type == null )
+        {
+			throw new HibernateException( "Unsupported identifier type " + identifierType.getName() );
+        }
+
 		sqlTypes = new int[]{type.sqlType()};
-		String valueOfMethodName = parameters.getProperty( "valueOfMethod",
-				DEFAULT_VALUE_OF_METHOD_NAME );
+		String valueOfMethodName = parameters.getProperty( "valueOfMethod", DEFAULT_VALUE_OF_METHOD_NAME );
 		try
 		{
-			valueOfMethod = enumClass.getMethod( valueOfMethodName,
-					new Class[]{identifierType} );
+			valueOfMethod = enumClass.getMethod( valueOfMethodName, new Class[]{identifierType} );
 		} catch ( Exception e )
 		{
 			throw new HibernateException( "Failed to obtain valueOf method", e );
@@ -85,8 +86,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 		return enumClass;
 	}
 
-	public final Object nullSafeGet( ResultSet rs, String[] names, Object owner )
-			throws SQLException
+	public final Object nullSafeGet( ResultSet rs, String[] names, Object owner ) throws SQLException
 	{
 		Object identifier = type.get( rs, names[ 0 ] );
 		if ( rs.wasNull() )
@@ -104,8 +104,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 		}
 	}
 
-	public final void nullSafeSet( PreparedStatement st, Object value, int index )
-			throws SQLException
+	public final void nullSafeSet( PreparedStatement st, Object value, int index ) throws SQLException
 	{
 		try
 		{
