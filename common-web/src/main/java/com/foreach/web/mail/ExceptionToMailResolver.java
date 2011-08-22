@@ -1,12 +1,12 @@
-package com.foreach.mail;
+package com.foreach.web.mail;
 
-import com.foreach.context.WebApplicationContext;
-import com.foreach.context.WebCacheBypassRequest;
-import com.foreach.logging.RequestLogInterceptor;
+import com.foreach.mail.MailService;
+import com.foreach.web.context.WebApplicationContext;
+import com.foreach.web.context.WebCacheBypassRequest;
+import com.foreach.web.logging.RequestLogInterceptor;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
@@ -22,13 +22,13 @@ import java.util.Date;
 import java.util.Enumeration;
 
 /**
- * <p>This class resolves every java exception occurred to a mail.</p>
+ * <p>This class resolves every java exception occurred to a mail.
  * To use this resolver, declare a bean for this class in your spring configuration file.
  * Usage in spring configuration file:
  * </p>
  *
  * <pre>
- *  &lt;bean class="com.foreach.mail.ExceptionToMailResolver"&gt;
+ *  &lt;bean class="com.foreach.web.mail.ExceptionToMailResolver"&gt;
  *		&lt;property name="fromAddress" value="mail from address"/&gt;
  *		&lt;property name="toAddress" value="mail to address"/&gt;
  *		&lt;property name="order" value="1"/&gt;
@@ -54,19 +54,17 @@ import java.util.Enumeration;
  */
 public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 {
-	private static Logger log = Logger.getLogger( ExceptionToMailResolver.class );
+	private Logger logger = Logger.getLogger( ExceptionToMailResolver.class );
 
 	private String fromAddress, toAddress;
 
-    @Autowired
-    public MailService mailService;
+    private MailService mailService;
 
-	@Autowired
 	private WebApplicationContext applicationContext;
 
     public final void setLogger(Logger logger)
     {
-        this.log = logger;
+        this.logger = logger;
     }
 
 	public final void setFromAddress( String fromAddress )
@@ -94,7 +92,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	protected final ModelAndView doResolveException(
 			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex )
 	{
-		log.error( "Exception has occured ", ex );
+		logger.error( "Exception has occured ", ex );
 
 		try {
 			if ( ex != null ) {
@@ -104,8 +102,9 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
                 mailService.sendMimeMail(fromAddress, toAddress, null, mailSubject, mailBody, null);
 			}
 		}
-		catch ( RuntimeException rex ) {
-			log.error( "New exception when handling exception ", rex );
+		catch ( RuntimeException rex )
+        {
+			logger.error( "New exception when handling exception ", rex );
 		}
 
 		return super.doResolveException( request, response, handler, ex );

@@ -1,4 +1,4 @@
-package com.foreach.logging;
+package com.foreach.web.logging;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * <p>Usage in spring configuration file:</p>
  * <pre>
  *  &lt;mvc:interceptors&gt;
- *	    &lt;bean class="com.foreach.logging.RequestLogInterceptor"/&gt;
+ *	    &lt;bean class="com.foreach.web.logging.RequestLogInterceptor"/&gt;
  *  &lt;/mvc:interceptors&gt;
  * </pre>
  *
@@ -25,8 +25,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * <pre>
  *
  *  Logger definition
- *  log4j.logger.com.foreach.logging.RequestLogInterceptor=DEBUG,request
- *  log4j.additivity.com.foreach.logging.RequestLogInterceptor=false
+ *  log4j.logger.com.foreach.web.logging.RequestLogInterceptor=DEBUG,request
+ *  log4j.additivity.com.foreach.web.logging.RequestLogInterceptor=false
  *
  *  Appender definition
  *  log4j.appender.request=org.apache.log4j.rolling.RollingFileAppender
@@ -43,7 +43,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class RequestLogInterceptor implements HandlerInterceptor
 {
-	private static Logger logger = Logger.getLogger( RequestLogInterceptor.class );
+	private Logger logger = Logger.getLogger( RequestLogInterceptor.class );
 
     public static final String ATTRIBUTE_START_TIME = "_log_requestStartTime";
 	public static final String ATTRIBUTE_UNIQUE_ID = "_log_uniqueRequestId";
@@ -52,7 +52,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 
 	private final AtomicLong counter = new AtomicLong( System.currentTimeMillis() );
 
-    public void setLogger( Logger log )
+    public final void setLogger( Logger log )
     {
         this.logger = log;
     }

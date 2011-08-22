@@ -1,4 +1,4 @@
-package com.foreach.context;
+package com.foreach.web.context;
 
 public enum ApplicationEnvironment
 {
