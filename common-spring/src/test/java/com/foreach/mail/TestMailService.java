@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 
 public class TestMailService
 {
-	private MailService mailService;
+	private BasicMailService mailService;
 
 	private JavaMailSender mailSender;
 	private String originator;
@@ -46,13 +46,11 @@ public class TestMailService
 		mailSender = mock( JavaMailSender.class );
 		logger = mock( Logger.class );
 
-		MailServiceImpl mailServiceImpl = new MailServiceImpl();
-		mailServiceImpl.setOriginator( originator );
-		mailServiceImpl.setMailSender( mailSender );
-		mailServiceImpl.setServiceBccRecipients( serviceBccRecipients );
-		mailServiceImpl.setLogger( logger );
-
-		mailService = mailServiceImpl;
+		mailService = new BasicMailService();
+		mailService.setOriginator( originator );
+		mailService.setJavaMailSender( mailSender );
+		mailService.setServiceBccRecipients( serviceBccRecipients );
+		mailService.setLogger( logger );
 
 		from = "someone@foreach.be";
 		to = "someone_else@foreach.be";
