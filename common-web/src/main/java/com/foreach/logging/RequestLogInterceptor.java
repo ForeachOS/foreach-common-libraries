@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 
 /**
- * <p>The RequestLogInterceptor class can be used to log Http request with execution time.
+ * <p>The RequestLogInterceptor class can be used to log Http request with execution time.</p>
  *
  * <p>Usage in spring configuration file:</p>
  * <pre>

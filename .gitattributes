@@ -42,6 +42,8 @@ common-spring/src/main/java/com/foreach/concurrent/TaskExecutorService.java -tex
 common-spring/src/main/java/com/foreach/logging/Log4JConfigurator.java -text
 common-spring/src/main/java/com/foreach/mail/AbstractMailService.java -text
 common-spring/src/main/java/com/foreach/mail/MailService.java -text
+common-spring/src/main/java/com/foreach/service/AsyncService.java -text
+common-spring/src/main/java/com/foreach/service/Task.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmails.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmailsValidator.java -text
 common-spring/src/site/site.xml -text
@@ -54,5 +56,9 @@ common-spring/src/test/java/com/foreach/utils/BaseTestService.java -text
 common-spring/src/test/resources/config/spring-test-services.xml -text
 common-web/common-web.iml -text
 common-web/pom.xml -text
+common-web/src/main/java/com/foreach/context/ApplicationEnvironment.java -text
+common-web/src/main/java/com/foreach/context/WebApplicationContext.java -text
+common-web/src/main/java/com/foreach/context/WebCacheBypassRequest.java -text
 common-web/src/main/java/com/foreach/logging/RequestLogInterceptor.java -text
+common-web/src/main/java/com/foreach/mail/ExceptionToMailResolver.java -text
 /pom.xml -text
