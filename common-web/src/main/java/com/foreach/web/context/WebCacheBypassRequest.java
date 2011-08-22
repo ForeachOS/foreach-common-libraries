@@ -5,6 +5,9 @@ import org.apache.commons.lang.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+/**
+ * Utility class to retrieve the remote machine ip address and port from the given request object
+ */
 public class WebCacheBypassRequest extends HttpServletRequestWrapper
 {
 	public WebCacheBypassRequest( HttpServletRequest request )
