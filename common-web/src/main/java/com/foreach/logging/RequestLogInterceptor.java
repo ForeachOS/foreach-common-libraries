@@ -20,7 +20,8 @@ import java.util.concurrent.atomic.AtomicLong;
  *  &lt;/mvc:interceptors&gt;
  * </pre>
  *
- * <p>You need to define a logger with appender in your log4j.properties file. See below logger definition</p>
+ * <p>You need to define a logger with appender in your log4j.properties file or set your own custom logger using method setLogger.
+ * See below for defining new logger in your log4j properties file</p>
  * <pre>
  *
  *  Logger definition
@@ -42,14 +43,19 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class RequestLogInterceptor implements HandlerInterceptor
 {
-	public static final String ATTRIBUTE_START_TIME = "_log_requestStartTime";
+	private static Logger logger = Logger.getLogger( RequestLogInterceptor.class );
+
+    public static final String ATTRIBUTE_START_TIME = "_log_requestStartTime";
 	public static final String ATTRIBUTE_UNIQUE_ID = "_log_uniqueRequestId";
 	public static final String ATTRIBUTE_VIEW_NAME = "_log_resolvedViewName";
 	public static final String HEADER_REQUEST_ID = "Request-Reference";
 
-	private static final Logger LOG = Logger.getLogger( RequestLogInterceptor.class );
-
 	private final AtomicLong counter = new AtomicLong( System.currentTimeMillis() );
+
+    public void setLogger( Logger log )
+    {
+        this.logger = log;
+    }
 
 	public final boolean preHandle(
 			HttpServletRequest request, HttpServletResponse response, Object handler ) throws Exception
@@ -95,7 +101,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 				'\t' ).append( handlerName ).append( '\t' ).append(
 				request.getAttribute( ATTRIBUTE_VIEW_NAME ) ).append( '\t' ).append( duration );
 
-		LOG.debug( buf.toString() );
+		logger.debug( buf.toString() );
 
 		// Remove the NDC
 		NDC.pop();

@@ -38,7 +38,6 @@ import java.util.Enumeration;
  *			&lt;/props&gt;
  *		&lt;/property&gt;
  *	    &lt;property name="mailService" ref="mail service bean name"/&gt;
- *	    &lt;property name="asyncService" ref="async service bean name"/&gt;
  *	    &lt;property name="applicationContext" ref="web application context bean name"/&gt;
  *	&lt;/bean&gt;
  * </pre>
@@ -50,7 +49,6 @@ import java.util.Enumeration;
  *     <li>order</li>
  *     <li>exceptionMappings</li>
  *     <li>mailService, provide the bean name of MailService class</li>
- *     <li>asyncService, provide the bean name of AsyncService class</li>
  *     <li>applicationContext, provide the bean name of WebApplicationContext class</li>
  * </ul>
  */
