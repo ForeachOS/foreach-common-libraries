@@ -14,6 +14,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ */
 
 public class BasicMailService implements MailService
 {
@@ -26,31 +29,43 @@ public class BasicMailService implements MailService
 	// default to synchronous operation.
 	private TaskExecutorService executorService = new SynchronousTaskExecutor();
 
-	public void setLogger( Logger logger )
+	public final void setLogger( Logger logger )
 	{
 		this.logger = logger;
 	}
 
-	public void setJavaMailSender( JavaMailSender javaMailSender )
+	public final void setJavaMailSender( JavaMailSender javaMailSender )
 	{
 		this.javaMailSender = javaMailSender;
 	}
 
-	public void setOriginator( String originator )
+	/**
+	 * Set the default originator to be used to send messages through the javaMailSender.
+	 * @param originator the email address of the default originator.
+	 * This value can be overridden on a per message basis.
+	 */
+	public final void setOriginator( String originator )
 	{
 		this.originator = originator;
 	}
 
-	public void setServiceBccRecipients( String serviceBccRecipients )
+	public final void setServiceBccRecipients( String serviceBccRecipients )
 	{
 		this.serviceBccRecipients = serviceBccRecipients;
 	}
 
-	public synchronized void  setExecutorService( TaskExecutorService executorService )
+	/**
+	 * Set the ExecutorService used to send messages through the javaMailSender.
+	 * @param executorService
+	 */
+	public final synchronized void setExecutorService( TaskExecutorService executorService )
 	{
 		this.executorService = executorService;
 	}
 
+	/**
+	 * Get the current ExecutorService being used.
+	 */
 	public final synchronized TaskExecutorService getExecutorService()
 	{
 		return executorService;

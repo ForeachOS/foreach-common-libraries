@@ -33,8 +33,8 @@ public class SynchronousTaskExecutor implements TaskExecutorService
 	{
 		try {
 			return new DummyFuture<V>( callable.call() );
-		} catch ( Throwable throwable ) {
-			LOG.error( "Error in callable", throwable );
+		} catch ( Exception e ) {
+			LOG.error( "Error in callable", e );
 			return null;
 		}
 	}
