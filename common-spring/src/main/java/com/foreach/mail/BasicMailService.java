@@ -12,46 +12,50 @@ import java.util.List;
 import java.util.Map;
 
 
-public abstract class AbstractMailService implements MailService
+public class BasicMailService implements MailService
 {
-	/**
-	 * An org.springframework.mail.javamail.JavaMailSender.
-	 */
-	public abstract JavaMailSender getMailSender();
+	private Logger logger = Logger.getLogger( BasicMailService.class );
 
-	/**
-	 * The default originator of messages sent by the MailService when no explicit originator is provided.
-	 */
-	public abstract String getOriginator();
+	private JavaMailSender javaMailSender;
+	private String originator;
+	private String serviceBccRecipients;
 
-	/**
-	 * If not null, a comma or semi-colon separated list of email adresses that receive a copy of each message sent.
-	 * If other bcc recipients are specified for a specific message, they will override this field,
-	 * so the bcc recipients are replaced instead of merged.
-	 */
-	public abstract String getServiceBccRecipients();
 
-	/**
-	 * An org.apache.log4j.Logger.
-	 */
-	protected abstract Logger getLogger( );
+	public void setLogger( Logger logger )
+	{
+		this.logger = logger;
+	}
 
+	public void setJavaMailSender( JavaMailSender javaMailSender )
+	{
+		this.javaMailSender = javaMailSender;
+	}
+
+	public void setOriginator( String originator )
+	{
+		this.originator = originator;
+	}
+
+	public void setServiceBccRecipients( String serviceBccRecipients )
+	{
+		this.serviceBccRecipients = serviceBccRecipients;
+	}
 
 	private MimeMessage createMimeMessage( String from, String to, String bccs,
 	                                       String subject, String body, Map<String,File> attachments )
 			throws MessagingException
 	{
-		MimeMessage message = getMailSender().createMimeMessage();
+		MimeMessage message = javaMailSender.createMimeMessage();
 
 		// inform the MessageHelper on the multipartness of our message
 		MimeMessageHelper helper = new MimeMessageHelper( message, attachments!=null );
 
 		helper.setTo( getToAddresses( to ) );
-		helper.setFrom( ( from == null ) ? getOriginator() : from );
+		helper.setFrom( ( from == null ) ? originator : from );
 		helper.setText( body, true );
 		message.setSubject( subject );
 
-		String bccRecipients = ( bccs == null )? getServiceBccRecipients() : bccs;
+		String bccRecipients = ( bccs == null )? serviceBccRecipients : bccs;
 
 		if ( bccRecipients != null ) {
 			helper.setBcc( getToAddresses( bccRecipients ) );
@@ -87,17 +91,17 @@ public abstract class AbstractMailService implements MailService
 
 			MimeMessage message = createMimeMessage( from, to, bccs, subject, body, attachments );
 
-			getLogger().info( "Sending html email " + from + " > " + to + ": " + subject );
-			getMailSender().send( message );
+			logger.info( "Sending html email " + from + " > " + to + ": " + subject );
+			javaMailSender.send( message );
 
 		} catch ( MessagingException e ) {
-			getLogger().error( "Failed to compose mail", e );
+			logger.error( "Failed to compose mail", e );
 			return false;
 		} catch ( MailException e) {
-			getLogger().error( "Failed to send mail", e );
+			logger.error( "Failed to send mail", e );
 			return false;
 		} catch ( Exception e ) {
-			getLogger().error( "Failed to send mail", e );
+			logger.error( "Failed to send mail", e );
 			return false;
 		}
 

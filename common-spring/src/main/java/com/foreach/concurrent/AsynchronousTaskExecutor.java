@@ -1,50 +1,76 @@
 package com.foreach.concurrent;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.NDC;
 import org.springframework.scheduling.annotation.Async;
 
-import java.util.Stack;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
- * <p>AsynchronousTaskExecutor executes tasks asynchronously, but please note the actual asynchronous functionality is performed
- * in the spring proxy for this object.</p>
- * <p>To function correctly, AsynchronousTaskExecutor must be instantiated by Spring, you must add</p>
- *
- * <pre>
- * &lt;task:annotation-driven/&gt;
- * </pre>
- * <p>to your Spring configuration, and you must make sure the caller calls methods on the Spring proxy.
- * If the caller is also managed by Spring this happens automatically when you autowire the service
- * or otherwise configure it with Spring. If you want to use the AsynchronousTaskExecutor
- * from an Object that is not managed by Spring, you must get hold of the
- * Spring ApplicationContext and use getBean().</p>
+ * AsynchronousTaskExecutor allows for the asynchronous execution of Tasks and Callables.
+ * Upon instantiation, the AsynchronousTaskExecutor will create an ExecutorService using a small
+ * number of threads.
  */
 
 public class AsynchronousTaskExecutor implements TaskExecutorService
 {
+	private ExecutorService executorService = new ScheduledThreadPoolExecutor(2);
+
+	/**
+	 * Set the ExecutorService to be used.
+	 * @param executorService the ExecutorService used to perform Tasks and Callables.
+	 */
+
+	public synchronized void setExecutorService( ExecutorService executorService )
+	{
+		this.executorService = executorService;
+	}
+
+	/**
+	 * Get the ExecutorService being used.
+	 */
+
+	public synchronized ExecutorService getExecutorService()
+	{
+		return this.executorService;
+	}
 
 	private static final Logger LOG = Logger.getLogger( AsynchronousTaskExecutor.class );
 
 	/**
-	 * Execute the task asynchronously.
+	 * Execute a task asynchronously.
 	 * @param task the Task to be executed.
-	 * <p>Note that when entering this routine control is already transferred to a Spring-managed thread.</p>
 	 */
 
-
 	@Async
-	public final void executeTask( Task task ) {
+	public final void executeTask( final Task task ) {
 
-		Stack originalStack = NDC.cloneStack();
+		this.executeCallable( new Callable<Object>()
+		{
+			public Object call() throws Exception
+			{
+				task.execute();
+				return null;
+			}
+		} );
+	}
 
+	/**
+	 * Execute a callable asynchronously.
+	 * @param callable the Callable to be executed.
+	 * @return a Future.
+	 */
+
+	public final <V> Future<V> executeCallable( Callable<V> callable)
+	{
 		try {
-			NDC.inherit( task.getInheritedContext() );
-			task.execute();
+			return getExecutorService().submit(callable);
 		} catch ( Throwable throwable ) {
-			LOG.error( "Error in asynchronous task", throwable );
-		} finally {
-			NDC.inherit( originalStack );
+			LOG.error( "Error in task", throwable );
+			return null;
 		}
 	}
+
 }

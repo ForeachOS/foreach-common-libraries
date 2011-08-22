@@ -3,7 +3,7 @@ package com.foreach.mail;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.apache.log4j.Logger;
 
-public class MailServiceImpl extends AbstractMailService implements MailService
+public class MailServiceImpl extends BasicMailService implements MailService
 {
 	private JavaMailSender mailSender;
 

@@ -19,25 +19,26 @@ public class TestSynchronousTaskExecutor extends BaseTestService
 	}
 
 	@Test
-	public void executionIsSynchronous()
+	public void taskExecutionIsSynchronous()
 	{
 		long startTime = System.currentTimeMillis();
 
-		synchronousTaskExecutor.executeTask( new AbstractTask()
-		{
-			public void execute()
-			{
-				try {
-					Thread.sleep( 2000 );
-				}
-				catch ( InterruptedException ie ) {
-				}
-			}
-		} );
+		synchronousTaskExecutor.executeTask( new TestTask( 2000 ) );
 
 		long delta = System.currentTimeMillis() - startTime;
 
 		Assert.assertTrue( delta >= 2000 );
 	}
 
+	@Test
+	public void callableExecutionIsSynchronous()
+	{
+		long startTime = System.currentTimeMillis();
+
+		synchronousTaskExecutor.executeCallable( new TestCallable( 2000 ) );
+
+		long delta = System.currentTimeMillis() - startTime;
+
+		Assert.assertTrue( delta >= 2000 );
+	}
 }

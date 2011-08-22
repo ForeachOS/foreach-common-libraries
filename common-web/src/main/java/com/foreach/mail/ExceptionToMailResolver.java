@@ -3,7 +3,6 @@ package com.foreach.mail;
 import com.foreach.context.WebApplicationContext;
 import com.foreach.context.WebCacheBypassRequest;
 import com.foreach.logging.RequestLogInterceptor;
-import com.foreach.service.AsyncService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.apache.log4j.Logger;
@@ -61,9 +60,6 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private String fromAddress, toAddress;
 
-	@Autowired
-	private AsyncService asyncService;
-
     @Autowired
     public MailService mailService;
 
@@ -90,11 +86,6 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
         this.mailService = mailService;
     }
 
-    public final void setAsyncService( AsyncService asyncService )
-    {
-        this.asyncService = asyncService;
-    }
-
     public final void setWebApplicationContext( WebApplicationContext context )
     {
         this.applicationContext = context;
@@ -112,16 +103,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 				String mailBody = createExceptionMailBody( request, handler, ex );
 				String mailSubject = createExceptionMailSubject( ex );
 
-                if (asyncService != null)
-                {
-                    asyncService.invokeAsynchronously(
-                            mailService.createHtmlMailTask(fromAddress, toAddress, null, mailSubject, mailBody, null)
-                    );
-                }
-                else
-                {
-                    mailService.createHtmlMailTask(fromAddress, toAddress, null, mailSubject, mailBody, null);
-                }
+                mailService.sendMimeMail(fromAddress, toAddress, null, mailSubject, mailBody, null);
 			}
 		}
 		catch ( RuntimeException rex ) {

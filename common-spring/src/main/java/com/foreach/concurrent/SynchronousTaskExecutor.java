@@ -2,6 +2,9 @@ package com.foreach.concurrent;
 
 import org.apache.log4j.Logger;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+
 public class SynchronousTaskExecutor implements TaskExecutorService
 {
 	private static final Logger LOG = Logger.getLogger( SynchronousTaskExecutor.class );
@@ -19,4 +22,21 @@ public class SynchronousTaskExecutor implements TaskExecutorService
 			LOG.error( "Error in task", throwable );
 		}
 	}
+
+	/**
+	 * Execute the callable synchronously.
+	 * @param callable the callable to be executed.
+	 * @return a completed Future, that can not be cancelled.
+	 */
+
+	public final <V> Future<V> executeCallable( Callable<V> callable)
+	{
+		try {
+			return new DummyFuture<V>( callable.call() );
+		} catch ( Throwable throwable ) {
+			LOG.error( "Error in task", throwable );
+			return null;
+		}
+	}
+
 }
