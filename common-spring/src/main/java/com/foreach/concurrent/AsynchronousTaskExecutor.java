@@ -54,14 +54,7 @@ public class AsynchronousTaskExecutor implements TaskExecutorService
 	@Async
 	public final void executeTask( final Task task ) {
 
-		this.executeCallable( new Callable<Object>()
-		{
-			public Object call() throws Exception
-			{
-				task.execute();
-				return null;
-			}
-		} );
+		this.executeCallable( new CallableWrapper( task ) );
 	}
 
 	/**
@@ -80,4 +73,20 @@ public class AsynchronousTaskExecutor implements TaskExecutorService
 		}
 	}
 
+	// convert a Task to a Callable
+	private static class CallableWrapper implements Callable<Object>
+	{
+		private final Task task;
+
+		public CallableWrapper( Task task )
+		{
+			this.task = task;
+		}
+
+		public Object call() throws Exception
+		{
+			task.execute();
+			return null;
+		}
+	}
 }

@@ -92,8 +92,9 @@ public class BasicMailService implements MailService
 		}
 
 		if ( attachments != null ) {
-			for( Map.Entry<String,File> entry : attachments.entrySet())
-			helper.addAttachment( entry.getKey(), entry.getValue() );
+			for( Map.Entry<String,File> entry : attachments.entrySet()) {
+				helper.addAttachment( entry.getKey(), entry.getValue() );
+			}
 		}
 
 		return message;

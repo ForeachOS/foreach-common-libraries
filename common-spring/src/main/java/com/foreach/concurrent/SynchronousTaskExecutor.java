@@ -18,8 +18,8 @@ public class SynchronousTaskExecutor implements TaskExecutorService
 	{
 		try {
 			task.execute();
-		} catch ( Throwable throwable ) {
-			LOG.error( "Error in task", throwable );
+		} catch ( Exception e ) {
+			LOG.error( "Error in task", e );
 		}
 	}
 
