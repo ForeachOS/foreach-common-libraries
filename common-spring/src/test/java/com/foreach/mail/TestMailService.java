@@ -132,6 +132,8 @@ public class TestMailService
 
 		Multipart mp = (Multipart) message.getContent();
 
+		// also a bit messy
+
 		Assert.assertEquals( 3, mp.getCount() );
 
 		Assert.assertEquals( "f1", mp.getBodyPart( 1 ).getFileName() );

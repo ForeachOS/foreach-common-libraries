@@ -9,6 +9,7 @@
 .idea/libraries/Maven__commons_logging_commons_logging_1_1_1.xml -text
 .idea/libraries/Maven__javax_activation_activation_1_1.xml -text
 .idea/libraries/Maven__javax_mail_mail_1_4_1.xml -text
+.idea/libraries/Maven__javax_servlet_servlet_api_2_4.xml -text
 .idea/libraries/Maven__javax_validation_validation_api_1_0_0_GA.xml -text
 .idea/libraries/Maven__junit_junit_4_8_2.xml -text
 .idea/libraries/Maven__log4j_log4j_1_2_16.xml -text
@@ -22,6 +23,9 @@
 .idea/libraries/Maven__org_springframework_spring_context_support_3_0_5_RELEASE.xml -text
 .idea/libraries/Maven__org_springframework_spring_core_3_0_5_RELEASE.xml -text
 .idea/libraries/Maven__org_springframework_spring_expression_3_0_5_RELEASE.xml -text
+.idea/libraries/Maven__org_springframework_spring_test_3_0_5_RELEASE.xml -text
+.idea/libraries/Maven__org_springframework_spring_web_3_0_5_RELEASE.xml -text
+.idea/libraries/Maven__org_springframework_spring_webmvc_3_0_5_RELEASE.xml -text
 .idea/misc.xml -text
 .idea/modules.xml -text
 .idea/projectCodeStyle.xml -text
@@ -30,6 +34,11 @@
 /common-projects.iml -text
 common-spring/common-spring.iml -text
 common-spring/pom.xml -text
+common-spring/src/main/java/com/foreach/concurrent/AbstractTask.java -text
+common-spring/src/main/java/com/foreach/concurrent/AsynchronousTaskExecutor.java -text
+common-spring/src/main/java/com/foreach/concurrent/SynchronousTaskExecutor.java -text
+common-spring/src/main/java/com/foreach/concurrent/Task.java -text
+common-spring/src/main/java/com/foreach/concurrent/TaskExecutorService.java -text
 common-spring/src/main/java/com/foreach/logging/Log4JConfigurator.java -text
 common-spring/src/main/java/com/foreach/mail/AbstractMailService.java -text
 common-spring/src/main/java/com/foreach/mail/MailService.java -text
@@ -37,8 +46,12 @@ common-spring/src/main/java/com/foreach/validators/MultipleEmails.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmailsValidator.java -text
 common-spring/src/site/site.xml -text
 common-spring/src/site/xdoc/xdoc.xml -text
+common-spring/src/test/java/com/foreach/concurrent/TestAsynchronousTaskExecutor.java -text
+common-spring/src/test/java/com/foreach/concurrent/TestSynchronousTaskExecutor.java -text
 common-spring/src/test/java/com/foreach/mail/MailServiceImpl.java -text
 common-spring/src/test/java/com/foreach/mail/TestMailService.java -text
+common-spring/src/test/java/com/foreach/utils/BaseTestService.java -text
+common-spring/src/test/resources/config/spring-test-services.xml -text
 common-web/common-web.iml -text
 common-web/pom.xml -text
 common-web/src/main/java/com/foreach/logging/RequestLogInterceptor.java -text
