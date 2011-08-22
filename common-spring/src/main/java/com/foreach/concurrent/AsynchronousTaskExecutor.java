@@ -83,7 +83,7 @@ public class AsynchronousTaskExecutor implements TaskExecutorService
 			this.task = task;
 		}
 
-		public Object call() throws Exception
+		public Object call()
 		{
 			task.execute();
 			return null;
