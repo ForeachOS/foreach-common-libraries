@@ -23,7 +23,6 @@ public class HibernateEnum implements UserType, ParameterizedType
 	private static final String DEFAULT_VALUE_OF_METHOD_NAME = "getById";
 
 	private Class enumClass;
-	private Class identifierType;
 	private Method identifierMethod;
 	private Method valueOfMethod;
 	private NullableType type;
@@ -32,6 +31,8 @@ public class HibernateEnum implements UserType, ParameterizedType
 	public final void setParameterValues( Properties parameters )
 	{
 		String enumClassName = parameters.getProperty( "enumClassName" );
+		Class identifierType = null;
+
 		try
 		{
 			enumClass = Class.forName( enumClassName ).asSubclass( Enum.class );
@@ -74,7 +75,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 	}
 
 	public final Object nullSafeGet( ResultSet rs, String[] names, Object owner )
-			throws HibernateException, SQLException
+			throws SQLException
 	{
 		Object identifier = type.get( rs, names[ 0 ] );
 		if ( rs.wasNull() )
@@ -93,7 +94,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 	}
 
 	public final void nullSafeSet( PreparedStatement st, Object value, int index )
-			throws HibernateException, SQLException
+			throws SQLException
 	{
 		try
 		{
@@ -120,27 +121,26 @@ public class HibernateEnum implements UserType, ParameterizedType
 	}
 
 	public final Object assemble( Serializable cached, Object owner )
-			throws HibernateException
 	{
 		return cached;
 	}
 
-	public final Object deepCopy( Object value ) throws HibernateException
+	public final Object deepCopy( Object value )
 	{
 		return value;
 	}
 
-	public final Serializable disassemble( Object value ) throws HibernateException
+	public final Serializable disassemble( Object value )
 	{
 		return (Serializable) value;
 	}
 
-	public final boolean equals( Object x, Object y ) throws HibernateException
+	public final boolean equals( Object x, Object y )
 	{
 		return x == y;
 	}
 
-	public final int hashCode( Object x ) throws HibernateException
+	public final int hashCode( Object x )
 	{
 		return x.hashCode();
 	}
@@ -151,7 +151,6 @@ public class HibernateEnum implements UserType, ParameterizedType
 	}
 
 	public final Object replace( Object original, Object target, Object owner )
-			throws HibernateException
 	{
 		return original;
 	}
