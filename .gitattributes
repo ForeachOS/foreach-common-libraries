@@ -29,7 +29,10 @@
 .idea/libraries/Maven__org_springframework_spring_context_support_3_0_5_RELEASE.xml -text
 .idea/libraries/Maven__org_springframework_spring_core_3_0_5_RELEASE.xml -text
 .idea/libraries/Maven__org_springframework_spring_expression_3_0_5_RELEASE.xml -text
+.idea/libraries/Maven__org_springframework_spring_jdbc_3_0_5_RELEASE.xml -text
+.idea/libraries/Maven__org_springframework_spring_orm_3_0_5_RELEASE.xml -text
 .idea/libraries/Maven__org_springframework_spring_test_3_0_5_RELEASE.xml -text
+.idea/libraries/Maven__org_springframework_spring_tx_3_0_5_RELEASE.xml -text
 .idea/libraries/Maven__org_springframework_spring_web_3_0_5_RELEASE.xml -text
 .idea/libraries/Maven__org_springframework_spring_webmvc_3_0_5_RELEASE.xml -text
 .idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml -text
@@ -41,6 +44,7 @@
 common-hibernate/common-hibernate.iml -text
 common-hibernate/pom.xml -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateEnum.java -text
+common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateSessionEmulator.java -text
 /common-projects.iml -text
 common-spring/common-spring.iml -text
 common-spring/pom.xml -text

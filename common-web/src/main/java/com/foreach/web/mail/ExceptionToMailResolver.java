@@ -67,21 +67,37 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
         this.logger = logger;
     }
 
+    /**
+     * From mail address
+     * @param fromAddress
+     */
 	public final void setFromAddress( String fromAddress )
 	{
 		this.fromAddress = fromAddress;
 	}
 
+    /**
+     * To mail address
+     * @param toAddress
+     */
 	public final void setToAddress( String toAddress )
 	{
 		this.toAddress = toAddress;
 	}
 
+    /**
+     * set the mail service, which actually sends the exception mail
+     * @param mailService
+     */
     public final void setMailService( MailService mailService )
     {
         this.mailService = mailService;
     }
 
+    /**
+     * set the WebApplicationContext object holding the properties of current running application
+     * @param context
+     */
     public final void setWebApplicationContext( WebApplicationContext context )
     {
         this.applicationContext = context;

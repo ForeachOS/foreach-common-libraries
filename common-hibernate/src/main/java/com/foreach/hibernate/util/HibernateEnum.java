@@ -13,10 +13,21 @@ import org.hibernate.type.TypeFactory;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
 
-// Looks like this can be simplified for the end user using reflection, as in this example:
-// http://community.jboss.org/wiki/Java5StringValuedEnumUserType
-
-
+/**
+ * <p>This class converts the string value from the resultset to Java Enum and vice versa.</p>
+ *
+ * <p>
+ * Usage Eg - To map a java enum object Role, define the following mapping in hbm file.
+ *  <pre>
+ *     &lt;typedef class="com.foreach.hibernate.util.HibernateEnum" name="roleType"&gt;
+ *          &lt;param name="enumClassName"&gt;com.xxx.xxx.Role&lt;/param&gt;
+ *     &lt;/typedef&gt;
+ *  </pre>
+ * </p>
+ *
+ * Improvement: -Looks like this can be simplified for the end user using reflection, as in this example:
+ * http://community.jboss.org/wiki/Java5StringValuedEnumUserType
+ */
 public class HibernateEnum implements UserType, ParameterizedType
 {
 	private static final String DEFAULT_IDENTIFIER_METHOD_NAME = "getId";
