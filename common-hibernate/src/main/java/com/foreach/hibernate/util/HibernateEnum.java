@@ -13,6 +13,10 @@ import org.hibernate.type.TypeFactory;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
 
+// Looks like this can be simplified for the end user using reflection, as in this example:
+// http://community.jboss.org/wiki/Java5StringValuedEnumUserType
+
+
 public class HibernateEnum implements UserType, ParameterizedType
 {
 	private static final String DEFAULT_IDENTIFIER_METHOD_NAME = "getId";
@@ -25,7 +29,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 	private NullableType type;
 	private int[] sqlTypes;
 
-	public void setParameterValues( Properties parameters )
+	public final void setParameterValues( Properties parameters )
 	{
 		String enumClassName = parameters.getProperty( "enumClassName" );
 		try
@@ -64,12 +68,12 @@ public class HibernateEnum implements UserType, ParameterizedType
 		}
 	}
 
-	public Class returnedClass()
+	public final Class returnedClass()
 	{
 		return enumClass;
 	}
 
-	public Object nullSafeGet( ResultSet rs, String[] names, Object owner )
+	public final Object nullSafeGet( ResultSet rs, String[] names, Object owner )
 			throws HibernateException, SQLException
 	{
 		Object identifier = type.get( rs, names[ 0 ] );
@@ -88,7 +92,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 		}
 	}
 
-	public void nullSafeSet( PreparedStatement st, Object value, int index )
+	public final void nullSafeSet( PreparedStatement st, Object value, int index )
 			throws HibernateException, SQLException
 	{
 		try
@@ -110,43 +114,43 @@ public class HibernateEnum implements UserType, ParameterizedType
 		}
 	}
 
-	public int[] sqlTypes()
+	public final int[] sqlTypes()
 	{
 		return sqlTypes;
 	}
 
-	public Object assemble( Serializable cached, Object owner )
+	public final Object assemble( Serializable cached, Object owner )
 			throws HibernateException
 	{
 		return cached;
 	}
 
-	public Object deepCopy( Object value ) throws HibernateException
+	public final Object deepCopy( Object value ) throws HibernateException
 	{
 		return value;
 	}
 
-	public Serializable disassemble( Object value ) throws HibernateException
+	public final Serializable disassemble( Object value ) throws HibernateException
 	{
 		return (Serializable) value;
 	}
 
-	public boolean equals( Object x, Object y ) throws HibernateException
+	public final boolean equals( Object x, Object y ) throws HibernateException
 	{
 		return x == y;
 	}
 
-	public int hashCode( Object x ) throws HibernateException
+	public final int hashCode( Object x ) throws HibernateException
 	{
 		return x.hashCode();
 	}
 
-	public boolean isMutable()
+	public final boolean isMutable()
 	{
 		return false;
 	}
 
-	public Object replace( Object original, Object target, Object owner )
+	public final Object replace( Object original, Object target, Object owner )
 			throws HibernateException
 	{
 		return original;
