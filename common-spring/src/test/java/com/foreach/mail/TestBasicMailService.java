@@ -24,7 +24,7 @@ import java.util.Properties;
 
 import static org.mockito.Mockito.*;
 
-public class TestMailService
+public class TestBasicMailService
 {
 	private BasicMailService mailService;
 

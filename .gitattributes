@@ -64,7 +64,7 @@ common-spring/src/test/java/com/foreach/concurrent/TestAsynchronousTaskExecutor.
 common-spring/src/test/java/com/foreach/concurrent/TestCallable.java -text
 common-spring/src/test/java/com/foreach/concurrent/TestSynchronousTaskExecutor.java -text
 common-spring/src/test/java/com/foreach/concurrent/TestTask.java -text
-common-spring/src/test/java/com/foreach/mail/TestMailService.java -text
+common-spring/src/test/java/com/foreach/mail/TestBasicMailService.java -text
 common-spring/src/test/java/com/foreach/utils/BaseTestService.java -text
 common-spring/src/test/resources/config/spring-test-services.xml -text
 common-web/common-web.iml -text

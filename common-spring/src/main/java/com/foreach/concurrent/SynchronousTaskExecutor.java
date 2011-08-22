@@ -5,6 +5,12 @@ import org.apache.log4j.Logger;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
+/**
+ * <p>SynchronousTaskExecutor is a simple synchronous implementation of TaskExecutorService.</p>
+ * <p>Upon a call of executeTask or executeCallable
+ * it will block the calling thread and return only after the execution has completed.</p>
+ */
+
 public class SynchronousTaskExecutor implements TaskExecutorService
 {
 	private static final Logger LOG = Logger.getLogger( SynchronousTaskExecutor.class );
@@ -26,10 +32,10 @@ public class SynchronousTaskExecutor implements TaskExecutorService
 	/**
 	 * Execute the callable synchronously.
 	 * @param callable the callable to be executed.
-	 * @return a completed Future, that can not be cancelled.
+	 * @return a completed {@link Future}.
 	 */
 
-	public final <V> Future<V> executeCallable( Callable<V> callable)
+	public final <V> Future<V> executeCallable( Callable<V> callable )
 	{
 		try {
 			return new DummyFuture<V>( callable.call() );

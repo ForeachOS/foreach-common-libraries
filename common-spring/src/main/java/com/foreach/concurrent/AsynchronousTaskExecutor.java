@@ -11,12 +11,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 /**
  * <p>AsynchronousTaskExecutor allows for the asynchronous execution of Tasks and Callables.</p>
  *
- * <p>Upon instantiation, the AsynchronousTaskExecutor will have an ExecutorService configured,
- * so you only need to call setExecutorService() if you want to use a specific ExecutorService.</p>
- *
- * <p>Example use:</p>
- *
- * <p></p>
+ * <p>Upon instantiation, the AsynchronousTaskExecutor will have a default ExecutorService configured,
+ * so you only need to call setExecutorService if you want to use an ExecutorService other than the default.</p>
  */
 
 public class AsynchronousTaskExecutor implements TaskExecutorService

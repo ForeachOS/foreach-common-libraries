@@ -6,8 +6,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * A utility class for a Future that is always precomputed.
- * @param <V> the result type of the Future
+ * <p>A utility class for a Future that is always precomputed.</p>
+ * <p>A typical use for DummyFuture is when synchronously executing a Callable.</p>
  */
 
 public class DummyFuture<V> implements Future<V>
