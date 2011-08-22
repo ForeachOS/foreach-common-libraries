@@ -1,5 +1,6 @@
 package com.foreach.mail;
 
+import com.foreach.concurrent.AsynchronousTaskExecutor;
 import org.junit.Assert;
 import org.springframework.mail.javamail.JavaMailSender;
 
@@ -136,6 +137,18 @@ public class TestMailService
 
 		Assert.assertEquals( "f1", mp.getBodyPart( 1 ).getFileName() );
 		Assert.assertEquals( "f2", mp.getBodyPart( 2 ).getFileName() );
+	}
+
+	@Test
+	public void testCustomExecutorService()
+	{
+		mailService.setExecutorService( new AsynchronousTaskExecutor() );
+
+		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
+
+		when( mailSender.createMimeMessage() ).thenReturn( message );
+
+		mailService.sendMimeMail( from, to, null, subject, body, null );
 	}
 
 

@@ -1,5 +1,8 @@
 package com.foreach.mail;
 
+import com.foreach.concurrent.SynchronousTaskExecutor;
+import com.foreach.concurrent.Task;
+import com.foreach.concurrent.TaskExecutorService;
 import com.foreach.validators.MultipleEmailsValidator;
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
@@ -20,6 +23,8 @@ public class BasicMailService implements MailService
 	private String originator;
 	private String serviceBccRecipients;
 
+	// default to synchronous operation.
+	private TaskExecutorService executorService = new SynchronousTaskExecutor();
 
 	public void setLogger( Logger logger )
 	{
@@ -39,6 +44,16 @@ public class BasicMailService implements MailService
 	public void setServiceBccRecipients( String serviceBccRecipients )
 	{
 		this.serviceBccRecipients = serviceBccRecipients;
+	}
+
+	public synchronized void  setExecutorService( TaskExecutorService executorService )
+	{
+		this.executorService = executorService;
+	}
+
+	public final synchronized TaskExecutorService getExecutorService()
+	{
+		return executorService;
 	}
 
 	private MimeMessage createMimeMessage( String from, String to, String bccs,
@@ -69,6 +84,17 @@ public class BasicMailService implements MailService
 		return message;
 	}
 
+	private void sendmail( final MimeMessage message )
+	{
+		getExecutorService().executeTask( new Task()
+		{
+			public void execute()
+			{
+				javaMailSender.send( message );
+			}
+		} );
+	}
+
 	/**
 	 * Send a mail message with optional attachments.
 	 *
@@ -89,10 +115,11 @@ public class BasicMailService implements MailService
 	{
 		try {
 
-			MimeMessage message = createMimeMessage( from, to, bccs, subject, body, attachments );
+			final MimeMessage message = createMimeMessage( from, to, bccs, subject, body, attachments );
 
 			logger.info( "Sending html email " + from + " > " + to + ": " + subject );
-			javaMailSender.send( message );
+
+			sendmail( message );
 
 		} catch ( MessagingException e ) {
 			logger.error( "Failed to compose mail", e );

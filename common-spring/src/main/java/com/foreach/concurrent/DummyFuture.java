@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * A utility class for a Future that is always precomputed
+ * A utility class for a Future that is always precomputed.
  * @param <V> the result type of the Future
  */
 
@@ -19,16 +19,25 @@ public class DummyFuture<V> implements Future<V>
 		this.v = v;
 	}
 
+	/**
+	 * @return false
+	 */
 	public final boolean cancel(boolean mayInterruptIfRunning)
 	{
 		return false;
 	}
 
+	/**
+	 * @return false
+	 */
 	public final boolean isCancelled()
 	{
 		return false;
 	}
 
+	/**
+	 * @return true
+	 */
 	public final boolean isDone()
 	{
 		return true;
