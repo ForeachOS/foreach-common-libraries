@@ -11,7 +11,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 /**
  * AsynchronousTaskExecutor allows for the asynchronous execution of Tasks and Callables.
  * Upon instantiation, the AsynchronousTaskExecutor will create an ExecutorService using a small
- * number of threads.
+ * number of threads, so you only need to call setExecutorService() if you want to use a specific ExecutorService.
  */
 
 public class AsynchronousTaskExecutor implements TaskExecutorService
@@ -21,6 +21,8 @@ public class AsynchronousTaskExecutor implements TaskExecutorService
 	/**
 	 * Set the ExecutorService to be used.
 	 * @param executorService the ExecutorService used to perform Tasks and Callables.
+	 * <p>Note that pending Tasks or Callables that were submitted prior to changeing the executorService will
+	 * still be executed in the previous executorService.</p>
 	 */
 
 	public synchronized void setExecutorService( ExecutorService executorService )
@@ -40,7 +42,7 @@ public class AsynchronousTaskExecutor implements TaskExecutorService
 	private static final Logger LOG = Logger.getLogger( AsynchronousTaskExecutor.class );
 
 	/**
-	 * Execute a task asynchronously.
+	 * Execute a Task asynchronously.
 	 * @param task the Task to be executed.
 	 */
 
@@ -58,7 +60,7 @@ public class AsynchronousTaskExecutor implements TaskExecutorService
 	}
 
 	/**
-	 * Execute a callable asynchronously.
+	 * Execute a Callable asynchronously.
 	 * @param callable the Callable to be executed.
 	 * @return a Future.
 	 */
@@ -68,7 +70,7 @@ public class AsynchronousTaskExecutor implements TaskExecutorService
 		try {
 			return getExecutorService().submit(callable);
 		} catch ( Throwable throwable ) {
-			LOG.error( "Error in task", throwable );
+			LOG.error( "Error in task or callable", throwable );
 			return null;
 		}
 	}
