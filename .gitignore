@@ -1,3 +1,4 @@
 .idea/workspace.xml
+common-hibernate/target
 common-mybatis/target
 common-spring/target
