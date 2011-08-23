@@ -2,21 +2,19 @@ package com.foreach.mybatis.util;
 
 import com.foreach.utils.CodeLookup;
 import com.foreach.utils.EnumUtils;
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class CodeBasedEnumHandler<S,E extends Enum<E> & CodeLookup<S>> implements TypeHandler
+public abstract class CodeBasedEnumHandler<S,E extends Enum<E> & CodeLookup<S>>
+
+		extends AbstractEnumHandler<E>
+
+		implements TypeHandler
 {
-	protected abstract Class<E> getClazz();
-
-	protected abstract E getDefaultValue();
-
 	private E getByCode( S code )
 	{
 		E e = EnumUtils.getByCode( getClazz(), code );
@@ -39,12 +37,4 @@ public abstract class CodeBasedEnumHandler<S,E extends Enum<E> & CodeLookup<S>> 
 	protected abstract void setParameter( PreparedStatement preparedStatement, int i, S s ) throws SQLException;
 
 	protected abstract S getParameter( ResultSet resultSet, String columnName ) throws SQLException;
-
-
-	public final Object getResult( CallableStatement callableStatement, int columnIndex ) throws SQLException
-	{
-		throw new NotImplementedException( getClass().getName()+" does not support CallableStatements" );
-	}
-
-
 }

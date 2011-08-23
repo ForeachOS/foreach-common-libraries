@@ -2,21 +2,19 @@ package com.foreach.mybatis.util;
 
 import com.foreach.utils.EnumUtils;
 import com.foreach.utils.IdLookup;
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>> implements TypeHandler
+public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>>
+
+		extends AbstractEnumHandler<E>
+
+		implements TypeHandler
 {
-	protected abstract Class<E> getClazz();
-
-	protected abstract E getDefaultValue();
-
 	protected final E getById( I id )
 	{
 		E e = EnumUtils.getById( getClazz(), id );
@@ -44,10 +42,4 @@ public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>> imp
 	protected abstract void setParameter( PreparedStatement preparedStatement, int i, I parameter ) throws SQLException;
 
 	protected abstract I getParameter( ResultSet resultSet, String columnName ) throws SQLException;
-
-
-	public final Object getResult( CallableStatement callableStatement, int columnIndex ) throws SQLException
-	{
-		throw new NotImplementedException( getClass().getName()+" does not support CallableStatements" );
-	}
 }

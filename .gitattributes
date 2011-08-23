@@ -50,6 +50,7 @@ common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateEnum.java -te
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateSessionEmulator.java -text
 common-mybatis/common-mybatis.iml -text
 common-mybatis/pom.xml -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/AbstractEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/CodeBasedEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/IdBasedEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/IntegerIdBasedEnumHandler.java -text
