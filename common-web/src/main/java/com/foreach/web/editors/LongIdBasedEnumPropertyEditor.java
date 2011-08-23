@@ -2,6 +2,10 @@ package com.foreach.web.editors;
 
 import com.foreach.utils.IdLookup;
 
+/**
+ * <p>An abstract PropertyEditor for Enums that implement IdLookup&ltLong&gt;</p>.
+ */
+
 public class LongIdBasedEnumPropertyEditor <E extends Enum<E> & IdLookup<Long>>
 
 		extends IdBasedEnumPropertyEditor<Long,E>

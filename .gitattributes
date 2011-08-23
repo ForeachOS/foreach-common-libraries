@@ -92,6 +92,7 @@ common-web/src/main/java/com/foreach/web/context/ApplicationEnvironment.java -te
 common-web/src/main/java/com/foreach/web/context/WebApplicationContext.java -text
 common-web/src/main/java/com/foreach/web/context/WebCacheBypassRequest.java -text
 common-web/src/main/java/com/foreach/web/editors/BasePropertyEditor.java -text
+common-web/src/main/java/com/foreach/web/editors/CodeBasedEnumPropertyEditor.java -text
 common-web/src/main/java/com/foreach/web/editors/IdBasedEnumPropertyEditor.java -text
 common-web/src/main/java/com/foreach/web/editors/IntegerIdBasedEnumPropertyEditor.java -text
 common-web/src/main/java/com/foreach/web/editors/LongIdBasedEnumPropertyEditor.java -text

@@ -1,33 +1,50 @@
 package com.foreach.web.editors;
 
 import com.foreach.utils.CodeLookup;
-import com.foreach.utils.EnumUtils;
+
+
+/**
+ * <p>An abstract PropertyEditor for Enums implementing CodeLookup&ltString&gt;.</p>
+ *
+ * <p>Subclasses need only provide the actual Enum used. For example:</p>
+ *
+ * <pre>
+ *  public enum Country implements CodeLookup&lt;String&gt;
+ *
+ *  ...
+ *
+ *  public class CountryEditor extends StringCodeBasedEnumPropertyEditor<Country>
+ *  {
+ *      public CountryEditor()
+ *      {
+ *          super( Country.class );
+ *      }
+ *  }
+ * </pre>
+ */
 
 public class StringCodeBasedEnumPropertyEditor<E extends Enum<E> & CodeLookup<String>>
-		extends BasePropertyEditor<E>
+		extends CodeBasedEnumPropertyEditor<String,E>
 {
-	private Class<E> clazz;
-
 	protected StringCodeBasedEnumPropertyEditor( Class<E> clazz )
 	{
-		this.clazz = clazz;
+		super( clazz ) ;
 	}
 
-	private E getByCode( String code )
-	{
-		return EnumUtils.getByCode( clazz, code );
-	}
+	// convert from Code type (String) to String
 
 	@Override
-	public final String getAsText()
+	protected String render( String code )
 	{
-		E e = getObject();
-		return ( e != null ) ? e.getCode() : "";
+		return code;
 	}
 
+	// convert from String to the Code type (also a String)
+
 	@Override
-	public final void setAsText( String code )
+	protected String unRender( String s )
 	{
-		setObject( getByCode( code ) );
+		return s;
 	}
+
 }

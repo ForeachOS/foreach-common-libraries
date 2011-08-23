@@ -2,6 +2,14 @@ package com.foreach.web.editors;
 
 import java.beans.PropertyEditorSupport;
 
+/**
+ * An abstract class to start implementing PropertyEditors using generics.
+ *
+ * It provides storage for the object being edited, the getValue and setValue
+ * accessor methods from the PropertyEditor interface
+ * as well as two typesafe variants for internal use.
+ */
+
 public abstract class BasePropertyEditor<P> extends PropertyEditorSupport
 {
 	private P object;
