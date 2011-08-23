@@ -8,18 +8,18 @@ public enum Country implements CodeLookup<String>, IdLookup<Long>
 	AU( "Aus", 100000001L),
 	ZB( "Zim", 100000002L);
 
-	private String name;
+	private String code;
 	private long largeNumber;
 
 	Country(String name, long largeNumber)
 	{
-		this.name = name;
+		this.code = code;
 		this.largeNumber = largeNumber;
 	}
 
 	public String getCode()
 	{
-		return name;
+		return code;
 	}
 
 	public Long getId()
@@ -41,7 +41,7 @@ public enum Country implements CodeLookup<String>, IdLookup<Long>
 	public static final Country getById( Long id )
 	{
 		for ( Country c : values() ) {
-			if ( c.getId() == id ) {
+			if ( c.getId().equals( id ) ) {
 				return c;
 			}
 		}

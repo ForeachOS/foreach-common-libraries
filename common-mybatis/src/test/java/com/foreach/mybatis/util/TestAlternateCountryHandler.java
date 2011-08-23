@@ -18,7 +18,7 @@ public class TestAlternateCountryHandler
 
 
 	@Test
-	public void codeToCountryConversion() throws SQLException
+	public void idToCountryConversion() throws SQLException
 	{
 		AlternateCountryHandler handler = new AlternateCountryHandler();
 
@@ -28,18 +28,18 @@ public class TestAlternateCountryHandler
 
 		while ( rs.next() ) {
 			Country country = (Country) handler.getResult( rs, "country" );
-			String code = rs.getString( "country" );
+			Long id = rs.getLong( "country" );
 
-			Assert.assertSame( Country.getByCode( code ), country );
+			Assert.assertSame( Country.getById( id ), country );
 
 			if ( country != null ) {
-				Assert.assertTrue( country.getCode().equals( code ) );
+				Assert.assertTrue( country.getId().equals( id ) );
 			}
 		}
 	}
 
 	@Test
-	public void countryToCodeConversion() throws SQLException
+	public void countryToIdConversion() throws SQLException
 	{
 		AlternateCountryHandler handler = new AlternateCountryHandler();
 
@@ -52,7 +52,7 @@ public class TestAlternateCountryHandler
 			handler.setParameter( stmt, 1, country, JdbcType.INTEGER );
 
 			if ( country != null ) {
-				Assert.assertTrue( id == (Long) stmt.getParameter( 1 ) );
+				Assert.assertTrue( id.equals ( (Long) stmt.getParameter( 1 ) ) );
 			}
 			else {
 				Assert.assertNull( stmt.getParameter( 1 ) );
