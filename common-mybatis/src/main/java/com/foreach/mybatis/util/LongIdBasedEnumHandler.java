@@ -1,5 +1,6 @@
 package com.foreach.mybatis.util;
 
+import com.foreach.utils.LongIdLookup;
 import org.apache.ibatis.type.JdbcType;
 
 import java.sql.PreparedStatement;

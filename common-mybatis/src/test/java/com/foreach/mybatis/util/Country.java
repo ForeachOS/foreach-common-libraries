@@ -1,5 +1,8 @@
 package com.foreach.mybatis.util;
 
+import com.foreach.utils.CodeLookup;
+import com.foreach.utils.LongIdLookup;
+
 public enum Country implements CodeLookup, LongIdLookup
 {
 	AU( "Aus", 100000001L),
@@ -34,5 +37,17 @@ public enum Country implements CodeLookup, LongIdLookup
 
 		return null;
 	}
+
+	public static final Country getById( Long id )
+	{
+		for ( Country c : values() ) {
+			if ( c.getId() == id ) {
+				return c;
+			}
+		}
+
+		return null;
+	}
+
 
 }

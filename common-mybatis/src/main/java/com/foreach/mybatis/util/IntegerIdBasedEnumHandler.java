@@ -1,5 +1,6 @@
 package com.foreach.mybatis.util;
 
+import com.foreach.utils.IntegerIdLookup;
 import org.apache.ibatis.type.JdbcType;
 
 import java.sql.PreparedStatement;

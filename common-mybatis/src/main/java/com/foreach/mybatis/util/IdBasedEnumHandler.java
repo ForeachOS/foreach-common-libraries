@@ -1,5 +1,7 @@
 package com.foreach.mybatis.util;
 
+import com.foreach.utils.EnumUtils;
+import com.foreach.utils.IdLookup;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
@@ -24,12 +26,12 @@ public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>> imp
 	public final void setParameter(
 			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
 	{
-		IdLookup e = ( parameter == null ) ? getDefaultValue() : (IdLookup) parameter;
+		E e = ( parameter == null ) ? getDefaultValue() : (E) parameter;
 
 		setParameter( preparedStatement, i, e );
 	}
 
-	protected abstract void setParameter( PreparedStatement preparedStatement, int i, IdLookup e );
+	protected abstract void setParameter( PreparedStatement preparedStatement, int i, E e ) throws SQLException;
 
 	public abstract Object getResult( ResultSet resultSet, String columnName ) throws SQLException;
 

@@ -1,5 +1,7 @@
 package com.foreach.mybatis.util;
 
+import com.foreach.utils.CodeLookup;
+import com.foreach.utils.EnumUtils;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
