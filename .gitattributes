@@ -6,6 +6,7 @@
 .idea/encodings.xml -text
 .idea/libraries/Maven__antlr_antlr_2_7_6.xml -text
 .idea/libraries/Maven__aopalliance_aopalliance_1_0.xml -text
+.idea/libraries/Maven__com_mockrunner_mockrunner_0_3_1.xml -text
 .idea/libraries/Maven__commons_collections_commons_collections_3_1.xml -text
 .idea/libraries/Maven__commons_lang_commons_lang_2_6.xml -text
 .idea/libraries/Maven__commons_logging_commons_logging_1_1_1.xml -text
@@ -20,6 +21,8 @@
 .idea/libraries/Maven__org_hibernate_hibernate_core_3_3_1_GA.xml -text
 .idea/libraries/Maven__org_hibernate_hibernate_validator_4_1_0_Final.xml -text
 .idea/libraries/Maven__org_mockito_mockito_all_1_8_5.xml -text
+.idea/libraries/Maven__org_mybatis_mybatis_3_0_4.xml -text
+.idea/libraries/Maven__org_mybatis_mybatis_spring_1_0_0.xml -text
 .idea/libraries/Maven__org_slf4j_slf4j_api_1_5_2.xml -text
 .idea/libraries/Maven__org_slf4j_slf4j_api_1_5_6.xml -text
 .idea/libraries/Maven__org_springframework_spring_aop_3_0_5_RELEASE.xml -text
@@ -45,6 +48,20 @@ common-hibernate/common-hibernate.iml -text
 common-hibernate/pom.xml -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateEnum.java -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateSessionEmulator.java -text
+common-mybatis/common-mybatis.iml -text
+common-mybatis/pom.xml -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/CodeBasedEnumHandler.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/CodeLookup.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/EnumUtils.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/IdBasedEnumHandler.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/IdLookup.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/IntegerIdBasedEnumHandler.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/IntegerIdLookup.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/LongIdBasedEnumHandler.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/LongIdLookup.java -text
+common-mybatis/src/test/java/com/foreach/mybatis/util/Country.java -text
+common-mybatis/src/test/java/com/foreach/mybatis/util/CountryHandler.java -text
+common-mybatis/src/test/java/com/foreach/mybatis/util/TestCountryHandler.java -text
 /common-projects.iml -text
 common-spring/common-spring.iml -text
 common-spring/pom.xml -text

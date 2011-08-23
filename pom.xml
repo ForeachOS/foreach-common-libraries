@@ -7,8 +7,9 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>common-spring</module>
+		<module>common-hibernate</module>
+		<module>common-mybatis</module>
 		<module>common-web</module>
-        <module>common-hibernate</module>
 	</modules>
 	<build>
 		<plugins>
