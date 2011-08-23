@@ -1,9 +1,9 @@
 package com.foreach.mybatis.util;
 
 import com.foreach.utils.CodeLookup;
-import com.foreach.utils.LongIdLookup;
+import com.foreach.utils.IdLookup;
 
-public enum Country implements CodeLookup, LongIdLookup
+public enum Country implements CodeLookup<String>, IdLookup<Long>
 {
 	AU( "Aus", 100000001L),
 	ZB( "Zim", 100000002L);
