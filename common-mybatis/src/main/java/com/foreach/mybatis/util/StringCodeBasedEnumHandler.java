@@ -10,12 +10,12 @@ public abstract class StringCodeBasedEnumHandler<E extends Enum<E> & CodeLookup<
 		extends CodeBasedEnumHandler<String,E>
 {
 
-	protected void setParameter( PreparedStatement preparedStatement, int i, String s ) throws SQLException
+	protected final void setParameter( PreparedStatement preparedStatement, int i, String s ) throws SQLException
 	{
 		preparedStatement.setString( i, s );
 	}
 
-	protected String getParameter( ResultSet resultSet, String columnName ) throws SQLException
+	protected final String getParameter( ResultSet resultSet, String columnName ) throws SQLException
 	{
 		return resultSet.getString( columnName );
 	}

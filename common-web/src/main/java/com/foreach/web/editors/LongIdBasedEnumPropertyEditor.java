@@ -11,12 +11,12 @@ public class LongIdBasedEnumPropertyEditor <E extends Enum<E> & IdLookup<Long>>
 		super(clazz);
 	}
 
-	protected String unparse(Long i)
+	protected final String unparse(Long i)
 	{
 		return Long.toString( i, 10 );
 	}
 
-	protected Long parse(String s)
+	protected final Long parse(String s)
 	{
 		return Long.parseLong( s, 10 );
 	}

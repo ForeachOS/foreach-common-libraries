@@ -11,12 +11,12 @@ public class IntegerIdBasedEnumPropertyEditor<E extends Enum<E> & IdLookup<Integ
 		super( clazz );
 	}
 
-	protected String unparse(Integer i)
+	protected final String unparse(Integer i)
 	{
 		return Integer.toString( i, 10 );
 	}
 
-	protected Integer parse(String s)
+	protected final Integer parse(String s)
 	{
 		return Integer.parseInt( s, 10 );
 	}
