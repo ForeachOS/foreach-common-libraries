@@ -11,7 +11,7 @@ public enum Country implements CodeLookup<String>, IdLookup<Long>
 	private String code;
 	private long largeNumber;
 
-	Country(String name, long largeNumber)
+	Country(String code, long largeNumber)
 	{
 		this.code = code;
 		this.largeNumber = largeNumber;
