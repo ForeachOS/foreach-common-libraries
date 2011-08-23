@@ -51,14 +51,9 @@ common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateSessionEmulat
 common-mybatis/common-mybatis.iml -text
 common-mybatis/pom.xml -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/CodeBasedEnumHandler.java -text
-common-mybatis/src/main/java/com/foreach/mybatis/util/CodeLookup.java -text
-common-mybatis/src/main/java/com/foreach/mybatis/util/EnumUtils.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/IdBasedEnumHandler.java -text
-common-mybatis/src/main/java/com/foreach/mybatis/util/IdLookup.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/IntegerIdBasedEnumHandler.java -text
-common-mybatis/src/main/java/com/foreach/mybatis/util/IntegerIdLookup.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/LongIdBasedEnumHandler.java -text
-common-mybatis/src/main/java/com/foreach/mybatis/util/LongIdLookup.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/Country.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/CountryHandler.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/TestCountryHandler.java -text
@@ -73,6 +68,11 @@ common-spring/src/main/java/com/foreach/concurrent/TaskExecutorService.java -tex
 common-spring/src/main/java/com/foreach/logging/Log4JConfigurator.java -text
 common-spring/src/main/java/com/foreach/mail/BasicMailService.java -text
 common-spring/src/main/java/com/foreach/mail/MailService.java -text
+common-spring/src/main/java/com/foreach/utils/CodeLookup.java -text
+common-spring/src/main/java/com/foreach/utils/EnumUtils.java -text
+common-spring/src/main/java/com/foreach/utils/IdLookup.java -text
+common-spring/src/main/java/com/foreach/utils/IntegerIdLookup.java -text
+common-spring/src/main/java/com/foreach/utils/LongIdLookup.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmails.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmailsValidator.java -text
 common-spring/src/site/site.xml -text

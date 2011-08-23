@@ -1,4 +1,4 @@
-package com.foreach.mybatis.util;
+package com.foreach.utils;
 
 
 public class EnumUtils extends org.apache.commons.lang.enums.EnumUtils
