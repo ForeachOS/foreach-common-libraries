@@ -1,7 +1,7 @@
 package com.foreach.utils;
 
 
-public class EnumUtils extends org.apache.commons.lang.enums.EnumUtils
+public final class EnumUtils
 {
 	private EnumUtils()
 	{
