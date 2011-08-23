@@ -28,12 +28,22 @@ public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>> imp
 	{
 		E e = ( parameter == null ) ? getDefaultValue() : (E) parameter;
 
-		setParameter( preparedStatement, i, e );
+		if( e != null) {
+			setParameter( preparedStatement, i, e.getId() );
+		} else {
+			preparedStatement.setNull( i, JdbcType.INTEGER.TYPE_CODE );
+		}
 	}
 
-	protected abstract void setParameter( PreparedStatement preparedStatement, int i, E e ) throws SQLException;
+	public final E getResult( ResultSet resultSet, String columnName ) throws SQLException
+	{
+		return getById( getParameter( resultSet, columnName) );
+	}
 
-	public abstract Object getResult( ResultSet resultSet, String columnName ) throws SQLException;
+
+	protected abstract void setParameter( PreparedStatement preparedStatement, int i, I parameter ) throws SQLException;
+
+	protected abstract I getParameter( ResultSet resultSet, String columnName ) throws SQLException;
 
 
 	public final Object getResult( CallableStatement callableStatement, int columnIndex ) throws SQLException

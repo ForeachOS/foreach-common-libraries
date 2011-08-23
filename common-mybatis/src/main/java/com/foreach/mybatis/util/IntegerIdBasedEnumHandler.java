@@ -1,29 +1,23 @@
 package com.foreach.mybatis.util;
 
-import com.foreach.utils.IntegerIdLookup;
-import org.apache.ibatis.type.JdbcType;
+import com.foreach.utils.IdLookup;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class IntegerIdBasedEnumHandler<E extends Enum<E> & IntegerIdLookup>
+public abstract class IntegerIdBasedEnumHandler<E extends Enum<E> & IdLookup<Integer>>
 
 		extends IdBasedEnumHandler<Integer,E>
 {
 
-	protected final void setParameter( PreparedStatement preparedStatement, int i, E e ) throws SQLException
+	protected final void setParameter( PreparedStatement preparedStatement, int i, Integer parameter ) throws SQLException
 	{
-		if( e != null) {
-			preparedStatement.setInt( i, e.getId() );
-		} else {
-			preparedStatement.setNull( i, JdbcType.INTEGER.TYPE_CODE );
-		}
+		preparedStatement.setInt( i, parameter );
 	}
 
-	public final E getResult( ResultSet resultSet, String columnName ) throws SQLException
+	protected final Integer getParameter( ResultSet resultSet, String columnName ) throws SQLException
 	{
-		return getById( resultSet.getInt( columnName ) );
+		return resultSet.getInt( columnName );
 	}
-
 }

@@ -10,17 +10,17 @@ public class EnumUtils extends org.apache.commons.lang.enums.EnumUtils
 	public static <I,E extends Enum<E> & IdLookup<I>> E getById( Class<E> clazz, I id )
 	{
 		for ( E e : clazz.getEnumConstants() ) {
-			if ( e.getId() == id ) {
+			if ( e.getId().equals(id) ) {
 				return e;
 			}
 		}
 		return null;
 	}
 
-	public static <E extends Enum<E> & CodeLookup> E getByCode( Class<E> clazz, String code )
+	public static <S,E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code )
 	{
 		for ( E e : clazz.getEnumConstants() ) {
-			if ( e.getCode().equalsIgnoreCase( code ) ) {
+			if ( e.getCode().equals( code ) ) {
 				return e;
 			}
 		}

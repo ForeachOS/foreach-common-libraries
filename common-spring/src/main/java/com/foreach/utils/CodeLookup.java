@@ -1,6 +1,6 @@
 package com.foreach.utils;
 
-public interface CodeLookup
+public interface CodeLookup<S>
 {
-	String getCode();
+	S getCode();
 }

@@ -1,7 +1,7 @@
 package com.foreach.mybatis.util;
 
 
-public class CountryHandler extends CodeBasedEnumHandler<Country>
+public class CountryHandler extends StringCodeBasedEnumHandler<Country>
 {
 	@Override
 	protected final Class<Country> getClazz()

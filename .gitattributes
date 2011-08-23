@@ -54,6 +54,7 @@ common-mybatis/src/main/java/com/foreach/mybatis/util/CodeBasedEnumHandler.java 
 common-mybatis/src/main/java/com/foreach/mybatis/util/IdBasedEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/IntegerIdBasedEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/LongIdBasedEnumHandler.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/StringCodeBasedEnumHandler.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/AlternateCountryHandler.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/Country.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/CountryHandler.java -text
@@ -73,8 +74,6 @@ common-spring/src/main/java/com/foreach/mail/MailService.java -text
 common-spring/src/main/java/com/foreach/utils/CodeLookup.java -text
 common-spring/src/main/java/com/foreach/utils/EnumUtils.java -text
 common-spring/src/main/java/com/foreach/utils/IdLookup.java -text
-common-spring/src/main/java/com/foreach/utils/IntegerIdLookup.java -text
-common-spring/src/main/java/com/foreach/utils/LongIdLookup.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmails.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmailsValidator.java -text
 common-spring/src/site/site.xml -text
@@ -91,6 +90,11 @@ common-web/pom.xml -text
 common-web/src/main/java/com/foreach/web/context/ApplicationEnvironment.java -text
 common-web/src/main/java/com/foreach/web/context/WebApplicationContext.java -text
 common-web/src/main/java/com/foreach/web/context/WebCacheBypassRequest.java -text
+common-web/src/main/java/com/foreach/web/editors/BasePropertyEditor.java -text
+common-web/src/main/java/com/foreach/web/editors/IdBasedEnumPropertyEditor.java -text
+common-web/src/main/java/com/foreach/web/editors/IntegerIdBasedEnumPropertyEditor.java -text
+common-web/src/main/java/com/foreach/web/editors/LongIdBasedEnumPropertyEditor.java -text
+common-web/src/main/java/com/foreach/web/editors/StringCodeBasedEnumPropertyEditor.java -text
 common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -text
 common-web/src/main/java/com/foreach/web/mail/ExceptionToMailResolver.java -text
 /pom.xml -text

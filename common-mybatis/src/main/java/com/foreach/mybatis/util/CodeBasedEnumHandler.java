@@ -11,14 +11,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-public abstract class CodeBasedEnumHandler <E extends Enum<E> & CodeLookup> implements TypeHandler
+public abstract class CodeBasedEnumHandler<S,E extends Enum<E> & CodeLookup<S>> implements TypeHandler
 {
 	protected abstract Class<E> getClazz();
 
 	protected abstract E getDefaultValue();
 
-	private E getByCode( String code )
+	private E getByCode( S code )
 	{
 		E e = EnumUtils.getByCode( getClazz(), code );
 		return ( e == null ) ? getDefaultValue() : e;
@@ -27,22 +26,25 @@ public abstract class CodeBasedEnumHandler <E extends Enum<E> & CodeLookup> impl
 	public final void setParameter(
 			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
 	{
-		CodeLookup e = ( CodeLookup ) parameter;
+		CodeLookup<S> e = ( CodeLookup<S> ) parameter;
 
-		if( e != null ) {
-			preparedStatement.setString( i, e.getCode() );
-		} else {
-			preparedStatement.setString( i, null ); // target column may be char[n] or varchar
-		}
+		setParameter( preparedStatement, i, (e != null)? e.getCode() : null ) ;
 	}
 
 	public final Object getResult( ResultSet resultSet, String columnName ) throws SQLException
 	{
-		return getByCode( resultSet.getString( columnName ) );
+		return getByCode( getParameter( resultSet, columnName ) );
 	}
+
+	protected abstract void setParameter( PreparedStatement preparedStatement, int i, S s ) throws SQLException;
+
+	protected abstract S getParameter( ResultSet resultSet, String columnName ) throws SQLException;
+
 
 	public final Object getResult( CallableStatement callableStatement, int columnIndex ) throws SQLException
 	{
 		throw new NotImplementedException( getClass().getName()+" does not support CallableStatements" );
 	}
+
+
 }
