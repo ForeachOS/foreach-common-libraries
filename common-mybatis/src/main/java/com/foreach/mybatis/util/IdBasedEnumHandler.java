@@ -15,7 +15,7 @@ public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>> imp
 
 	protected abstract E getDefaultValue();
 
-	protected E getById( I id )
+	protected final E getById( I id )
 	{
 		E e = EnumUtils.getById( getClazz(), id );
 		return ( e == null ) ? getDefaultValue() : e;

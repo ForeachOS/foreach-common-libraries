@@ -11,7 +11,7 @@ public abstract class LongIdBasedEnumHandler <E extends Enum<E> & LongIdLookup>
 		extends IdBasedEnumHandler<Long,E>
 {
 
-	protected void setParameter( PreparedStatement preparedStatement, int i, E e ) throws SQLException
+	protected final void setParameter( PreparedStatement preparedStatement, int i, E e ) throws SQLException
 	{
 		if( e != null) {
 			preparedStatement.setLong( i, e.getId() );

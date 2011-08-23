@@ -11,7 +11,7 @@ public abstract class IntegerIdBasedEnumHandler<E extends Enum<E> & IntegerIdLoo
 		extends IdBasedEnumHandler<Integer,E>
 {
 
-	protected void setParameter( PreparedStatement preparedStatement, int i, E e ) throws SQLException
+	protected final void setParameter( PreparedStatement preparedStatement, int i, E e ) throws SQLException
 	{
 		if( e != null) {
 			preparedStatement.setInt( i, e.getId() );
