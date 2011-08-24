@@ -59,4 +59,17 @@ public class TestExceptionToMailResolver
 		verify( mailService ).sendMimeMail( eq( fromAddress ), eq( toAddress ), anyString(), anyString(), anyString(),
 		                                    Matchers.<Map<String,File>> anyObject() );
 	}
+
+	@Test
+	public void resolverRecoversIfMailServiceThrowsRuntimeException()
+	{
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response= new MockHttpServletResponse();
+
+		when( mailService.sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
+		                                    Matchers.<Map<String,File>> anyObject() ) ).thenThrow( new NullPointerException() );
+
+		resolver.doResolveException( request, response, null, new Exception( ) );
+	}
+
 }
