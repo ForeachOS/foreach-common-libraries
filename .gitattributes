@@ -54,11 +54,13 @@ common-mybatis/src/main/java/com/foreach/mybatis/util/BaseEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/CodeBasedEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/IdBasedEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/JdbcUtils.java -text
-common-mybatis/src/test/java/com/foreach/mybatis/util/AlternateCountryHandler.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/Country.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/CountryHandler.java -text
-common-mybatis/src/test/java/com/foreach/mybatis/util/TestAlternateCountryHandler.java -text
+common-mybatis/src/test/java/com/foreach/mybatis/util/CountryHandler2.java -text
+common-mybatis/src/test/java/com/foreach/mybatis/util/CountryHandler3.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/TestCountryHandler.java -text
+common-mybatis/src/test/java/com/foreach/mybatis/util/TestCountryHandler2.java -text
+common-mybatis/src/test/java/com/foreach/mybatis/util/TestCountryHandler3.java -text
 /common-projects.iml -text
 common-spring/common-spring.iml -text
 common-spring/pom.xml -text

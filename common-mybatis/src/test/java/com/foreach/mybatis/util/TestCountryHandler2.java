@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 
-public class TestAlternateCountryHandler
+public class TestCountryHandler2
 {
 	private final Long[] countryIds = new Long[] { 100000001L, 100000002L, 1L, null };
 
@@ -19,7 +19,7 @@ public class TestAlternateCountryHandler
 	@Test
 	public void idToCountryConversion() throws SQLException
 	{
-		AlternateCountryHandler handler = new AlternateCountryHandler();
+		CountryHandler2 handler = new CountryHandler2();
 
 		// Verify code to country conversion
 		MockResultSet rs = new MockResultSet( "" );
@@ -40,7 +40,7 @@ public class TestAlternateCountryHandler
 	@Test
 	public void countryToIdConversion() throws SQLException
 	{
-		AlternateCountryHandler handler = new AlternateCountryHandler();
+		CountryHandler2 handler = new CountryHandler2();
 
 		// Verify country to code conversion
 		MockPreparedStatement stmt = new MockPreparedStatement( new MockConnection(), "" );
@@ -64,7 +64,7 @@ public class TestAlternateCountryHandler
 	{
 		MockCallableStatement stmt = new MockCallableStatement( new MockConnection(), "" );
 
-		new CountryHandler().getResult( stmt, 1 );
+		new CountryHandler3().getResult( stmt, 1 );
 	}
 
 }
