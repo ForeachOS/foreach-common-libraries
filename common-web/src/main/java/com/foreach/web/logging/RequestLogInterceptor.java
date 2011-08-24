@@ -58,7 +58,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
     }
 
 	public final boolean preHandle(
-			HttpServletRequest request, HttpServletResponse response, Object handler ) throws Exception
+			HttpServletRequest request, HttpServletResponse response, Object handler )
 	{
 		// Create a unique id for this request
 		String requestId = "" + counter.getAndIncrement();
@@ -77,7 +77,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Object handler,
-			ModelAndView modelAndView ) throws Exception
+			ModelAndView modelAndView )
 	{
 		// Redirects won't have a modelAndView
 		if ( modelAndView != null ) {
@@ -86,7 +86,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 	}
 
 	public final void afterCompletion(
-			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex ) throws Exception
+			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex )
 	{
 		// Determine duration before sending the log
 		long startTime = (Long) request.getAttribute( ATTRIBUTE_START_TIME );
