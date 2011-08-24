@@ -1,8 +1,9 @@
-package com.foreach.web.mail;
+package com.foreach.web.logging;
 
+import com.foreach.context.ApplicationEnvironment;
 import com.foreach.mail.MailService;
-import com.foreach.web.context.ApplicationEnvironment;
-import com.foreach.web.context.WebApplicationContext;
+import com.foreach.context.ApplicationContextInfo;
+import com.foreach.web.logging.ExceptionToMailResolver;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -24,7 +25,7 @@ public class TestExceptionToMailResolver
 	private ExceptionToMailResolver resolver;
 
 	private MailService mailService;
-	private WebApplicationContext applicationContext;
+	private ApplicationContextInfo applicationContextInfo;
 	private String toAddress;
 	private String fromAddress;
 
@@ -35,17 +36,17 @@ public class TestExceptionToMailResolver
 
 		mailService = mock( MailService.class );
 
-		applicationContext = new WebApplicationContext();
-		applicationContext.setApplicationName( "TestExceptionToMailResolver" );
-		applicationContext.setBuildNumber( 1L );
-		applicationContext.setEnvironment( ApplicationEnvironment.TEST );
-		applicationContext.setBuildDate( new Date( ) );
+		applicationContextInfo = new ApplicationContextInfo();
+		applicationContextInfo.setApplicationName( "TestExceptionToMailResolver" );
+		applicationContextInfo.setBuildNumber( 1L );
+		applicationContextInfo.setEnvironment( ApplicationEnvironment.TEST );
+		applicationContextInfo.setBuildDate( new Date( ) );
 
 		toAddress = "devnull@foreach.be";
 		fromAddress = "noreply@foreach.be";
 
 		resolver.setMailService( mailService );
-		resolver.setWebApplicationContext( applicationContext );
+		resolver.setWebApplicationContext( applicationContextInfo );
 		resolver.setToAddress( toAddress );
 		resolver.setFromAddress( fromAddress );
 	}

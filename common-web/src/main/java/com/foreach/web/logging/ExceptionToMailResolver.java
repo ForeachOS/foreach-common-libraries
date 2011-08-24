@@ -1,9 +1,8 @@
-package com.foreach.web.mail;
+package com.foreach.web.logging;
 
+import com.foreach.context.ApplicationContextInfo;
 import com.foreach.mail.MailService;
-import com.foreach.web.context.WebApplicationContext;
-import com.foreach.web.context.WebCacheBypassRequest;
-import com.foreach.web.logging.RequestLogInterceptor;
+import com.foreach.web.utils.WebCacheBypassRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.apache.log4j.Logger;
@@ -28,7 +27,7 @@ import java.util.Enumeration;
  * </p>
  *
  * <pre>
- *  &lt;bean class="com.foreach.web.mail.ExceptionToMailResolver"&gt;
+ *  &lt;bean class="com.foreach.web.logging.ExceptionToMailResolver"&gt;
  *		&lt;property name="fromAddress" value="mail from address"/&gt;
  *		&lt;property name="toAddress" value="mail to address"/&gt;
  *		&lt;property name="order" value="1"/&gt;
@@ -38,7 +37,7 @@ import java.util.Enumeration;
  *			&lt;/props&gt;
  *		&lt;/property&gt;
  *	    &lt;property name="mailService" ref="mail service bean name"/&gt;
- *	    &lt;property name="applicationContext" ref="web application context bean name"/&gt;
+ *	    &lt;property name="applicationContextInfo" ref="web application context bean name"/&gt;
  *	&lt;/bean&gt;
  * </pre>
  *
@@ -49,7 +48,7 @@ import java.util.Enumeration;
  *     <li>order</li>
  *     <li>exceptionMappings</li>
  *     <li>mailService, provide the bean name of MailService class</li>
- *     <li>applicationContext, provide the bean name of WebApplicationContext class</li>
+ *     <li>applicationContextInfo, provide the bean name of ApplicationContextInfo class</li>
  * </ul>
  */
 public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
@@ -60,7 +59,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
     private MailService mailService;
 
-	private WebApplicationContext applicationContext;
+	private ApplicationContextInfo applicationContextInfo;
 
     public final void setLogger(Logger logger)
     {
@@ -95,12 +94,12 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
     }
 
     /**
-     * set the WebApplicationContext object holding the properties of current running application
+     * set the ApplicationContextInfo object holding the properties of current running application
      * @param context
      */
-    public final void setWebApplicationContext( WebApplicationContext context )
+    public final void setWebApplicationContext( ApplicationContextInfo context )
     {
-        this.applicationContext = context;
+        this.applicationContextInfo = context;
     }
 
 
@@ -128,9 +127,9 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private String createExceptionMailSubject( Exception ex )
 	{
-		return new StringBuffer( "[" ).append( applicationContext.getLabel() ).append( "-" ).append(
-				applicationContext.getApplicationName() ).append( " v" ).append(
-				applicationContext.getBuildNumber() ).append( "] " ).append( ex.getClass().toString() ).toString();
+		return new StringBuffer( "[" ).append( applicationContextInfo.getLabel() ).append( "-" ).append(
+				applicationContextInfo.getApplicationName() ).append( " v" ).append(
+				applicationContextInfo.getBuildNumber() ).append( "] " ).append( ex.getClass().toString() ).toString();
 	}
 
 	private String createExceptionMailBody(
@@ -156,13 +155,13 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 		writeParam( html, "date", readableDate.format( now ) );
 		writeParam( html, "site",
-		            applicationContext.getLabel() + "-" + applicationContext.getApplicationName() + " (" + applicationContext.getEnvironment() + ")" );
-		writeParam( html, "build", "v" + applicationContext.getBuildNumber() + " (build date: " + readableDate.format(
-				applicationContext.getBuildDate() ) + ")" );
+		            applicationContextInfo.getLabel() + "-" + applicationContextInfo.getApplicationName() + " (" + applicationContextInfo.getEnvironment() + ")" );
+		writeParam( html, "build", "v" + applicationContextInfo.getBuildNumber() + " (build date: " + readableDate.format(
+				applicationContextInfo.getBuildDate() ) + ")" );
 		writeParam( html, "uptime",
-		            DurationFormatUtils.formatDuration(now.getTime() - applicationContext.getStartupDate().getTime(),
+		            DurationFormatUtils.formatDuration(now.getTime() - applicationContextInfo.getStartupDate().getTime(),
                             "d'd' H'h' m'm'") + " (started: " + readableDate.format(
-				            applicationContext.getStartupDate() ) + ")" );
+				            applicationContextInfo.getStartupDate() ) + ")" );
 		writeParam( html, "server", request.getServerName() );
 		writeParam( html, "URL", request.getMethod() + " " + createUrlFromRequest( request ) );
 		writeParam( html, "User-Agent", StringUtils.defaultIfBlank(request.getHeader("User-Agent"), "-") );

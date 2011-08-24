@@ -94,7 +94,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 
 		String handlerName = handler != null ? handler.getClass().toString() : "no-handler";
 
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		buf.append( '[' ).append( request.getAttribute( ATTRIBUTE_UNIQUE_ID ) ).append( ']' ).append( '\t' ).append(
 				request.getRemoteAddr() ).append( '\t' ).append( request.getMethod() ).append( '\t' ).append(
 				createUrlFromRequest( request ) ).append( '\t' ).append( request.getServletPath() ).append(

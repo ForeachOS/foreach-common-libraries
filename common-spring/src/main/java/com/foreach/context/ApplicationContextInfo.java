@@ -1,40 +1,41 @@
-package com.foreach.web.context;
+package com.foreach.context;
 
-import com.foreach.web.context.ApplicationEnvironment;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Date;
 
 /**
- * <p>This class holds the web application properties.
- * This class should be defined as a bean which can be referred in several other beans (e.g. ExceptionToMailResolver).
+ * <p>This class holds general web application properties. This class should be defined as a bean
+ * which can be referred in several other beans (e.g. ExceptionToMailResolver).
  * To declare a bean for this class in your spring configuration file do the following.
  * </p>
- *
+ * <p>Because the ApplicationContextInfo refers to an ApplicationEnvironment that is configured,
+ * you can also use the ApplicationContextInfo bean in other beans to see the environment you are running in
+ * and allow/disallow certain actions.</p>
+ * <p/>
  * <pre>
- *  &lt;bean id="webApplicationContext" class="com.foreach.web.context.WebApplicationContext"&gt;
- *		&lt;property name="environmentLabel" value="development/test/production"/&gt;
- *		&lt;property name="applicationName" value="name of your application"/&gt;
- *		&lt;property name="label" value="some useful label of your application"/&gt;
- *	    &lt;property name="buildNumber" value="application build version number"/&gt;
- *	    &lt;property name="buildDate" value="build date of the application"/&gt;
- *	&lt;/bean&gt;
+ *  &lt;bean id="applicationContextInfo" class="com.foreach.context.ApplicationContextInfo"&gt;
+ * 		&lt;property name="environmentLabel" value="see {@link ApplicationEnvironment}"/&gt;
+ * 		&lt;property name="applicationName" value="name of your application"/&gt;
+ * 		&lt;property name="label" value="a useful label for your application"/&gt;
+ * 	    &lt;property name="buildNumber" value="application build version number"/&gt;
+ * 	    &lt;property name="buildDate" value="build date of the application"/&gt;
+ * 	&lt;/bean&gt;
  * </pre>
- *
  */
-public class WebApplicationContext
+public class ApplicationContextInfo
 {
 	private ApplicationEnvironment environment;
 
 	private String applicationName;
-    private String label;
+	private String label;
 
 	private long buildNumber;
 	private Date buildDate, startupDate = new Date();
 
 	public final void setEnvironmentLabel( String environmentLabel )
 	{
-		environment = ApplicationEnvironment.valueOf( StringUtils.upperCase(environmentLabel) );
+		environment = ApplicationEnvironment.valueOf( StringUtils.upperCase( environmentLabel ) );
 	}
 
 	public final ApplicationEnvironment getEnvironment()
@@ -97,13 +98,10 @@ public class WebApplicationContext
 		this.applicationName = applicationName;
 	}
 
-
 	@Override
 	public final String toString()
 	{
-		return "WebApplicationContext{" + "environment=" + environment + ", label='" + label + '\''
-                + ", applicationName='" + applicationName + '\'' + ", buildNumber=" + buildNumber + ", buildDate="
-                + buildDate + ", startupDate=" + startupDate + '}';
+		return "ApplicationContextInfo{" + "environment=" + environment + ", label='" + label + '\'' + ", applicationName='" + applicationName + '\'' + ", buildNumber=" + buildNumber + ", buildDate=" + buildDate + ", startupDate=" + startupDate + '}';
 	}
 
 }

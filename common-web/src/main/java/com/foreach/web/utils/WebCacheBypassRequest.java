@@ -1,5 +1,6 @@
-package com.foreach.web.context;
+package com.foreach.web.utils;
 
+import com.sun.deploy.net.HttpUtils;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
