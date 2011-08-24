@@ -98,4 +98,5 @@ common-web/src/main/java/com/foreach/web/editors/LongIdBasedEnumPropertyEditor.j
 common-web/src/main/java/com/foreach/web/editors/StringCodeBasedEnumPropertyEditor.java -text
 common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -text
 common-web/src/main/java/com/foreach/web/mail/ExceptionToMailResolver.java -text
+common-web/src/test/java/com/foreach/web/mail/TestExceptionToMailResolver.java -text
 /pom.xml -text
