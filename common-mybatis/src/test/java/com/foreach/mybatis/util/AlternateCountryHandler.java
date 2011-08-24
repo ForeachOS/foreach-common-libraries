@@ -1,16 +1,9 @@
 package com.foreach.mybatis.util;
 
-public class AlternateCountryHandler extends LongIdBasedEnumHandler<Country>
+public class AlternateCountryHandler extends IdBasedEnumHandler<Long, Country>
 {
-	@Override
-	protected final Class<Country> getClazz()
+	public AlternateCountryHandler()
 	{
-		return Country.class;
-	}
-
-	@Override
-	protected final Country getDefaultValue()
-	{
-		return null;
+		super( Country.class, null, null );
 	}
 }

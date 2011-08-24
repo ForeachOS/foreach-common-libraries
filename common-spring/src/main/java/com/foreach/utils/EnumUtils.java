@@ -1,6 +1,9 @@
 package com.foreach.utils;
 
-
+/**
+ * EnumUtils contains some utility routines to find specific enums if their classes
+ * implement Idlookup or CodeLookup.
+ */
 public final class EnumUtils
 {
 	private EnumUtils()
