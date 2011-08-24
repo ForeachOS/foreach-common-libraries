@@ -1,9 +1,6 @@
 package com.foreach.mybatis.util;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.apache.ibatis.type.JdbcType;
-
-import javax.tools.JavaCompiler;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;

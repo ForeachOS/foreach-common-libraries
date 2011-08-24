@@ -8,7 +8,6 @@ import org.apache.ibatis.type.TypeHandler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 /**
  *  <p>Abstract Utility class to facilitate persisting enums of type CodeLookup&lt;S&gt;

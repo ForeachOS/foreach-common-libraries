@@ -47,7 +47,7 @@ public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>>
 	public final void setParameter(
 			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
 	{
-		E e = ( parameter == null ) ? defaultValue : (E) parameter;
+		IdLookup<I> e = ( parameter == null ) ? defaultValue : ( IdLookup<I> ) parameter;
 
 		if( e != null) {
 			setParameter( preparedStatement, i, e.getId() );
