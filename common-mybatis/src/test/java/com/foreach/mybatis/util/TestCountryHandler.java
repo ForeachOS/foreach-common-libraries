@@ -8,6 +8,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.type.JdbcType;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.SQLException;
@@ -16,19 +17,24 @@ public class TestCountryHandler
 {
 	private final String[] countryCodes = new String[] { "Aus", "Zim", "Foo", null };
 
+	private CountryHandler handler;
+
+	@Before
+	public void prepareForTest()
+	{
+		handler = new CountryHandler();
+	}
 
 	@Test
 	public void codeToCountryConversion() throws SQLException
 	{
-		CountryHandler handler = new CountryHandler();
-
 		// Verify code to country conversion
 		MockResultSet rs = new MockResultSet( "" );
 		rs.addColumn( "country", countryCodes );
 
 		while ( rs.next() ) {
 			Country country = (Country) handler.getResult( rs, "country" );
-			String code = rs.getString( "country" );
+			String code = (String) rs.getObject( "country" );
 
 			Assert.assertSame( Country.getByCode( code ), country );
 
@@ -41,8 +47,6 @@ public class TestCountryHandler
 	@Test
 	public void countryToCodeConversion() throws SQLException
 	{
-		CountryHandler handler = new CountryHandler();
-
 		// Verify country to code conversion
 		MockPreparedStatement stmt = new MockPreparedStatement( new MockConnection(), "" );
 
@@ -65,7 +69,7 @@ public class TestCountryHandler
 	{
 		MockCallableStatement stmt = new MockCallableStatement( new MockConnection(), "" );
 
-		new CountryHandler().getResult( stmt, 1 );
+		handler.getResult( stmt, 1 );
 	}
 
 }

@@ -39,7 +39,7 @@ public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>>
 		this( clazz, defaultValue, null );
 	}
 
-	protected IdBasedEnumHandler( Class<E> clazz, E defaultValue, Integer customJdbcType )
+	protected IdBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
 	{
 		super(clazz, defaultValue, customJdbcType);
 	}
@@ -47,13 +47,9 @@ public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>>
 	public final void setParameter(
 			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
 	{
-		IdLookup<I> e = ( parameter == null ) ? defaultValue : ( IdLookup<I> ) parameter;
+		IdLookup<I> e = ( IdLookup<I> ) parameter;
 
-		if( e != null) {
-			setParameter( preparedStatement, i, e.getId() );
-		} else {
-			preparedStatement.setNull( i, JdbcType.INTEGER.TYPE_CODE );
-		}
+		setJdbcParameter( preparedStatement, i, (e != null)? e.getId(): null, jdbcType );
 	}
 
 	public final E getResult( ResultSet resultSet, String columnName ) throws SQLException

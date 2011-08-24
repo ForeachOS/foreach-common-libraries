@@ -7,6 +7,7 @@ import com.mockrunner.mock.jdbc.MockResultSet;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.ibatis.type.JdbcType;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.SQLException;
@@ -15,19 +16,24 @@ public class TestCountryHandler3
 {
 	private final Long[] countryIds = new Long[] { 100000001L, 100000002L, 1L, null };
 
+	private CountryHandler3 handler;
+
+	@Before
+	public void prepareForTest()
+	{
+		handler = new CountryHandler3();
+	}
 
 	@Test
 	public void idToCountryConversion() throws SQLException
 	{
-		CountryHandler3 handler = new CountryHandler3();
-
 		// Verify code to country conversion
 		MockResultSet rs = new MockResultSet( "" );
 		rs.addColumn( "country", countryIds );
 
 		while ( rs.next() ) {
 			Country country = (Country) handler.getResult( rs, "country" );
-			Long id = rs.getLong( "country" );
+			Long id = (Long) rs.getObject( "country" );
 
 			Assert.assertSame( Country.getById( id ), country );
 
@@ -40,8 +46,6 @@ public class TestCountryHandler3
 	@Test
 	public void countryToIdConversion() throws SQLException
 	{
-		CountryHandler3 handler = new CountryHandler3();
-
 		// Verify country to code conversion
 		MockPreparedStatement stmt = new MockPreparedStatement( new MockConnection(), "" );
 
@@ -64,7 +68,6 @@ public class TestCountryHandler3
 	{
 		MockCallableStatement stmt = new MockCallableStatement( new MockConnection(), "" );
 
-		new CountryHandler3().getResult( stmt, 1 );
+		handler.getResult( stmt, 1 );
 	}
-
 }

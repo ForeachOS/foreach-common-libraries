@@ -1,6 +1,8 @@
 package com.foreach.mybatis.util;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.ibatis.type.JdbcType;
+
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +13,7 @@ public abstract class BaseEnumHandler<T, E extends Enum<E>>
 
 	protected E defaultValue;
 
-	protected Integer customJdbcType;
+	protected JdbcType customJdbcType;
 
 	private Map<String,Class<?>> map = new HashMap<String, Class<?>>();
 
@@ -26,24 +28,23 @@ public abstract class BaseEnumHandler<T, E extends Enum<E>>
 		this( clazz, defaultValue, null );
 	}
 
-	protected BaseEnumHandler( Class<E> clazz, E defaultValue, Integer customJdbcType )
+	protected BaseEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
 	{
 		this.clazz = clazz;
 		this.defaultValue = defaultValue;
 		this.customJdbcType = customJdbcType;
 
-		// JDBC api designers were asleep at the wheel, it seems...
 		if(customJdbcType != null) {
-			map.put( JdbcUtils.getJdbcTypeName( customJdbcType ), clazz );
+			map.put( customJdbcType.name(), clazz );
 		}
 	}
 
-	protected final void setParameter( PreparedStatement preparedStatement, int i, T t ) throws SQLException
+	protected final void setJdbcParameter( PreparedStatement preparedStatement, int i, T t, JdbcType jdbcType ) throws SQLException
 	{
 		if( customJdbcType == null) {
-			preparedStatement.setObject( i, t );
+			preparedStatement.setObject( i, t, jdbcType.TYPE_CODE );
 		} else {
-			preparedStatement.setObject( i, t, customJdbcType );
+			preparedStatement.setObject( i, t, customJdbcType.TYPE_CODE );
 		}
 	}
 

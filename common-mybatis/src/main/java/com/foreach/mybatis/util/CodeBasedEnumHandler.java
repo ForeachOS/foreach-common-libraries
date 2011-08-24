@@ -39,7 +39,7 @@ public abstract class CodeBasedEnumHandler<S,E extends Enum<E> & CodeLookup<S>>
 		this( clazz, defaultValue, null );
 	}
 
-	protected CodeBasedEnumHandler( Class<E> clazz, E defaultValue, Integer customJdbcType )
+	protected CodeBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
 	{
 		super(clazz, defaultValue, customJdbcType);
 	}
@@ -50,7 +50,7 @@ public abstract class CodeBasedEnumHandler<S,E extends Enum<E> & CodeLookup<S>>
 	{
 		CodeLookup<S> e = ( CodeLookup<S> ) parameter;
 
-		setParameter( preparedStatement, i, (e != null)? e.getCode() : null ) ;
+		setJdbcParameter( preparedStatement, i, (e != null)? e.getCode() : null, jdbcType ) ;
 	}
 
 	public final Object getResult( ResultSet resultSet, String columnName ) throws SQLException
