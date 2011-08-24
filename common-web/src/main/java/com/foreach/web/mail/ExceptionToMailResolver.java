@@ -146,9 +146,14 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		// Write general params
 		html.print( "<html><head></head><body style='font-family: tahoma;font-size: 12px;'>" );
 		html.print( "<table border='1' cellpadding='3' style='font-family: tahoma;font-size: 12px;'>" );
-		writeParam( html, "request id", request.getAttribute(
-				RequestLogInterceptor.ATTRIBUTE_UNIQUE_ID ) + " (duration: " + getRequestDuration(
-				request ) + ")" );
+
+		String uniqueId = StringUtils.defaultIfBlank(
+				(String) request.getAttribute( RequestLogInterceptor.ATTRIBUTE_UNIQUE_ID ),
+		        "unavailable"
+		);
+
+		writeParam( html, "request id", uniqueId + " (duration: " + getRequestDuration( request ) + ")" );
+
 		writeParam( html, "date", readableDate.format( now ) );
 		writeParam( html, "site",
 		            applicationContext.getLabel() + "-" + applicationContext.getApplicationName() + " (" + applicationContext.getEnvironment() + ")" );
@@ -164,8 +169,12 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		writeParam( html, "Remote IP", StringUtils.defaultIfBlank( new WebCacheBypassRequest( request ).getRemoteAddr(), "-" ) );
 		writeParam( html, "Referer", StringUtils.defaultIfBlank( request.getHeader( "Referrer" ), "-" ) );
 		writeParam( html, "controller", handler != null ? handler.getClass() : "-" );
-		writeParam( html, "view", StringUtils.defaultIfBlank(
-				(String) request.getAttribute( RequestLogInterceptor.ATTRIBUTE_VIEW_NAME ), "-" ) );
+
+		String viewName = StringUtils.defaultIfBlank(
+				(String) request.getAttribute( RequestLogInterceptor.ATTRIBUTE_VIEW_NAME ), "-" );
+
+		writeParam( html, "view", viewName );
+
 		writeParam( html, "user", request.getUserPrincipal() != null ? StringUtils.defaultIfBlank(
 				request.getUserPrincipal().getName(), "-" ) : "-" );
 		html.append( "</table>" );
@@ -285,10 +294,16 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private String getRequestDuration( HttpServletRequest request )
 	{
-		long startTime = (Long) request.getAttribute( RequestLogInterceptor.ATTRIBUTE_START_TIME );
-		long duration = System.currentTimeMillis() - startTime;
+		Long startTime = (Long) request.getAttribute( RequestLogInterceptor.ATTRIBUTE_START_TIME );
 
-		return duration + " ms";
+		if( startTime == null ) {
+
+			return "unavailable";
+		}  else {
+
+			long duration = System.currentTimeMillis() - startTime;
+			return duration + " ms";
+		}
 	}
 
 	private void writeParam( PrintWriter html, String paramName, Object paramValue )
