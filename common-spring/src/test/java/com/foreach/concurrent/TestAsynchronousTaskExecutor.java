@@ -3,14 +3,12 @@ package com.foreach.concurrent;
 import com.foreach.utils.BaseTestService;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class TestAsynchronousTaskExecutor extends BaseTestService

@@ -1,7 +1,6 @@
 package com.foreach.concurrent;
 
 import org.apache.log4j.Logger;
-import org.springframework.scheduling.annotation.Async;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
