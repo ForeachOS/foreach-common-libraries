@@ -3,3 +3,4 @@ common-hibernate/target
 common-mybatis/target
 common-spring/target
 common-web/target
+/target
