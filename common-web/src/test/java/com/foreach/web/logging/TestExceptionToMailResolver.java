@@ -83,6 +83,9 @@ public class TestExceptionToMailResolver
 		MockHttpServletResponse response= new MockHttpServletResponse();
 
 		Cookie lu = new Cookie( "lu", "bah" );
+		lu.setDomain( "www.cookie.org" );
+		lu.setPath( "/blikkendoos/" );
+
 		Cookie delacre = new Cookie( "delacre", "gaatwel" );
 		Cookie destrooper = new Cookie( "destrooper", "toch wat vettig" );
 
