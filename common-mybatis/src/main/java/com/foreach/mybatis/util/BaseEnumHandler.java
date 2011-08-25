@@ -37,7 +37,7 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 		this( defaultValue, null );
 	}
 
-	protected BaseEnumHandler( Class<E> clazz )
+	protected BaseEnumHandler( )
 	{
 		this( null, null );
 	}

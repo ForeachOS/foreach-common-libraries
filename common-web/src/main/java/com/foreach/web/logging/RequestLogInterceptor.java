@@ -43,14 +43,14 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class RequestLogInterceptor implements HandlerInterceptor
 {
-    private Logger logger = Logger.getLogger(RequestLogInterceptor.class);
-
     public static final String ATTRIBUTE_START_TIME = "_log_requestStartTime";
     public static final String ATTRIBUTE_UNIQUE_ID = "_log_uniqueRequestId";
     public static final String ATTRIBUTE_VIEW_NAME = "_log_resolvedViewName";
     public static final String HEADER_REQUEST_ID = "Request-Reference";
 
     private final AtomicLong counter = new AtomicLong(System.currentTimeMillis());
+
+	private Logger logger = Logger.getLogger(RequestLogInterceptor.class);
 
     /**
      * Specify your custom logger
