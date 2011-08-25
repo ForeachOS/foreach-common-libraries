@@ -3,6 +3,7 @@ package com.foreach.mybatis.util;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.ibatis.type.JdbcType;
 
+import java.lang.reflect.ParameterizedType;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseEnumHandler<E extends Enum<E>>
+abstract class BaseEnumHandler<E extends Enum<E>>
 {
 	private Class<E> clazz;
 
@@ -20,9 +21,9 @@ public abstract class BaseEnumHandler<E extends Enum<E>>
 
 	private Map<String, Class<?>> map = new HashMap<String, Class<?>>();
 
-	protected BaseEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
+	protected BaseEnumHandler( E defaultValue, JdbcType customJdbcType )
 	{
-		this.clazz = clazz;
+		this.clazz = getParameterClass();
 		this.defaultValue = defaultValue;
 		this.customJdbcType = customJdbcType;
 
@@ -31,14 +32,14 @@ public abstract class BaseEnumHandler<E extends Enum<E>>
 		}
 	}
 
-	protected BaseEnumHandler( Class<E> clazz, E defaultValue )
+	protected BaseEnumHandler( E defaultValue )
 	{
-		this( clazz, defaultValue, null );
+		this( defaultValue, null );
 	}
 
-	protected BaseEnumHandler( Class<E> clazz  )
+	protected BaseEnumHandler( Class<E> clazz )
 	{
-		this( clazz, null, null );
+		this( null, null );
 	}
 
 	public final Class<E> getClazz()
@@ -62,10 +63,7 @@ public abstract class BaseEnumHandler<E extends Enum<E>>
 	}
 
 	protected final void setJdbcParameter(
-			PreparedStatement preparedStatement,
-			int i,
-			Object t,
-			JdbcType jdbcType ) throws SQLException
+			PreparedStatement preparedStatement, int i, Object t, JdbcType jdbcType ) throws SQLException
 	{
 		if ( customJdbcType == null ) {
 			preparedStatement.setObject( i, t, jdbcType.TYPE_CODE );
@@ -85,4 +83,10 @@ public abstract class BaseEnumHandler<E extends Enum<E>>
 		}
 	}
 
+	private Class getParameterClass()
+	{
+		ParameterizedType pt = (ParameterizedType) getClass().getGenericSuperclass();
+
+		return (Class) pt.getActualTypeArguments()[0];
+	}
 }

@@ -15,14 +15,19 @@ import java.sql.SQLException;
 
 public class TestCountryHandler
 {
+	private class CountryHandler extends CodeBasedEnumHandler<Country>
+	{
+
+	}
+
 	private final String[] countryCodes = new String[] { "Aus", "Zim", "Foo", null };
 
-	private CodeBasedEnumHandler handler;
+	private CountryHandler handler;
 
 	@Before
 	public void prepareForTest()
 	{
-		handler = new CodeBasedEnumHandler<Country>( Country.class );
+		handler = new CountryHandler( );
 	}
 
 	@Test

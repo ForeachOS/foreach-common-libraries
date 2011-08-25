@@ -55,6 +55,7 @@ common-mybatis/pom.xml -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/BaseEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/CodeBasedEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/IdBasedEnumHandler.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/util/package-info.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/Country.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/TestCountryHandler.java -text
 common-mybatis/src/test/java/com/foreach/mybatis/util/TestCountryHandler2.java -text
@@ -67,6 +68,7 @@ common-spring/src/main/java/com/foreach/concurrent/DummyFuture.java -text
 common-spring/src/main/java/com/foreach/concurrent/SynchronousTaskExecutor.java -text
 common-spring/src/main/java/com/foreach/concurrent/Task.java -text
 common-spring/src/main/java/com/foreach/concurrent/TaskExecutorService.java -text
+common-spring/src/main/java/com/foreach/concurrent/package-info.java -text
 common-spring/src/main/java/com/foreach/context/ApplicationContextInfo.java -text
 common-spring/src/main/java/com/foreach/context/ApplicationEnvironment.java -text
 common-spring/src/main/java/com/foreach/context/package-info.java -text
@@ -78,6 +80,7 @@ common-spring/src/main/java/com/foreach/mail/MailService.java -text
 common-spring/src/main/java/com/foreach/utils/CodeLookup.java -text
 common-spring/src/main/java/com/foreach/utils/EnumUtils.java -text
 common-spring/src/main/java/com/foreach/utils/IdLookup.java -text
+common-spring/src/main/java/com/foreach/utils/package-info.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmails.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmailsValidator.java -text
 common-spring/src/site/site.xml -text

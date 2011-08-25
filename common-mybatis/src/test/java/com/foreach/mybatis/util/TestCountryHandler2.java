@@ -14,14 +14,18 @@ import java.sql.SQLException;
 
 public class TestCountryHandler2
 {
+	private class CountryHandler extends IdBasedEnumHandler<Country>
+	{
+
+	}
 	private final Long[] countryIds = new Long[] { 100000001L, 100000002L, 1L, null };
 
-	private IdBasedEnumHandler handler;
+	private CountryHandler handler;
 
 	@Before
 	public void prepareForTest()
 	{
-		handler = new IdBasedEnumHandler<Country>( Country.class );
+		handler = new CountryHandler( );
 	}
 
 

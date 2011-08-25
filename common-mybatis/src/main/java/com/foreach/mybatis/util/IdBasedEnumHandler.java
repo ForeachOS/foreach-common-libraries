@@ -12,26 +12,44 @@ import java.sql.SQLException;
 /**
  * IdBasedEnumHandler is an implementation of a myBatis TypeHandler
  * that facilitates persisting IdLookup enum classes.
+ * <p>
+ * Because myBatis creates typeHandlers by reflection, you must create an
+ * IdBasedEnumHandler subclass for each IdLookup enum class you want to persist,
+ * and provide it with a zero argument constructor, for example
+ * <pre>
+ *     public class CountryHandler extends IdBasedEnumHandler<Country>
+ *     {
+ *          // superclass has a zero argument constructor
+ *     }
+ *
+ *     public class PaymentTypeHandler extends IdBasedEnumHandler<PaymentType>
+ *     {
+ *          public PaymentTypeHandler()
+ *          {
+ *              super( PaymentType.DIRECT_DEBIT );
+ *          }
+ *     }
+ * </pre>
  */
-public class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
+public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 
 		extends BaseEnumHandler<E>
 
 		implements TypeHandler
 {
-	public IdBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
+	protected IdBasedEnumHandler( E defaultValue, JdbcType customJdbcType )
 	{
-		super( clazz, defaultValue, customJdbcType );
+		super( defaultValue, customJdbcType );
 	}
 
-	public IdBasedEnumHandler( Class<E> clazz, E defaultValue )
+	protected IdBasedEnumHandler( E defaultValue )
 	{
-		this( clazz, defaultValue, null );
+		this( defaultValue, null );
 	}
 
-	public IdBasedEnumHandler( Class<E> clazz  )
+	protected IdBasedEnumHandler( )
 	{
-		this( clazz, null, null );
+		this( null, null );
 	}
 
 	public final void setParameter(

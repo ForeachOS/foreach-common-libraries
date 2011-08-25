@@ -12,26 +12,44 @@ import java.sql.SQLException;
 /**
  * CodeBasedEnumHandler is an implementation of a myBatis TypeHandler
  * that facilitates persisting CodeLookup enum classes.
+ * <p>
+ * Because myBatis creates typeHandlers by reflection, you must create a
+ * CodeBasedEnumHandler subclass for each CodeLookup enum class you want to persist,
+ * and provide it with a zero argument constructor, for example
+ * <pre>
+ *     public class CountryHandler extends CodeBasedEnumHandler<Country>
+ *     {
+ *          // superclass has a zero argument constructor
+ *     }
+ *
+ *     public class PaymentTypeHandler extends CodeBasedEnumHandler<PaymentType>
+ *     {
+ *          public PaymentTypeHandler()
+ *          {
+ *              super( PaymentType.DIRECT_DEBIT );
+ *          }
+ *     }
+ * </pre>
  */
-public class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
+public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
 		extends BaseEnumHandler<E>
 
 		implements TypeHandler
 {
-	public CodeBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
+	protected CodeBasedEnumHandler( E defaultValue, JdbcType customJdbcType )
 	{
-		super( clazz, defaultValue, customJdbcType );
+		super( defaultValue, customJdbcType );
 	}
 
-	public CodeBasedEnumHandler( Class<E> clazz, E defaultValue )
+	protected CodeBasedEnumHandler( E defaultValue )
 	{
-		this( clazz, defaultValue, null );
+		this( defaultValue, null );
 	}
 
-	public CodeBasedEnumHandler( Class<E> clazz )
+	protected CodeBasedEnumHandler( )
 	{
-		this( clazz, null, null );
+		this( null, null );
 	}
 
 	public final void setParameter(
