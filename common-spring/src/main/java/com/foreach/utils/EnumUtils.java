@@ -10,17 +10,27 @@ public final class EnumUtils
 	{
 	}
 
-	public static <I,E extends Enum<E> & IdLookup<I>> E getById( Class<E> clazz, I id )
+	/**
+	 * @param clazz an Enum class implementing IdLookup&lt;I&gt;
+	 * @param id    an instance of type I
+	 * @return the instance e of class clazz such that e.getId().equals( id )
+	 */
+	public static <I, E extends Enum<E> & IdLookup<I>> E getById( Class<E> clazz, I id )
 	{
 		for ( E e : clazz.getEnumConstants() ) {
-			if ( e.getId().equals(id) ) {
+			if ( e.getId().equals( id ) ) {
 				return e;
 			}
 		}
 		return null;
 	}
 
-	public static <S,E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code )
+	/**
+	 * @param clazz an Enum class implementing CodeLookup&lt;S&gt;
+	 * @param code  an instance of type S
+	 * @return the instance e of class clazz such that e.getCode().equals( code )
+	 */
+	public static <S, E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code )
 	{
 		for ( E e : clazz.getEnumConstants() ) {
 			if ( e.getCode().equals( code ) ) {
@@ -29,26 +39,4 @@ public final class EnumUtils
 		}
 		return null;
 	}
-
-	/*
-	public static <E extends Enum & IdLookup> E getByIdGeneric( Class<E> clazz, Object id )
-	{
-		for ( E e : clazz.getEnumConstants() ) {
-			if ( e.getId().equals(id) ) {
-				return e;
-			}
-		}
-		return null;
-	}
-
-	public static <E extends Enum<E> & CodeLookup> E getByCodeGeneric( Class<E> clazz, Object code )
-	{
-		for ( E e : clazz.getEnumConstants() ) {
-			if ( e.getCode().equals( code ) ) {
-				return e;
-			}
-		}
-		return null;
-	}
-	*/
 }
