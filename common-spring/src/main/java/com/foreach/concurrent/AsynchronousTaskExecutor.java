@@ -16,6 +16,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class AsynchronousTaskExecutor implements TaskExecutorService
 {
+	private static final Logger LOG = Logger.getLogger( AsynchronousTaskExecutor.class );
+
 	private ExecutorService executorService = new ScheduledThreadPoolExecutor( 2 );
 
 	/**
@@ -38,8 +40,6 @@ public class AsynchronousTaskExecutor implements TaskExecutorService
 	{
 		return this.executorService;
 	}
-
-	private static final Logger LOG = Logger.getLogger( AsynchronousTaskExecutor.class );
 
 	/**
 	 * Execute a Task asynchronously.

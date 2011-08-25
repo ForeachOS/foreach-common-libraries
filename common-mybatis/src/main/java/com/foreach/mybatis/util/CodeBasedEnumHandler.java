@@ -19,25 +19,19 @@ public class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
 		implements TypeHandler
 {
-	protected CodeBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
+	public CodeBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
 	{
 		super( clazz, defaultValue, customJdbcType );
 	}
 
-	protected CodeBasedEnumHandler( Class<E> clazz, E defaultValue )
+	public CodeBasedEnumHandler( Class<E> clazz, E defaultValue )
 	{
 		this( clazz, defaultValue, null );
 	}
 
-	protected CodeBasedEnumHandler( Class<E> clazz )
+	public CodeBasedEnumHandler( Class<E> clazz )
 	{
 		this( clazz, null, null );
-	}
-
-	private E getByCode( Object code )
-	{
-		E e = (E) EnumUtils.getByCode( getClazz(), code );
-		return ( e == null ) ? getDefaultValue() : e;
 	}
 
 	public final void setParameter(
@@ -51,5 +45,11 @@ public class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 	public final Object getResult( ResultSet resultSet, String columnName ) throws SQLException
 	{
 		return getByCode( getParameter( resultSet, columnName ) );
+	}
+
+	private E getByCode( Object code )
+	{
+		E e = (E) EnumUtils.getByCode( getClazz(), code );
+		return ( e == null ) ? getDefaultValue() : e;
 	}
 }

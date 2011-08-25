@@ -19,25 +19,19 @@ public class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 
 		implements TypeHandler
 {
-	protected IdBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
+	public IdBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
 	{
 		super( clazz, defaultValue, customJdbcType );
 	}
 
-	protected IdBasedEnumHandler( Class<E> clazz, E defaultValue )
+	public IdBasedEnumHandler( Class<E> clazz, E defaultValue )
 	{
 		this( clazz, defaultValue, null );
 	}
 
-	protected IdBasedEnumHandler( Class<E> clazz  )
+	public IdBasedEnumHandler( Class<E> clazz  )
 	{
 		this( clazz, null, null );
-	}
-
-	protected final E getById( Object id )
-	{
-		E e = (E) EnumUtils.getById( getClazz(), id );
-		return ( e == null ) ? getDefaultValue() : e;
 	}
 
 	public final void setParameter(
@@ -51,5 +45,11 @@ public class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 	public final E getResult( ResultSet resultSet, String columnName ) throws SQLException
 	{
 		return getById( getParameter( resultSet, columnName ) );
+	}
+
+	protected final E getById( Object id )
+	{
+		E e = (E) EnumUtils.getById( getClazz(), id );
+		return ( e == null ) ? getDefaultValue() : e;
 	}
 }

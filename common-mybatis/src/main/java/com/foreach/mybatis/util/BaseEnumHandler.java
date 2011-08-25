@@ -41,18 +41,24 @@ public abstract class BaseEnumHandler<E extends Enum<E>>
 		this( clazz, null, null );
 	}
 
-	protected Class<E> getClazz()
+	public final Class<E> getClazz()
 	{
 		return clazz;
 	}
 
-	protected E getDefaultValue()
+	public final E getDefaultValue()
 	{
 		return defaultValue;
 	}
-	protected JdbcType getCustomJdbcType()
+
+	public final JdbcType getCustomJdbcType()
 	{
 		return customJdbcType;
+	}
+
+	public final Object getResult( CallableStatement callableStatement, int columnIndex ) throws SQLException
+	{
+		throw new NotImplementedException( getClass().getName() + " does not support CallableStatements" );
 	}
 
 	protected final void setJdbcParameter(
@@ -79,8 +85,4 @@ public abstract class BaseEnumHandler<E extends Enum<E>>
 		}
 	}
 
-	public final Object getResult( CallableStatement callableStatement, int columnIndex ) throws SQLException
-	{
-		throw new NotImplementedException( getClass().getName() + " does not support CallableStatements" );
-	}
 }
