@@ -49,6 +49,7 @@ common-hibernate/common-hibernate.iml -text
 common-hibernate/pom.xml -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateEnum.java -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateSessionEmulator.java -text
+common-hibernate/src/main/java/com/foreach/hibernate/util/package-info.java -text
 common-mybatis/common-mybatis.iml -text
 common-mybatis/pom.xml -text
 common-mybatis/src/main/java/com/foreach/mybatis/util/BaseEnumHandler.java -text
@@ -68,8 +69,10 @@ common-spring/src/main/java/com/foreach/concurrent/Task.java -text
 common-spring/src/main/java/com/foreach/concurrent/TaskExecutorService.java -text
 common-spring/src/main/java/com/foreach/context/ApplicationContextInfo.java -text
 common-spring/src/main/java/com/foreach/context/ApplicationEnvironment.java -text
+common-spring/src/main/java/com/foreach/context/package-info.java -text
 common-spring/src/main/java/com/foreach/logging/Log4JConfigurator.java -text
 common-spring/src/main/java/com/foreach/logging/Log4jUtils.java -text
+common-spring/src/main/java/com/foreach/logging/package-info.java -text
 common-spring/src/main/java/com/foreach/mail/BasicMailService.java -text
 common-spring/src/main/java/com/foreach/mail/MailService.java -text
 common-spring/src/main/java/com/foreach/utils/CodeLookup.java -text
@@ -92,8 +95,10 @@ common-web/src/main/java/com/foreach/web/convertor/EnumConverterFactory.java -te
 common-web/src/main/java/com/foreach/web/logging/ExceptionToMailResolver.java -text
 common-web/src/main/java/com/foreach/web/logging/MethodExecutionTimeLogger.java -text
 common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -text
+common-web/src/main/java/com/foreach/web/logging/package-info.java -text
 common-web/src/main/java/com/foreach/web/utils/Log4jWebUtils.java -text
 common-web/src/main/java/com/foreach/web/utils/WebUtils.java -text
+common-web/src/main/java/com/foreach/web/utils/package-info.java -text
 common-web/src/test/java/com/foreach/web/convertor/TestConvertorFactory.java -text
 common-web/src/test/java/com/foreach/web/logging/TestExceptionToMailResolver.java -text
 common-web/src/test/java/com/foreach/web/logging/TestRequestLogInterceptor.java -text
