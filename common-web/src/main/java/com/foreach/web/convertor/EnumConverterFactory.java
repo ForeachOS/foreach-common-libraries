@@ -7,11 +7,11 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.lang.reflect.ParameterizedType;
 
 /**
  * EnumConverterFactory is an implementation of the Spring 3 ConverterFactory interface
@@ -49,7 +49,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>
 	 * @return a converter implementing the Spring Converter interface
 	 *         that converts String to the specified enum class.
 	 */
-	public <E extends Enum> Converter<String, E> getConverter( Class<E> targetType )
+	public final <E extends Enum> Converter<String, E> getConverter( Class<E> targetType )
 	{
 		return new EnumConverter( targetType );
 	}
@@ -64,7 +64,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>
 			this.enumType = enumType;
 		}
 
-		public E convert( String source )
+		public final E convert( String source )
 		{
 
 			if ( IdLookup.class.isAssignableFrom( enumType ) ) {
@@ -100,8 +100,8 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>
 			Type[] ts = targetClass.getGenericInterfaces();
 
 			for ( Type t : ts ) {
-				if ( t instanceof ParameterizedTypeImpl ) {
-					ParameterizedTypeImpl pt = (ParameterizedTypeImpl) t;
+				if ( t instanceof ParameterizedType ) {
+					ParameterizedType pt = (ParameterizedType) t;
 					if ( pt.getRawType().equals( lookupInterface ) ) {
 						return (Class) pt.getActualTypeArguments()[0];
 					}
