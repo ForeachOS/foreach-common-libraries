@@ -12,8 +12,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * This class will simulate the open session in view patterns(OpenSessionInViewFilter).
  * The methods in this class can be used in Tasks which needs to perform transactional events in hibernate.
  */
-public final class HibernateSessionEmulator {
-    private HibernateSessionEmulator() {
+public final class HibernateSessionEmulator
+{
+    private HibernateSessionEmulator()
+    {
         // utility classes should not have public/default constructor, so provide default private constructor
     }
 
@@ -22,7 +24,8 @@ public final class HibernateSessionEmulator {
      *
      * @param sessionFactory
      */
-    public static void beginRequest(SessionFactory sessionFactory) {
+    public static void beginRequest(SessionFactory sessionFactory)
+    {
         beginRequest(sessionFactory, false);
     }
 
@@ -32,15 +35,18 @@ public final class HibernateSessionEmulator {
      * @param sessionFactory
      * @param setFlushModeToManual true - for FlushMode.AUTO, false - FlushMode.MANUAL
      */
-    public static void beginRequest(SessionFactory sessionFactory, boolean setFlushModeToManual) {
+    public static void beginRequest(SessionFactory sessionFactory, boolean setFlushModeToManual)
+    {
         // Bind single session
         Session session = sessionFactory.openSession();
 
-        if (setFlushModeToManual) {
+        if (setFlushModeToManual)
+        {
             session.setFlushMode(FlushMode.MANUAL);
         }
 
-        if (!TransactionSynchronizationManager.hasResource(sessionFactory)) {
+        if (!TransactionSynchronizationManager.hasResource(sessionFactory))
+        {
             TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(session));
         }
     }
@@ -51,7 +57,8 @@ public final class HibernateSessionEmulator {
      *
      * @param sessionFactory
      */
-    public static void endRequest(SessionFactory sessionFactory) {
+    public static void endRequest(SessionFactory sessionFactory)
+    {
         endRequest(sessionFactory, false);
     }
 
@@ -62,12 +69,15 @@ public final class HibernateSessionEmulator {
      * @param sessionFactory
      * @param doNotFlush     true - no flushing is done, false - data is flushed explicitly
      */
-    public static void endRequest(SessionFactory sessionFactory, boolean doNotFlush) {
+    public static void endRequest(SessionFactory sessionFactory, boolean doNotFlush)
+    {
         SessionHolder holder = (SessionHolder) TransactionSynchronizationManager.getResource(sessionFactory);
-        if (holder != null) {
+        if (holder != null)
+        {
             Session session = holder.getSession();
 
-            if (!doNotFlush) {
+            if (!doNotFlush)
+            {
                 session.flush();
             }
 
@@ -78,7 +88,8 @@ public final class HibernateSessionEmulator {
             // during commit of mme transaction, the editor session is also commited as it is registered in synchronizations of TransactionSynchronizationManager
             // to commit editor session, the session should be open, so we dont close the editor session if the transaction is active
             // when the http request ends, this editor session will also be closed by OpenSessionInViewFilter
-            if (!TransactionSynchronizationManager.isActualTransactionActive()) {
+            if (!TransactionSynchronizationManager.isActualTransactionActive())
+            {
                 SessionFactoryUtils.closeSession(session);
             }
         }
@@ -92,9 +103,11 @@ public final class HibernateSessionEmulator {
      * @param sessionFactory
      * @param cacheMode
      */
-    public static void setCacheMode(SessionFactory sessionFactory, CacheMode cacheMode) {
+    public static void setCacheMode(SessionFactory sessionFactory, CacheMode cacheMode)
+    {
         SessionHolder holder = (SessionHolder) TransactionSynchronizationManager.getResource(sessionFactory);
-        if (holder != null) {
+        if (holder != null)
+        {
             holder.getSession().setCacheMode(cacheMode);
         }
     }

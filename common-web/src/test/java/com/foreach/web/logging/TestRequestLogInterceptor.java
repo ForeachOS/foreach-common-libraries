@@ -8,24 +8,24 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 public class TestRequestLogInterceptor
 {
-	private RequestLogInterceptor interceptor;
+    private RequestLogInterceptor interceptor;
 
-	@Before
-	public void prepareForTest()
-	{
-		interceptor = new RequestLogInterceptor();
-	}
+    @Before
+    public void prepareForTest()
+    {
+        interceptor = new RequestLogInterceptor();
+    }
 
-	@Test
-	public void preHandlePostConditions()
-	{
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		MockHttpServletResponse response= new MockHttpServletResponse();
+    @Test
+    public void preHandlePostConditions()
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
 
-		interceptor.preHandle( request, response, null );
+        interceptor.preHandle(request, response, null);
 
-		Assert.assertNotNull( response.getHeader( RequestLogInterceptor.HEADER_REQUEST_ID ) );
-		Assert.assertNotNull( request.getAttribute( RequestLogInterceptor.ATTRIBUTE_UNIQUE_ID ) );
-		Assert.assertNotNull( request.getAttribute( RequestLogInterceptor.ATTRIBUTE_START_TIME ) );
-	}
+        Assert.assertNotNull(response.getHeader(RequestLogInterceptor.HEADER_REQUEST_ID));
+        Assert.assertNotNull(request.getAttribute(RequestLogInterceptor.ATTRIBUTE_UNIQUE_ID));
+        Assert.assertNotNull(request.getAttribute(RequestLogInterceptor.ATTRIBUTE_START_TIME));
+    }
 }

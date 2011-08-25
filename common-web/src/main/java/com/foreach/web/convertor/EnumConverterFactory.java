@@ -27,7 +27,8 @@ import java.lang.reflect.Type;
  * the IdLookup is attempted first.
  */
 
-public class EnumConverterFactory implements ConverterFactory<String, Enum> {
+public class EnumConverterFactory implements ConverterFactory<String, Enum>
+{
     // Try to not get in an infinite loop here...
 
     private ConversionService conversionService;
@@ -36,7 +37,8 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum> {
      * Set the conversionService. This service must be able to convert String to all
      * the parameter types used.
      */
-    public final void setConversionService(ConversionService conversionService) {
+    public final void setConversionService(ConversionService conversionService)
+    {
         this.conversionService = conversionService;
     }
 
@@ -47,37 +49,45 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum> {
      * @return a converter implementing the Spring Converter interface
      *         that converts String to the specified enum class.
      */
-    public final <E extends Enum> Converter<String, E> getConverter(Class<E> targetType) {
+    public final <E extends Enum> Converter<String, E> getConverter(Class<E> targetType)
+    {
         return new EnumConverter(targetType);
     }
 
-    private final class EnumConverter<E extends Enum> implements Converter<String, E> {
+    private final class EnumConverter<E extends Enum> implements Converter<String, E>
+    {
 
         private Class<E> enumType;
 
-        public EnumConverter(Class<E> enumType) {
+        public EnumConverter(Class<E> enumType)
+        {
             this.enumType = enumType;
         }
 
-        public E convert(String source) {
+        public E convert(String source)
+        {
 
-            if (IdLookup.class.isAssignableFrom(enumType)) {
+            if (IdLookup.class.isAssignableFrom(enumType))
+            {
 
                 Class intermediateType = lookupMethodParameterClass(enumType, IdLookup.class);
                 E attempt = tryConvertUsingMethod(source, intermediateType, "getById");
 
-                if (attempt != null) {
+                if (attempt != null)
+                {
                     return attempt;
                 }
             }
 
-            if (CodeLookup.class.isAssignableFrom(enumType)) {
+            if (CodeLookup.class.isAssignableFrom(enumType))
+            {
 
                 Class intermediateType = lookupMethodParameterClass(enumType, CodeLookup.class);
 
                 E attempt = tryConvertUsingMethod(source, intermediateType, "getByCode");
 
-                if (attempt != null) {
+                if (attempt != null)
+                {
                     return attempt;
                 }
             }
@@ -89,13 +99,17 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum> {
          * Find the type parameter of the argument class for the specified lookupInterface,
          * so for Foo implements LookUp<Bar>, return Bar.Class;
          */
-        private Class lookupMethodParameterClass(Class targetClass, Class lookupInterface) {
+        private Class lookupMethodParameterClass(Class targetClass, Class lookupInterface)
+        {
             Type[] ts = targetClass.getGenericInterfaces();
 
-            for (Type t : ts) {
-                if (t instanceof ParameterizedType) {
+            for (Type t : ts)
+            {
+                if (t instanceof ParameterizedType)
+                {
                     ParameterizedType pt = (ParameterizedType) t;
-                    if (pt.getRawType().equals(lookupInterface)) {
+                    if (pt.getRawType().equals(lookupInterface))
+                    {
                         return (Class) pt.getActualTypeArguments()[0];
                     }
                 }
@@ -104,12 +118,15 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum> {
             return null;
         }
 
-        private E tryConvertUsingMethod(String source, Class intermediateType, String lookupMethodName) {
-            try {
+        private E tryConvertUsingMethod(String source, Class intermediateType, String lookupMethodName)
+        {
+            try
+            {
 
                 Object id = source;
 
-                if (!String.class.isAssignableFrom(intermediateType)) {
+                if (!String.class.isAssignableFrom(intermediateType))
+                {
                     id = conversionService.convert(source, TypeDescriptor.valueOf(String.class),
                             TypeDescriptor.valueOf(intermediateType));
                 }
@@ -117,9 +134,12 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum> {
                 Method m = com.foreach.utils.EnumUtils.class.getMethod(lookupMethodName, Class.class, Object.class);
 
                 return (E) m.invoke(EnumUtils.class, enumType, id);
-            } catch (NoSuchMethodException nsme) {
-            } catch (IllegalAccessException iae) {
-            } catch (InvocationTargetException ite) {
+            } catch (NoSuchMethodException nsme)
+            {
+            } catch (IllegalAccessException iae)
+            {
+            } catch (InvocationTargetException ite)
+            {
             }
             return null;
         }

@@ -23,13 +23,15 @@ import org.aspectj.lang.ProceedingJoinPoint;
  *
  * @version 1.0
  */
-public class MethodExecutionTimeLogger {
+public class MethodExecutionTimeLogger
+{
 
     private Logger logger = Logger.getLogger(MethodExecutionTimeLogger.class);
 
     private long minimumDuration = 75;
 
-    public MethodExecutionTimeLogger() {
+    public MethodExecutionTimeLogger()
+    {
     }
 
     /**
@@ -37,7 +39,8 @@ public class MethodExecutionTimeLogger {
      *
      * @param log
      */
-    public final void setLogger(Logger log) {
+    public final void setLogger(Logger log)
+    {
         this.logger = log;
     }
 
@@ -47,7 +50,8 @@ public class MethodExecutionTimeLogger {
      *
      * @param time minimum duration time of methods in milliseconds (exclusive)
      */
-    public final void setMinimumDuration(long time) {
+    public final void setMinimumDuration(long time)
+    {
         this.minimumDuration = time;
     }
 
@@ -60,17 +64,21 @@ public class MethodExecutionTimeLogger {
      * @throws Throwable
      */
     @SuppressWarnings("all")
-    public final Object logExecutionTime(ProceedingJoinPoint point) throws Throwable {
+    public final Object logExecutionTime(ProceedingJoinPoint point) throws Throwable
+    {
         long startTime = System.currentTimeMillis();
         Object result = point.proceed();
         long duration = System.currentTimeMillis() - startTime;
 
-        if (duration > minimumDuration) {
+        if (duration > minimumDuration)
+        {
             String method = "";
-            try {
+            try
+            {
                 method = point.getSignature().getDeclaringType().getName() + "." + point.getSignature().getName();
                 logger.info("" + method + "\t" + duration);
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 logger.warn("unable-to-get-method-signature\n" + duration);
             }
 

@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Class contains utility methods for web related operations.
  */
-public final class WebUtils {
-    private WebUtils() {
+public final class WebUtils
+{
+    private WebUtils()
+    {
     }
 
     /**
@@ -27,19 +29,23 @@ public final class WebUtils {
      *
      * @return the original ip from which the request originated
      */
-    public final static String getRemoteAddress(HttpServletRequest request) {
+    public final static String getRemoteAddress(HttpServletRequest request)
+    {
         String client = request.getParameter("clientip");
-        if (!StringUtils.isBlank(client)) {
+        if (!StringUtils.isBlank(client))
+        {
             return client;
         }
 
         client = request.getHeader("CLIENTIP");
-        if (!StringUtils.isBlank(client)) {
+        if (!StringUtils.isBlank(client))
+        {
             return client;
         }
 
         client = request.getHeader("X-Forwarded-For");
-        if (!StringUtils.isBlank(client)) {
+        if (!StringUtils.isBlank(client))
+        {
             return client;
         }
 
@@ -52,7 +58,8 @@ public final class WebUtils {
      * @param request
      * @return
      */
-    public final static int getServerPort(HttpServletRequest request) {
+    public final static int getServerPort(HttpServletRequest request)
+    {
         return request.getServerPort() == 7778 ? 80 : request.getServerPort();
     }
 }

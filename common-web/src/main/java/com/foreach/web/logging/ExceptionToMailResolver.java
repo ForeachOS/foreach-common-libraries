@@ -51,7 +51,8 @@ import java.util.Enumeration;
  * <li>applicationContextInfo, provide the bean name of ApplicationContextInfo class</li>
  * </ul>
  */
-public class ExceptionToMailResolver extends SimpleMappingExceptionResolver {
+public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
+{
     private Logger logger = Logger.getLogger(ExceptionToMailResolver.class);
 
     private String fromAddress, toAddress;
@@ -60,25 +61,33 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver {
 
     private ApplicationContextInfo applicationContextInfo;
 
-    public final void setLogger(Logger logger) {
+    /**
+     * Specify your own custom logger
+     *
+     * @param logger
+     */
+    public final void setLogger(Logger logger)
+    {
         this.logger = logger;
     }
 
     /**
-     * From mail address
+     * Specify from email address
      *
      * @param fromAddress
      */
-    public final void setFromAddress(String fromAddress) {
+    public final void setFromAddress(String fromAddress)
+    {
         this.fromAddress = fromAddress;
     }
 
     /**
-     * To mail address
+     * Specify to email address
      *
      * @param toAddress
      */
-    public final void setToAddress(String toAddress) {
+    public final void setToAddress(String toAddress)
+    {
         this.toAddress = toAddress;
     }
 
@@ -87,7 +96,8 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver {
      *
      * @param mailService
      */
-    public final void setMailService(MailService mailService) {
+    public final void setMailService(MailService mailService)
+    {
         this.mailService = mailService;
     }
 
@@ -96,38 +106,48 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver {
      *
      * @param context
      */
-    public final void setWebApplicationContext(ApplicationContextInfo context) {
+    public final void setWebApplicationContext(ApplicationContextInfo context)
+    {
         this.applicationContextInfo = context;
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected final ModelAndView doResolveException(
-            HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+            HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+    {
         logger.error("Exception has occured ", ex);
 
-        try {
-            if (ex != null) {
+        try
+        {
+            if (ex != null)
+            {
                 String mailBody = createExceptionMailBody(request, handler, ex);
                 String mailSubject = createExceptionMailSubject(ex);
 
                 mailService.sendMimeMail(fromAddress, toAddress, null, mailSubject, mailBody, null);
             }
-        } catch (RuntimeException rex) {
+        } catch (RuntimeException rex)
+        {
             logger.error("New exception when handling exception ", rex);
         }
 
         return super.doResolveException(request, response, handler, ex);
     }
 
-    private String createExceptionMailSubject(Exception ex) {
+    private String createExceptionMailSubject(Exception ex)
+    {
         return new StringBuffer("[").append(applicationContextInfo.getLabel()).append("-").append(
                 applicationContextInfo.getApplicationName()).append(" v").append(
                 applicationContextInfo.getBuildNumber()).append("] ").append(ex.getClass().toString()).toString();
     }
 
     private String createExceptionMailBody(
-            HttpServletRequest request, Object handler, Exception ex) {
+            HttpServletRequest request, Object handler, Exception ex)
+    {
         DateFormat readableDate = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 
         Date now = new Date();
@@ -198,17 +218,22 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver {
         return message.toString();
     }
 
-    private void writeCookies(PrintWriter html, HttpServletRequest request) {
-        if (request.getCookies() != null) {
+    private void writeCookies(PrintWriter html, HttpServletRequest request)
+    {
+        if (request.getCookies() != null)
+        {
             // Write cookies
             html.append("<h5>Cookies</h5>");
             html.print("<table border='1' cellpadding='3' style='font-family: tahoma;font-size: 12px;'>");
-            for (Cookie cookie : request.getCookies()) {
+            for (Cookie cookie : request.getCookies())
+            {
                 StringBuffer sbuf = new StringBuffer();
-                if (cookie.getDomain() != null) {
+                if (cookie.getDomain() != null)
+                {
                     sbuf.append(cookie.getDomain()).append(" ");
                 }
-                if (cookie.getPath() != null) {
+                if (cookie.getPath() != null)
+                {
                     sbuf.append(cookie.getPath()).append(" ");
                 }
                 sbuf.append(cookie.getMaxAge()).append("<br/>").append(cookie.getValue());
@@ -219,11 +244,13 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver {
         }
     }
 
-    private void writeRequestAttributes(PrintWriter html, HttpServletRequest request) {
+    private void writeRequestAttributes(PrintWriter html, HttpServletRequest request)
+    {
         html.append("<h5>Request attributes</h5>");
         html.print("<table border='1' cellpadding='3' style='font-family: tahoma;font-size: 12px;'>");
         Enumeration enumeration = request.getAttributeNames();
-        while (enumeration.hasMoreElements()) {
+        while (enumeration.hasMoreElements())
+        {
             String attributeName = (String) enumeration.nextElement();
 
             writeParam(html, attributeName, request.getAttribute(attributeName));
@@ -231,47 +258,56 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver {
         html.append("</table>");
     }
 
-    private void writeSessionAttributes(PrintWriter html, HttpServletRequest request) {
+    private void writeSessionAttributes(PrintWriter html, HttpServletRequest request)
+    {
         html.append("<h5>Session attributes</h5>");
         html.print("<table border='1' cellpadding='3' style='font-family: tahoma;font-size: 12px;'>");
         HttpSession session = request.getSession(false);
-        if (session != null) {
+        if (session != null)
+        {
             writeParam(html, "Session Id: ", session.getId());
             writeParam(html, "Creation Time: ", session.getCreationTime());
             writeParam(html, "Last Accessed Time: ", session.getLastAccessedTime());
             writeParam(html, "Maximmum Inactive Interval: ", session.getMaxInactiveInterval());
             writeParam(html, "New Session? ", session.isNew());
             Enumeration enumeration = session.getAttributeNames();
-            while (enumeration.hasMoreElements()) {
+            while (enumeration.hasMoreElements())
+            {
                 String attributeName = (String) enumeration.nextElement();
 
                 writeParam(html, attributeName, session.getAttribute(attributeName));
             }
-        } else {
+        } else
+        {
             writeParam(html, "No session", "");
         }
         html.append("</table>");
     }
 
-    private void writeRequestHeaders(PrintWriter html, HttpServletRequest request) {
+    private void writeRequestHeaders(PrintWriter html, HttpServletRequest request)
+    {
         html.append("<h5>Request headers</h5>");
         html.print("<table border='1' cellpadding='3' style='font-family: tahoma;font-size: 12px;'>");
         Enumeration enumeration = request.getHeaderNames();
-        while (enumeration.hasMoreElements()) {
+        while (enumeration.hasMoreElements())
+        {
             String headerName = (String) enumeration.nextElement();
 
-            if (!StringUtils.equalsIgnoreCase("cookie", headerName)) {
+            if (!StringUtils.equalsIgnoreCase("cookie", headerName))
+            {
                 writeParam(html, headerName, request.getHeader(headerName));
             }
         }
         html.append("</table>");
     }
 
-    private void writeRequestParameters(PrintWriter html, HttpServletRequest request) {
+    private void writeRequestParameters(PrintWriter html, HttpServletRequest request)
+    {
         html.append("<h5>Request parameters</h5>");
         html.print("<table border='1' cellpadding='3' style='font-family: tahoma;font-size: 12px;'>");
         Enumeration enumeration = request.getParameterNames();
-        while (enumeration.hasMoreElements()) {
+        while (enumeration.hasMoreElements())
+        {
             String parameterName = (String) enumeration.nextElement();
 
             writeParam(html, parameterName, request.getParameter(parameterName));
@@ -279,29 +315,35 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver {
         html.append("</table>");
     }
 
-    private String getRequestDuration(HttpServletRequest request) {
+    private String getRequestDuration(HttpServletRequest request)
+    {
         Long startTime = (Long) request.getAttribute(RequestLogInterceptor.ATTRIBUTE_START_TIME);
 
-        if (startTime == null) {
+        if (startTime == null)
+        {
 
             return "unavailable";
-        } else {
+        } else
+        {
 
             long duration = System.currentTimeMillis() - startTime;
             return duration + " ms";
         }
     }
 
-    private void writeParam(PrintWriter html, String paramName, Object paramValue) {
+    private void writeParam(PrintWriter html, String paramName, Object paramValue)
+    {
         html.append("<tr><td><strong>").append(paramName).append("</strong></td><td>").print(paramValue);
         html.append("</td></tr>");
     }
 
-    private String createUrlFromRequest(HttpServletRequest request) {
+    private String createUrlFromRequest(HttpServletRequest request)
+    {
         StringBuffer buf = request.getRequestURL();
         String qs = request.getQueryString();
 
-        if (qs != null) {
+        if (qs != null)
+        {
             buf.append('?').append(qs);
         }
 

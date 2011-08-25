@@ -15,9 +15,11 @@ import java.util.Map;
  *
  * @version 1.0
  */
-public final class Log4jWebUtils {
+public final class Log4jWebUtils
+{
 
-    private Log4jWebUtils() {
+    private Log4jWebUtils()
+    {
         // utility classes should not have public/default constructor, so provide default private constructor
     }
 
@@ -30,7 +32,8 @@ public final class Log4jWebUtils {
      * @param formAction
      * @return
      */
-    public String getLoggersHtml(String applicationName, String formAction) {
+    public String getLoggersHtml(String applicationName, String formAction)
+    {
         List<Logger> loggers = Log4jUtils.getClassLoggers();
         List<Level> levels = Arrays.<Level>asList(Level.OFF, Level.FATAL, Level.ERROR, Level.WARN, Level.INFO, Level.DEBUG);
 
@@ -43,9 +46,11 @@ public final class Log4jWebUtils {
                 .append("<tr><td align='center' colspan='7'>")
                 .append("<input type='reset' value='Reset'><input type='submit' value='Save'></td></tr>");
 
-        for (Logger logger : loggers) {
+        for (Logger logger : loggers)
+        {
             output.append("<tr>").append("<td>").append(logger.getName()).append("</td>");
-            for (Level level : levels) {
+            for (Level level : levels)
+            {
                 output.append("<td>");
                 output.append("<input type='radio' name='").append(logger.getName());
                 output.append("' value='").append(level).append("' ").append(logger.getEffectiveLevel() == level ? "checked" : "").append(" >").append(level);
@@ -67,11 +72,14 @@ public final class Log4jWebUtils {
      *
      * @param request
      */
-    public void setLoggerLevels(HttpServletRequest request) {
+    public void setLoggerLevels(HttpServletRequest request)
+    {
         Map<String, String[]> params = request.getParameterMap();
-        for (Map.Entry<String, String[]> entry : params.entrySet()) {
+        for (Map.Entry<String, String[]> entry : params.entrySet())
+        {
             String name = entry.getKey();
-            if (LogManager.exists(name) != null) {
+            if (LogManager.exists(name) != null)
+            {
                 String[] levels = entry.getValue();
                 Level level = Level.toLevel(levels[0]);
                 Logger.getLogger(name).setLevel(level);

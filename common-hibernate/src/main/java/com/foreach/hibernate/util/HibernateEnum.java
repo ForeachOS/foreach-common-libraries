@@ -28,7 +28,8 @@ import java.util.Properties;
  * Improvement: -Looks like this can be simplified for the end user using reflection, as in this example:
  * http://community.jboss.org/wiki/Java5StringValuedEnumUserType
  */
-public class HibernateEnum implements UserType, ParameterizedType {
+public class HibernateEnum implements UserType, ParameterizedType
+{
     private static final String DEFAULT_IDENTIFIER_METHOD_NAME = "getId";
     private static final String DEFAULT_VALUE_OF_METHOD_NAME = "getById";
 
@@ -38,103 +39,129 @@ public class HibernateEnum implements UserType, ParameterizedType {
     private NullableType type;
     private int[] sqlTypes;
 
-    public final void setParameterValues(Properties parameters) {
+    public final void setParameterValues(Properties parameters)
+    {
         String enumClassName = parameters.getProperty("enumClassName");
         Class identifierType = null;
 
-        try {
+        try
+        {
             enumClass = Class.forName(enumClassName).asSubclass(Enum.class);
-        } catch (ClassNotFoundException cfne) {
+        } catch (ClassNotFoundException cfne)
+        {
             throw new HibernateException("Enum class not found", cfne);
         }
         String identifierMethodName = parameters.getProperty("identifierMethod",
                 DEFAULT_IDENTIFIER_METHOD_NAME);
-        try {
+        try
+        {
             identifierMethod = enumClass.getMethod(identifierMethodName,
                     new Class[0]);
             identifierType = identifierMethod.getReturnType();
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new HibernateException("Failed to obtain identifier method",
                     e);
         }
 
         type = (NullableType) TypeFactory.basic(identifierType.getName());
-        if (type == null) {
+        if (type == null)
+        {
             throw new HibernateException("Unsupported identifier type " + identifierType.getName());
         }
 
         sqlTypes = new int[]{type.sqlType()};
         String valueOfMethodName = parameters.getProperty("valueOfMethod", DEFAULT_VALUE_OF_METHOD_NAME);
-        try {
+        try
+        {
             valueOfMethod = enumClass.getMethod(valueOfMethodName, new Class[]{identifierType});
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new HibernateException("Failed to obtain valueOf method", e);
         }
     }
 
-    public final Class returnedClass() {
+    public final Class returnedClass()
+    {
         return enumClass;
     }
 
-    public final Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws SQLException {
+    public final Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws SQLException
+    {
         Object identifier = type.get(rs, names[0]);
-        if (rs.wasNull()) {
+        if (rs.wasNull())
+        {
             return null;
         }
-        try {
+        try
+        {
             return valueOfMethod.invoke(enumClass, new Object[]{identifier});
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new HibernateException("Exception while invoking "
                     + "valueOf method \"" + valueOfMethod.getName() + "\" of "
                     + "enumeration class \"" + enumClass + '\"', e);
         }
     }
 
-    public final void nullSafeSet(PreparedStatement st, Object value, int index) throws SQLException {
-        try {
-            if (value == null) {
+    public final void nullSafeSet(PreparedStatement st, Object value, int index) throws SQLException
+    {
+        try
+        {
+            if (value == null)
+            {
                 st.setNull(index, type.sqlType());
-            } else {
+            } else
+            {
                 Object identifier = identifierMethod.invoke(value,
                         new Object[0]);
                 type.set(st, identifier, index);
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new HibernateException("Exception while invoking "
                     + "identifierMethod \"" + identifierMethod.getName() + "\" of "
                     + "enumeration class \"" + enumClass + '\"', e);
         }
     }
 
-    public final int[] sqlTypes() {
+    public final int[] sqlTypes()
+    {
         return sqlTypes;
     }
 
-    public final Object assemble(Serializable cached, Object owner) {
+    public final Object assemble(Serializable cached, Object owner)
+    {
         return cached;
     }
 
-    public final Object deepCopy(Object value) {
+    public final Object deepCopy(Object value)
+    {
         return value;
     }
 
-    public final Serializable disassemble(Object value) {
+    public final Serializable disassemble(Object value)
+    {
         return (Serializable) value;
     }
 
-    public final boolean equals(Object x, Object y) {
+    public final boolean equals(Object x, Object y)
+    {
         return x == y;
     }
 
-    public final int hashCode(Object x) {
+    public final int hashCode(Object x)
+    {
         return x.hashCode();
     }
 
-    public final boolean isMutable() {
+    public final boolean isMutable()
+    {
         return false;
     }
 
-    public final Object replace(Object original, Object target, Object owner) {
+    public final Object replace(Object original, Object target, Object owner)
+    {
         return original;
     }
 }

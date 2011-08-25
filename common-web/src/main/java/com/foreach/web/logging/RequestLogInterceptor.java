@@ -41,7 +41,8 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @version 1.0
  */
-public class RequestLogInterceptor implements HandlerInterceptor {
+public class RequestLogInterceptor implements HandlerInterceptor
+{
     private Logger logger = Logger.getLogger(RequestLogInterceptor.class);
 
     public static final String ATTRIBUTE_START_TIME = "_log_requestStartTime";
@@ -51,12 +52,22 @@ public class RequestLogInterceptor implements HandlerInterceptor {
 
     private final AtomicLong counter = new AtomicLong(System.currentTimeMillis());
 
-    public final void setLogger(Logger log) {
+    /**
+     * Specify your custom logger
+     *
+     * @param log
+     */
+    public final void setLogger(Logger log)
+    {
         this.logger = log;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public final boolean preHandle(
-            HttpServletRequest request, HttpServletResponse response, Object handler) {
+            HttpServletRequest request, HttpServletResponse response, Object handler)
+    {
         // Create a unique id for this request
         String requestId = "" + counter.getAndIncrement();
 
@@ -70,19 +81,25 @@ public class RequestLogInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    public final void postHandle(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Object handler,
-            ModelAndView modelAndView) {
+    /**
+     * {@inheritDoc}
+     */
+    public final void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+                                 ModelAndView modelAndView)
+    {
         // Redirects won't have a modelAndView
-        if (modelAndView != null) {
+        if (modelAndView != null)
+        {
             request.setAttribute(ATTRIBUTE_VIEW_NAME, modelAndView.getViewName());
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public final void afterCompletion(
-            HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+            HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+    {
         // Determine duration before sending the log
         long startTime = (Long) request.getAttribute(ATTRIBUTE_START_TIME);
         long duration = System.currentTimeMillis() - startTime;
@@ -103,11 +120,13 @@ public class RequestLogInterceptor implements HandlerInterceptor {
         NDC.remove();
     }
 
-    private String createUrlFromRequest(HttpServletRequest request) {
+    private String createUrlFromRequest(HttpServletRequest request)
+    {
         StringBuffer buf = request.getRequestURL();
         String qs = request.getQueryString();
 
-        if (qs != null) {
+        if (qs != null)
+        {
             buf.append('?').append(qs);
         }
 
