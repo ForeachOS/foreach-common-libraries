@@ -69,6 +69,7 @@ common-spring/src/main/java/com/foreach/concurrent/TaskExecutorService.java -tex
 common-spring/src/main/java/com/foreach/context/ApplicationContextInfo.java -text
 common-spring/src/main/java/com/foreach/context/ApplicationEnvironment.java -text
 common-spring/src/main/java/com/foreach/logging/Log4JConfigurator.java -text
+common-spring/src/main/java/com/foreach/logging/Log4jUtils.java -text
 common-spring/src/main/java/com/foreach/mail/BasicMailService.java -text
 common-spring/src/main/java/com/foreach/mail/MailService.java -text
 common-spring/src/main/java/com/foreach/utils/CodeLookup.java -text
@@ -91,7 +92,8 @@ common-web/src/main/java/com/foreach/web/convertor/EnumConverterFactory.java -te
 common-web/src/main/java/com/foreach/web/logging/ExceptionToMailResolver.java -text
 common-web/src/main/java/com/foreach/web/logging/MethodExecutionTimeLogger.java -text
 common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -text
-common-web/src/main/java/com/foreach/web/utils/WebCacheBypassRequest.java -text
+common-web/src/main/java/com/foreach/web/utils/Log4jWebUtils.java -text
+common-web/src/main/java/com/foreach/web/utils/WebUtils.java -text
 common-web/src/test/java/com/foreach/web/convertor/TestConvertorFactory.java -text
 common-web/src/test/java/com/foreach/web/logging/TestExceptionToMailResolver.java -text
 common-web/src/test/java/com/foreach/web/logging/TestRequestLogInterceptor.java -text

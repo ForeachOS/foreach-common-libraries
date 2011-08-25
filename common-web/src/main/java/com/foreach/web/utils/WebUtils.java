@@ -6,13 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
- * Utility class to retrieve the remote machine ip address and port from the given request object
+ * Class contains utility methods for web related operations.
  */
-public class WebCacheBypassRequest extends HttpServletRequestWrapper
+public final class WebUtils
 {
-	public WebCacheBypassRequest( HttpServletRequest request )
+	private WebUtils()
 	{
-		super( request );
 	}
 
 	/**
@@ -31,28 +30,33 @@ public class WebCacheBypassRequest extends HttpServletRequestWrapper
 	 *
 	 * @return the original ip from which the request originated
 	 */
-	public final String getRemoteAddr()
+	public final static String getRemoteAddress(HttpServletRequest request)
 	{
-		String client = super.getParameter( "clientip" );
+		String client = request.getParameter( "clientip" );
 		if ( !StringUtils.isBlank(client) ) {
 			return client;
 		}
 
-		client = super.getHeader( "CLIENTIP" );
+		client = request.getHeader( "CLIENTIP" );
 		if ( !StringUtils.isBlank( client ) ) {
 			return client;
 		}
 
-		client = super.getHeader( "X-Forwarded-For" );
+		client = request.getHeader( "X-Forwarded-For" );
 		if ( !StringUtils.isBlank( client ) ) {
 			return client;
 		}
 
-		return super.getRemoteAddr();
+		return request.getRemoteAddr();
 	}
 
-	public final int getServerPort()
+    /**
+     * To get the port number of the server from which this request was invoked
+     * @param request
+     * @return
+     */
+	public final static int getServerPort(HttpServletRequest request)
 	{
-		return super.getServerPort() == 7778 ? 80 : super.getServerPort();
+		return request.getServerPort() == 7778 ? 80 : request.getServerPort();
 	}
 }

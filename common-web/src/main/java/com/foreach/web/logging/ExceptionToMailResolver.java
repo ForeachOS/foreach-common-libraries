@@ -2,7 +2,7 @@ package com.foreach.web.logging;
 
 import com.foreach.context.ApplicationContextInfo;
 import com.foreach.mail.MailService;
-import com.foreach.web.utils.WebCacheBypassRequest;
+import com.foreach.web.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.apache.log4j.Logger;
@@ -165,7 +165,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		writeParam( html, "server", request.getServerName() );
 		writeParam( html, "URL", request.getMethod() + " " + createUrlFromRequest( request ) );
 		writeParam( html, "User-Agent", StringUtils.defaultIfBlank(request.getHeader("User-Agent"), "-") );
-		writeParam( html, "Remote IP", StringUtils.defaultIfBlank( new WebCacheBypassRequest( request ).getRemoteAddr(), "-" ) );
+		writeParam( html, "Remote IP", StringUtils.defaultIfBlank( WebUtils.getRemoteAddress(request), "-" ) );
 		writeParam( html, "Referer", StringUtils.defaultIfBlank( request.getHeader( "Referrer" ), "-" ) );
 		writeParam( html, "controller", handler != null ? handler.getClass() : "-" );
 
