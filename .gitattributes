@@ -89,14 +89,10 @@ common-spring/src/test/java/com/foreach/utils/BaseTestService.java -text
 common-spring/src/test/resources/config/spring-test-services.xml -text
 common-web/common-web.iml -text
 common-web/pom.xml -text
-common-web/src/main/java/com/foreach/web/editors/BasePropertyEditor.java -text
-common-web/src/main/java/com/foreach/web/editors/CodeBasedEnumPropertyEditor.java -text
-common-web/src/main/java/com/foreach/web/editors/IdBasedEnumPropertyEditor.java -text
-common-web/src/main/java/com/foreach/web/editors/IntegerIdBasedEnumPropertyEditor.java -text
-common-web/src/main/java/com/foreach/web/editors/LongIdBasedEnumPropertyEditor.java -text
-common-web/src/main/java/com/foreach/web/editors/StringCodeBasedEnumPropertyEditor.java -text
+common-web/src/main/java/com/foreach/web/convertor/EnumConverterFactory.java -text
 common-web/src/main/java/com/foreach/web/logging/ExceptionToMailResolver.java -text
 common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -text
 common-web/src/main/java/com/foreach/web/utils/WebCacheBypassRequest.java -text
+common-web/src/test/java/com/foreach/web/convertor/TestConvertorFactory.java -text
 common-web/src/test/java/com/foreach/web/logging/TestExceptionToMailResolver.java -text
 /pom.xml -text

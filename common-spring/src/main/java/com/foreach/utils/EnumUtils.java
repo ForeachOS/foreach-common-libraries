@@ -30,4 +30,25 @@ public final class EnumUtils
 		return null;
 	}
 
+	/*
+	public static <E extends Enum & IdLookup> E getByIdGeneric( Class<E> clazz, Object id )
+	{
+		for ( E e : clazz.getEnumConstants() ) {
+			if ( e.getId().equals(id) ) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	public static <E extends Enum<E> & CodeLookup> E getByCodeGeneric( Class<E> clazz, Object code )
+	{
+		for ( E e : clazz.getEnumConstants() ) {
+			if ( e.getCode().equals( code ) ) {
+				return e;
+			}
+		}
+		return null;
+	}
+	*/
 }
