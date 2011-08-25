@@ -20,7 +20,6 @@ public class TestSynchronousTaskExecutor extends BaseTestService
 	}
 
 	@Test
-	@Ignore // this one is also bollixed...
 	public void taskExecutionIsSynchronous()
 	{
 		long startTime = System.currentTimeMillis();

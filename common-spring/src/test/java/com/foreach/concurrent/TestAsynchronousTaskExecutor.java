@@ -49,7 +49,6 @@ public class TestAsynchronousTaskExecutor extends BaseTestService
 	}
 
 	@Test
-	@Ignore // For some reason, tests fails on build server...
 	public void canBlockIfNeeded()
 	{
 		long startTime = System.currentTimeMillis();
