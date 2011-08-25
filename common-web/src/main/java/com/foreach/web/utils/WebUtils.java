@@ -29,7 +29,7 @@ public final class WebUtils
      *
      * @return the original ip from which the request originated
      */
-    public final static String getRemoteAddress(HttpServletRequest request)
+    public static String getRemoteAddress(HttpServletRequest request)
     {
         String client = request.getParameter("clientip");
         if (!StringUtils.isBlank(client))
@@ -58,7 +58,7 @@ public final class WebUtils
      * @param request
      * @return
      */
-    public final static int getServerPort(HttpServletRequest request)
+    public static int getServerPort(HttpServletRequest request)
     {
         return request.getServerPort() == 7778 ? 80 : request.getServerPort();
     }
