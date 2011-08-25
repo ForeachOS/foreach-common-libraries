@@ -18,6 +18,7 @@
 .idea/libraries/Maven__javax_validation_validation_api_1_0_0_GA.xml -text
 .idea/libraries/Maven__junit_junit_4_8_2.xml -text
 .idea/libraries/Maven__log4j_log4j_1_2_16.xml -text
+.idea/libraries/Maven__org_aspectj_aspectjrt_1_6_8.xml -text
 .idea/libraries/Maven__org_hibernate_hibernate_core_3_3_1_GA.xml -text
 .idea/libraries/Maven__org_hibernate_hibernate_validator_4_1_0_Final.xml -text
 .idea/libraries/Maven__org_mockito_mockito_all_1_8_5.xml -text
@@ -91,6 +92,7 @@ common-web/common-web.iml -text
 common-web/pom.xml -text
 common-web/src/main/java/com/foreach/web/convertor/EnumConverterFactory.java -text
 common-web/src/main/java/com/foreach/web/logging/ExceptionToMailResolver.java -text
+common-web/src/main/java/com/foreach/web/logging/MethodExecutionTimeLogger.java -text
 common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -text
 common-web/src/main/java/com/foreach/web/utils/WebCacheBypassRequest.java -text
 common-web/src/test/java/com/foreach/web/convertor/TestConvertorFactory.java -text

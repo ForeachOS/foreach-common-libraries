@@ -25,6 +25,11 @@
             <artifactId>servlet-api</artifactId>
             <version>2.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.8</version>
+        </dependency>
 
 		<!-- testing -->
 		<dependency>
