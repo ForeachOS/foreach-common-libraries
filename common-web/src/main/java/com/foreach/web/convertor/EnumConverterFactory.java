@@ -10,8 +10,8 @@ import org.springframework.core.convert.converter.ConverterFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * EnumConverterFactory is an implementation of the Spring 3 ConverterFactory interface
