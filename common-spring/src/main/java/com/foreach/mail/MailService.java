@@ -20,6 +20,6 @@ public interface MailService
 	 * usually it means the message was successfully delivered to the MSA or MTA.
 	 * @see <a href="http://tools.ietf.org/html/rfc2476">RFC 2476</a>.
 	 */
-	boolean sendMimeMail( String from, String to, String bccs, String subject, String body, Map<String,File> attachments );
+	boolean sendMimeMail( String from, String to, String bccs, String subject, String body, Map<String, File> attachments );
 
 }

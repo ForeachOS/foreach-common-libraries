@@ -91,7 +91,7 @@ public class BasicMailService implements MailService
 	 * @see <a href="http://tools.ietf.org/html/rfc2476">RFC 2476</a>.
 	 */
 	public final boolean sendMimeMail( String from, String to, String bccs,
-	                                   String subject, String body, Map<String,File> attachments )
+	                                   String subject, String body, Map<String, File> attachments )
 	{
 		try {
 
@@ -116,7 +116,7 @@ public class BasicMailService implements MailService
 	}
 
 	private MimeMessage createMimeMessage( String from, String to, String bccs,
-	                                       String subject, String body, Map<String,File> attachments )
+	                                       String subject, String body, Map<String, File> attachments )
 			throws MessagingException
 	{
 		MimeMessage message = javaMailSender.createMimeMessage();
@@ -136,7 +136,7 @@ public class BasicMailService implements MailService
 		}
 
 		if ( attachments != null ) {
-			for( Map.Entry<String,File> entry : attachments.entrySet()) {
+			for( Map.Entry<String, File> entry : attachments.entrySet()) {
 				helper.addAttachment( entry.getKey(), entry.getValue() );
 			}
 		}
