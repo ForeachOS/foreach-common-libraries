@@ -15,7 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * MailService sends smtp mails with optional attachments.
+ * <p/>
+ * By default, a MailService instance wil send mails synchronously,
+ * but you can alter this behaviour by changing the executorService.
+ * <p/>
+ * If you want the option of sending mails both synchronously and asynchronously,
+ * you should create two MailService instances.
  */
 
 public class BasicMailService implements MailService
@@ -71,46 +77,6 @@ public class BasicMailService implements MailService
 		return executorService;
 	}
 
-	private MimeMessage createMimeMessage( String from, String to, String bccs,
-	                                       String subject, String body, Map<String,File> attachments )
-			throws MessagingException
-	{
-		MimeMessage message = javaMailSender.createMimeMessage();
-
-		// inform the MessageHelper on the multipartness of our message
-		MimeMessageHelper helper = new MimeMessageHelper( message, attachments!=null );
-
-		helper.setTo( getToAddresses( to ) );
-		helper.setFrom( ( from == null ) ? originator : from );
-		helper.setText( body, true );
-		message.setSubject( subject );
-
-		String bccRecipients = ( bccs == null )? serviceBccRecipients : bccs;
-
-		if ( bccRecipients != null ) {
-			helper.setBcc( getToAddresses( bccRecipients ) );
-		}
-
-		if ( attachments != null ) {
-			for( Map.Entry<String,File> entry : attachments.entrySet()) {
-				helper.addAttachment( entry.getKey(), entry.getValue() );
-			}
-		}
-
-		return message;
-	}
-
-	private void sendmail( final MimeMessage message )
-	{
-		getExecutorService().executeTask( new Task()
-		{
-			public void execute()
-			{
-				javaMailSender.send( message );
-			}
-		} );
-	}
-
 	/**
 	 * Send a mail message with optional attachments.
 	 *
@@ -151,11 +117,50 @@ public class BasicMailService implements MailService
 		return true;
 	}
 
+	private MimeMessage createMimeMessage( String from, String to, String bccs,
+	                                       String subject, String body, Map<String,File> attachments )
+			throws MessagingException
+	{
+		MimeMessage message = javaMailSender.createMimeMessage();
+
+		// inform the MessageHelper on the multipartness of our message
+		MimeMessageHelper helper = new MimeMessageHelper( message, attachments!=null );
+
+		helper.setTo( getToAddresses( to ) );
+		helper.setFrom( ( from == null ) ? originator : from );
+		helper.setText( body, true );
+		message.setSubject( subject );
+
+		String bccRecipients = ( bccs == null )? serviceBccRecipients : bccs;
+
+		if ( bccRecipients != null ) {
+			helper.setBcc( getToAddresses( bccRecipients ) );
+		}
+
+		if ( attachments != null ) {
+			for( Map.Entry<String,File> entry : attachments.entrySet()) {
+				helper.addAttachment( entry.getKey(), entry.getValue() );
+			}
+		}
+
+		return message;
+	}
+
+	private void sendmail( final MimeMessage message )
+	{
+		getExecutorService().executeTask( new Task()
+		{
+			public void execute()
+			{
+				javaMailSender.send( message );
+			}
+		} );
+	}
+
 	private String[] getToAddresses( String to )
 	{
 		List<String> emailList = MultipleEmailsValidator.separateEmailAddresses( to );
 
 		return emailList.toArray(new String[emailList.size()]);
 	}
-
 }
