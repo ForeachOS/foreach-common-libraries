@@ -17,12 +17,12 @@ public class TestCountryHandler
 {
 	private final String[] countryCodes = new String[] { "Aus", "Zim", "Foo", null };
 
-	private CountryHandler handler;
+	private CodeBasedEnumHandler handler;
 
 	@Before
 	public void prepareForTest()
 	{
-		handler = new CountryHandler();
+		handler = new CodeBasedEnumHandler<Country>( Country.class );
 	}
 
 	@Test

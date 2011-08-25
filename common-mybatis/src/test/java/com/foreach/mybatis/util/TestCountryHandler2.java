@@ -16,12 +16,12 @@ public class TestCountryHandler2
 {
 	private final Long[] countryIds = new Long[] { 100000001L, 100000002L, 1L, null };
 
-	private CountryHandler2 handler;
+	private IdBasedEnumHandler handler;
 
 	@Before
 	public void prepareForTest()
 	{
-		handler = new CountryHandler2();
+		handler = new IdBasedEnumHandler<Country>( Country.class );
 	}
 
 

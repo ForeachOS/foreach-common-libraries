@@ -16,12 +16,12 @@ public class TestCountryHandler3
 {
 	private final Long[] countryIds = new Long[] { 100000001L, 100000002L, 1L, null };
 
-	private CountryHandler3 handler;
+	private IdBasedEnumHandler handler;
 
 	@Before
 	public void prepareForTest()
 	{
-		handler = new CountryHandler3();
+		handler = new IdBasedEnumHandler<Country>( Country.class, null, JdbcType.DECIMAL);
 	}
 
 	@Test

@@ -10,28 +10,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *  Abstract Utility class to facilitate persisting enums of type IdLookup&lt;I&gt;
- *  using mybatis
- *
- *  <p>Either data column where the object of type I is being persisted must correspond
- *  to the default JDBC mapping type for I, or a custom JdbcType must be provided at instantiation.</p>
+ * IdBasedEnumHandler is an implementation of a myBatis TypeHandler
+ * that facilitates persisting IdLookup enum classes.
  */
+public class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 
-public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>>
-
-		extends BaseEnumHandler<I,E>
+		extends BaseEnumHandler<E>
 
 		implements TypeHandler
 {
-	protected final E getById( I id )
+	protected IdBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
 	{
-		E e = EnumUtils.getById( clazz, id );
-		return ( e == null ) ? defaultValue : e;
-	}
-
-	protected IdBasedEnumHandler( Class<E> clazz )
-	{
-		this( clazz, null, null );
+		super( clazz, defaultValue, customJdbcType );
 	}
 
 	protected IdBasedEnumHandler( Class<E> clazz, E defaultValue )
@@ -39,21 +29,27 @@ public abstract class IdBasedEnumHandler<I, E extends Enum<E> & IdLookup<I>>
 		this( clazz, defaultValue, null );
 	}
 
-	protected IdBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
+	protected IdBasedEnumHandler( Class<E> clazz  )
 	{
-		super(clazz, defaultValue, customJdbcType);
+		this( clazz, null, null );
+	}
+
+	protected final E getById( Object id )
+	{
+		E e = (E) EnumUtils.getById( getClazz(), id );
+		return ( e == null ) ? getDefaultValue() : e;
 	}
 
 	public final void setParameter(
 			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
 	{
-		IdLookup<I> e = ( IdLookup<I> ) parameter;
+		IdLookup e = (IdLookup) parameter;
 
-		setJdbcParameter( preparedStatement, i, (e != null)? e.getId(): null, jdbcType );
+		setJdbcParameter( preparedStatement, i, ( e != null ) ? e.getId() : null, jdbcType );
 	}
 
 	public final E getResult( ResultSet resultSet, String columnName ) throws SQLException
 	{
-		return getById( getParameter( resultSet, columnName) );
+		return getById( getParameter( resultSet, columnName ) );
 	}
 }

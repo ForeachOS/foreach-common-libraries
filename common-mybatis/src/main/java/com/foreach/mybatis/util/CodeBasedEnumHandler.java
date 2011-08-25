@@ -10,28 +10,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *  <p>Abstract Utility class to facilitate persisting enums of type CodeLookup&lt;S&gt;
- *  using mybatis</p>
- *
- *  <p>Either data column where the object of type S is being persisted must correspond
- *  to the default JDBC mapping type for S, or a custom JdbcType must be provided at instantiation.</p>
+ * CodeBasedEnumHandler is an implementation of a myBatis TypeHandler
+ * that facilitates persisting CodeLookup enum classes.
  */
+public class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
-public abstract class CodeBasedEnumHandler<S,E extends Enum<E> & CodeLookup<S>>
-
-		extends BaseEnumHandler<S,E>
+		extends BaseEnumHandler<E>
 
 		implements TypeHandler
 {
-	private E getByCode( S code )
+	protected CodeBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
 	{
-		E e = EnumUtils.getByCode( clazz, code );
-		return ( e == null ) ? defaultValue : e;
-	}
-
-	protected CodeBasedEnumHandler( Class<E> clazz )
-	{
-		this( clazz, null, null );
+		super( clazz, defaultValue, customJdbcType );
 	}
 
 	protected CodeBasedEnumHandler( Class<E> clazz, E defaultValue )
@@ -39,18 +29,23 @@ public abstract class CodeBasedEnumHandler<S,E extends Enum<E> & CodeLookup<S>>
 		this( clazz, defaultValue, null );
 	}
 
-	protected CodeBasedEnumHandler( Class<E> clazz, E defaultValue, JdbcType customJdbcType )
+	protected CodeBasedEnumHandler( Class<E> clazz )
 	{
-		super(clazz, defaultValue, customJdbcType);
+		this( clazz, null, null );
 	}
 
+	private E getByCode( Object code )
+	{
+		E e = (E) EnumUtils.getByCode( getClazz(), code );
+		return ( e == null ) ? getDefaultValue() : e;
+	}
 
 	public final void setParameter(
 			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
 	{
-		CodeLookup<S> e = ( CodeLookup<S> ) parameter;
+		CodeLookup e = (CodeLookup) parameter;
 
-		setJdbcParameter( preparedStatement, i, (e != null)? e.getCode() : null, jdbcType ) ;
+		setJdbcParameter( preparedStatement, i, ( e != null ) ? e.getCode() : null, jdbcType );
 	}
 
 	public final Object getResult( ResultSet resultSet, String columnName ) throws SQLException
