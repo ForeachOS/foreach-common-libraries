@@ -23,7 +23,6 @@ import java.util.Map;
  * If you want the option of sending mails both synchronously and asynchronously,
  * you should create two MailService instances.
  */
-
 public class BasicMailService implements MailService
 {
 	private Logger logger = Logger.getLogger( BasicMailService.class );
@@ -91,7 +90,6 @@ public class BasicMailService implements MailService
 	 * usually it means the message was successfully delivered to the MSA or MTA.
 	 * @see <a href="http://tools.ietf.org/html/rfc2476">RFC 2476</a>.
 	 */
-
 	public final boolean sendMimeMail( String from, String to, String bccs,
 	                                   String subject, String body, Map<String,File> attachments )
 	{

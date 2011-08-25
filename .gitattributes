@@ -95,6 +95,7 @@ common-spring/src/test/resources/config/spring-test-services.xml -text
 common-web/common-web.iml -text
 common-web/pom.xml -text
 common-web/src/main/java/com/foreach/web/convertor/EnumConverterFactory.java -text
+common-web/src/main/java/com/foreach/web/convertor/package-info.java -text
 common-web/src/main/java/com/foreach/web/logging/ExceptionToMailResolver.java -text
 common-web/src/main/java/com/foreach/web/logging/MethodExecutionTimeLogger.java -text
 common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -text
