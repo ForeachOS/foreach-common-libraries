@@ -64,7 +64,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>
 			this.enumType = enumType;
 		}
 
-		public final E convert( String source )
+		public E convert( String source )
 		{
 
 			if ( IdLookup.class.isAssignableFrom( enumType ) ) {

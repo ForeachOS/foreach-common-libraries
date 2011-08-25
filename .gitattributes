@@ -95,4 +95,5 @@ common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -tex
 common-web/src/main/java/com/foreach/web/utils/WebCacheBypassRequest.java -text
 common-web/src/test/java/com/foreach/web/convertor/TestConvertorFactory.java -text
 common-web/src/test/java/com/foreach/web/logging/TestExceptionToMailResolver.java -text
+common-web/src/test/java/com/foreach/web/logging/TestRequestLogInterceptor.java -text
 /pom.xml -text
