@@ -1,4 +1,4 @@
-package com.foreach.utils;
+package com.foreach.spring.utils;
 
 /**
  * CodeLookup is an interface to facilitate finding elements in small sets of enumerated Objects,

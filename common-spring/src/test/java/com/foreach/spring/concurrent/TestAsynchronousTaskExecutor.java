@@ -1,6 +1,6 @@
 package com.foreach.spring.concurrent;
 
-import com.foreach.utils.BaseTestService;
+import com.foreach.spring.utils.BaseTestService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
