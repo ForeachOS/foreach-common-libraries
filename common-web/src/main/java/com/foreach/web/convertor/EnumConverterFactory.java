@@ -29,120 +29,111 @@ import java.lang.reflect.Type;
 
 public class EnumConverterFactory implements ConverterFactory<String, Enum>
 {
-    // Try to not get in an infinite loop here...
+	// Try to not get in an infinite loop here...
 
-    private ConversionService conversionService;
+	private ConversionService conversionService;
 
-    /**
-     * Set the conversionService. This service must be able to convert String to all
-     * the parameter types used.
-     */
-    public final void setConversionService(ConversionService conversionService)
-    {
-        this.conversionService = conversionService;
-    }
+	/**
+	 * Set the conversionService. This service must be able to convert String to all
+	 * the parameter types used.
+	 */
+	public final void setConversionService( ConversionService conversionService )
+	{
+		this.conversionService = conversionService;
+	}
 
-    /**
-     * Get a converter instance for the specified enum class.
-     *
-     * @param targetType the Enum class being converted to.
-     * @return a converter implementing the Spring Converter interface
-     *         that converts String to the specified enum class.
-     */
-    public final <E extends Enum> Converter<String, E> getConverter(Class<E> targetType)
-    {
-        return new EnumConverter(targetType);
-    }
+	/**
+	 * Get a converter instance for the specified enum class.
+	 *
+	 * @param targetType the Enum class being converted to.
+	 * @return a converter implementing the Spring Converter interface
+	 *         that converts String to the specified enum class.
+	 */
+	public final <E extends Enum> Converter<String, E> getConverter( Class<E> targetType )
+	{
+		return new EnumConverter( targetType );
+	}
 
-    private final class EnumConverter<E extends Enum> implements Converter<String, E>
-    {
+	private final class EnumConverter<E extends Enum> implements Converter<String, E>
+	{
 
-        private Class<E> enumType;
+		private Class<E> enumType;
 
-        public EnumConverter(Class<E> enumType)
-        {
-            this.enumType = enumType;
-        }
+		public EnumConverter( Class<E> enumType )
+		{
+			this.enumType = enumType;
+		}
 
-        public E convert(String source)
-        {
+		public E convert( String source )
+		{
 
-            if (IdLookup.class.isAssignableFrom(enumType))
-            {
+			if ( IdLookup.class.isAssignableFrom( enumType ) ) {
 
-                Class intermediateType = lookupMethodParameterClass(enumType, IdLookup.class);
-                E attempt = tryConvertUsingMethod(source, intermediateType, "getById");
+				Class intermediateType = lookupMethodParameterClass( enumType, IdLookup.class );
+				E attempt = tryConvertUsingMethod( source, intermediateType, "getById" );
 
-                if (attempt != null)
-                {
-                    return attempt;
-                }
-            }
+				if ( attempt != null ) {
+					return attempt;
+				}
+			}
 
-            if (CodeLookup.class.isAssignableFrom(enumType))
-            {
+			if ( CodeLookup.class.isAssignableFrom( enumType ) ) {
 
-                Class intermediateType = lookupMethodParameterClass(enumType, CodeLookup.class);
+				Class intermediateType = lookupMethodParameterClass( enumType, CodeLookup.class );
 
-                E attempt = tryConvertUsingMethod(source, intermediateType, "getByCode");
+				E attempt = tryConvertUsingMethod( source, intermediateType, "getByCode" );
 
-                if (attempt != null)
-                {
-                    return attempt;
-                }
-            }
+				if ( attempt != null ) {
+					return attempt;
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        /**
-         * Find the type parameter of the argument class for the specified lookupInterface,
-         * so for Foo implements LookUp<Bar>, return Bar.Class;
-         */
-        private Class lookupMethodParameterClass(Class targetClass, Class lookupInterface)
-        {
-            Type[] ts = targetClass.getGenericInterfaces();
+		/**
+		 * Find the type parameter of the argument class for the specified lookupInterface,
+		 * so for Foo implements LookUp<Bar>, return Bar.Class;
+		 */
+		private Class lookupMethodParameterClass( Class targetClass, Class lookupInterface )
+		{
+			Type[] ts = targetClass.getGenericInterfaces();
 
-            for (Type t : ts)
-            {
-                if (t instanceof ParameterizedType)
-                {
-                    ParameterizedType pt = (ParameterizedType) t;
-                    if (pt.getRawType().equals(lookupInterface))
-                    {
-                        return (Class) pt.getActualTypeArguments()[0];
-                    }
-                }
-            }
+			for ( Type t : ts ) {
+				if ( t instanceof ParameterizedType ) {
+					ParameterizedType pt = (ParameterizedType) t;
+					if ( pt.getRawType().equals( lookupInterface ) ) {
+						return (Class) pt.getActualTypeArguments()[0];
+					}
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        private E tryConvertUsingMethod(String source, Class intermediateType, String lookupMethodName)
-        {
-            try
-            {
+		private E tryConvertUsingMethod( String source, Class intermediateType, String lookupMethodName )
+		{
+			try {
 
-                Object id = source;
+				Object id = source;
 
-                if (!String.class.isAssignableFrom(intermediateType))
-                {
-                    id = conversionService.convert(source, TypeDescriptor.valueOf(String.class),
-                            TypeDescriptor.valueOf(intermediateType));
-                }
+				if ( !String.class.isAssignableFrom( intermediateType ) ) {
+					id = conversionService.convert( source, TypeDescriptor.valueOf( String.class ),
+					                                TypeDescriptor.valueOf( intermediateType ) );
+				}
 
-                Method m = com.foreach.utils.EnumUtils.class.getMethod(lookupMethodName, Class.class, Object.class);
+				Method m = com.foreach.utils.EnumUtils.class.getMethod( lookupMethodName, Class.class, Object.class );
 
-                return (E) m.invoke(EnumUtils.class, enumType, id);
-            } catch (NoSuchMethodException nsme)
-            {
-            } catch (IllegalAccessException iae)
-            {
-            } catch (InvocationTargetException ite)
-            {
-            }
-            return null;
-        }
-    }
+				return (E) m.invoke( EnumUtils.class, enumType, id );
+			}
+			catch ( NoSuchMethodException nsme ) {
+			}
+			catch ( IllegalAccessException iae ) {
+			}
+			catch ( InvocationTargetException ite ) {
+			}
+			return null;
+		}
+	}
 }
 
