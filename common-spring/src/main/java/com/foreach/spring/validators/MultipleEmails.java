@@ -9,6 +9,23 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.*;
 
+/**
+ * An annotation that validartes using the MultipleEmailsValidator class.
+ * <p/>
+ * Example use:
+ * <pre>
+ * import com.foreach.spring.validators.MultipleEmails;
+ *
+ * public class Bar
+ * {
+ *
+ * ...
+ *
+ *  &#64;NotBlank &#64;Length(max = 200) &#64;MultipleEmails
+ *  private String email;
+ *
+ * </pre>
+ */
 @Target( { METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = MultipleEmailsValidator.class)
