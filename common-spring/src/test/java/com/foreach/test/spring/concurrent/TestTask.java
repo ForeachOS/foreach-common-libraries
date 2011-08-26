@@ -1,4 +1,6 @@
-package com.foreach.spring.concurrent;
+package com.foreach.test.spring.concurrent;
+
+import com.foreach.spring.concurrent.Task;
 
 public class TestTask implements Task
 {
