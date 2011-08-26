@@ -17,10 +17,10 @@ import java.util.Map;
  * To configure loggers dynamically, do the following:-
  * <ul>
  * <li>In the controller, define a show method to display all the available loggers. </li>
- * <li>To display available loggers, use method {@code Log4jWebUtils.getLoggersHtmlContent(String, String)}.
+ * <li>To display available loggers, use method {@link getLoggersHtmlContent(String, String)}.
  * This method generates loggers html form content where users has option to change levels of loggers.</li>
  * <li>In the controller, define a post method to update the modified level of loggers. </li>
- * <li>Above post method can use method {@code Log4jWebUtils.setLoggerLevels(HttpServletRequest)} to update the modified loggers. </li>
+ * <li>Above post method can use method {@link setLoggerLevels(HttpServletRequest)} to update the modified loggers. </li>
  * </ul>
  *
  * @version 1.0

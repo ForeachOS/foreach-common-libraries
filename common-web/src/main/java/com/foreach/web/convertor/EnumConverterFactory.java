@@ -14,7 +14,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * EnumConverterFactory is an implementation of the Spring 3 ConverterFactory interface
+ * EnumConverterFactory is an implementation of the Spring ConverterFactory interface
  * that generates Converters from String to Enum classes implementing IdLookup or CodeLookup.
  * <p/>
  * The conversion is a two step process: first a String is converted to the parameter type of
@@ -25,6 +25,10 @@ import java.lang.reflect.Type;
  * <p/>
  * When converting to an Enum class implementing both IdLookup and CodeLookup,
  * the IdLookup is attempted first.
+ * <p/>
+ * In most cases, you will group your converters in a single conversion service.
+ * Check <a href="http://static.springsource.org/spring/docs/3.0.0.RC3/spring-framework-reference/html/ch05s05.html">the spring documentation</a>
+ * on how to configure a conversion service for your application.
  */
 
 public class EnumConverterFactory implements ConverterFactory<String, Enum>
