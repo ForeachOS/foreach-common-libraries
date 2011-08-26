@@ -11,18 +11,21 @@ import java.sql.SQLException;
 
 /**
  * CodeBasedEnumHandler is an implementation of a myBatis TypeHandler
- * that facilitates persisting CodeLookup enum classes.
- * <p>
+ * that persists CodeLookup enum objects using the value obtained from getCode().
+ * <p/>
+ * Please note that getResult(CallableStatement cs, int columnIndex) is not implemented,
+ * you can only use getResult(ResultSet rs, String columnName).
+ * <p/>
  * Because myBatis creates typeHandlers by reflection, you must create a
  * CodeBasedEnumHandler subclass for each CodeLookup enum class you want to persist,
  * and provide it with a zero argument constructor, for example
  * <pre>
- *     public class CountryHandler extends CodeBasedEnumHandler<Country>
+ *     public class CountryHandler extends CodeBasedEnumHandler&lt;Country&gt;
  *     {
  *          // superclass has a zero argument constructor
  *     }
  *
- *     public class PaymentTypeHandler extends CodeBasedEnumHandler<PaymentType>
+ *     public class PaymentTypeHandler extends CodeBasedEnumHandler&lt;PaymentType&gt;
  *     {
  *          public PaymentTypeHandler()
  *          {
@@ -38,11 +41,21 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
 		implements TypeHandler
 {
+	/**
+	 * @param defaultValue   a result to be substituted when the value read from the database can't be mapped.
+	 *                       This only works in one direction, a null value is always written to the database as null.
+	 * @param customJdbcType a custom jdbcType to be used when reading or writing the code
+	 *                       corresponding to an enum to the database
+	 */
 	protected CodeBasedEnumHandler( E defaultValue, JdbcType customJdbcType )
 	{
 		super( defaultValue, customJdbcType );
 	}
 
+	/**
+	 * @param defaultValue a result to be substituted when the value read from the database can't be mapped.
+	 *                     This only works in one direction, a null value is always written to the database as null.
+	 */
 	protected CodeBasedEnumHandler( E defaultValue )
 	{
 		this( defaultValue, null );

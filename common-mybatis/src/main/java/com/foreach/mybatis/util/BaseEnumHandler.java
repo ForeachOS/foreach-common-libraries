@@ -42,26 +42,43 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 		this( null, null );
 	}
 
+	/**
+	 * @return the class of enums being persisted by this TypeHandler.
+	 */
 	public final Class<E> getClazz()
 	{
 		return clazz;
 	}
 
+	/**
+	 * returns the default enum value if one was specified at construction, null otherwise.
+	 */
 	public final E getDefaultValue()
 	{
 		return defaultValue;
 	}
 
+	/**
+	 * returns the custom jdbc type if one was specified at construction, null otherwise.
+	 */
 	public final JdbcType getCustomJdbcType()
 	{
 		return customJdbcType;
 	}
 
+	/**
+	 * Always throws a NotImplementedException
+	 */
 	public final Object getResult( CallableStatement callableStatement, int columnIndex ) throws SQLException
 	{
 		throw new NotImplementedException( getClass().getName() + " does not support CallableStatements" );
 	}
 
+	/**
+	 * Sets the object representing the enum at parameter index i in the prepared statement.
+	 * <p/>
+	 * You may not override this routine.
+	 */
 	protected final void setJdbcParameter(
 			PreparedStatement preparedStatement, int i, Object t, JdbcType jdbcType ) throws SQLException
 	{
@@ -73,6 +90,11 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 		}
 	}
 
+	/**
+	 * Gets the object representing the enum at the specified column in the result set.
+	 * <p/>
+	 * You may not override this routine.
+	 */
 	protected final Object getParameter( ResultSet resultSet, String columnName ) throws SQLException
 	{
 		if ( customJdbcType == null ) {

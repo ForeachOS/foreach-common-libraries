@@ -11,18 +11,21 @@ import java.sql.SQLException;
 
 /**
  * IdBasedEnumHandler is an implementation of a myBatis TypeHandler
- * that facilitates persisting IdLookup enum classes.
- * <p>
+ * that persists IdLookup enum objects using the value obtained by getId().
+ * <p/>
+ * Please note that getResult(CallableStatement cs, int columnIndex) is not implemented,
+ * you can only use getResult(ResultSet rs, String columnName).
+ * <p/>
  * Because myBatis creates typeHandlers by reflection, you must create an
  * IdBasedEnumHandler subclass for each IdLookup enum class you want to persist,
  * and provide it with a zero argument constructor, for example
  * <pre>
- *     public class CountryHandler extends IdBasedEnumHandler<Country>
+ *     public class CountryHandler extends IdBasedEnumHandler&lt;Country&gt;
  *     {
  *          // superclass has a zero argument constructor
  *     }
  *
- *     public class PaymentTypeHandler extends IdBasedEnumHandler<PaymentType>
+ *     public class PaymentTypeHandler extends IdBasedEnumHandler&lt;PaymentType&gt;
  *     {
  *          public PaymentTypeHandler()
  *          {
@@ -38,11 +41,21 @@ public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 
 		implements TypeHandler
 {
+	/**
+	 * @param defaultValue   a result to be substituted when the value read from the database can't be mapped.
+	 *                       This only works in one direction, a null value is always written to the database as null.
+	 * @param customJdbcType a custom jdbcType to be used when reading or writing the id
+	 *                       corresponding to an enum to the database
+	 */
 	protected IdBasedEnumHandler( E defaultValue, JdbcType customJdbcType )
 	{
 		super( defaultValue, customJdbcType );
 	}
 
+	/**
+	 * @param defaultValue a result to be substituted when the value read from the database can't be mapped.
+	 *                     This only works in one direction, a null value is always written to the database as null.
+	 */
 	protected IdBasedEnumHandler( E defaultValue )
 	{
 		this( defaultValue, null );
