@@ -11,16 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Utility class containing web related methods for Log4j.
- * This class contains methods which can be used to configure log levels of defined loggers dynamically(without server re-start).
+ * This class contains methods to display and change the log levels of registered Log4j loggers dynamically with an http client.
  * <p/>
- * To configure loggers dynamically, do the following:-
+ * To configure loglevels dynamically, do the following:
  * <ul>
- * <li>In the controller, define a show method to display all the available loggers. </li>
- * <li>To display available loggers, use method {@link getLoggersHtmlContent(String, String) getLoggersHtmlContent}.
- * This method generates loggers html form content where users has option to change levels of loggers.</li>
- * <li>In the controller, define a post method to update the modified level of loggers. </li>
- * <li>Above post method can use method {@link setLoggerLevels(HttpServletRequest) setLoggerLevels} to update the modified loggers. </li>
+ * <li>In your controller, define a get method that will serve the update form to the client.
+ * Use the method {@link getLoggersHtmlContent(String, String) getLoggersHtmlContent} to obtain the html content to be served.</li>
+ * <li>Define a post method to process the client response. From this routine you need only call
+ * {@link setLoggerLevels(HttpServletRequest) setLoggerLevels} to update the loglevels to the user provided values.</li>
  * </ul>
  *
  * @version 1.0
@@ -34,18 +32,17 @@ public final class Log4jWebUtils
 	}
 
 	/**
-	 * <p>
-	 * This method generates the HTML content for all the registered loggers in current application.
-	 * The returned html content can be directly sent to the browser by defining spring annotation @ResponseBody on the controller method
-	 * </p>
+	 * This method generates the html content for a webpage containing a form to change the loglevel of registered log4j loggers.
+	 * The html body can be directly sent to the browser by defining spring annotation @ResponseBody on a controller method.
 	 * <p/>
 	 * Eg. HttpServletResponse.getWriter().write( "html content" );
 	 * <p/>
-	 * Use this method to show the registered loggers, by which user has option to change the log levels for different loggers.
+	 * Use this method to display the registered loggers and their current loglevel.
 	 *
-	 * @param applicationName
-	 * @param formAction
-	 * @return
+	 * @param applicationName a label to be used in the html body, so the user knows which application loggers are shown.
+	 * @param formAction the url that maps to the controller method that calls
+	 * {@link setLoggerLevels(HttpServletRequest) setLoggerLevels}
+	 * @return a string with html content.
 	 */
 	public static String getLoggersHtmlContent( String applicationName, String formAction )
 	{
@@ -83,11 +80,13 @@ public final class Log4jWebUtils
 	}
 
 	/**
-	 * This method will update the levels of registered Loggers to the new levels retrieved from the given HttpServletRequest object
+	 * This method will update the levels of registered Loggers to the new levels
+	 * retrieved from the given HttpServletRequest object.
 	 * <p/>
-	 * Use this method to update the levels of registered loggers
+	 * You should call this method from within the controller method that maps to
+	 * the formAction parameter you provided to {@link getLoggersHtmlContent(String, String) getLoggersHtmlContent}.
 	 *
-	 * @param request
+	 * @param request the httprequest containing the updated loglevels.
 	 */
 	public static void setLoggerLevels( HttpServletRequest request )
 	{

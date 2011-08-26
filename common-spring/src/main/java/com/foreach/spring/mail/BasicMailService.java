@@ -23,6 +23,10 @@ import java.util.Map;
  * <p/>
  * If you want the option of sending mails both synchronously and asynchronously,
  * you should create two MailService instances.
+ * <p/>
+ * In most cases, you will have the BasicMailService configured as a bean in an xml file.
+ * If you want to use annotation in combination with a component scanner,
+ * you have to subclass BasicMailService and annotate the subclass.
  */
 public class BasicMailService implements MailService
 {
