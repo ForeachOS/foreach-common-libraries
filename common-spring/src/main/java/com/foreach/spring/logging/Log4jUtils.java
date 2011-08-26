@@ -26,7 +26,7 @@ public final class Log4jUtils
 	 *
 	 * @return
 	 */
-	public final static List<Logger> getClassLoggers()
+	public static List<Logger> getClassLoggers()
 	{
 		List<String> loggerNames = new ArrayList<String>();
 		Enumeration enumeration = LogManager.getCurrentLoggers();
