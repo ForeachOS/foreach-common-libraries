@@ -14,7 +14,7 @@ public final class WebUtils
 	}
 
 	/**
-	 * Retrieves the original ip address from which the request originated even if proxyservers or webcaches are used.
+	 * Retrieves the original ip address from which the request originated even if proxy-servers or web-caches are used.
 	 *
 	 * @param request the http request object
 	 * @return the original ip from which the request originated

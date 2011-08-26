@@ -13,12 +13,12 @@ import java.util.Map;
 /**
  * This class contains methods to display and change the log levels of registered Log4j loggers dynamically with an http client.
  * <p/>
- * To configure loglevels dynamically, do the following:
+ * To configure log levels dynamically, do the following:
  * <ul>
  * <li>In your controller, define a get method that will serve the update form to the client.
  * Use the method {@link getLoggersHtmlContent(String, String) getLoggersHtmlContent} to obtain the html content to be served.</li>
  * <li>Define a post method to process the client response. From this routine you need only call
- * {@link setLoggerLevels(HttpServletRequest) setLoggerLevels} to update the loglevels to the user provided values.</li>
+ * {@link setLoggerLevels(HttpServletRequest) setLoggerLevels} to update the log levels to the user provided values.</li>
  * </ul>
  *
  * @version 1.0
@@ -32,12 +32,12 @@ public final class Log4jWebUtils
 	}
 
 	/**
-	 * This method generates the html content for a webpage containing a form to change the loglevel of registered log4j loggers.
+	 * This method generates the html content for a web page containing a form to change the log level of registered log4j loggers.
 	 * The html body can be directly sent to the browser by defining spring annotation @ResponseBody on a controller method.
 	 * <p/>
 	 * Eg. HttpServletResponse.getWriter().write( "html content" );
 	 * <p/>
-	 * Use this method to display the registered loggers and their current loglevel.
+	 * Use this method to display the registered loggers and their current log level.
 	 *
 	 * @param applicationName a label to be used in the html body, so the user knows which application's loggers are shown.
 	 * @param formAction the url that maps to the controller method that calls
@@ -86,7 +86,7 @@ public final class Log4jWebUtils
 	 * You should call this method from within the controller method that maps to
 	 * the formAction parameter you provided to {@link getLoggersHtmlContent(String, String) getLoggersHtmlContent}.
 	 *
-	 * @param request the httprequest containing the updated loglevels.
+	 * @param request the http request object containing the updated log levels.
 	 */
 	public static void setLoggerLevels( HttpServletRequest request )
 	{
