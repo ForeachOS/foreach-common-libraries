@@ -3,6 +3,7 @@ package com.foreach.spring.concurrent;
 import com.foreach.spring.utils.BaseTestService;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,7 @@ public class TestSynchronousTaskExecutor extends BaseTestService
 	}
 
 	@Test
+	@Ignore
 	public void taskExecutionIsSynchronous()
 	{
 		long startTime = System.currentTimeMillis();
@@ -31,6 +33,7 @@ public class TestSynchronousTaskExecutor extends BaseTestService
 	}
 
 	@Test
+	@Ignore
 	public void callableExecutionIsSynchronous()
 	{
 		long startTime = System.currentTimeMillis();

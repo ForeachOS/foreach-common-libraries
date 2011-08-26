@@ -1,7 +1,7 @@
 package com.foreach.mybatis.util;
 
-import com.foreach.utils.EnumUtils;
-import com.foreach.utils.IdLookup;
+import com.foreach.spring.utils.EnumUtils;
+import com.foreach.spring.utils.IdLookup;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 

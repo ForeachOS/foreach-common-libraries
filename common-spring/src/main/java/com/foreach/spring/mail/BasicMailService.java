@@ -3,7 +3,7 @@ package com.foreach.spring.mail;
 import com.foreach.spring.concurrent.SynchronousTaskExecutor;
 import com.foreach.spring.concurrent.Task;
 import com.foreach.spring.concurrent.TaskExecutorService;
-import com.foreach.validators.MultipleEmailsValidator;
+import com.foreach.spring.validators.MultipleEmailsValidator;
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;

@@ -1,7 +1,7 @@
 package com.foreach.web.logging;
 
-import com.foreach.context.ApplicationContextInfo;
-import com.foreach.mail.MailService;
+import com.foreach.spring.context.ApplicationContextInfo;
+import com.foreach.spring.mail.MailService;
 import com.foreach.web.util.WebUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;

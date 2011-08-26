@@ -1,6 +1,6 @@
 package com.foreach.web.util;
 
-import com.foreach.logging.Log4jUtils;
+import com.foreach.spring.logging.Log4jUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

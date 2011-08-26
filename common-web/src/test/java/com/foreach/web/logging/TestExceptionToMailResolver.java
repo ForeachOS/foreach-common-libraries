@@ -1,8 +1,8 @@
 package com.foreach.web.logging;
 
-import com.foreach.context.ApplicationContextInfo;
-import com.foreach.context.ApplicationEnvironment;
-import com.foreach.mail.MailService;
+import com.foreach.spring.context.ApplicationContextInfo;
+import com.foreach.spring.context.ApplicationEnvironment;
+import com.foreach.spring.mail.MailService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
