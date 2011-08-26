@@ -115,7 +115,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final ModelAndView doResolveException(
+	public final ModelAndView doResolveException(
 			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex )
 	{
 		logger.error( "Exception has occured ", ex );
