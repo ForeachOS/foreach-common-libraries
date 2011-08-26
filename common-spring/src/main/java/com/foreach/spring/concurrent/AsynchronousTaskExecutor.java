@@ -1,4 +1,4 @@
-package com.foreach.concurrent;
+package com.foreach.spring.concurrent;
 
 import org.apache.log4j.Logger;
 

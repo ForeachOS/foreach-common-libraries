@@ -5,10 +5,10 @@
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="asynchronousTaskExecutor"
-	      class="com.foreach.concurrent.AsynchronousTaskExecutor"/>
+	      class="com.foreach.spring.concurrent.AsynchronousTaskExecutor"/>
 
 	<bean id="synchronousTaskExecutor"
-	      class="com.foreach.concurrent.SynchronousTaskExecutor"/>
+	      class="com.foreach.spring.concurrent.SynchronousTaskExecutor"/>
 
 
 </beans>

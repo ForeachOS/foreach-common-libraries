@@ -1,4 +1,4 @@
-package com.foreach.concurrent;
+package com.foreach.spring.concurrent;
 
 public class TestTask implements Task
 {

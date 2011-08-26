@@ -1,4 +1,4 @@
-package com.foreach.concurrent;
+package com.foreach.spring.concurrent;
 
 /**
  * A Task is a computional unit without an explicit result.

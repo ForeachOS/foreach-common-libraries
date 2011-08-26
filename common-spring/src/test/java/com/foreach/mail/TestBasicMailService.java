@@ -1,6 +1,6 @@
 package com.foreach.mail;
 
-import com.foreach.concurrent.AsynchronousTaskExecutor;
+import com.foreach.spring.concurrent.AsynchronousTaskExecutor;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;

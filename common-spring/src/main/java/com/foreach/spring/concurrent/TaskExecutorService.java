@@ -1,4 +1,4 @@
-package com.foreach.concurrent;
+package com.foreach.spring.concurrent;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;

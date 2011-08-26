@@ -1,8 +1,8 @@
 package com.foreach.mail;
 
-import com.foreach.concurrent.SynchronousTaskExecutor;
-import com.foreach.concurrent.Task;
-import com.foreach.concurrent.TaskExecutorService;
+import com.foreach.spring.concurrent.SynchronousTaskExecutor;
+import com.foreach.spring.concurrent.Task;
+import com.foreach.spring.concurrent.TaskExecutorService;
 import com.foreach.validators.MultipleEmailsValidator;
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
