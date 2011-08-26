@@ -1,4 +1,4 @@
-package com.foreach.web.utils;
+package com.foreach.web.util;
 
 import com.foreach.logging.Log4jUtils;
 import org.apache.log4j.Level;

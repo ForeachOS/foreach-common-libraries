@@ -1,4 +1,4 @@
-package com.foreach.web.utils;
+package com.foreach.web.util;
 
 import org.apache.commons.lang.StringUtils;
 

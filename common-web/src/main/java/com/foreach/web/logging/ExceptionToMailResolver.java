@@ -2,7 +2,7 @@ package com.foreach.web.logging;
 
 import com.foreach.context.ApplicationContextInfo;
 import com.foreach.mail.MailService;
-import com.foreach.web.utils.WebUtils;
+import com.foreach.web.util.WebUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.apache.log4j.Logger;

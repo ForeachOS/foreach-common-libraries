@@ -102,9 +102,9 @@ common-web/src/main/java/com/foreach/web/logging/ExceptionToMailResolver.java -t
 common-web/src/main/java/com/foreach/web/logging/MethodExecutionTimeLogger.java -text
 common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -text
 common-web/src/main/java/com/foreach/web/logging/package-info.java -text
-common-web/src/main/java/com/foreach/web/utils/Log4jWebUtils.java -text
-common-web/src/main/java/com/foreach/web/utils/WebUtils.java -text
-common-web/src/main/java/com/foreach/web/utils/package-info.java -text
+common-web/src/main/java/com/foreach/web/util/Log4jWebUtils.java -text
+common-web/src/main/java/com/foreach/web/util/WebUtils.java -text
+common-web/src/main/java/com/foreach/web/util/package-info.java -text
 common-web/src/test/java/com/foreach/web/convertor/TestConvertorFactory.java -text
 common-web/src/test/java/com/foreach/web/logging/TestExceptionToMailResolver.java -text
 common-web/src/test/java/com/foreach/web/logging/TestRequestLogInterceptor.java -text
