@@ -11,7 +11,6 @@ import java.util.concurrent.Future;
  * Upon a call of executeTask or executeCallable
  * it will block the calling thread and return only after the execution has completed.
  */
-
 public class SynchronousTaskExecutor implements TaskExecutorService
 {
 	private static final Logger LOG = Logger.getLogger( SynchronousTaskExecutor.class );

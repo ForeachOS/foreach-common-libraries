@@ -10,7 +10,6 @@ import java.util.concurrent.TimeoutException;
  * <p/>
  * A typical use for DummyFuture is when synchronously executing a Callable.
  */
-
 public class DummyFuture<V> implements Future<V>
 {
 	private V v;

@@ -7,7 +7,6 @@ package com.foreach.concurrent;
  * without needing the option to cancel it, or look at the eventual result at a later time.
  * ( In these cases, you should use {@link java.util.concurrent.Callable } ).
  */
-
 public interface Task
 {
 	/**
