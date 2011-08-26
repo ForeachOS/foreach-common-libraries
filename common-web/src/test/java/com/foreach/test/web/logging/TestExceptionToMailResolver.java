@@ -1,8 +1,9 @@
-package com.foreach.web.logging;
+package com.foreach.test.web.logging;
 
 import com.foreach.spring.context.ApplicationContextInfo;
 import com.foreach.spring.context.ApplicationEnvironment;
 import com.foreach.spring.mail.MailService;
+import com.foreach.web.logging.ExceptionToMailResolver;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;

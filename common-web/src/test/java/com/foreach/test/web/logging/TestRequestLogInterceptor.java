@@ -1,5 +1,6 @@
-package com.foreach.web.logging;
+package com.foreach.test.web.logging;
 
+import com.foreach.web.logging.RequestLogInterceptor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
