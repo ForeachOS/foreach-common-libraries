@@ -39,7 +39,7 @@ public final class Log4jWebUtils
 	 * <p/>
 	 * Use this method to display the registered loggers and their current loglevel.
 	 *
-	 * @param applicationName a label to be used in the html body, so the user knows which application loggers are shown.
+	 * @param applicationName a label to be used in the html body, so the user knows which application's loggers are shown.
 	 * @param formAction the url that maps to the controller method that calls
 	 * {@link setLoggerLevels(HttpServletRequest) setLoggerLevels}
 	 * @return a string with html content.
