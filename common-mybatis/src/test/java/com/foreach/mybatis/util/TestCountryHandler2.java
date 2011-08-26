@@ -18,6 +18,7 @@ public class TestCountryHandler2
 	{
 
 	}
+
 	private final Long[] countryIds = new Long[] { 100000001L, 100000002L, 1L, null };
 
 	private CountryHandler handler;
@@ -25,9 +26,8 @@ public class TestCountryHandler2
 	@Before
 	public void prepareForTest()
 	{
-		handler = new CountryHandler( );
+		handler = new CountryHandler();
 	}
-
 
 	@Test
 	public void idToCountryConversion() throws SQLException
@@ -60,7 +60,7 @@ public class TestCountryHandler2
 			handler.setParameter( stmt, 1, country, JdbcType.INTEGER );
 
 			if ( country != null ) {
-				Assert.assertTrue( id.equals ( (Long) stmt.getParameter( 1 ) ) );
+				Assert.assertTrue( id.equals( (Long) stmt.getParameter( 1 ) ) );
 			}
 			else {
 				Assert.assertNull( stmt.getParameter( 1 ) );

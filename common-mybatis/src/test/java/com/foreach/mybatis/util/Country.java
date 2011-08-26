@@ -5,13 +5,13 @@ import com.foreach.utils.IdLookup;
 
 public enum Country implements CodeLookup<String>, IdLookup<Long>
 {
-	AU( "Aus", 100000001L),
-	ZB( "Zim", 100000002L);
+	AU( "Aus", 100000001L ),
+	ZB( "Zim", 100000002L );
 
 	private String code;
 	private long largeNumber;
 
-	Country(String code, long largeNumber)
+	Country( String code, long largeNumber )
 	{
 		this.code = code;
 		this.largeNumber = largeNumber;
@@ -48,6 +48,5 @@ public enum Country implements CodeLookup<String>, IdLookup<Long>
 
 		return null;
 	}
-
 
 }

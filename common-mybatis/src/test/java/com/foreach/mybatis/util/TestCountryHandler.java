@@ -27,7 +27,7 @@ public class TestCountryHandler
 	@Before
 	public void prepareForTest()
 	{
-		handler = new CountryHandler( );
+		handler = new CountryHandler();
 	}
 
 	@Test

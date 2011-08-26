@@ -29,7 +29,7 @@ public class TestCountryHandler3
 	@Before
 	public void prepareForTest()
 	{
-		handler = new CountryHandler( );
+		handler = new CountryHandler();
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class TestCountryHandler3
 			handler.setParameter( stmt, 1, country, JdbcType.DECIMAL );
 
 			if ( country != null ) {
-				Assert.assertTrue( id.equals ( (Long) stmt.getParameter( 1 ) ) );
+				Assert.assertTrue( id.equals( (Long) stmt.getParameter( 1 ) ) );
 			}
 			else {
 				Assert.assertNull( stmt.getParameter( 1 ) );

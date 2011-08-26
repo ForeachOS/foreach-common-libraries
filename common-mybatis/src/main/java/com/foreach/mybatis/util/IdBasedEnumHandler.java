@@ -30,6 +30,7 @@ import java.sql.SQLException;
  *          }
  *     }
  * </pre>
+ * </p>
  */
 public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 
@@ -47,7 +48,7 @@ public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 		this( defaultValue, null );
 	}
 
-	protected IdBasedEnumHandler( )
+	protected IdBasedEnumHandler()
 	{
 		this( null, null );
 	}

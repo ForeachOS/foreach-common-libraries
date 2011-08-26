@@ -30,6 +30,7 @@ import java.sql.SQLException;
  *          }
  *     }
  * </pre>
+ * </p>
  */
 public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
@@ -47,7 +48,7 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 		this( defaultValue, null );
 	}
 
-	protected CodeBasedEnumHandler( )
+	protected CodeBasedEnumHandler()
 	{
 		this( null, null );
 	}
