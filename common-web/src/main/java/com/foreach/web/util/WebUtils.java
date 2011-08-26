@@ -26,6 +26,7 @@ public final class WebUtils
 	 * Above cases are handled in reverse order, each time passing through the next if the value they're
 	 * trying to use turns out to be empty
 	 *
+	 * @param request the http request object
 	 * @return the original ip from which the request originated
 	 */
 	public static String getRemoteAddress( HttpServletRequest request )
@@ -51,8 +52,8 @@ public final class WebUtils
 	/**
 	 * To get the port number of the server from which this request was originated
 	 *
-	 * @param request
-	 * @return
+	 * @param request the http request object
+	 * @return port number of the server from which this request was originated
 	 */
 	public static int getServerPort( HttpServletRequest request )
 	{
