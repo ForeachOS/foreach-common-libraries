@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * MailService sends smtp mails with optional attachments.
  * <p/>
- * By default, a MailService instance wil send mails synchronously,
+ * By default, a MailService instance will send mails synchronously,
  * but you can alter this behaviour by changing the executorService.
  * <p/>
  * If you want the option of sending mails both synchronously and asynchronously,

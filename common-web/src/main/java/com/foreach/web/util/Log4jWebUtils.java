@@ -13,6 +13,15 @@ import java.util.Map;
 /**
  * Utility class containing web related methods for Log4j.
  * This class contains methods which can be used to configure log levels of defined loggers dynamically(without server re-start).
+ * <p/>
+ * To configure loggers dynamically, do the following:-
+ * <ul>
+ * <li>In the controller, define a show method to display all the available loggers. </li>
+ * <li>To display available loggers, use method {@code Log4jWebUtils.getLoggersHtmlContent(String, String)}.
+ * This method generates loggers html form content where users has option to change levels of loggers.</li>
+ * <li>In the controller, define a post method to update the modified level of loggers. </li>
+ * <li>Above post method can use method {@code Log4jWebUtils.setLoggerLevels(HttpServletRequest)} to update the modified loggers. </li>
+ * </ul>
  *
  * @version 1.0
  */
@@ -38,7 +47,7 @@ public final class Log4jWebUtils
 	 * @param formAction
 	 * @return
 	 */
-	public String getLoggersHtml( String applicationName, String formAction )
+	public static String getLoggersHtmlContent( String applicationName, String formAction )
 	{
 		List<Logger> loggers = Log4jUtils.getClassLoggers();
 		List<Level> levels =
@@ -80,7 +89,7 @@ public final class Log4jWebUtils
 	 *
 	 * @param request
 	 */
-	public void setLoggerLevels( HttpServletRequest request )
+	public static void setLoggerLevels( HttpServletRequest request )
 	{
 		Map<String, String[]> params = request.getParameterMap();
 		for ( Map.Entry<String, String[]> entry : params.entrySet() ) {
