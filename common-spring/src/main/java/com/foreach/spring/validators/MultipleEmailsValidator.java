@@ -1,4 +1,4 @@
-package com.foreach.validators;
+package com.foreach.spring.validators;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.impl.EmailValidator;

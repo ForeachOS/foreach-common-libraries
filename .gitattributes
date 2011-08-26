@@ -82,9 +82,9 @@ common-spring/src/main/java/com/foreach/spring/utils/CodeLookup.java -text
 common-spring/src/main/java/com/foreach/spring/utils/EnumUtils.java -text
 common-spring/src/main/java/com/foreach/spring/utils/IdLookup.java -text
 common-spring/src/main/java/com/foreach/spring/utils/package-info.java -text
-common-spring/src/main/java/com/foreach/validators/MultipleEmails.java -text
-common-spring/src/main/java/com/foreach/validators/MultipleEmailsValidator.java -text
-common-spring/src/main/java/com/foreach/validators/package-info.java -text
+common-spring/src/main/java/com/foreach/spring/validators/MultipleEmails.java -text
+common-spring/src/main/java/com/foreach/spring/validators/MultipleEmailsValidator.java -text
+common-spring/src/main/java/com/foreach/spring/validators/package-info.java -text
 common-spring/src/site/site.xml -text
 common-spring/src/site/xdoc/xdoc.xml -text
 common-spring/src/test/java/com/foreach/spring/concurrent/TestAsynchronousTaskExecutor.java -text

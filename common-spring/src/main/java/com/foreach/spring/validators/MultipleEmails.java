@@ -1,4 +1,4 @@
-package com.foreach.validators;
+package com.foreach.spring.validators;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
