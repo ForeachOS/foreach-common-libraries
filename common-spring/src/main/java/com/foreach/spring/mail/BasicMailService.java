@@ -1,4 +1,4 @@
-package com.foreach.mail;
+package com.foreach.spring.mail;
 
 import com.foreach.spring.concurrent.SynchronousTaskExecutor;
 import com.foreach.spring.concurrent.Task;

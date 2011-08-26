@@ -1,4 +1,4 @@
-package com.foreach.mail;
+package com.foreach.spring.mail;
 
 import com.foreach.spring.concurrent.AsynchronousTaskExecutor;
 import org.apache.log4j.Logger;

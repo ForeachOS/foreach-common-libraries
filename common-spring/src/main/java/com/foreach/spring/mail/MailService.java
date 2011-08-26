@@ -1,4 +1,4 @@
-package com.foreach.mail;
+package com.foreach.spring.mail;
 
 import java.io.File;
 import java.util.Map;
