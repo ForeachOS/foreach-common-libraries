@@ -1,4 +1,4 @@
-package com.foreach.logging;
+package com.foreach.spring.logging;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

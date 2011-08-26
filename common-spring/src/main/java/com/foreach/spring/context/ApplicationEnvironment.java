@@ -1,4 +1,4 @@
-package com.foreach.context;
+package com.foreach.spring.context;
 
 /**
  * A simple enum providing 5 values to differ between running environments.
