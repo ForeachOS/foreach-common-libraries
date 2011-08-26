@@ -1,7 +1,7 @@
 package com.foreach.web.convertor;
 
-import com.foreach.spring.utils.CodeLookup;
-import com.foreach.spring.utils.IdLookup;
+import com.foreach.spring.util.CodeLookup;
+import com.foreach.spring.util.IdLookup;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

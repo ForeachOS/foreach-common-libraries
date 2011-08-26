@@ -78,10 +78,10 @@ common-spring/src/main/java/com/foreach/spring/logging/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/mail/BasicMailService.java -text
 common-spring/src/main/java/com/foreach/spring/mail/MailService.java -text
 common-spring/src/main/java/com/foreach/spring/mail/package-info.java -text
-common-spring/src/main/java/com/foreach/spring/utils/CodeLookup.java -text
-common-spring/src/main/java/com/foreach/spring/utils/EnumUtils.java -text
-common-spring/src/main/java/com/foreach/spring/utils/IdLookup.java -text
-common-spring/src/main/java/com/foreach/spring/utils/package-info.java -text
+common-spring/src/main/java/com/foreach/spring/util/CodeLookup.java -text
+common-spring/src/main/java/com/foreach/spring/util/EnumUtils.java -text
+common-spring/src/main/java/com/foreach/spring/util/IdLookup.java -text
+common-spring/src/main/java/com/foreach/spring/util/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/validators/MultipleEmails.java -text
 common-spring/src/main/java/com/foreach/spring/validators/MultipleEmailsValidator.java -text
 common-spring/src/main/java/com/foreach/spring/validators/package-info.java -text
