@@ -9,7 +9,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
- * Utility class for Log4j
+ * Utility class for Log4j. This class contains utility methods such as to retrieve registered loggers.
  *
  * @version 1.0
  */

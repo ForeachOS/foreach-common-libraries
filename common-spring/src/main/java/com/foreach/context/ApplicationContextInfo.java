@@ -33,69 +33,135 @@ public class ApplicationContextInfo
 	private long buildNumber;
 	private Date buildDate, startupDate = new Date();
 
+	/**
+	 * Specify {@link ApplicationEnvironment} label for the current environment, the specified label should be one of {@link ApplicationEnvironment}
+	 *
+	 * @param environmentLabel
+	 */
 	public final void setEnvironmentLabel( String environmentLabel )
 	{
 		environment = ApplicationEnvironment.valueOf( StringUtils.upperCase( environmentLabel ) );
 	}
 
-	public final ApplicationEnvironment getEnvironment()
-	{
-		return environment;
-	}
-
+	/**
+	 * Specify a {@link ApplicationEnvironment} enum for the current environment, the specified enum should be one of {@link ApplicationEnvironment}
+	 *
+	 * @param environment
+	 */
 	public final void setEnvironment( ApplicationEnvironment environment )
 	{
 		this.environment = environment;
 	}
 
+	/**
+	 * Returns the current application environment
+	 *
+	 * @return
+	 */
+	public final ApplicationEnvironment getEnvironment()
+	{
+		return environment;
+	}
+
+	/**
+	 * Method to check whether current application is running in given mode
+	 *
+	 * @param environmentToCheck
+	 * @return
+	 */
 	public final boolean isRunningIn( ApplicationEnvironment environmentToCheck )
 	{
 		return environment != null && environment.equals( environmentToCheck );
 	}
 
-	public final String getLabel()
-	{
-		return label;
-	}
-
+	/**
+	 * Specify a readable label for current application
+	 *
+	 * @param label
+	 */
 	public final void setLabel( String label )
 	{
 		this.label = label;
 	}
 
+	/**
+	 * Returns the specified label of current application
+	 *
+	 * @return
+	 */
+	public final String getLabel()
+	{
+		return label;
+	}
+
+	/**
+	 * Specify a application name
+	 *
+	 * @param applicationName
+	 */
+	public final void setApplicationName( String applicationName )
+	{
+		this.applicationName = applicationName;
+	}
+
+	/**
+	 * Returns the specified application name
+	 *
+	 * @return
+	 */
 	public final String getApplicationName()
 	{
 		return applicationName;
 	}
 
-	public final long getBuildNumber()
-	{
-		return buildNumber != 0 ? buildNumber : getBuildDate().getTime();
-	}
-
+	/**
+	 * Specify the build number of current application
+	 *
+	 * @param buildNumber
+	 */
 	public final void setBuildNumber( long buildNumber )
 	{
 		this.buildNumber = buildNumber;
 	}
 
-	public final Date getStartupDate()
+	/**
+	 * Returns the build number of current application
+	 *
+	 * @return
+	 */
+	public final long getBuildNumber()
 	{
-		return startupDate;
+		return buildNumber != 0 ? buildNumber : getBuildDate().getTime();
 	}
 
-	public final Date getBuildDate()
-	{
-		return buildDate != null ? buildDate : startupDate;
-	}
-
+	/**
+	 * Specify the build date of current application
+	 *
+	 * @param buildDate
+	 */
 	public final void setBuildDate( Date buildDate )
 	{
 		this.buildDate = buildDate;
 	}
 
-	public final void setApplicationName( String applicationName )
+	/**
+	 * Returns the build date of current application
+	 *
+	 * @return
+	 */
+	public final Date getBuildDate()
 	{
-		this.applicationName = applicationName;
+		return buildDate != null ? buildDate : startupDate;
+	}
+
+	/**
+	 * Returns the start-up date of current application. This date is automatically set during instantiating this object.
+	 *
+	 * @return
+	 */
+	public final Date getStartupDate()
+	{
+		return startupDate;
 	}
 
 	@Override

@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Utility class containing web related methods for Log4j
+ * Utility class containing web related methods for Log4j.
+ * This class contains methods which can be used to configure log levels of defined loggers dynamically(without server re-start).
  *
  * @version 1.0
  */
@@ -24,9 +25,14 @@ public final class Log4jWebUtils
 	}
 
 	/**
+	 * <p>
 	 * This method generates the HTML content for all the registered loggers in current application.
 	 * The returned html content can be directly sent to the browser by defining spring annotation @ResponseBody on the controller method
+	 * </p>
+	 * <p/>
 	 * Eg. HttpServletResponse.getWriter().write( "html content" );
+	 * <p/>
+	 * Use this method to show the registered loggers, by which user has option to change the log levels for different loggers.
 	 *
 	 * @param applicationName
 	 * @param formAction
@@ -69,6 +75,8 @@ public final class Log4jWebUtils
 
 	/**
 	 * This method will update the levels of registered Loggers to the new levels retrieved from the given HttpServletRequest object
+	 * <p/>
+	 * Use this method to update the levels of registered loggers
 	 *
 	 * @param request
 	 */
