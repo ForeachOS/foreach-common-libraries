@@ -77,12 +77,14 @@ common-spring/src/main/java/com/foreach/logging/Log4jUtils.java -text
 common-spring/src/main/java/com/foreach/logging/package-info.java -text
 common-spring/src/main/java/com/foreach/mail/BasicMailService.java -text
 common-spring/src/main/java/com/foreach/mail/MailService.java -text
+common-spring/src/main/java/com/foreach/mail/package-info.java -text
 common-spring/src/main/java/com/foreach/utils/CodeLookup.java -text
 common-spring/src/main/java/com/foreach/utils/EnumUtils.java -text
 common-spring/src/main/java/com/foreach/utils/IdLookup.java -text
 common-spring/src/main/java/com/foreach/utils/package-info.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmails.java -text
 common-spring/src/main/java/com/foreach/validators/MultipleEmailsValidator.java -text
+common-spring/src/main/java/com/foreach/validators/package-info.java -text
 common-spring/src/site/site.xml -text
 common-spring/src/site/xdoc/xdoc.xml -text
 common-spring/src/test/java/com/foreach/concurrent/TestAsynchronousTaskExecutor.java -text

@@ -5,7 +5,6 @@ import java.util.Map;
 
 public interface MailService
 {
-
 	/**
 	 * Send a mail message with optional attachments.
 	 *
@@ -21,5 +20,4 @@ public interface MailService
 	 * @see <a href="http://tools.ietf.org/html/rfc2476">RFC 2476</a>.
 	 */
 	boolean sendMimeMail( String from, String to, String bccs, String subject, String body, Map<String, File> attachments );
-
 }

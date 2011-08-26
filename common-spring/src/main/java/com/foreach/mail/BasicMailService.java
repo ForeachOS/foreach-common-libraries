@@ -39,6 +39,9 @@ public class BasicMailService implements MailService
 		this.logger = logger;
 	}
 
+	/**
+	 * Set the JavaMailSender to be used.
+	 */
 	public final void setJavaMailSender( JavaMailSender javaMailSender )
 	{
 		this.javaMailSender = javaMailSender;
@@ -54,14 +57,19 @@ public class BasicMailService implements MailService
 		this.originator = originator;
 	}
 
-	public final void setServiceBccRecipients( String serviceBccRecipients )
+	/**
+	 * Set the default bcc: recipients for this service.
+	 * @param serviceBccRecipients a comma or semicolon separated list of email adresses.
+	 * This value can be overridden on a per message basis.
+	 */	public final void setServiceBccRecipients( String serviceBccRecipients )
 	{
 		this.serviceBccRecipients = serviceBccRecipients;
 	}
 
 	/**
-	 * Set the ExecutorService used to send messages through the javaMailSender.
+	 * Set the executorService used to send messages through the javaMailSender.
 	 * @param executorService
+	 * By default, a synchronous TaskExecutoService is configured.
 	 */
 	public final synchronized void setExecutorService( TaskExecutorService executorService )
 	{
