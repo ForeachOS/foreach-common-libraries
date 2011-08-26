@@ -21,34 +21,38 @@ import java.util.Date;
 import java.util.Enumeration;
 
 /**
- * <p>This class resolves every java exception occurred to a mail.
+ * ExceptionToMailResolver sends a mail for every java exception
+ * that is not caught at the controller level.
+ * <p/>
  * To use this resolver, declare a bean for this class in your spring configuration file.
- * Usage in spring configuration file:
- * </p>
+ * <p/>
+ * Example spring configuration:
  * <p/>
  * <pre>
  *  &lt;bean class="com.foreach.web.logging.ExceptionToMailResolver"&gt;
- * 		&lt;property name="fromAddress" value="mail from address"/&gt;
- * 		&lt;property name="toAddress" value="mail to address"/&gt;
- * 		&lt;property name="order" value="1"/&gt;
- * 		&lt;property name="exceptionMappings"&gt;
- * 			&lt;props&gt;
- * 				&lt;prop key="java.lang.Throwable"&gt;error&lt;/prop&gt;
- * 			&lt;/props&gt;
- * 		&lt;/property&gt;
- * 	    &lt;property name="mailService" ref="mail service bean name"/&gt;
- * 	    &lt;property name="applicationContextInfo" ref="web application context bean name"/&gt;
- * 	&lt;/bean&gt;
+ *      &lt;property name="fromAddress" value="${errormail.from}"/&gt;
+ *      &lt;property name="toAddress" value="${erromail.to}"/&gt;
+ *      &lt;property name="order" value="1"/&gt;
+ *      &lt;property name="exceptionMappings"&gt;
+ *          &lt;props&gt;
+ *              &lt;prop key="java.lang.Throwable"&gt;error&lt;/prop&gt;
+ *          &lt;/props&gt;
+ *      &lt;/property&gt;
+ *      &lt;property name="mailService" ref="mailService"/&gt;
+ *      &lt;property name="applicationContextInfo" ref="applicationContext"/&gt;
+ *  &lt;/bean&gt;
  * </pre>
  * <p/>
- * <p> When you create bean for this class, following properties are mandatory and its value need to be provided.</p>
+ * <p> When you create an instance, following properties are mandatory:</p>
  * <ul>
- * <li>fromAddress</li>
- * <li>toAddress</li>
- * <li>order</li>
- * <li>exceptionMappings</li>
- * <li>mailService, provide the bean name of MailService class</li>
- * <li>applicationContextInfo, provide the bean name of ApplicationContextInfo class</li>
+ * <li>fromAddress:
+ * you may want to have a different sender for each application and environment combination to facilitate filtering,
+ * so<br/>smurfvillage-staging-errors@foo.bar might be a better idea than noreply@foo.bar.</li>
+ * <li>toAddress: usually the operators or developers.</li>
+ * <li>order: see AbstractHandlerExceptionResolver</li>
+ * <li>exceptionMappings: all the exceptions caught by this exception resolver. see AbstractHandlerExceptionResolver</li>
+ * <li>mailService: the name of a MailService bean</li>
+ * <li>applicationContextInfo: the name of the ApplicationContextInfo bean</li>
  * </ul>
  */
 public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
