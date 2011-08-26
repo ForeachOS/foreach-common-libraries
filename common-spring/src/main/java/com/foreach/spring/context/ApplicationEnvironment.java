@@ -1,8 +1,9 @@
 package com.foreach.spring.context;
 
 /**
- * A simple enum providing 5 values to differ between running environments.
- * Can be used for configuration loading, see also {@link ApplicationContextInfo}.
+ * A enum to differentiate between running environments.
+ * Used for configuration or the conditional execution of code,
+ * see also {@link ApplicationContextInfo}.
  */
 public enum ApplicationEnvironment
 {

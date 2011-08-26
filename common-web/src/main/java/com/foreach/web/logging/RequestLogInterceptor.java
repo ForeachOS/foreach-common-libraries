@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * <p>The RequestLogInterceptor class can be used to log Http request with execution time.</p>
+ * <p>RequestLogInterceptor times http requests and logs the result.</p>
  * <p/>
  * <p>Usage in spring configuration file:</p>
  * <pre>
@@ -35,8 +35,8 @@ import java.util.concurrent.atomic.AtomicLong;
  *  log4j.appender.request.layout.ConversionPattern=%d{ISO8601} [%t] %m%n
  * </pre>
  * <p/>
- * <p><em>Log interceptor should be declared as first bean in mvc:interceptors (if there are many interceptors),
- * so that we can log the timings of all other interceptors.</em></p>
+ * <p><em>Ideally, a log interceptor should be declared as the first (outermost) interceptor in an interceptor chain
+ * so the timing is as accurately as possible.</em></p>
  *
  * @version 1.0
  */

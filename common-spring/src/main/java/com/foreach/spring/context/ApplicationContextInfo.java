@@ -5,22 +5,25 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Date;
 
 /**
- * <p>This class holds general web application properties. This class should be defined as a bean
- * which can be referred in several other beans (e.g. ExceptionToMailResolver).
- * To declare a bean for this class in your spring configuration file do the following.
- * </p>
- * <p>Because the ApplicationContextInfo refers to an ApplicationEnvironment that is configured,
- * you can also use the ApplicationContextInfo bean in other beans to see the environment you are running in
- * and allow/disallow certain actions.</p>
+ * This class groups application metadata.
+ * <p/>
+ * Because some of the metadata may only be available at built time,
+ * you will usually have spring instantiate this object as a bean from xml.
+ * <p/>
+ * You can refer to this bean from other beans that handle errors or provide
+ * environment dependent logic.
+ * <p/>
+ * An example spring configuration:
  * <p/>
  * <pre>
  *  &lt;bean id="applicationContextInfo" class="com.foreach.context.ApplicationContextInfo"&gt;
- * 		&lt;property name="environmentLabel" value="see {@link ApplicationEnvironment}"/&gt;
- * 		&lt;property name="applicationName" value="name of your application"/&gt;
- * 		&lt;property name="label" value="a useful label for your application"/&gt;
- * 	    &lt;property name="buildNumber" value="application build version number"/&gt;
- * 	    &lt;property name="buildDate" value="build date of the application"/&gt;
- * 	&lt;/bean&gt;
+ *      &lt;property name="environmentLabel" value="${app.environment}"/&gt;
+ *      &lt;-- see {@link ApplicationEnvironment} --/&gt;
+ *      &lt;property name="applicationName" value="${app.name}"/&gt;
+ *      &lt;property name="label" value="${app.label}"/&gt;
+ *      &lt;property name="buildNumber" value="${build.number}"/&gt;
+ *      &lt;property name="buildDate" value="${build.date}"/&gt;
+ *  &lt;/bean&gt;
  * </pre>
  */
 public class ApplicationContextInfo
@@ -55,8 +58,6 @@ public class ApplicationContextInfo
 
 	/**
 	 * Returns the current application environment
-	 *
-	 * @return
 	 */
 	public final ApplicationEnvironment getEnvironment()
 	{
@@ -64,10 +65,11 @@ public class ApplicationContextInfo
 	}
 
 	/**
-	 * Method to check whether current application is running in given mode
+	 * Method to check whether the current application is running in given mode.
+	 * Used for environment dependent logic.
 	 *
 	 * @param environmentToCheck
-	 * @return
+	 * @return true if environment is not null and equal to environmentToCheck, false otherwise.
 	 */
 	public final boolean isRunningIn( ApplicationEnvironment environmentToCheck )
 	{
@@ -75,7 +77,7 @@ public class ApplicationContextInfo
 	}
 
 	/**
-	 * Specify a readable label for current application
+	 * Specify a readable label for the current application
 	 *
 	 * @param label
 	 */
@@ -85,9 +87,7 @@ public class ApplicationContextInfo
 	}
 
 	/**
-	 * Returns the specified label of current application
-	 *
-	 * @return
+	 * Returns the specified label of the current application
 	 */
 	public final String getLabel()
 	{
@@ -95,7 +95,7 @@ public class ApplicationContextInfo
 	}
 
 	/**
-	 * Specify a application name
+	 * Specify an application name
 	 *
 	 * @param applicationName
 	 */
@@ -106,8 +106,6 @@ public class ApplicationContextInfo
 
 	/**
 	 * Returns the specified application name
-	 *
-	 * @return
 	 */
 	public final String getApplicationName()
 	{
@@ -115,9 +113,10 @@ public class ApplicationContextInfo
 	}
 
 	/**
-	 * Specify the build number of current application
-	 *
-	 * @param buildNumber
+	 * Specify the build number of the current application
+
+	 * @param buildNumber a number corresponding to a unique build to facilitate
+	 * defect tracking.
 	 */
 	public final void setBuildNumber( long buildNumber )
 	{
@@ -125,9 +124,7 @@ public class ApplicationContextInfo
 	}
 
 	/**
-	 * Returns the build number of current application
-	 *
-	 * @return
+	 * Returns the build number of the current application
 	 */
 	public final long getBuildNumber()
 	{
@@ -137,7 +134,7 @@ public class ApplicationContextInfo
 	/**
 	 * Specify the build date of current application
 	 *
-	 * @param buildDate
+	 * @param buildDate the date the application was built.
 	 */
 	public final void setBuildDate( Date buildDate )
 	{
@@ -145,9 +142,7 @@ public class ApplicationContextInfo
 	}
 
 	/**
-	 * Returns the build date of current application
-	 *
-	 * @return
+	 * Returns the build date of the current application
 	 */
 	public final Date getBuildDate()
 	{
@@ -155,9 +150,8 @@ public class ApplicationContextInfo
 	}
 
 	/**
-	 * Returns the start-up date of current application. This date is automatically set during instantiating this object.
-	 *
-	 * @return
+	 * Returns the start-up date of the current application.
+	 * This value is set automatically at instantiation.
 	 */
 	public final Date getStartupDate()
 	{
