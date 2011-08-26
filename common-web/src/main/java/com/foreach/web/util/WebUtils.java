@@ -14,17 +14,16 @@ public final class WebUtils
 	}
 
 	/**
-	 * There are 4 ways the request could have reached the server :
-	 * a) Straight from the client (no WebCache, no Rewrite with Proxy), happens on dev and on staging for some urls
-	 * -> super.getRemoteAddr() gives correct result
-	 * b) Proxy but not WebCache, happens on staging for some urls
-	 * -> super.getHeader(X-Forwarded-For) gives correct result
-	 * c) WebCache but not Proxy, happens on production servers for some urls
-	 * -> super.getHeader(CLIENTIP) gives correct result
-	 * d) WebCache, then Proxy, then WebCache, happens on production servers for some urls
-	 * -> super.getParameter(clientip) gives correct result (rewrite rule puts contents of
-	 * CLIENTIP header in querystring)
-	 * These cases are handled in reverse order, each time passing through the next if the value they're
+	 * You can get the original ip address from which the request originated in following ways.
+	 * <ul>
+	 * <li>Straight from the client (no WebCache, no Rewrite with Proxy), happens on dev and on staging for some urls HttpServletRequest.getParameter("clientip") gives correct result</li>
+	 * <li>Proxy but not WebCache, happens on staging for some urls, HttpServletRequest.getHeader(X-Forwarded-For) gives correct result</li>
+	 * <li>WebCache but not Proxy, happens on production servers for some urls, HttpServletRequest.getHeader("CLIENTIP") gives correct result</li>
+	 * <li>WebCache, then Proxy, then WebCache, happens on production servers for some urls, HttpServletRequest.getParameter("clientip") gives correct result (rewrite rule puts contents of
+	 * CLIENTIP header in querystring).</li>
+	 * </ul>
+	 * <p/>
+	 * Above cases are handled in reverse order, each time passing through the next if the value they're
 	 * trying to use turns out to be empty
 	 *
 	 * @return the original ip from which the request originated
@@ -50,7 +49,7 @@ public final class WebUtils
 	}
 
 	/**
-	 * To get the port number of the server from which this request was invoked
+	 * To get the port number of the server from which this request was originated
 	 *
 	 * @param request
 	 * @return
