@@ -1,5 +1,6 @@
-package com.foreach.mybatis.util;
+package com.foreach.test.mybatis.util;
 
+import com.foreach.mybatis.util.IdBasedEnumHandler;
 import com.mockrunner.mock.jdbc.MockCallableStatement;
 import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockPreparedStatement;
@@ -12,11 +13,14 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 
-public class TestCountryHandler2
+public class TestCountryHandler3
 {
 	private class CountryHandler extends IdBasedEnumHandler<Country>
 	{
-
+		public CountryHandler()
+		{
+			super( null, JdbcType.DECIMAL );
+		}
 	}
 
 	private final Long[] countryIds = new Long[] { 100000001L, 100000002L, 1L, null };
@@ -57,7 +61,7 @@ public class TestCountryHandler2
 		for ( Long id : countryIds ) {
 			Country country = Country.getById( id );
 
-			handler.setParameter( stmt, 1, country, JdbcType.INTEGER );
+			handler.setParameter( stmt, 1, country, JdbcType.DECIMAL );
 
 			if ( country != null ) {
 				Assert.assertTrue( id.equals( (Long) stmt.getParameter( 1 ) ) );
@@ -75,5 +79,4 @@ public class TestCountryHandler2
 
 		handler.getResult( stmt, 1 );
 	}
-
 }
