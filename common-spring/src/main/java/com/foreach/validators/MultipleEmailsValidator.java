@@ -22,7 +22,7 @@ public class MultipleEmailsValidator implements ConstraintValidator<MultipleEmai
 	}
 
 	/**
-	 * @param emailString the string to be validated
+	 * @param emailString                the string to be validated
 	 * @param constraintValidatorContext ignored.
 	 * @return true if the passed emailString is a comma or semi-colon separated list of valid email adresses.
 	 */
@@ -30,7 +30,7 @@ public class MultipleEmailsValidator implements ConstraintValidator<MultipleEmai
 	{
 		EmailValidator emailValidator = new EmailValidator();
 
-		List<String> emails = separateEmailAddresses(emailString);
+		List<String> emails = separateEmailAddresses( emailString );
 
 		for ( String email : emails ) {
 			if ( !emailValidator.isValid( email, constraintValidatorContext ) ) {

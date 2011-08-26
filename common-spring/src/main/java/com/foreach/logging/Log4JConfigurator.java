@@ -32,68 +32,66 @@ import java.net.URL;
  */
 public class Log4JConfigurator
 {
-    private String logDirectory = System.getProperty("java.io.tmpdir");
-    private Resource propertiesFile = null;
+	private String logDirectory = System.getProperty( "java.io.tmpdir" );
+	private Resource propertiesFile = null;
 
-    /**
-     * <p>Configures Log4J using a <code>PropertyConfigurator</code> and the properties file set on the bean.</p>
-     *
-     * @throws java.io.IOException if something goes wrong with reading the properties file.
-     */
-    public final void configure() throws IOException
-    {
-        if (propertiesFile != null)
-        {
-            URL url = propertiesFile.getURL();
-            PropertyConfigurator.configure(url);
-        }
-    }
+	/**
+	 * <p>Configures Log4J using a <code>PropertyConfigurator</code> and the properties file set on the bean.</p>
+	 *
+	 * @throws java.io.IOException if something goes wrong with reading the properties file.
+	 */
+	public final void configure() throws IOException
+	{
+		if ( propertiesFile != null ) {
+			URL url = propertiesFile.getURL();
+			PropertyConfigurator.configure( url );
+		}
+	}
 
-    /**
-     * <p>Getter for the field <code>propertiesFile</code>.</p>
-     *
-     * @return a {@link org.springframework.core.io.Resource} object.
-     */
-    public final Resource getPropertiesFile()
-    {
-        return propertiesFile;
-    }
+	/**
+	 * <p>Getter for the field <code>propertiesFile</code>.</p>
+	 *
+	 * @return a {@link org.springframework.core.io.Resource} object.
+	 */
+	public final Resource getPropertiesFile()
+	{
+		return propertiesFile;
+	}
 
-    /**
-     * <p>Setter for the Log4J configuration file (properties format).</p>
-     *
-     * @param location a {@link org.springframework.core.io.Resource} object.
-     */
-    public final void setPropertiesFile(Resource location)
-    {
-        this.propertiesFile = location;
-    }
+	/**
+	 * <p>Setter for the Log4J configuration file (properties format).</p>
+	 *
+	 * @param location a {@link org.springframework.core.io.Resource} object.
+	 */
+	public final void setPropertiesFile( Resource location )
+	{
+		this.propertiesFile = location;
+	}
 
-    /**
-     * <p>Getter for the field <code>logDirectory</code>.</p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public final String getLogDirectory()
-    {
-        return logDirectory;
-    }
+	/**
+	 * <p>Getter for the field <code>logDirectory</code>.</p>
+	 *
+	 * @return a {@link java.lang.String} object.
+	 */
+	public final String getLogDirectory()
+	{
+		return logDirectory;
+	}
 
-    /**
-     * <p>Setter for the field <code>logDirectory</code>.  This value will be exposed to the Log4J properties file
-     * using the system property <code>log.dir</code>.</p>
-     *
-     * @param logDirectory a {@link java.lang.String} object.
-     */
-    public final void setLogDirectory(String logDirectory)
-    {
-        if (StringUtils.isNotBlank(logDirectory))
-        {
-            this.logDirectory = logDirectory;
+	/**
+	 * <p>Setter for the field <code>logDirectory</code>.  This value will be exposed to the Log4J properties file
+	 * using the system property <code>log.dir</code>.</p>
+	 *
+	 * @param logDirectory a {@link java.lang.String} object.
+	 */
+	public final void setLogDirectory( String logDirectory )
+	{
+		if ( StringUtils.isNotBlank( logDirectory ) ) {
+			this.logDirectory = logDirectory;
 
-            // Allow log4j properties file to use this property
-            System.setProperty("log.dir", this.logDirectory);
-        }
-    }
+			// Allow log4j properties file to use this property
+			System.setProperty( "log.dir", this.logDirectory );
+		}
+	}
 }
 

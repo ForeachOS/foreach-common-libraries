@@ -1,6 +1,5 @@
 package com.foreach.concurrent;
 
-
 public class TestTask implements Task
 {
 	private int delay;

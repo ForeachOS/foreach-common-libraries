@@ -6,7 +6,7 @@ public class TestCallable implements Callable<Integer>
 {
 	private int delay;
 
-	public TestCallable( int delay)
+	public TestCallable( int delay )
 	{
 		this.delay = delay;
 	}
@@ -15,11 +15,13 @@ public class TestCallable implements Callable<Integer>
 	{
 		try {
 			Thread.sleep( delay );
-			return new Integer(delay);
+			return new Integer( delay );
 		}
 		catch ( InterruptedException ie ) {
 			return null;
 		}
-	};
+	}
+
+	;
 
 }

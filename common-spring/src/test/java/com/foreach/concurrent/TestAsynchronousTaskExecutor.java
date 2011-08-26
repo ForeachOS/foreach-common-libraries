@@ -31,7 +31,7 @@ public class TestAsynchronousTaskExecutor extends BaseTestService
 
 		long delta = System.currentTimeMillis() - startTime;
 
-		Assert.assertTrue( delta <200 );
+		Assert.assertTrue( delta < 200 );
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class TestAsynchronousTaskExecutor extends BaseTestService
 
 		long delta = System.currentTimeMillis() - startTime;
 
-		Assert.assertTrue( delta <200 );
+		Assert.assertTrue( delta < 200 );
 	}
 
 	@Test
@@ -55,7 +55,9 @@ public class TestAsynchronousTaskExecutor extends BaseTestService
 
 		try {
 			future.get();
-		} catch (Exception e) {}
+		}
+		catch ( Exception e ) {
+		}
 
 		long delta = System.currentTimeMillis() - startTime;
 
@@ -69,19 +71,21 @@ public class TestAsynchronousTaskExecutor extends BaseTestService
 
 		int num = 10;
 
-		for(int i=0;i<num;i++) {
+		for ( int i = 0; i < num; i++ ) {
 			pendings.add( asyncTaskExecutor.executeCallable( new TestCallable( 2000 + i ) ) );
 		}
 
 		int sum = 0;
 
-		for(Future<Integer> pending : pendings)
-		try {
-			sum += pending.get();
-		} catch (Exception e) {}
+		for ( Future<Integer> pending : pendings ) {
+			try {
+				sum += pending.get();
+			}
+			catch ( Exception e ) {
+			}
+		}
 
-		Assert.assertEquals( num*2000 + (num*(num-1)/2), sum );
+		Assert.assertEquals( num * 2000 + ( num * ( num - 1 ) / 2 ), sum );
 	}
-
 
 }

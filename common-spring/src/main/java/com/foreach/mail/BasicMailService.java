@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
@@ -49,8 +50,9 @@ public class BasicMailService implements MailService
 
 	/**
 	 * Set the default originator to be used to send messages through the javaMailSender.
+	 *
 	 * @param originator the email address of the default originator.
-	 * This value can be overridden on a per message basis.
+	 *                   This value can be overridden on a per message basis.
 	 */
 	public final void setOriginator( String originator )
 	{
@@ -59,17 +61,19 @@ public class BasicMailService implements MailService
 
 	/**
 	 * Set the default bcc: recipients for this service.
+	 *
 	 * @param serviceBccRecipients a comma or semicolon separated list of email adresses.
-	 * This value can be overridden on a per message basis.
-	 */	public final void setServiceBccRecipients( String serviceBccRecipients )
+	 *                             This value can be overridden on a per message basis.
+	 */
+	public final void setServiceBccRecipients( String serviceBccRecipients )
 	{
 		this.serviceBccRecipients = serviceBccRecipients;
 	}
 
 	/**
 	 * Set the executorService used to send messages through the javaMailSender.
-	 * @param executorService
-	 * By default, a synchronous TaskExecutoService is configured.
+	 *
+	 * @param executorService By default, a synchronous TaskExecutoService is configured.
 	 */
 	public final synchronized void setExecutorService( TaskExecutorService executorService )
 	{
@@ -87,19 +91,18 @@ public class BasicMailService implements MailService
 	/**
 	 * Send a mail message with optional attachments.
 	 *
-	 * @param from the email address of the originator.
-	 * @param to the email address(es) of the intended recipient(s).
-	 * @param bccs the email address(es) of other intended recipient(s).
-	 * @param subject the subject of the mail message.
-	 * @param body the body of the mail message.
+	 * @param from        the email address of the originator.
+	 * @param to          the email address(es) of the intended recipient(s).
+	 * @param bccs        the email address(es) of other intended recipient(s).
+	 * @param subject     the subject of the mail message.
+	 * @param body        the body of the mail message.
 	 * @param attachments a map of included files.
-	 *
 	 * @return true if no error occurred sending the message. The exact semantics are dependent on the actual MailSender used,
-	 * usually it means the message was successfully delivered to the MSA or MTA.
+	 *         usually it means the message was successfully delivered to the MSA or MTA.
 	 * @see <a href="http://tools.ietf.org/html/rfc2476">RFC 2476</a>.
 	 */
-	public final boolean sendMimeMail( String from, String to, String bccs,
-	                                   String subject, String body, Map<String, File> attachments )
+	public final boolean sendMimeMail(
+			String from, String to, String bccs, String subject, String body, Map<String, File> attachments )
 	{
 		try {
 
@@ -109,13 +112,16 @@ public class BasicMailService implements MailService
 
 			sendmail( message );
 
-		} catch ( MessagingException e ) {
+		}
+		catch ( MessagingException e ) {
 			logger.error( "Failed to compose mail", e );
 			return false;
-		} catch ( MailException e) {
+		}
+		catch ( MailException e ) {
 			logger.error( "Failed to send mail", e );
 			return false;
-		} catch ( Exception e ) {
+		}
+		catch ( Exception e ) {
 			logger.error( "Failed to send mail", e );
 			return false;
 		}
@@ -123,28 +129,32 @@ public class BasicMailService implements MailService
 		return true;
 	}
 
-	private MimeMessage createMimeMessage( String from, String to, String bccs,
-	                                       String subject, String body, Map<String, File> attachments )
-			throws MessagingException
+	private MimeMessage createMimeMessage(
+			String from,
+			String to,
+			String bccs,
+			String subject,
+			String body,
+			Map<String, File> attachments ) throws MessagingException
 	{
 		MimeMessage message = javaMailSender.createMimeMessage();
 
 		// inform the MessageHelper on the multipartness of our message
-		MimeMessageHelper helper = new MimeMessageHelper( message, attachments!=null );
+		MimeMessageHelper helper = new MimeMessageHelper( message, attachments != null );
 
 		helper.setTo( getToAddresses( to ) );
 		helper.setFrom( ( from == null ) ? originator : from );
 		helper.setText( body, true );
 		message.setSubject( subject );
 
-		String bccRecipients = ( bccs == null )? serviceBccRecipients : bccs;
+		String bccRecipients = ( bccs == null ) ? serviceBccRecipients : bccs;
 
 		if ( bccRecipients != null ) {
 			helper.setBcc( getToAddresses( bccRecipients ) );
 		}
 
 		if ( attachments != null ) {
-			for( Map.Entry<String, File> entry : attachments.entrySet()) {
+			for ( Map.Entry<String, File> entry : attachments.entrySet() ) {
 				helper.addAttachment( entry.getKey(), entry.getValue() );
 			}
 		}
@@ -167,6 +177,6 @@ public class BasicMailService implements MailService
 	{
 		List<String> emailList = MultipleEmailsValidator.separateEmailAddresses( to );
 
-		return emailList.toArray(new String[emailList.size()]);
+		return emailList.toArray( new String[emailList.size()] );
 	}
 }

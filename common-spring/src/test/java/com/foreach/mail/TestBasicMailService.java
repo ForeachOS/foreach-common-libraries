@@ -1,13 +1,11 @@
 package com.foreach.mail;
 
 import com.foreach.concurrent.AsynchronousTaskExecutor;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.springframework.mail.javamail.JavaMailSender;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import org.apache.log4j.Logger;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -15,7 +13,6 @@ import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -64,8 +61,8 @@ public class TestBasicMailService
 	{
 		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
 
-		InternetAddress fromAddress = new InternetAddress(from);
-		InternetAddress toAddress = new InternetAddress(to);
+		InternetAddress fromAddress = new InternetAddress( from );
+		InternetAddress toAddress = new InternetAddress( to );
 
 		when( mailSender.createMimeMessage() ).thenReturn( message );
 
@@ -74,25 +71,25 @@ public class TestBasicMailService
 		verify( mailSender ).send( message );
 
 		Assert.assertEquals( subject, message.getSubject() );
-		Assert.assertEquals( fromAddress, message.getFrom()[0]  );
+		Assert.assertEquals( fromAddress, message.getFrom()[0] );
 		Assert.assertEquals( toAddress, message.getAllRecipients()[0] );
 	}
 
 	@Test
 	public void testMultipleRecipients() throws MessagingException
 	{
-		String tos[] = {"foo1@foreach.com","foo2@foreach.com","foo3@foreach.com"};
-		String bccs[] = {"foo4@foreach.com","foo5@foreach.com","foo6@foreach.com"};
+		String tos[] = { "foo1@foreach.com", "foo2@foreach.com", "foo3@foreach.com" };
+		String bccs[] = { "foo4@foreach.com", "foo5@foreach.com", "foo6@foreach.com" };
 
-		InternetAddress fromAddress = new InternetAddress(from);
-		InternetAddress toAddresses[] = adressesFromStrings(tos);
-		InternetAddress bccAddresses[] = adressesFromStrings(bccs);
+		InternetAddress fromAddress = new InternetAddress( from );
+		InternetAddress toAddresses[] = adressesFromStrings( tos );
+		InternetAddress bccAddresses[] = adressesFromStrings( bccs );
 
 		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
 
 		when( mailSender.createMimeMessage() ).thenReturn( message );
 
-		mailService.sendMimeMail( from, condense(tos), condense(bccs), subject, body, null );
+		mailService.sendMimeMail( from, condense( tos ), condense( bccs ), subject, body, null );
 
 		verify( mailSender ).send( message );
 
@@ -117,7 +114,7 @@ public class TestBasicMailService
 
 		when( mailSender.createMimeMessage() ).thenReturn( message );
 
-		Map<String,File> files = new LinkedHashMap<String,File>();
+		Map<String, File> files = new LinkedHashMap<String, File>();
 
 		File file1 = new File( "path1" );
 		File file2 = new File( "path2" );
@@ -151,24 +148,24 @@ public class TestBasicMailService
 		mailService.sendMimeMail( from, to, null, subject, body, null );
 	}
 
-
 	private InternetAddress[] adressesFromStrings( String s[] ) throws AddressException
 	{
 		InternetAddress addresses[] = new InternetAddress[s.length];
 
-		for(int i = 0; i< s.length; i++) {
+		for ( int i = 0; i < s.length; i++ ) {
 			addresses[i] = new InternetAddress( s[i] );
 		}
 
 		return addresses;
 	}
 
-	private String condense(String s[])
+	private String condense( String s[] )
 	{
 		StringBuffer sb = new StringBuffer();
-		for(int i = 0; i< s.length; i++) {
-			if(i>0)
+		for ( int i = 0; i < s.length; i++ ) {
+			if ( i > 0 ) {
 				sb.append( ";" );
+			}
 			sb.append( s[i] );
 		}
 		return sb.toString();

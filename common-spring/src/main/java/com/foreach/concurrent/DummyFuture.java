@@ -23,7 +23,7 @@ public class DummyFuture<V> implements Future<V>
 	/**
 	 * @return false
 	 */
-	public final boolean cancel(boolean mayInterruptIfRunning)
+	public final boolean cancel( boolean mayInterruptIfRunning )
 	{
 		return false;
 	}
@@ -49,8 +49,7 @@ public class DummyFuture<V> implements Future<V>
 		return v;
 	}
 
-	public final V get(long timeout, TimeUnit unit)
-	    throws InterruptedException, ExecutionException, TimeoutException
+	public final V get( long timeout, TimeUnit unit ) throws InterruptedException, ExecutionException, TimeoutException
 	{
 		return v;
 	}
