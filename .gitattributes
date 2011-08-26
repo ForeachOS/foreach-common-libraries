@@ -92,6 +92,7 @@ common-spring/src/test/java/com/foreach/spring/concurrent/TestCallable.java -tex
 common-spring/src/test/java/com/foreach/spring/concurrent/TestSynchronousTaskExecutor.java -text
 common-spring/src/test/java/com/foreach/spring/concurrent/TestTask.java -text
 common-spring/src/test/java/com/foreach/spring/mail/TestBasicMailService.java -text
+common-spring/src/test/java/com/foreach/spring/utils/BaseTestService.java -text
 common-spring/src/test/resources/config/spring-test-services.xml -text
 common-web/common-web.iml -text
 common-web/pom.xml -text
