@@ -45,7 +45,7 @@ public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 	 * @param defaultValue   a result to be substituted when the value read from the database can't be mapped.
 	 *                       This only works in one direction, a null value is always written to the database as null.
 	 * @param customJdbcType a custom jdbcType to be used when reading or writing the id
-	 *                       corresponding to an enum to the database
+	 *                       corresponding to an enum to the database.
 	 */
 	protected IdBasedEnumHandler( E defaultValue, JdbcType customJdbcType )
 	{

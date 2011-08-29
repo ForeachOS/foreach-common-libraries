@@ -45,7 +45,7 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 	 * @param defaultValue   a result to be substituted when the value read from the database can't be mapped.
 	 *                       This only works in one direction, a null value is always written to the database as null.
 	 * @param customJdbcType a custom jdbcType to be used when reading or writing the code
-	 *                       corresponding to an enum to the database
+	 *                       corresponding to an enum to the database.
 	 */
 	protected CodeBasedEnumHandler( E defaultValue, JdbcType customJdbcType )
 	{
