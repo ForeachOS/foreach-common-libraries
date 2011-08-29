@@ -57,7 +57,7 @@ import java.util.Enumeration;
  */
 public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 {
-	private Logger logger = Logger.getLogger( ExceptionToMailResolver.class );
+	private Logger logger = Logger.getLogger( getClass() );
 
 	private String fromAddress, toAddress;
 
@@ -70,9 +70,18 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 *
 	 * @param logger
 	 */
-	public final void setLogger( Logger logger )
+	protected void setLogger( Logger logger )
 	{
 		this.logger = logger;
+	}
+
+	/**
+	 * Get the logger
+	 * @return Logger
+	 */
+	protected Logger getLogger()
+	{
+		return this.logger;
 	}
 
 	/**

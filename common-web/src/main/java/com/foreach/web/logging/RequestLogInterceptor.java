@@ -49,16 +49,25 @@ public class RequestLogInterceptor implements HandlerInterceptor
 
 	private final AtomicLong counter = new AtomicLong( System.currentTimeMillis() );
 
-	private Logger logger = Logger.getLogger( RequestLogInterceptor.class );
+	private Logger logger = Logger.getLogger( getClass() );
 
 	/**
 	 * Specify your custom logger
 	 *
 	 * @param log
 	 */
-	public final void setLogger( Logger log )
+	protected void setLogger( Logger log )
 	{
 		this.logger = log;
+	}
+
+	/**
+	 * Get the logger
+	 * @return Logger
+	 */
+	protected Logger getLogger()
+	{
+		return this.logger;
 	}
 
 	/**

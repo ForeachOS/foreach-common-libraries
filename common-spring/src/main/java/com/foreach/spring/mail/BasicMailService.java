@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class BasicMailService implements MailService
 {
-	private Logger logger = Logger.getLogger( BasicMailService.class );
+	private Logger logger = Logger.getLogger( getClass() );
 
 	private JavaMailSender javaMailSender;
 	private String originator;
@@ -39,9 +39,18 @@ public class BasicMailService implements MailService
 	// default to synchronous operation.
 	private TaskExecutorService executorService = new SynchronousTaskExecutor();
 
-	public final void setLogger( Logger logger )
+	protected void setLogger( Logger logger )
 	{
 		this.logger = logger;
+	}
+
+	/**
+	 * Get the logger
+	 * @return Logger
+	 */
+	protected Logger getLogger()
+	{
+		return this.logger;
 	}
 
 	/**
