@@ -73,6 +73,7 @@ common-spring/src/main/java/com/foreach/spring/context/ApplicationContextInfo.ja
 common-spring/src/main/java/com/foreach/spring/context/ApplicationEnvironment.java -text
 common-spring/src/main/java/com/foreach/spring/context/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/logging/Log4JConfigurator.java -text
+common-spring/src/main/java/com/foreach/spring/logging/Log4JUtils.java -text
 common-spring/src/main/java/com/foreach/spring/logging/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/mail/BasicMailService.java -text
 common-spring/src/main/java/com/foreach/spring/mail/MailService.java -text

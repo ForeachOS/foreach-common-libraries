@@ -39,7 +39,7 @@ public class BasicMailService implements MailService
 	// default to synchronous operation.
 	private TaskExecutorService executorService = new SynchronousTaskExecutor();
 
-	protected void setLogger( Logger logger )
+	public void setLogger( Logger logger )
 	{
 		this.logger = logger;
 	}

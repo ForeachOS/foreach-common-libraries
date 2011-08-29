@@ -7,10 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Class contains utility methods for web related operations.
  */
-public final class WebUtils
+public class WebUtils
 {
-	private WebUtils()
+	protected WebUtils()
 	{
+		// protected constructor, so that this class can be extended.
 	}
 
 	/**
@@ -19,7 +20,7 @@ public final class WebUtils
 	 * @param request the http request object
 	 * @return the original ip from which the request originated
 	 */
-	public static String getRemoteAddress( HttpServletRequest request )
+	public static final String getRemoteAddress( HttpServletRequest request )
 	{
 		// You can get the original ip address from which the request originated in following ways.
 		// <ul>
@@ -57,7 +58,7 @@ public final class WebUtils
 	 * @param request the http request object
 	 * @return port number of the server from which this request was originated
 	 */
-	public static int getServerPort( HttpServletRequest request )
+	public static final int getServerPort( HttpServletRequest request )
 	{
 		return request.getServerPort() == 7778 ? 80 : request.getServerPort();
 	}

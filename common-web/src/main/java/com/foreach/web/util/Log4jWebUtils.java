@@ -1,6 +1,6 @@
 package com.foreach.web.util;
 
-import com.foreach.spring.logging.Log4jUtils;
+import com.foreach.spring.logging.Log4JUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -23,12 +23,12 @@ import java.util.Map;
  *
  * @version 1.0
  */
-public final class Log4jWebUtils
+public class Log4jWebUtils
 {
 
-	private Log4jWebUtils()
+	protected Log4jWebUtils()
 	{
-		// utility classes should not have public/default constructor, so provide default private constructor
+		// protected constructor, so that this class can be extended.
 	}
 
 	/**
@@ -45,9 +45,9 @@ public final class Log4jWebUtils
 	 * @param includePageTags true to include html start/end tags (eg. '<html><body></body></html>'), false to generate only html form content
 	 * @return a string with html content.
 	 */
-	public static String getLoggersHtmlContent( String applicationName, String formAction, boolean includePageTags )
+	public static final String getLoggersHtmlContent( String applicationName, String formAction, boolean includePageTags )
 	{
-		List<Logger> loggers = Log4jUtils.getClassLoggers();
+		List<Logger> loggers = Log4JUtils.getClassLoggers();
 		List<Level> levels =
 				Arrays.<Level>asList( Level.OFF, Level.FATAL, Level.ERROR, Level.WARN, Level.INFO, Level.DEBUG );
 
@@ -96,7 +96,7 @@ public final class Log4jWebUtils
 	 *
 	 * @param request the http request object containing the updated log levels.
 	 */
-	public static void setLoggerLevels( HttpServletRequest request )
+	public static final void setLoggerLevels( HttpServletRequest request )
 	{
 		Map<String, String[]> params = request.getParameterMap();
 		for ( Map.Entry<String, String[]> entry : params.entrySet() ) {
