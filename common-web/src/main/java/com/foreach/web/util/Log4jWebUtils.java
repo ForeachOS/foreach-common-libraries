@@ -40,19 +40,24 @@ public final class Log4jWebUtils
 	 * Use this method to display the registered loggers and their current log level.
 	 *
 	 * @param applicationName a label to be used in the html body, so the user knows which application's loggers are shown.
-	 * @param formAction the url that maps to the controller method that calls
-	 * {@link setLoggerLevels(HttpServletRequest) setLoggerLevels}
+	 * @param formAction      the url that maps to the controller method that calls
+	 *                        {@link setLoggerLevels(HttpServletRequest) setLoggerLevels}
+	 * @param includePageTags true to include html start/end tags (eg. '<html><body></body></html>'), false to generate only html form content
 	 * @return a string with html content.
 	 */
-	public static String getLoggersHtmlContent( String applicationName, String formAction )
+	public static String getLoggersHtmlContent( String applicationName, String formAction, boolean includePageTags )
 	{
 		List<Logger> loggers = Log4jUtils.getClassLoggers();
 		List<Level> levels =
 				Arrays.<Level>asList( Level.OFF, Level.FATAL, Level.ERROR, Level.WARN, Level.INFO, Level.DEBUG );
 
 		StringBuffer output = new StringBuffer();
-		output.append( "<html><head><title>Manage Loggers - " ).append( applicationName ).append(
-				"</title></head><body>" );
+
+		if ( includePageTags ) {
+			output.append( "<html><head><title>Manage Loggers - " ).append( applicationName ).append(
+					"</title></head><body>" );
+		}
+
 		output.append( "<h1>Manage Loggers - " ).append( applicationName ).append( "</h1>" );
 		output.append( "<form action='" ).append( formAction ).append( "' method='post'>" );
 		output.append( "<table>" );
@@ -74,7 +79,10 @@ public final class Log4jWebUtils
 				"<tr><td align='center' colspan='7'><input type='reset' value='Reset'><input type='submit' value='Save'></td></tr>" );
 		output.append( "</table>" );
 		output.append( "</form>" );
-		output.append( "</body></html>" );
+
+		if ( includePageTags ) {
+			output.append( "</body></html>" );
+		}
 
 		return output.toString();
 	}
