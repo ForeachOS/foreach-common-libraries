@@ -78,6 +78,7 @@ common-spring/src/main/java/com/foreach/spring/enums/IdLookup.java -text
 common-spring/src/main/java/com/foreach/spring/enums/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/logging/Log4JConfigurator.java -text
 common-spring/src/main/java/com/foreach/spring/logging/Log4JUtils.java -text
+common-spring/src/main/java/com/foreach/spring/logging/MethodExecutionTimeLogger.java -text
 common-spring/src/main/java/com/foreach/spring/logging/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/mail/BasicMailService.java -text
 common-spring/src/main/java/com/foreach/spring/mail/MailService.java -text
@@ -99,7 +100,6 @@ common-web/pom.xml -text
 common-web/src/main/java/com/foreach/web/convertor/EnumConverterFactory.java -text
 common-web/src/main/java/com/foreach/web/convertor/package-info.java -text
 common-web/src/main/java/com/foreach/web/logging/ExceptionToMailResolver.java -text
-common-web/src/main/java/com/foreach/web/logging/MethodExecutionTimeLogger.java -text
 common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java -text
 common-web/src/main/java/com/foreach/web/logging/package-info.java -text
 common-web/src/main/java/com/foreach/web/util/Log4jWebUtils.java -text

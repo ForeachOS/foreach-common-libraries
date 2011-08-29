@@ -1,4 +1,4 @@
-package com.foreach.web.logging;
+package com.foreach.spring.logging;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -73,7 +73,7 @@ public class MethodExecutionTimeLogger
 	 * @throws Throwable
 	 */
 	@SuppressWarnings("all")
-	public final Object logExecutionTime( ProceedingJoinPoint point ) throws Throwable
+	protected final Object logExecutionTime( ProceedingJoinPoint point ) throws Throwable
 	{
 		long startTime = System.currentTimeMillis();
 		Object result = point.proceed();

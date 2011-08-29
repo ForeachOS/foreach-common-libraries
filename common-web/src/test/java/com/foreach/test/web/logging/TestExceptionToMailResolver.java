@@ -46,7 +46,7 @@ public class TestExceptionToMailResolver
 		fromAddress = "noreply@foreach.be";
 
 		resolver.setMailService( mailService );
-		resolver.setWebApplicationContext( applicationContextInfo );
+		resolver.setApplicationContext( applicationContextInfo );
 		resolver.setToAddress( toAddress );
 		resolver.setFromAddress( fromAddress );
 	}

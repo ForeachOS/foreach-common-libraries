@@ -119,7 +119,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 *
 	 * @param context
 	 */
-	public final void setWebApplicationContext( ApplicationContextInfo context )
+	public final void setApplicationContext( ApplicationContextInfo context )
 	{
 		this.applicationContextInfo = context;
 	}
