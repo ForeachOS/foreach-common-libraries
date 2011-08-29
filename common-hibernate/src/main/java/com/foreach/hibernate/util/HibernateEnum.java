@@ -24,10 +24,10 @@ import java.util.Properties;
  *     &lt;/typedef&gt;
  *  </pre>
  * </p>
- *
- * Improvement: -Looks like this can be simplified for the end user using reflection, as in this example:
- * http://community.jboss.org/wiki/Java5StringValuedEnumUserType
  */
+ // Improvement: -Looks like this can be simplified for the end user using reflection, as in this example:
+ // http://community.jboss.org/wiki/Java5StringValuedEnumUserType
+
 public class HibernateEnum implements UserType, ParameterizedType
 {
 	private static final String DEFAULT_IDENTIFIER_METHOD_NAME = "getId";
