@@ -28,7 +28,7 @@ public class MethodExecutionTimeLogger
 
 	private Logger logger = Logger.getLogger( getClass() );
 
-	private long minimumDuration = 75;
+	private int minimumDuration = 75;
 
 	public MethodExecutionTimeLogger()
 	{
@@ -59,7 +59,7 @@ public class MethodExecutionTimeLogger
 	 *
 	 * @param time minimum duration time of methods in milliseconds (exclusive)
 	 */
-	public final void setMinimumDuration( long time )
+	public final void setMinimumDuration( int time )
 	{
 		this.minimumDuration = time;
 	}
