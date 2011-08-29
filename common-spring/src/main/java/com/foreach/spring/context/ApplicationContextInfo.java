@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * This class groups application metadata.
  * <p/>
- * Because some of the metadata may only be available at built time,
+ * Because some of the metadata may only be available at build time,
  * you will usually have spring instantiate this object as a bean from xml.
  * <p/>
  * You can refer to this bean from other beans that handle errors or provide
