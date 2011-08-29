@@ -1,6 +1,6 @@
 package com.foreach.test.mybatis.util;
 
-import com.foreach.mybatis.util.CodeBasedEnumHandler;
+import com.foreach.mybatis.enums.CodeBasedEnumHandler;
 import com.mockrunner.mock.jdbc.MockCallableStatement;
 import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockPreparedStatement;

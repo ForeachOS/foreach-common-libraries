@@ -1,6 +1,6 @@
 package com.foreach.test.mybatis.util;
 
-import com.foreach.mybatis.util.IdBasedEnumHandler;
+import com.foreach.mybatis.enums.IdBasedEnumHandler;
 import com.mockrunner.mock.jdbc.MockCallableStatement;
 import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockPreparedStatement;

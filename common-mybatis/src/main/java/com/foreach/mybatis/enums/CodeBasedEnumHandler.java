@@ -1,4 +1,4 @@
-package com.foreach.mybatis.util;
+package com.foreach.mybatis.enums;
 
 import com.foreach.spring.enums.CodeLookup;
 import com.foreach.spring.enums.EnumUtils;

@@ -1,4 +1,4 @@
-package com.foreach.mybatis.util;
+package com.foreach.mybatis.enums;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.ibatis.type.JdbcType;

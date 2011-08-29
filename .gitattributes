@@ -52,10 +52,10 @@ common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateSessionEmulat
 common-hibernate/src/main/java/com/foreach/hibernate/util/package-info.java -text
 common-mybatis/common-mybatis.iml -text
 common-mybatis/pom.xml -text
-common-mybatis/src/main/java/com/foreach/mybatis/util/BaseEnumHandler.java -text
-common-mybatis/src/main/java/com/foreach/mybatis/util/CodeBasedEnumHandler.java -text
-common-mybatis/src/main/java/com/foreach/mybatis/util/IdBasedEnumHandler.java -text
-common-mybatis/src/main/java/com/foreach/mybatis/util/package-info.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/enums/BaseEnumHandler.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/enums/CodeBasedEnumHandler.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/enums/IdBasedEnumHandler.java -text
+common-mybatis/src/main/java/com/foreach/mybatis/enums/package-info.java -text
 common-mybatis/src/test/java/com/foreach/test/mybatis/util/Country.java -text
 common-mybatis/src/test/java/com/foreach/test/mybatis/util/TestCountryHandler.java -text
 common-mybatis/src/test/java/com/foreach/test/mybatis/util/TestCountryHandler2.java -text
