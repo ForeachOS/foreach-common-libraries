@@ -24,7 +24,7 @@ public class Log4JUtils
 	 * To get a list of all registered loggers in current application.
 	 * Returned list of loggers will be sorted by its name
 	 *
-	 * @return
+	 * @return List of loggers
 	 */
 	public static final List<Logger> getClassLoggers()
 	{

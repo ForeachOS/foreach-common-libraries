@@ -1,4 +1,4 @@
-package com.foreach.spring.util;
+package com.foreach.spring.enums;
 
 /**
  * EnumUtils contains some utility routines to find specific enums if their classes

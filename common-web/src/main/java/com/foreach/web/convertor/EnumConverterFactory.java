@@ -1,8 +1,8 @@
 package com.foreach.web.convertor;
 
-import com.foreach.spring.util.CodeLookup;
-import com.foreach.spring.util.EnumUtils;
-import com.foreach.spring.util.IdLookup;
+import com.foreach.spring.enums.CodeLookup;
+import com.foreach.spring.enums.EnumUtils;
+import com.foreach.spring.enums.IdLookup;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.Converter;
@@ -126,7 +126,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>
 					                                TypeDescriptor.valueOf( intermediateType ) );
 				}
 
-				Method m = com.foreach.spring.util.EnumUtils.class.getMethod( lookupMethodName, Class.class, Object.class );
+				Method m = com.foreach.spring.enums.EnumUtils.class.getMethod( lookupMethodName, Class.class, Object.class );
 
 				return (E) m.invoke( EnumUtils.class, enumType, id );
 			}

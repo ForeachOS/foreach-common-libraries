@@ -1,7 +1,7 @@
 package com.foreach.test.mybatis.util;
 
-import com.foreach.spring.util.CodeLookup;
-import com.foreach.spring.util.IdLookup;
+import com.foreach.spring.enums.CodeLookup;
+import com.foreach.spring.enums.IdLookup;
 
 public enum Country implements CodeLookup<String>, IdLookup<Long>
 {

@@ -19,7 +19,7 @@ import java.util.Properties;
  * <p>
  * Usage Eg - To map a java enum object Role, define the following mapping in hbm file.
  * <pre>
- *     &lt;typedef class="com.foreach.hibernate.util.HibernateEnum" name="roleType"&gt;
+ *     &lt;typedef class="com.foreach.hibernate.enums.HibernateEnum" name="roleType"&gt;
  *          &lt;param name="enumClassName"&gt;com.xxx.xxx.Role&lt;/param&gt;
  *     &lt;/typedef&gt;
  *  </pre>
