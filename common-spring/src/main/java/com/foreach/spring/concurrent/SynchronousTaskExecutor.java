@@ -18,28 +18,28 @@ public class SynchronousTaskExecutor implements ExecutorService
 
 	private volatile boolean stopped = false;
 
-	public synchronized void shutdown()
+	public final synchronized void shutdown()
 	{
 		stopped = true;
 	}
 
-	public List<Runnable> shutdownNow()
+	public final List<Runnable> shutdownNow()
 	{
 		shutdown();
 		return new ArrayList<Runnable>();
 	}
 
-	public synchronized boolean isShutdown()
+	public final synchronized boolean isShutdown()
 	{
 		return stopped;
 	}
 
-	public boolean isTerminated()
+	public final boolean isTerminated()
 	{
 		return isShutdown();
 	}
 
-	public boolean awaitTermination(long timeout, TimeUnit unit)
+	public final boolean awaitTermination(long timeout, TimeUnit unit)
 	    throws InterruptedException
 	{
 		return true;
@@ -51,13 +51,13 @@ public class SynchronousTaskExecutor implements ExecutorService
 			throw new RejectedExecutionException();
 	}
 
-	public void execute(Runnable command)
+	public final void execute(Runnable command)
 	{
 		checkNotStopped();
 		command.run();
 	}
 
-	public <T> Future<T> submit(Callable<T> task)
+	public final <T> Future<T> submit(Callable<T> task)
 	{
 		checkNotStopped();
 
@@ -68,7 +68,7 @@ public class SynchronousTaskExecutor implements ExecutorService
 		}
 	}
 
-	public <T> Future<T> submit(Runnable task, T result)
+	public final <T> Future<T> submit(Runnable task, T result)
 	{
 		try {
 			task.run();
@@ -78,12 +78,12 @@ public class SynchronousTaskExecutor implements ExecutorService
 		}
 	}
 
-	public Future<?> submit(Runnable task)
+	public final Future<?> submit(Runnable task)
 	{
 		return submit( task, null );
 	}
 
-	public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+	public final <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
 	    throws InterruptedException
 	{
 		List<Future<T>> result = new ArrayList<Future<T>>();
@@ -95,14 +95,14 @@ public class SynchronousTaskExecutor implements ExecutorService
 		return result;
 	}
 
-	public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
+	public final <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
 	                              long timeout, TimeUnit unit)
 	    throws InterruptedException
 	{
 		return invokeAll( tasks );
 	}
 
-	public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+	public final <T> T invokeAny(Collection<? extends Callable<T>> tasks)
 	    throws InterruptedException, ExecutionException
 	{
 		for(Callable<T> task : tasks) {
@@ -116,11 +116,10 @@ public class SynchronousTaskExecutor implements ExecutorService
 		throw new ExecutionException( "No task completed succesfully", null );
 	}
 
-	public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
+	public final <T> T invokeAny(Collection<? extends Callable<T>> tasks,
 	                long timeout, TimeUnit unit)
 	    throws InterruptedException, ExecutionException, TimeoutException
 	{
 		return invokeAny( tasks );
 	}
-
 }

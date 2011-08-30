@@ -15,7 +15,7 @@ public class EnumUtils
 	 * @param id    an instance of type I
 	 * @return the instance e of class clazz such that e.getId().equals( id )
 	 */
-	public final static <I, E extends Enum<E> & IdLookup<I>> E getById( Class<E> clazz, I id )
+	public static final <I, E extends Enum<E> & IdLookup<I>> E getById( Class<E> clazz, I id )
 	{
 		for ( E e : clazz.getEnumConstants() ) {
 			if ( e.getId().equals( id ) ) {
@@ -30,7 +30,7 @@ public class EnumUtils
 	 * @param code  an instance of type S
 	 * @return the instance e of class clazz such that e.getCode().equals( code )
 	 */
-	public final static <S, E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code )
+	public static final <S, E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code )
 	{
 		for ( E e : clazz.getEnumConstants() ) {
 			if ( e.getCode().equals( code ) ) {
