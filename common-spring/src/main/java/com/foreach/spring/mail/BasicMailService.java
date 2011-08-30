@@ -26,6 +26,21 @@ import java.util.concurrent.ExecutorService;
  * In most cases, you will have the BasicMailService configured as a bean in an xml file.
  * If you want to use annotation in combination with a component scanner,
  * you have to subclass BasicMailService and annotate the subclass.
+ * <p/>
+ * Example spring configuration with a shared javaMailSender and a private asynchronous executorService:
+ * <pre>
+ *  <bean id="sharedMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"/>
+ *
+ *  <bean id="mailService" class="com.foreach.spring.mail.BasicMailService">
+ *      <property name="originator" value="noreply@foo.bar"/>
+ *      <property name="executorService">
+ *          <bean class="java.util.concurrent.ScheduledThreadPoolExecutor">
+ *              <constructor-arg index="0" type="int" value="2"/>
+ *          </bean>
+ *      </property>
+ *      <property name="javaMailSender" ref="sharedMailSender"/>
+ *  </bean>
+ * </pre>
  */
 public class BasicMailService implements MailService
 {

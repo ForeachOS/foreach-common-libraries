@@ -15,6 +15,11 @@ public class DummyFuture<V> implements Future<V>
 	private final V v;
 	private final Exception e;
 
+	/**
+	 * @param v the result to be returned by get, provided e is null.
+	 * @param e if not null, this exception will be wrapped in an ExecutionException
+	 * and thrown on any call to a get(...) method.
+	 */
 	public DummyFuture( V v, Exception e )
 	{
 		this.v = v;
@@ -45,6 +50,12 @@ public class DummyFuture<V> implements Future<V>
 		return true;
 	}
 
+	/**
+	 * If the instance was created with a non-null exception argument,
+	 * wraps it in an ExecutionException and returns it,
+	 * otherwise it returns the result.
+	 * @throws ExecutionException
+	 */
 	public final V get() throws InterruptedException, ExecutionException
 	{
 		if( e!= null) {
@@ -54,6 +65,10 @@ public class DummyFuture<V> implements Future<V>
 		return v;
 	}
 
+	/**
+	 * Because the result is precomputed, this routine behaves as get(),
+	 * the timeout argument is ignored.
+	 */
 	public final V get( long timeout, TimeUnit unit ) throws InterruptedException, ExecutionException, TimeoutException
 	{
 		return get();

@@ -5,10 +5,24 @@
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="asynchronousTaskExecutor"
-	      class="com.foreach.spring.concurrent.AsynchronousTaskExecutor"/>
+	      class="java.util.concurrent.ScheduledThreadPoolExecutor">
+			<constructor-arg index="0" type="int" value="2"/>
+	</bean>
 
 	<bean id="synchronousTaskExecutor"
 	      class="com.foreach.spring.concurrent.SynchronousTaskExecutor"/>
 
+
+	<bean id="sharedMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"/>
+
+	<bean id="mailService" class="com.foreach.spring.mail.BasicMailService">
+		<property name="originator" value="noreply@foo.bar"/>
+		<property name="executorService">
+			<bean class="java.util.concurrent.ScheduledThreadPoolExecutor">
+				<constructor-arg index="0" type="int" value="2"/>
+			</bean>
+		</property>
+		<property name="javaMailSender" ref="sharedMailSender"/>
+	</bean>
 
 </beans>

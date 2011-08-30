@@ -1,7 +1,7 @@
 package com.foreach.test.spring.mail;
 
-import com.foreach.spring.concurrent.SynchronousTaskExecutor;
 import com.foreach.spring.mail.BasicMailService;
+import com.foreach.test.spring.util.BaseTestService;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import static org.mockito.Mockito.*;
 
@@ -140,7 +141,7 @@ public class TestBasicMailService
 	@Test
 	public void testCustomExecutorService()
 	{
-		mailService.setExecutorService( new SynchronousTaskExecutor() );
+		mailService.setExecutorService( new ScheduledThreadPoolExecutor(2) );
 
 		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
 
