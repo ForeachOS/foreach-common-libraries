@@ -4,9 +4,9 @@ package com.foreach.spring.enums;
  * EnumUtils contains some utility routines to find specific enums if their classes
  * implement Idlookup or CodeLookup.
  */
-public final class EnumUtils
+public class EnumUtils
 {
-	private EnumUtils()
+	protected EnumUtils()
 	{
 	}
 
@@ -15,7 +15,7 @@ public final class EnumUtils
 	 * @param id    an instance of type I
 	 * @return the instance e of class clazz such that e.getId().equals( id )
 	 */
-	public static <I, E extends Enum<E> & IdLookup<I>> E getById( Class<E> clazz, I id )
+	public final static <I, E extends Enum<E> & IdLookup<I>> E getById( Class<E> clazz, I id )
 	{
 		for ( E e : clazz.getEnumConstants() ) {
 			if ( e.getId().equals( id ) ) {
@@ -30,7 +30,7 @@ public final class EnumUtils
 	 * @param code  an instance of type S
 	 * @return the instance e of class clazz such that e.getCode().equals( code )
 	 */
-	public static <S, E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code )
+	public final static <S, E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code )
 	{
 		for ( E e : clazz.getEnumConstants() ) {
 			if ( e.getCode().equals( code ) ) {
