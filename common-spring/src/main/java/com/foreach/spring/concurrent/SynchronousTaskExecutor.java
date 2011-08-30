@@ -14,9 +14,19 @@ import java.util.concurrent.*;
  */
 public class SynchronousTaskExecutor implements ExecutorService
 {
-	private static final Logger LOG = Logger.getLogger( SynchronousTaskExecutor.class );
+	private Logger logger = Logger.getLogger( getClass() );
 
 	private volatile boolean stopped = false;
+
+	protected void setLogger( Logger log )
+	{
+		this.logger = log;
+	}
+
+	protected Logger getLogger()
+	{
+		return logger;
+	}
 
 	public final synchronized void shutdown()
 	{
@@ -47,8 +57,9 @@ public class SynchronousTaskExecutor implements ExecutorService
 
 	private void checkNotStopped()
 	{
-		if(isShutdown())
+		if(isShutdown()) {
 			throw new RejectedExecutionException();
+		}
 	}
 
 	public final void execute(Runnable command)

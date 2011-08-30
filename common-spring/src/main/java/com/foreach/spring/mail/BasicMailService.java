@@ -135,21 +135,21 @@ public class BasicMailService implements MailService
 
 			final MimeMessage message = createMimeMessage( from, to, bccs, subject, body, attachments );
 
-			logger.info( "Sending html email " + from + " > " + to + ": " + subject );
+			getLogger().info( "Sending html email " + from + " > " + to + ": " + subject );
 
 			sendmail( message );
 
 		}
 		catch ( MessagingException e ) {
-			logger.error( "Failed to compose mail", e );
+			getLogger().error( "Failed to compose mail", e );
 			return false;
 		}
 		catch ( MailException e ) {
-			logger.error( "Failed to send mail", e );
+			getLogger().error( "Failed to send mail", e );
 			return false;
 		}
 		catch ( Exception e ) {
-			logger.error( "Failed to send mail", e );
+			getLogger().error( "Failed to send mail", e );
 			return false;
 		}
 
