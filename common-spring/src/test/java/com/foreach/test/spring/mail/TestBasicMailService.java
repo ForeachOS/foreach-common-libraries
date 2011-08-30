@@ -1,6 +1,6 @@
 package com.foreach.test.spring.mail;
 
-import com.foreach.spring.concurrent.AsynchronousTaskExecutor;
+import com.foreach.spring.concurrent.SynchronousTaskExecutor;
 import com.foreach.spring.mail.BasicMailService;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -140,7 +140,7 @@ public class TestBasicMailService
 	@Test
 	public void testCustomExecutorService()
 	{
-		mailService.setExecutorService( new AsynchronousTaskExecutor() );
+		mailService.setExecutorService( new SynchronousTaskExecutor() );
 
 		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
 

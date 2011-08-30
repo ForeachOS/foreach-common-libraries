@@ -1,8 +1,6 @@
 package com.foreach.spring.mail;
 
 import com.foreach.spring.concurrent.SynchronousTaskExecutor;
-import com.foreach.spring.concurrent.Task;
-import com.foreach.spring.concurrent.TaskExecutorService;
 import com.foreach.spring.validators.MultipleEmailsValidator;
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
@@ -14,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 /**
  * MailService sends smtp mails with optional attachments.
@@ -37,7 +36,7 @@ public class BasicMailService implements MailService
 	private String serviceBccRecipients;
 
 	// default to synchronous operation.
-	private TaskExecutorService executorService = new SynchronousTaskExecutor();
+	private ExecutorService executorService = new SynchronousTaskExecutor();
 
 	public void setLogger( Logger logger )
 	{
@@ -88,7 +87,7 @@ public class BasicMailService implements MailService
 	 *
 	 * @param executorService By default, a synchronous TaskExecutoService is configured.
 	 */
-	public final synchronized void setExecutorService( TaskExecutorService executorService )
+	public final synchronized void setExecutorService( ExecutorService executorService )
 	{
 		this.executorService = executorService;
 	}
@@ -96,7 +95,7 @@ public class BasicMailService implements MailService
 	/**
 	 * Get the current ExecutorService being used.
 	 */
-	public final synchronized TaskExecutorService getExecutorService()
+	public final synchronized ExecutorService getExecutorService()
 	{
 		return executorService;
 	}
@@ -177,9 +176,9 @@ public class BasicMailService implements MailService
 
 	private void sendmail( final MimeMessage message )
 	{
-		getExecutorService().executeTask( new Task()
+		getExecutorService().execute( new Runnable()
 		{
-			public void execute()
+			public void run()
 			{
 				javaMailSender.send( message );
 			}

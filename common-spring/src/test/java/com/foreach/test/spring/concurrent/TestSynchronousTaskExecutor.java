@@ -1,6 +1,5 @@
 package com.foreach.test.spring.concurrent;
 
-import com.foreach.spring.concurrent.TaskExecutorService;
 import com.foreach.test.spring.util.BaseTestService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,11 +8,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.concurrent.ExecutorService;
+
 public class TestSynchronousTaskExecutor extends BaseTestService
 {
 	@Autowired
 	@Qualifier("synchronousTaskExecutor")
-	private TaskExecutorService synchronousTaskExecutor;
+	private ExecutorService synchronousTaskExecutor;
 
 	@Before
 	public void prepareForTest()
@@ -26,7 +27,7 @@ public class TestSynchronousTaskExecutor extends BaseTestService
 	{
 		long startTime = System.currentTimeMillis();
 
-		synchronousTaskExecutor.executeTask( new TestTask( 2000 ) );
+		synchronousTaskExecutor.execute( new TestTask( 2000 ) );
 
 		long delta = System.currentTimeMillis() - startTime;
 
@@ -39,7 +40,7 @@ public class TestSynchronousTaskExecutor extends BaseTestService
 	{
 		long startTime = System.currentTimeMillis();
 
-		synchronousTaskExecutor.executeCallable( new TestCallable( 2000 ) );
+		synchronousTaskExecutor.submit( new TestCallable( 2000 ) );
 
 		long delta = System.currentTimeMillis() - startTime;
 

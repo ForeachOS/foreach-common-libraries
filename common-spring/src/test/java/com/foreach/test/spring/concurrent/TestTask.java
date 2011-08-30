@@ -1,8 +1,6 @@
 package com.foreach.test.spring.concurrent;
 
-import com.foreach.spring.concurrent.Task;
-
-public class TestTask implements Task
+public class TestTask implements Runnable
 {
 	private int delay;
 
@@ -11,7 +9,7 @@ public class TestTask implements Task
 		this.delay = delay;
 	}
 
-	public void execute()
+	public void run()
 	{
 		try {
 			Thread.sleep( delay );

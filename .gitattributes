@@ -63,11 +63,8 @@ common-mybatis/src/test/java/com/foreach/test/mybatis/util/TestCountryHandler3.j
 /common-projects.iml -text
 common-spring/common-spring.iml -text
 common-spring/pom.xml -text
-common-spring/src/main/java/com/foreach/spring/concurrent/AsynchronousTaskExecutor.java -text
 common-spring/src/main/java/com/foreach/spring/concurrent/DummyFuture.java -text
 common-spring/src/main/java/com/foreach/spring/concurrent/SynchronousTaskExecutor.java -text
-common-spring/src/main/java/com/foreach/spring/concurrent/Task.java -text
-common-spring/src/main/java/com/foreach/spring/concurrent/TaskExecutorService.java -text
 common-spring/src/main/java/com/foreach/spring/concurrent/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/context/ApplicationContextInfo.java -text
 common-spring/src/main/java/com/foreach/spring/context/ApplicationEnvironment.java -text
@@ -88,7 +85,6 @@ common-spring/src/main/java/com/foreach/spring/validators/MultipleEmailsValidato
 common-spring/src/main/java/com/foreach/spring/validators/package-info.java -text
 common-spring/src/site/site.xml -text
 common-spring/src/site/xdoc/xdoc.xml -text
-common-spring/src/test/java/com/foreach/test/spring/concurrent/TestAsynchronousTaskExecutor.java -text
 common-spring/src/test/java/com/foreach/test/spring/concurrent/TestCallable.java -text
 common-spring/src/test/java/com/foreach/test/spring/concurrent/TestSynchronousTaskExecutor.java -text
 common-spring/src/test/java/com/foreach/test/spring/concurrent/TestTask.java -text

@@ -12,11 +12,13 @@ import java.util.concurrent.TimeoutException;
  */
 public class DummyFuture<V> implements Future<V>
 {
-	private V v;
+	private final V v;
+	private final Exception e;
 
-	public DummyFuture( V v )
+	public DummyFuture( V v, Exception e )
 	{
 		this.v = v;
+		this.e = e;
 	}
 
 	/**
@@ -45,12 +47,16 @@ public class DummyFuture<V> implements Future<V>
 
 	public final V get() throws InterruptedException, ExecutionException
 	{
+		if( e!= null) {
+			throw new ExecutionException( e );
+		}
+
 		return v;
 	}
 
 	public final V get( long timeout, TimeUnit unit ) throws InterruptedException, ExecutionException, TimeoutException
 	{
-		return v;
+		return get();
 	}
 
 }
