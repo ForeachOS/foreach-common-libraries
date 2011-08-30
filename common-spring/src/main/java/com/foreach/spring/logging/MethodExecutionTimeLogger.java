@@ -46,6 +46,7 @@ public class MethodExecutionTimeLogger
 
 	/**
 	 * Get the logger
+	 *
 	 * @return Logger
 	 */
 	protected Logger getLogger()
@@ -67,6 +68,13 @@ public class MethodExecutionTimeLogger
 	/**
 	 * This method will log the method duration time if the execution time exceeds specified minimum duration time.
 	 * Log format - class-name.method-name  duration-time(in milliseconds)
+	 * <p/>
+	 * Following is the example of logged entries of MethodExecutionTimeLogger. You can see below all the methods executed for a unique request id with their execution time(in milliseconds).
+	 * <ul>
+	 * <li>2011-04-21 12:37:06,319 [1303382196403] be.restobookings.services.restaurant.RestaurantService.getRestaurantCountForPartner	594</li>
+	 * <li>2011-04-21 12:37:09,351 [1303382196403] be.restobookings.data.model.LocalizationDao.getLocalizedObjects	328</li>
+	 * <li>2011-04-21 12:37:09,351 [1303382196403] be.restobookings.services.localization.LocalizationService.getText	328</li>
+	 * </ul>
 	 *
 	 * @param point ProceedingJoinPoint reference from your advice method
 	 * @return
