@@ -7,7 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
  * <p>
  * The MethodExecutionTimeLogger class contains utility method which can be used to log the method execution time.
  * To use, inherit this class in your actual AspectJ class where you define advice method and point-cut methods.
- * The advice method of your AspectJ class should use/call method MethodExecutionTimeLogger.logExecutionTime for logging
+ * The advice method of your AspectJ class should use/call method {@link #logExecutionTime} for logging
  * the method execution time in log files.
  * </p>
  * <p/>
@@ -15,7 +15,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
  * <ul>
  * <li>Inherit this class in your actual AspectJ class where you define advice and point-cut methods</li>
  * <li>Define point-cut methods for which you wants method execution time to be logged</li>
- * <li>In your advice method call the method MethodExecutionTimeLogger.logExecutionTime. This will log the method execution time</li>
+ * <li>In your advice method call the method {@link #logExecutionTime}. This will log the method execution time</li>
  * <li>All methods with duration of > 75 milliseconds will be logged by default.
  * You can change this minimum duration time by method MethodExecutionTimeLogger.setMinimumDuration</li>
  * </ul>

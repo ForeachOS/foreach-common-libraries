@@ -16,9 +16,9 @@ import java.util.Map;
  * To configure log levels dynamically, do the following:
  * <ul>
  * <li>In your controller, define a get method that will serve the update form to the client.
- * Use the method {@link getLoggersHtmlContent(String, String) getLoggersHtmlContent} to obtain the html content to be served.</li>
+ * Use the method {@link #getLoggersHtmlContent} to obtain the html content to be served.</li>
  * <li>Define a post method to process the client response. From this routine you need only call
- * {@link setLoggerLevels(HttpServletRequest) setLoggerLevels} to update the log levels to the user provided values.</li>
+ * {@link #setLoggerLevels} to update the log levels to the user provided values.</li>
  * </ul>
  *
  * @version 1.0
@@ -41,7 +41,7 @@ public class Log4jWebUtils
 	 *
 	 * @param applicationName a label to be used in the html body, so the user knows which application's loggers are shown.
 	 * @param formAction      the url that maps to the controller method that calls
-	 *                        {@link setLoggerLevels(HttpServletRequest) setLoggerLevels}
+	 *                        {@link #setLoggerLevels}
 	 * @param includePageTags true to include html start/end tags (eg. '<html><body></body></html>'), false to generate only html form content
 	 * @return a string with html content.
 	 */
@@ -92,7 +92,7 @@ public class Log4jWebUtils
 	 * retrieved from the given HttpServletRequest object.
 	 * <p/>
 	 * You should call this method from within the controller method that maps to
-	 * the formAction parameter you provided to {@link getLoggersHtmlContent(String, String) getLoggersHtmlContent}.
+	 * the formAction parameter you provided to {@link #getLoggersHtmlContent}.
 	 *
 	 * @param request the http request object containing the updated log levels.
 	 */

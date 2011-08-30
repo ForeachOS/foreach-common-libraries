@@ -37,6 +37,11 @@ import java.util.concurrent.atomic.AtomicLong;
  * <p/>
  * <p><em>Ideally, a log interceptor should be declared as the first (outermost) interceptor in an interceptor chain
  * so the timing is as accurately as possible.</em></p>
+ * <p/>
+ * <p>
+ * RequestLogInterceptor uses {@link org.apache.log4j.NDC org.apache.log4j.NDC} for storing a unique request id which can be referred back in Firebug.
+ * Look for the request header attribute "Request-Reference" to know the generated unique request id.
+ * </p>
  *
  * @version 1.0
  */
@@ -63,6 +68,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 
 	/**
 	 * Get the logger
+	 *
 	 * @return Logger
 	 */
 	protected Logger getLogger()
