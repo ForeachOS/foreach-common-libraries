@@ -5,7 +5,7 @@ Common Libraries
 
     * common-spring
 
-        synchronous and asynchronous task execution, logging, configuring an
+        synchronous task execution, logging, configuring an
         application context, and sending mails.
 
 
