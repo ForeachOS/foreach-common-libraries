@@ -53,7 +53,7 @@ public class BasicMailService implements MailService
 	// default to synchronous operation.
 	private ExecutorService executorService = new SynchronousTaskExecutor();
 
-	public void setLogger( Logger logger )
+	protected final void setLogger( Logger logger )
 	{
 		this.logger = logger;
 	}
@@ -62,7 +62,7 @@ public class BasicMailService implements MailService
 	 * Get the logger
 	 * @return Logger
 	 */
-	protected Logger getLogger()
+	protected final Logger getLogger()
 	{
 		return this.logger;
 	}
@@ -141,15 +141,15 @@ public class BasicMailService implements MailService
 
 		}
 		catch ( MessagingException e ) {
-			getLogger().error( "Failed to compose mail", e );
+			logger.error( "Failed to compose mail", e );
 			return false;
 		}
 		catch ( MailException e ) {
-			getLogger().error( "Failed to send mail", e );
+			logger.error( "Failed to send mail", e );
 			return false;
 		}
 		catch ( Exception e ) {
-			getLogger().error( "Failed to send mail", e );
+			logger.error( "Failed to send mail", e );
 			return false;
 		}
 

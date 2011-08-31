@@ -44,13 +44,11 @@ public class TestBasicMailService
 		serviceBccRecipients = "bigbrother@serverkot.be";
 
 		mailSender = mock( JavaMailSender.class );
-		logger = mock( Logger.class );
 
 		mailService = new BasicMailService();
 		mailService.setOriginator( originator );
 		mailService.setJavaMailSender( mailSender );
 		mailService.setServiceBccRecipients( serviceBccRecipients );
-		mailService.setLogger( logger );
 
 		from = "someone@foreach.be";
 		to = "someone_else@foreach.be";
