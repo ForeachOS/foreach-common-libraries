@@ -1,6 +1,7 @@
 package com.foreach.test.mybatis.util;
 
 import com.foreach.mybatis.enums.CodeBasedEnumHandler;
+import com.foreach.spring.enums.EnumUtils;
 import com.mockrunner.mock.jdbc.MockCallableStatement;
 import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockPreparedStatement;
@@ -11,17 +12,15 @@ import org.apache.ibatis.type.JdbcType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import sun.rmi.runtime.Log;
 
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 public class TestCountryHandler
 {
 	private class CountryHandler extends CodeBasedEnumHandler<Country>
 	{
-		protected String canonicalCode( String o )
-		{
-			return o.toLowerCase();
-		}
 	}
 
 	private final String[] countryCodes = new String[] { "Aus", "Zim", "ZIM", "Foo", null };
@@ -45,7 +44,7 @@ public class TestCountryHandler
 			Country country = (Country) handler.getResult( rs, "country" );
 			String code = (String) rs.getObject( "country" );
 
-			Assert.assertSame( Country.getByCode( code ), country );
+			Assert.assertSame( EnumUtils.getByCode( Country.class, code ), country );
 
 			if ( country != null ) {
 				Assert.assertTrue( country.getCode().equalsIgnoreCase( code ) );

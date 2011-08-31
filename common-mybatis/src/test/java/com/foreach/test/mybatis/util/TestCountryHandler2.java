@@ -1,6 +1,7 @@
 package com.foreach.test.mybatis.util;
 
 import com.foreach.mybatis.enums.IdBasedEnumHandler;
+import com.foreach.spring.enums.EnumUtils;
 import com.mockrunner.mock.jdbc.MockCallableStatement;
 import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockPreparedStatement;
@@ -41,7 +42,7 @@ public class TestCountryHandler2
 			Country country = (Country) handler.getResult( rs, "country" );
 			Long id = (Long) rs.getObject( "country" );
 
-			Assert.assertSame( Country.getById( id ), country );
+			Assert.assertSame( EnumUtils.getById( Country.class, id ), country );
 
 			if ( country != null ) {
 				Assert.assertTrue( country.getId().equals( id ) );

@@ -28,12 +28,27 @@ public class EnumUtils
 	/**
 	 * @param clazz an Enum class implementing CodeLookup&lt;S&gt;
 	 * @param code  an instance of type S
-	 * @return the instance e of class clazz such that e.getCode().equals( code )
+	 * @return the instance e of class clazz such that e.getCode().equals( code ), unless S is String,
+	 * in which case equalsIgnoreCase is used instead of equals().
 	 */
 	public static final <S, E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code )
 	{
+		if( code instanceof String ) {
+			return getByCaseInsensitiveString( clazz, code );
+		}
+
 		for ( E e : clazz.getEnumConstants() ) {
 			if ( e.getCode().equals( code ) ) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	private static <S, E extends Enum<E> & CodeLookup<S>> E getByCaseInsensitiveString( Class<E> clazz, S code )
+	{
+		for ( E e : clazz.getEnumConstants() ) {
+			if ( ((String) e.getCode()).equalsIgnoreCase( (String) code ) ) {
 				return e;
 			}
 		}

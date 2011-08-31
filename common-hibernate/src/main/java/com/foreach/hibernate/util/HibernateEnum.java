@@ -162,8 +162,12 @@ public class HibernateEnum implements UserType, ParameterizedType
 		return (Serializable) value;
 	}
 
+	// Enums may override equals() - Don't ask why.
 	public final boolean equals( Object x, Object y )
 	{
+		if( x == null ) {
+			return ( y == null );
+		}
 		return x.equals( y );
 	}
 
