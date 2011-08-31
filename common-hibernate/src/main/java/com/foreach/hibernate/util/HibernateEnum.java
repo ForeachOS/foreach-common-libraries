@@ -164,7 +164,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 
 	public final boolean equals( Object x, Object y )
 	{
-		return x == y;
+		return x.equals( y );
 	}
 
 	public final int hashCode( Object x )
