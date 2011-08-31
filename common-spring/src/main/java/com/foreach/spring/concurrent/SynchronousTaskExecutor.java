@@ -11,6 +11,9 @@ import java.util.concurrent.*;
  * SynchronousTaskExecutor is a partial synchronous implementation of ExecutorService.
  * <p/>
  * On methods with timeout, the timout values are ignored.
+ * <p/>
+ * Note that executing tasks synchronously may cause scaling issues if there is no upper bound
+ * on the number of concurrent threads the executor instance is called from.
  */
 public class SynchronousTaskExecutor implements ExecutorService
 {
@@ -18,37 +21,59 @@ public class SynchronousTaskExecutor implements ExecutorService
 
 	private volatile boolean stopped = false;
 
-	protected void setLogger( Logger log )
+	/**
+	 * Set the logger for ths instance
+	 */
+	protected final void setLogger( Logger log )
 	{
 		this.logger = log;
 	}
 
-	protected Logger getLogger()
+	/**
+	 * Get the logger for this instance
+	 */
+	protected final Logger getLogger()
 	{
 		return logger;
 	}
 
+	/**
+	 * Prevent the executor from accepting any more tasks.
+	 */
 	public final synchronized void shutdown()
 	{
 		stopped = true;
 	}
 
+	/**
+	 * Prevent the executor from accepting any more tasks and return an empty List.
+	 */
+	// Spec says we should interrupt all tasks in progress here...
 	public final List<Runnable> shutdownNow()
 	{
 		shutdown();
 		return new ArrayList<Runnable>();
 	}
 
+	/**
+	 * Returns true if the executor no longer accepts tasks
+	 */
 	public final synchronized boolean isShutdown()
 	{
 		return stopped;
 	}
 
+	/**
+	 * Returns true if the executor no longer accepts tasks
+	 */
 	public final boolean isTerminated()
 	{
 		return isShutdown();
 	}
 
+	/**
+	 * Returns true
+	 */
 	public final boolean awaitTermination(long timeout, TimeUnit unit)
 	    throws InterruptedException
 	{
@@ -62,12 +87,21 @@ public class SynchronousTaskExecutor implements ExecutorService
 		}
 	}
 
+	/**
+	 * If the executor is not shut down, the command will be executed synchronously,
+	 * otherwise a RejectedExecutionException is thrown.
+	 */
 	public final void execute(Runnable command)
 	{
 		checkNotStopped();
 		command.run();
 	}
 
+	/**
+	 * If the executor is not shut down, the task will be executed synchronously
+	 * and its result returned,
+	 * otherwise a RejectedExecutionException is thrown.
+	 */
 	public final <T> Future<T> submit(Callable<T> task)
 	{
 		checkNotStopped();
@@ -79,6 +113,11 @@ public class SynchronousTaskExecutor implements ExecutorService
 		}
 	}
 
+	/**
+	 * If the executor is not shut down, the task will be executed synchronously
+	 * and the passed result will be wrapped in a future,
+	 * otherwise a RejectedExecutionException is thrown.
+	 */
 	public final <T> Future<T> submit(Runnable task, T result)
 	{
 		try {
@@ -88,6 +127,12 @@ public class SynchronousTaskExecutor implements ExecutorService
 			return new DummyFuture<T>( null, e );
 		}
 	}
+
+	/**
+	 * If the executor is not shut down, the task will be executed synchronously
+	 * and the future with a null result will be returned,
+	 * otherwise a RejectedExecutionException is thrown.
+	 */
 
 	public final Future<?> submit(Runnable task)
 	{
