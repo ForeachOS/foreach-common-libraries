@@ -84,7 +84,11 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 			PreparedStatement preparedStatement, int i, Object t, JdbcType jdbcType ) throws SQLException
 	{
 		if ( customJdbcType == null ) {
-			preparedStatement.setObject( i, t, jdbcType.TYPE_CODE );
+			if( jdbcType == null ) {
+				preparedStatement.setObject( i, t );
+			} else {
+				preparedStatement.setObject( i, t, jdbcType.TYPE_CODE );
+			}
 		}
 		else {
 			preparedStatement.setObject( i, t, customJdbcType.TYPE_CODE );
