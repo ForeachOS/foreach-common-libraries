@@ -7,6 +7,7 @@ import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -105,10 +106,15 @@ public class HibernateEnum implements UserType, ParameterizedType
 		try {
 			return valueOfMethod.invoke( enumClass, new Object[] { identifier } );
 		}
-		catch ( Exception e ) {
+		catch ( IllegalAccessException exc ) {
 			throw new HibernateException(
 					"Exception while invoking " + "valueOf method \"" + valueOfMethod.getName() + "\" of " + "enumeration class \"" + enumClass + '\"',
-					e );
+					exc );
+		}
+		catch ( InvocationTargetException exc ) {
+			throw new HibernateException(
+					"Exception while invoking " + "valueOf method \"" + valueOfMethod.getName() + "\" of " + "enumeration class \"" + enumClass + '\"',
+					exc );
 		}
 	}
 
@@ -123,10 +129,15 @@ public class HibernateEnum implements UserType, ParameterizedType
 				type.set( st, identifier, index );
 			}
 		}
-		catch ( Exception e ) {
+		catch ( IllegalAccessException exc ) {
 			throw new HibernateException(
 					"Exception while invoking " + "identifierMethod \"" + identifierMethod.getName() + "\" of " + "enumeration class \"" + enumClass + '\"',
-					e );
+					exc );
+		}
+		catch ( InvocationTargetException exc ) {
+			throw new HibernateException(
+					"Exception while invoking " + "identifierMethod \"" + identifierMethod.getName() + "\" of " + "enumeration class \"" + enumClass + '\"',
+					exc );
 		}
 	}
 
