@@ -79,7 +79,8 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 	 * <p/>
 	 * You may not override this routine.
 	 */
-	protected final void setJdbcParameter(
+	// Yes, it is called getCodeParameter instead of getCodeOrIdParameter.
+	protected final void setCodeParameter(
 			PreparedStatement preparedStatement, int i, Object t, JdbcType jdbcType ) throws SQLException
 	{
 		if ( customJdbcType == null ) {
@@ -95,7 +96,7 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 	 * <p/>
 	 * You may not override this routine.
 	 */
-	protected final Object getParameter( ResultSet resultSet, String columnName ) throws SQLException
+	protected final Object getCodeParameter( ResultSet resultSet, String columnName ) throws SQLException
 	{
 		if ( customJdbcType == null ) {
 			return resultSet.getObject( columnName );

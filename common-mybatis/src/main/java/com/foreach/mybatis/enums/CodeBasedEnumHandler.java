@@ -71,12 +71,12 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 	{
 		CodeLookup e = (CodeLookup) parameter;
 
-		setJdbcParameter( preparedStatement, i, ( e != null ) ? e.getCode() : null, jdbcType );
+		setCodeParameter( preparedStatement, i, ( e != null ) ? e.getCode() : null, jdbcType );
 	}
 
 	public final Object getResult( ResultSet resultSet, String columnName ) throws SQLException
 	{
-		return getByCode( getParameter( resultSet, columnName ) );
+		return getByCode( getCodeParameter( resultSet, columnName ) );
 	}
 
 	private E getByCode( Object code )

@@ -71,12 +71,12 @@ public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 	{
 		IdLookup e = (IdLookup) parameter;
 
-		setJdbcParameter( preparedStatement, i, ( e != null ) ? e.getId() : null, jdbcType );
+		setCodeParameter( preparedStatement, i, ( e != null ) ? e.getId() : null, jdbcType );
 	}
 
 	public final E getResult( ResultSet resultSet, String columnName ) throws SQLException
 	{
-		return getById( getParameter( resultSet, columnName ) );
+		return getById( getCodeParameter( resultSet, columnName ) );
 	}
 
 	protected final E getById( Object id )
