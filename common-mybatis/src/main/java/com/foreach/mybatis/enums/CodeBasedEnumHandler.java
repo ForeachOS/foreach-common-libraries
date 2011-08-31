@@ -84,14 +84,15 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 				if ( pt.getRawType().equals( CodeLookup.class ) ) {
 					Class codeClass = (Class) pt.getActualTypeArguments()[0];
 					try {
-						canonizeMethod : getClass().getMethod( "canonicalCode", codeClass );
-					} catch (NoSuchMethodException nsme ) {
+						canonizeMethod:
+						getClass().getMethod( "canonicalCode", codeClass );
+					}
+					catch ( NoSuchMethodException nsme ) {
 					}
 				}
 			}
 		}
 	}
-
 
 	public final void setParameter(
 			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
@@ -108,16 +109,15 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
 	private E getByCode( Object code )
 	{
-		Object lookup = code;
-
-		if( canonizeMethod != null ) {
+		if ( canonizeMethod != null ) {
 			try {
-				lookup = canonizeMethod.invoke( this, code );
-			} catch ( IllegalAccessException e ) {
-			} catch ( InvocationTargetException e ) {
+				canonizeMethod.invoke( this, code );
+			}
+			catch ( IllegalAccessException e ) {
+			}
+			catch ( InvocationTargetException e ) {
 			}
 		}
-
 
 		E e = (E) EnumUtils.getByCode( getClazz(), code );
 		return ( e == null ) ? getDefaultValue() : e;
