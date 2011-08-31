@@ -5,6 +5,10 @@ import com.foreach.spring.enums.EnumUtils;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +37,8 @@ import java.sql.SQLException;
  *          }
  *     }
  * </pre>
- * </p>
+ * <p/>
+ * If subclasses implement a method C canonicalCode(C code), it will be called before looking up an enum with a code.
  */
 public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
@@ -41,6 +46,8 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
 		implements TypeHandler
 {
+	private Method canonizeMethod = null;
+
 	/**
 	 * @param defaultValue   a result to be substituted when the value read from the database can't be mapped.
 	 *                       This only works in one direction, a null value is always written to the database as null.
@@ -50,6 +57,7 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 	protected CodeBasedEnumHandler( E defaultValue, JdbcType customJdbcType )
 	{
 		super( defaultValue, customJdbcType );
+		scanForCanonicalMethod();
 	}
 
 	/**
@@ -66,6 +74,25 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 		this( null, null );
 	}
 
+	private void scanForCanonicalMethod()
+	{
+		Type[] ts = getClazz().getGenericInterfaces();
+
+		for ( Type t : ts ) {
+			if ( t instanceof ParameterizedType ) {
+				ParameterizedType pt = (ParameterizedType) t;
+				if ( pt.getRawType().equals( CodeLookup.class ) ) {
+					Class codeClass = (Class) pt.getActualTypeArguments()[0];
+					try {
+						canonizeMethod : getClass().getMethod( "canonicalCode", codeClass );
+					} catch (NoSuchMethodException nsme ) {
+					}
+				}
+			}
+		}
+	}
+
+
 	public final void setParameter(
 			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
 	{
@@ -81,6 +108,17 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
 	private E getByCode( Object code )
 	{
+		Object lookup = code;
+
+		if( canonizeMethod != null ) {
+			try {
+				lookup = canonizeMethod.invoke( this, code );
+			} catch ( IllegalAccessException e ) {
+			} catch ( InvocationTargetException e ) {
+			}
+		}
+
+
 		E e = (E) EnumUtils.getByCode( getClazz(), code );
 		return ( e == null ) ? getDefaultValue() : e;
 	}

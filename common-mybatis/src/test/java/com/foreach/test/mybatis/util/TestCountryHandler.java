@@ -18,10 +18,13 @@ public class TestCountryHandler
 {
 	private class CountryHandler extends CodeBasedEnumHandler<Country>
 	{
-
+		protected String canonicalCode( String o )
+		{
+			return o.toLowerCase();
+		}
 	}
 
-	private final String[] countryCodes = new String[] { "Aus", "Zim", "Foo", null };
+	private final String[] countryCodes = new String[] { "Aus", "Zim", "ZIM", "Foo", null };
 
 	private CountryHandler handler;
 

@@ -5,8 +5,8 @@ import com.foreach.spring.enums.IdLookup;
 
 public enum Country implements CodeLookup<String>, IdLookup<Long>
 {
-	AU( "Aus", 100000001L ),
-	ZB( "Zim", 100000002L );
+	AU( "aus", 100000001L ),
+	ZB( "zim", 100000002L );
 
 	private String code;
 	private long largeNumber;
@@ -48,5 +48,4 @@ public enum Country implements CodeLookup<String>, IdLookup<Long>
 
 		return null;
 	}
-
 }
