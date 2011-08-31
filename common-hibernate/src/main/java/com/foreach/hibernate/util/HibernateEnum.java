@@ -26,8 +26,8 @@ import java.util.Properties;
  *  </pre>
  * </p>
  */
- // Improvement: -Looks like this can be simplified for the end user using reflection, as in this example:
- // http://community.jboss.org/wiki/Java5StringValuedEnumUserType
+// Improvement: -Looks like this can be simplified for the end user using reflection, as in this example:
+// http://community.jboss.org/wiki/Java5StringValuedEnumUserType
 
 public class HibernateEnum implements UserType, ParameterizedType
 {
@@ -103,24 +103,29 @@ public class HibernateEnum implements UserType, ParameterizedType
 		if ( rs.wasNull() ) {
 			return null;
 		}
+
+		StringBuffer errorMsg = new StringBuffer( "Exception while invoking valueOf method \"" );
 		try {
+			errorMsg.append( valueOfMethod.getName() ).append( "\" of " ).append( "enumeration class \"" ).append(
+					enumClass ).append( '\"' );
+
 			return valueOfMethod.invoke( enumClass, new Object[] { identifier } );
 		}
 		catch ( IllegalAccessException exc ) {
-			throw new HibernateException(
-					"Exception while invoking " + "valueOf method \"" + valueOfMethod.getName() + "\" of " + "enumeration class \"" + enumClass + '\"',
-					exc );
+			throw new HibernateException( errorMsg.toString(), exc );
 		}
 		catch ( InvocationTargetException exc ) {
-			throw new HibernateException(
-					"Exception while invoking " + "valueOf method \"" + valueOfMethod.getName() + "\" of " + "enumeration class \"" + enumClass + '\"',
-					exc );
+			throw new HibernateException( errorMsg.toString(), exc );
 		}
 	}
 
 	public final void nullSafeSet( PreparedStatement st, Object value, int index ) throws SQLException
 	{
+		StringBuffer errorMsg = new StringBuffer( "Exception while invoking identifierMethod method \"" );
 		try {
+			errorMsg.append( identifierMethod.getName() ).append( "\" of " ).append( "enumeration class \"" ).append(
+					enumClass ).append( '\"' );
+
 			if ( value == null ) {
 				st.setNull( index, type.sqlType() );
 			}
@@ -130,14 +135,10 @@ public class HibernateEnum implements UserType, ParameterizedType
 			}
 		}
 		catch ( IllegalAccessException exc ) {
-			throw new HibernateException(
-					"Exception while invoking " + "identifierMethod \"" + identifierMethod.getName() + "\" of " + "enumeration class \"" + enumClass + '\"',
-					exc );
+			throw new HibernateException( errorMsg.toString(), exc );
 		}
 		catch ( InvocationTargetException exc ) {
-			throw new HibernateException(
-					"Exception while invoking " + "identifierMethod \"" + identifierMethod.getName() + "\" of " + "enumeration class \"" + enumClass + '\"',
-					exc );
+			throw new HibernateException( errorMsg.toString(), exc );
 		}
 	}
 
