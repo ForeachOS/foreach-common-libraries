@@ -65,10 +65,10 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private ApplicationContextInfo applicationContextInfo;
 
-	private final String tableStartTag =
+	private static final String tableStartTag =
 			"<table border='1' cellpadding='3' style='font-family: tahoma;font-size: 12px;'>";
 
-	private final String tableEndTag = "</table>";
+	private static final String tableEndTag = "</table>";
 
 	/**
 	 * Specify your own custom logger
