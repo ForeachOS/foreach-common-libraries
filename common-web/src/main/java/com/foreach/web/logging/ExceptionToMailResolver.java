@@ -58,10 +58,10 @@ import java.util.Enumeration;
 public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 {
 
-	private static final String tableStartTag =
+	private static final String TABLE_START_TAG =
 			"<table border='1' cellpadding='3' style='font-family: tahoma;font-size: 12px;'>";
 
-	private static final String tableEndTag = "</table>";
+	private static final String TABLE_END_TAG = "</table>";
 
 	private Logger logger = Logger.getLogger( getClass() );
 
@@ -174,7 +174,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 		// Write general params
 		html.print( "<html><head></head><body style='font-family: tahoma;font-size: 12px;'>" );
-		html.print( tableStartTag );
+		html.print( TABLE_START_TAG );
 
 		String uniqueId =
 				StringUtils.defaultIfBlank( (String) request.getAttribute( RequestLogInterceptor.ATTRIBUTE_UNIQUE_ID ),
@@ -207,7 +207,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 		writeParam( html, "user", request.getUserPrincipal() != null ? StringUtils.defaultIfBlank(
 				request.getUserPrincipal().getName(), "-" ) : "-" );
-		html.append( tableEndTag );
+		html.append( TABLE_END_TAG );
 
 		// Write message
 		html.append( "<h5>Message</h5>" );
@@ -241,7 +241,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		if ( request.getCookies() != null ) {
 			// Write cookies
 			html.append( "<h5>Cookies</h5>" );
-			html.print( tableStartTag );
+			html.print( TABLE_START_TAG );
 			for ( Cookie cookie : request.getCookies() ) {
 				StringBuffer sbuf = new StringBuffer();
 				if ( cookie.getDomain() != null ) {
@@ -254,27 +254,27 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 				writeParam( html, cookie.getName(), sbuf.toString() );
 			}
-			html.append( tableEndTag );
+			html.append( TABLE_END_TAG );
 		}
 	}
 
 	private void writeRequestAttributes( PrintWriter html, HttpServletRequest request )
 	{
 		html.append( "<h5>Request attributes</h5>" );
-		html.print( tableStartTag );
+		html.print( TABLE_START_TAG );
 		Enumeration enumeration = request.getAttributeNames();
 		while ( enumeration.hasMoreElements() ) {
 			String attributeName = (String) enumeration.nextElement();
 
 			writeParam( html, attributeName, request.getAttribute( attributeName ) );
 		}
-		html.append( tableEndTag );
+		html.append( TABLE_END_TAG );
 	}
 
 	private void writeSessionAttributes( PrintWriter html, HttpServletRequest request )
 	{
 		html.append( "<h5>Session attributes</h5>" );
-		html.print( tableStartTag );
+		html.print( TABLE_START_TAG );
 		HttpSession session = request.getSession( false );
 		if ( session != null ) {
 			writeParam( html, "Session Id: ", session.getId() );
@@ -292,13 +292,13 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		else {
 			writeParam( html, "No session", "" );
 		}
-		html.append( tableEndTag );
+		html.append( TABLE_END_TAG );
 	}
 
 	private void writeRequestHeaders( PrintWriter html, HttpServletRequest request )
 	{
 		html.append( "<h5>Request headers</h5>" );
-		html.print( tableStartTag );
+		html.print( TABLE_START_TAG );
 		Enumeration enumeration = request.getHeaderNames();
 		while ( enumeration.hasMoreElements() ) {
 			String headerName = (String) enumeration.nextElement();
@@ -307,20 +307,20 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 				writeParam( html, headerName, request.getHeader( headerName ) );
 			}
 		}
-		html.append( tableEndTag );
+		html.append( TABLE_END_TAG );
 	}
 
 	private void writeRequestParameters( PrintWriter html, HttpServletRequest request )
 	{
 		html.append( "<h5>Request parameters</h5>" );
-		html.print( tableStartTag );
+		html.print( TABLE_START_TAG );
 		Enumeration enumeration = request.getParameterNames();
 		while ( enumeration.hasMoreElements() ) {
 			String parameterName = (String) enumeration.nextElement();
 
 			writeParam( html, parameterName, request.getParameter( parameterName ) );
 		}
-		html.append( tableEndTag );
+		html.append( TABLE_END_TAG );
 	}
 
 	private String getRequestDuration( HttpServletRequest request )
