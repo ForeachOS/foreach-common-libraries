@@ -47,6 +47,8 @@ public class HibernateEnum implements UserType, ParameterizedType
 
 	public HibernateEnum()
 	{
+		// an empty constructor setting member variables to null to dodge sonar from reporting
+		// "Variables not initialized inside constructor"
 		this.enumClass = null;
 		this.identifierMethod = null;
 		this.valueOfMethod = null;
