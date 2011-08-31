@@ -39,10 +39,15 @@ public class HibernateEnum implements UserType, ParameterizedType
 		so many instance variables remain null after construction.
 	*/
 
+	@SuppressWarnings( "all" )
 	private Class enumClass;
+	@SuppressWarnings( "all" )
 	private Method identifierMethod;
+	@SuppressWarnings( "all" )
 	private Method valueOfMethod;
+	@SuppressWarnings( "all" )
 	private NullableType type;
+	@SuppressWarnings( "all" )
 	private int[] sqlTypes;
 
 	public final void setParameterValues( Properties parameters )
