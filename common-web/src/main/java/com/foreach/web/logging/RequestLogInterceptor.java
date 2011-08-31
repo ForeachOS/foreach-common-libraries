@@ -61,7 +61,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 	 *
 	 * @param log
 	 */
-	protected void setLogger( Logger log )
+	protected final void setLogger( Logger log )
 	{
 		this.logger = log;
 	}
@@ -71,7 +71,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 	 *
 	 * @return Logger
 	 */
-	protected Logger getLogger()
+	protected final Logger getLogger()
 	{
 		return this.logger;
 	}

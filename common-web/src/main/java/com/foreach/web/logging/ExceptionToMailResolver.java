@@ -70,7 +70,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 *
 	 * @param logger
 	 */
-	protected void setLogger( Logger logger )
+	protected final void setLogger( Logger logger )
 	{
 		this.logger = logger;
 	}
@@ -79,7 +79,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 * Get the logger
 	 * @return Logger
 	 */
-	protected Logger getLogger()
+	protected final Logger getLogger()
 	{
 		return this.logger;
 	}

@@ -25,7 +25,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
  */
 public class MethodExecutionTimeLogger
 {
-
 	private Logger logger = Logger.getLogger( getClass() );
 
 	private int minimumDuration = 75;
@@ -39,7 +38,7 @@ public class MethodExecutionTimeLogger
 	 *
 	 * @param log
 	 */
-	protected void setLogger( Logger log )
+	protected final void setLogger( Logger log )
 	{
 		this.logger = log;
 	}
@@ -49,7 +48,7 @@ public class MethodExecutionTimeLogger
 	 *
 	 * @return Logger
 	 */
-	protected Logger getLogger()
+	protected final Logger getLogger()
 	{
 		return this.logger;
 	}

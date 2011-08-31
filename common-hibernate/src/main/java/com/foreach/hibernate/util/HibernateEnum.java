@@ -33,6 +33,12 @@ public class HibernateEnum implements UserType, ParameterizedType
 	private static final String DEFAULT_IDENTIFIER_METHOD_NAME = "getId";
 	private static final String DEFAULT_VALUE_OF_METHOD_NAME = "getById";
 
+	/*
+		Sonar will bitch, because Hibernate will construct instances using
+		a zero argument constructor and the method setParameterValues,
+		so many instance variables remain null after construction.
+	*/
+
 	private Class enumClass;
 	private Method identifierMethod;
 	private Method valueOfMethod;
