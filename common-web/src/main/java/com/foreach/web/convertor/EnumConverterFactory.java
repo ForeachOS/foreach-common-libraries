@@ -4,6 +4,7 @@ import com.foreach.spring.enums.CodeLookup;
 import com.foreach.spring.enums.EnumUtils;
 import com.foreach.spring.enums.IdLookup;
 import org.apache.log4j.Logger;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.Converter;
@@ -79,7 +80,6 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 
 		public E convert( String source )
 		{
-
 			if ( IdLookup.class.isAssignableFrom( enumType ) ) {
 
 				logger.debug( "attempting to convert "+source+" to "+enumType+" using IdLookup" );
@@ -153,6 +153,8 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 			}
 			catch ( InvocationTargetException ite ) {
 				logger.error( ite );
+			} catch( ConversionFailedException ce) {
+				// this is allowed if both interfaces are implemented
 			}
 
 			logger.error( "intermediate conversion failed" );
