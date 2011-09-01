@@ -3,6 +3,7 @@ package com.foreach.web.convertor;
 import com.foreach.spring.enums.CodeLookup;
 import com.foreach.spring.enums.EnumUtils;
 import com.foreach.spring.enums.IdLookup;
+import org.apache.log4j.Logger;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.Converter;
@@ -33,6 +34,8 @@ import java.lang.reflect.Type;
 
 public class EnumConverterFactory implements ConverterFactory<String, Enum>
 {
+	private Logger logger = Logger.getLogger( getClass() );
+
 	// Try to not get in an infinite loop here...
 
 	private ConversionService conversionService;
@@ -55,6 +58,12 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>
 	 */
 	public final <E extends Enum> Converter<String, E> getConverter( Class<E> targetType )
 	{
+		logger.debug( "converter requested for type "+targetType.getName() );
+
+		if( conversionService == null ) {
+			logger.error( "conversionService not set for EnumConverterFactory instance" );
+		}
+
 		return new EnumConverter( targetType );
 	}
 
