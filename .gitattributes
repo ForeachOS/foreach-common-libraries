@@ -103,6 +103,7 @@ common-web/src/main/java/com/foreach/web/util/Log4jWebUtils.java -text
 common-web/src/main/java/com/foreach/web/util/WebUtils.java -text
 common-web/src/main/java/com/foreach/web/util/package-info.java -text
 common-web/src/test/java/com/foreach/test/web/convertor/TestConvertorFactory.java -text
+common-web/src/test/java/com/foreach/test/web/convertor/TestSpringWorks.java -text
 common-web/src/test/java/com/foreach/test/web/logging/TestExceptionToMailResolver.java -text
 common-web/src/test/java/com/foreach/test/web/logging/TestRequestLogInterceptor.java -text
 /pom.xml -text
