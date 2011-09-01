@@ -32,7 +32,7 @@ import java.lang.reflect.Type;
  * on how to configure a conversion service for your application.
  */
 
-public class EnumConverterFactory implements ConverterFactory<String, Enum>
+public class EnumConverterFactory implements ConverterFactory<String, Enum>, RecursiveConverter
 {
 	private Logger logger = Logger.getLogger( getClass() );
 
