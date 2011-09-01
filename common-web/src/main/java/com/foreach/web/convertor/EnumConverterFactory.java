@@ -82,6 +82,8 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 
 			if ( IdLookup.class.isAssignableFrom( enumType ) ) {
 
+				logger.debug( "attempting to convert "+source+" to "+enumType+" using IdLookup" );
+
 				Class intermediateType = lookupMethodParameterClass( enumType, IdLookup.class );
 				E attempt = tryConvertUsingMethod( source, intermediateType, "getById" );
 
@@ -91,6 +93,8 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 			}
 
 			if ( CodeLookup.class.isAssignableFrom( enumType ) ) {
+
+				logger.debug( "attempting to convert "+source+" to "+enumType+" using CodeLookup" );
 
 				Class intermediateType = lookupMethodParameterClass( enumType, CodeLookup.class );
 
@@ -130,6 +134,8 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 
 				Object id = source;
 
+				logger.debug( "performing intermediate conversion of "+source+" to "+intermediateType );
+
 				if ( !String.class.isAssignableFrom( intermediateType ) ) {
 					id = conversionService.convert( source, TypeDescriptor.valueOf( String.class ),
 					                                TypeDescriptor.valueOf( intermediateType ) );
@@ -140,11 +146,16 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 				return (E) m.invoke( EnumUtils.class, enumType, id );
 			}
 			catch ( NoSuchMethodException nsme ) {
+				logger.error( nsme );
 			}
 			catch ( IllegalAccessException iae ) {
+				logger.error( iae );
 			}
 			catch ( InvocationTargetException ite ) {
+				logger.error( ite );
 			}
+
+			logger.error( "intermediate conversion failed" );
 			return null;
 		}
 	}
