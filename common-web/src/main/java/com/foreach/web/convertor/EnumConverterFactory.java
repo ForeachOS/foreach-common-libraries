@@ -31,6 +31,8 @@ import java.lang.reflect.Type;
  * In most cases, you will group your converters in a single conversion service.
  * Check <a href="http://static.springsource.org/spring/docs/3.0.0.RC3/spring-framework-reference/html/ch05s05.html">the spring documentation</a>
  * on how to configure a conversion service for your application.
+ * <p/>If an object can't be converted with the conversion service, the system falls back to property editors.
+ * For this reason, you should keep all your converters as specific as possible.
  */
 
 public class EnumConverterFactory implements ConverterFactory<String, Enum>, RecursiveConverter

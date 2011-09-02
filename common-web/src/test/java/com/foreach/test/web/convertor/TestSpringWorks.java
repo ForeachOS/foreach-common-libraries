@@ -13,24 +13,8 @@ import org.springframework.core.io.Resource;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TestSpringWorks
+public class TestSpringWorks extends BaseConversionServiceTest
 {
-	private ConversionService conversionService;
-
-	@Before
-	public void prepareTest()
-	{
-		ConversionServiceFactoryBean factory = new ConversionServiceFactoryBean();
-		Set<Object> converters = new HashSet<Object>(  );
-		converters.add( new EnumConverterFactory() );
-		converters.add( new EnumIdRenderer() );
-		converters.add( new EnumCodeRenderer() );
-		factory.setConverters( converters );
-		factory.afterPropertiesSet();
-
-		conversionService = factory.getObject();
-	}
-
 	@Test
 	public void weConvertEnumsButNotResources()
 	{

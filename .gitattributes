@@ -91,6 +91,7 @@ common-spring/src/test/java/com/foreach/test/spring/util/BaseTestService.java -t
 common-spring/src/test/resources/config/spring-test-services.xml -text
 common-web/common-web.iml -text
 common-web/pom.xml -text
+common-web/src/main/java/com/foreach/web/convertor/CustomConversionServiceFactoryBean.java -text
 common-web/src/main/java/com/foreach/web/convertor/EnumCodeRenderer.java -text
 common-web/src/main/java/com/foreach/web/convertor/EnumConverterFactory.java -text
 common-web/src/main/java/com/foreach/web/convertor/EnumIdRenderer.java -text
@@ -102,6 +103,7 @@ common-web/src/main/java/com/foreach/web/logging/package-info.java -text
 common-web/src/main/java/com/foreach/web/util/Log4jWebUtils.java -text
 common-web/src/main/java/com/foreach/web/util/WebUtils.java -text
 common-web/src/main/java/com/foreach/web/util/package-info.java -text
+common-web/src/test/java/com/foreach/test/web/convertor/BaseConversionServiceTest.java -text
 common-web/src/test/java/com/foreach/test/web/convertor/TestConvertorFactory.java -text
 common-web/src/test/java/com/foreach/test/web/convertor/TestDualInterface.java -text
 common-web/src/test/java/com/foreach/test/web/convertor/TestSpringWorks.java -text
