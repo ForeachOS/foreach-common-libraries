@@ -97,6 +97,11 @@ public class BasicMailService implements MailService
 		this.serviceBccRecipients = serviceBccRecipients;
 	}
 
+	public final String getServiceBccRecipients( )
+	{
+		return serviceBccRecipients;
+	}
+
 	/**
 	 * Set the executorService used to send messages through the javaMailSender.
 	 *
