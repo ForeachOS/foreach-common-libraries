@@ -5,10 +5,7 @@ import com.foreach.spring.enums.EnumUtils;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,8 +42,6 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 
 		implements TypeHandler
 {
-	private Method canonizeMethod = null;
-
 	/**
 	 * @param defaultValue   a result to be substituted when the value read from the database can't be mapped.
 	 *                       This only works in one direction, a null value is always written to the database as null.

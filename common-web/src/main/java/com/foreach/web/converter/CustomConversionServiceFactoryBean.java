@@ -16,13 +16,12 @@ import java.util.Set;
  */
 public class CustomConversionServiceFactoryBean extends ConversionServiceFactoryBean
 {
-	private transient List<RecursiveConverter> recursiveConverters;
+	private transient List<RecursiveConverter> recursiveConverters  = new ArrayList<RecursiveConverter>(  );
 
-	public void setConverters(Set<?> converters) {
+	public final void setConverters(Set<?> converters) {
 
 		super.setConverters( converters );
 
-		recursiveConverters = new ArrayList<RecursiveConverter>(  );
 		for( Object converter : converters ) {
 			if ( converter instanceof RecursiveConverter ) {
 				recursiveConverters.add( (RecursiveConverter) converter );
@@ -31,7 +30,7 @@ public class CustomConversionServiceFactoryBean extends ConversionServiceFactory
 	}
 
 	@Override
-	public void afterPropertiesSet()
+	public final  void afterPropertiesSet()
 	{
 		super.afterPropertiesSet();
 
