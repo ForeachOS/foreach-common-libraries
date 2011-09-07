@@ -87,6 +87,12 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 				logger.debug( "attempting to convert "+source+" to "+enumType+" using IdLookup" );
 
 				Class intermediateType = lookupMethodParameterClass( enumType, IdLookup.class );
+
+				if( intermediateType == null ) {
+					logger.error( "IdLookup parameter type not specified, assuming Integer." );
+					intermediateType = Integer.class;
+				}
+
 				E attempt = tryConvertUsingMethod( source, intermediateType, "getById" );
 
 				if ( attempt != null ) {
@@ -99,6 +105,11 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 				logger.debug( "attempting to convert "+source+" to "+enumType+" using CodeLookup" );
 
 				Class intermediateType = lookupMethodParameterClass( enumType, CodeLookup.class );
+
+				if( intermediateType == null ) {
+					logger.error( "CodeLookup parameter type not specified, assuming String." );
+					intermediateType = String.class;
+				}
 
 				E attempt = tryConvertUsingMethod( source, intermediateType, "getByCode" );
 
