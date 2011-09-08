@@ -62,31 +62,6 @@ public class EnumUtils
 		return result;
 	}
 
-	/**
-	 * Returns a list of enums from the specified enum class whose ordinals are contained in the list parameter.
-	 * Will throw an exception if the class is not an enum type, or one or more of the ordinals is out of bounds.
-	 */
-
-	public static final <E extends Enum<E>> List<E> getByOrdinals( Class<E> clazz, List<Integer> ordinals )
-	{
-		List<E> result = new ArrayList<E>();
-
-		for( Integer ordinal : ordinals ) {
-			result.add( getByOrdinal( clazz, ordinal ) );
-		}
-
-		return result;
-	}
-
-	/**
-	 * Returns the element with the given ordinal from the specified enum class.
-	 * Will throw an exception if the class is not an enum type, or the ordinal is out of bounds.
-	 */
-	public static final <E extends Enum<E>> E getByOrdinal( Class<E> clazz, int ordinal )
-	{
-		return clazz.getEnumConstants()[ordinal];
-	}
-
 	private static <S, E extends Enum<E> & CodeLookup<S>> E getByCaseInsensitiveString( Class<E> clazz, S code )
 	{
 		for ( E e : clazz.getEnumConstants() ) {
