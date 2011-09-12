@@ -34,7 +34,7 @@ import java.util.concurrent.ExecutorService;
  *  <bean id="mailService" class="com.foreach.spring.mail.BasicMailService">
  *      <property name="originator" value="noreply@foo.bar"/>
  *      <property name="executorService">
- *          <bean class="java.util.concurrent.ScheduledThreadPoolExecutor">
+ *          <bean class="java.util.concurrent.ScheduledThreadPoolExecutor" destroy-method="shutdown">
  *              <constructor-arg index="0" type="int" value="2"/>
  *          </bean>
  *      </property>
