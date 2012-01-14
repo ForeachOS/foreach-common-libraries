@@ -50,7 +50,6 @@ common-hibernate/pom.xml -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateEnum.java -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateSessionEmulator.java -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/package-info.java -text
-common-mybatis/common-mybatis.iml -text
 common-mybatis/pom.xml -text
 common-mybatis/src/main/java/com/foreach/mybatis/enums/BaseEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/enums/CodeBasedEnumHandler.java -text
@@ -110,5 +109,7 @@ common-web/src/test/java/com/foreach/test/web/converter/TestSpringWorks.java -te
 common-web/src/test/java/com/foreach/test/web/logging/TestExceptionToMailResolver.java -text
 common-web/src/test/java/com/foreach/test/web/logging/TestRequestLogInterceptor.java -text
 /pom.xml -text
+resources/deploy/deploy.xml -text
+resources/deploy/jsch-0.1.45.jar -text
 src/site/apt/index.apt -text
 src/site/site.xml -text
