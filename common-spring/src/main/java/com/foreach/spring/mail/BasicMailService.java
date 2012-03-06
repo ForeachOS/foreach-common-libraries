@@ -1,9 +1,9 @@
 package com.foreach.spring.mail;
 
+import com.foreach.spring.concurrent.PreComputedFuture;
 import com.foreach.spring.concurrent.SynchronousTaskExecutor;
 import com.foreach.spring.validators.MultipleEmailsValidator;
 import org.apache.log4j.Logger;
-import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -12,7 +12,9 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 /**
  * MailService sends smtp mails with optional attachments.
@@ -29,7 +31,16 @@ import java.util.concurrent.ExecutorService;
  * <p/>
  * Example spring configuration with a shared javaMailSender and a private asynchronous executorService:
  * <pre>
- *  <bean id="sharedMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"/>
+ *  <bean id="sharedMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+ *      <property name="host" value="localhost"/>
+ *      <property name="defaultEncoding" value="UTF-8"/>
+ *      <property name="javaMailProperties">
+ *          <props>
+ *              <prop key="mail.smtp.connectiontimeout">30000</prop>
+ *              <prop key="mail.smtp.timeout">30000</prop>
+ *          </props>
+ *      </property>
+ *  </bean>
  *
  *  <bean id="mailService" class="com.foreach.spring.mail.BasicMailService">
  *      <property name="originator" value="noreply@foo.bar"/>
@@ -60,6 +71,7 @@ public class BasicMailService implements MailService
 
 	/**
 	 * Get the logger
+	 *
 	 * @return Logger
 	 */
 	protected final Logger getLogger()
@@ -97,7 +109,7 @@ public class BasicMailService implements MailService
 		this.serviceBccRecipients = serviceBccRecipients;
 	}
 
-	public final String getServiceBccRecipients( )
+	public final String getServiceBccRecipients()
 	{
 		return serviceBccRecipients;
 	}
@@ -129,36 +141,27 @@ public class BasicMailService implements MailService
 	 * @param subject     the subject of the mail message.
 	 * @param body        the body of the mail message.
 	 * @param attachments a map of included files.
-	 * @return true if no error occurred sending the message. The exact semantics are dependent on the actual MailSender used,
-	 *         usually it means the message was successfully delivered to the MSA or MTA.
+	 * @return A future containing the MailStatus object.  The status of sending is dependent on the actual MailSender used.
+	 *         If success it usually means the message was successfully delivered to the MSA or MTA.
 	 * @see <a href="http://tools.ietf.org/html/rfc2476">RFC 2476</a>.
 	 */
-	public final boolean sendMimeMail(
+	public final Future<MailStatus> sendMimeMail(
 			String from, String to, String bccs, String subject, String body, Map<String, File> attachments )
 	{
+		final Logger log = getLogger();
+
 		try {
 
 			final MimeMessage message = createMimeMessage( from, to, bccs, subject, body, attachments );
 
-			getLogger().info( "Sending html email " + from + " > " + to + ": " + subject );
+			log.info( "Sending html email " + from + " > " + to + ": " + subject );
 
-			sendmail( message );
-
+			return sendMail( message );
 		}
 		catch ( MessagingException e ) {
-			logger.error( "Failed to compose mail", e );
-			return false;
+			log.error( "Failed to compose mail ", e );
+			return new PreComputedFuture<MailStatus>( new MailStatus( false, e ) );
 		}
-		catch ( MailException e ) {
-			logger.error( "Failed to send mail", e );
-			return false;
-		}
-		catch ( Exception e ) {
-			logger.error( "Failed to send mail", e );
-			return false;
-		}
-
-		return true;
 	}
 
 	private MimeMessage createMimeMessage(
@@ -194,13 +197,21 @@ public class BasicMailService implements MailService
 		return message;
 	}
 
-	private void sendmail( final MimeMessage message )
+	private Future<MailStatus> sendMail( final MimeMessage message )
 	{
-		getExecutorService().execute( new Runnable()
+		return getExecutorService().submit( new Callable<MailStatus>()
 		{
-			public void run()
+			public MailStatus call() throws Exception
 			{
-				javaMailSender.send( message );
+				try {
+					javaMailSender.send( message );
+
+					return new MailStatus( true );
+				}
+				catch ( Exception e ) {
+					getLogger().error( "Failed to send message ", e );
+					return new MailStatus( false, e );
+				}
 			}
 		} );
 	}

@@ -2,6 +2,7 @@ package com.foreach.spring.mail;
 
 import java.io.File;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 public interface MailService
 {
@@ -14,9 +15,10 @@ public interface MailService
 	 * @param subject     the subject of the mail message.
 	 * @param body        the body of the mail message.
 	 * @param attachments a map of included files.
-	 * @return true if no error occurred sending the message. The exact semantics are implementation-dependent,
-	 *         usually it means the message was successfully delivered to the MSA or MTA.
+	 * @return A future containing the MailStatus object.  The status of sending is dependent on the actual MailSender used.
+	 *         If success it usually means the message was successfully delivered to the MSA or MTA.
+	 * @see <a href="http://tools.ietf.org/html/rfc2476">RFC 2476</a>.
 	 */
-	boolean sendMimeMail(
+	Future<MailStatus> sendMimeMail(
 			String from, String to, String bccs, String subject, String body, Map<String, File> attachments );
 }

@@ -107,9 +107,9 @@ public class SynchronousTaskExecutor implements ExecutorService
 		checkNotStopped();
 
 		try {
-			return new DummyFuture<T>( task.call(), null );
+			return new PreComputedFuture<T>( task.call(), null );
 		} catch ( Exception e ) {
-			return new DummyFuture<T>( null, e );
+			return new PreComputedFuture<T>( null, e );
 		}
 	}
 
@@ -122,9 +122,9 @@ public class SynchronousTaskExecutor implements ExecutorService
 	{
 		try {
 			task.run();
-			return new DummyFuture<T>( result, null );
+			return new PreComputedFuture<T>( result, null );
 		} catch ( Exception e ) {
-			return new DummyFuture<T>( null, e );
+			return new PreComputedFuture<T>( null, e );
 		}
 	}
 

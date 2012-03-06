@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.foreach.libs</groupId>
 		<artifactId>common-projects</artifactId>
-		<version>0.3-SNAPSHOT</version>
+		<version>0.4-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -19,12 +19,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>${springVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>${springVersion}</version>
 		</dependency>
 	</dependencies>
 </project>

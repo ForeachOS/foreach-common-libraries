@@ -4,22 +4,22 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.foreach.libs</groupId>
 	<artifactId>common-web</artifactId>
-	<version>0.3-SNAPSHOT</version>
+	<version>0.4-SNAPSHOT</version>
 	<parent>
 		<groupId>com.foreach.libs</groupId>
 		<artifactId>common-projects</artifactId>
-		<version>0.3-SNAPSHOT</version>
+		<version>0.4-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>com.foreach.libs</groupId>
 			<artifactId>common-spring</artifactId>
-			<version>0.3-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>${springVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>${springVersion}</version>
 			<scope>test</scope>
 		</dependency>
 

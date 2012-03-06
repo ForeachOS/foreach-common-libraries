@@ -16,7 +16,7 @@ import java.util.Date;
  * An example spring configuration:
  * <p/>
  * <pre>
- *  &lt;bean id="applicationContextInfo" class="com.foreach.context.ApplicationContextInfo"&gt;
+ *  &lt;bean id="applicationContextInfo" class="com.foreach.spring.context.ApplicationContextInfo"&gt;
  *      &lt;property name="environmentLabel" value="${app.environment}"/&gt;
  *      &lt;-- see {@link ApplicationEnvironment} --/&gt;
  *      &lt;property name="applicationName" value="${app.name}"/&gt;

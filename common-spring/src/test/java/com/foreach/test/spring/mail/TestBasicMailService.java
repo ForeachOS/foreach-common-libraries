@@ -1,8 +1,8 @@
 package com.foreach.test.spring.mail;
 
+import com.foreach.spring.concurrent.SynchronousTaskExecutor;
 import com.foreach.spring.mail.BasicMailService;
-import com.foreach.test.spring.util.BaseTestService;
-import org.apache.log4j.Logger;
+import com.foreach.spring.mail.MailStatus;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +19,10 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class TestBasicMailService
@@ -30,7 +32,6 @@ public class TestBasicMailService
 	private JavaMailSender mailSender;
 	private String originator;
 	private String serviceBccRecipients;
-	private Logger logger;
 
 	private String from;
 	private String to;
@@ -137,15 +138,52 @@ public class TestBasicMailService
 	}
 
 	@Test
-	public void testCustomExecutorService()
+	public void testCustomExecutorService() throws Exception
 	{
-		mailService.setExecutorService( new ScheduledThreadPoolExecutor(2) );
+		mailService.setExecutorService( new ScheduledThreadPoolExecutor( 2 ) );
 
 		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
 
 		when( mailSender.createMimeMessage() ).thenReturn( message );
 
-		mailService.sendMimeMail( from, to, null, subject, body, null );
+		Future<MailStatus> future = mailService.sendMimeMail( from, to, null, subject, body, null );
+
+		assertTrue( future.get().isMailSent() );
+	}
+
+	@Test
+	public void exceptionDoesNotGetEatenWithSyncExecutor() throws Exception
+	{
+		mailService.setExecutorService( new SynchronousTaskExecutor() );
+
+		RuntimeException expected = new RuntimeException();
+
+		when( mailSender.createMimeMessage() ).thenReturn( new MimeMessage( Session.getInstance( new Properties() ) ) );
+		doThrow( expected ).when( mailSender ).send( (MimeMessage) anyObject() );
+
+		Future<MailStatus> future = mailService.sendMimeMail( "from", "to", "", "subject", "body", null );
+		MailStatus status = future.get();
+
+		assertFalse( status.isMailSent() );
+		assertSame( expected, status.getException() );
+	}
+
+	@Test
+	public void exceptionDoesNotGetEatenWithAsync() throws Exception
+	{
+		mailService.setExecutorService( new ScheduledThreadPoolExecutor( 2 ) );
+
+		RuntimeException expected = new RuntimeException();
+
+		when( mailSender.createMimeMessage() ).thenReturn( new MimeMessage( Session.getInstance( new Properties() ) ) );
+		doThrow( expected ).when( mailSender ).send( (MimeMessage) anyObject() );
+
+		Future<MailStatus> future = mailService.sendMimeMail( "from", "to", "", "subject", "body", null );
+
+		MailStatus status = future.get();
+
+		assertFalse( status.isMailSent() );
+		assertSame( expected, status.getException() );
 	}
 
 	private InternetAddress[] adressesFromStrings( String s[] ) throws AddressException
@@ -161,7 +199,7 @@ public class TestBasicMailService
 
 	private String condense( String s[] )
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for ( int i = 0; i < s.length; i++ ) {
 			if ( i > 0 ) {
 				sb.append( ";" );
