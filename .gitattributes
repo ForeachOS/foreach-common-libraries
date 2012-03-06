@@ -16,6 +16,7 @@ common-mybatis/src/test/java/com/foreach/test/mybatis/util/TestCountryHandler3.j
 /common-projects.iml -text
 common-spring/common-spring.iml -text
 common-spring/pom.xml -text
+common-spring/src/main/java/com/foreach/spring/concurrent/PreComputedFuture.java -text
 common-spring/src/main/java/com/foreach/spring/concurrent/SynchronousTaskExecutor.java -text
 common-spring/src/main/java/com/foreach/spring/concurrent/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/context/ApplicationContextInfo.java -text
@@ -31,6 +32,7 @@ common-spring/src/main/java/com/foreach/spring/logging/MethodExecutionTimeLogger
 common-spring/src/main/java/com/foreach/spring/logging/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/mail/BasicMailService.java -text
 common-spring/src/main/java/com/foreach/spring/mail/MailService.java -text
+common-spring/src/main/java/com/foreach/spring/mail/MailStatus.java -text
 common-spring/src/main/java/com/foreach/spring/mail/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/validators/MultipleEmails.java -text
 common-spring/src/main/java/com/foreach/spring/validators/MultipleEmailsValidator.java -text
