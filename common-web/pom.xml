@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.foreach.libs</groupId>
 	<artifactId>common-web</artifactId>
-	<version>0.4</version>
+	<version>0.5-SNAPSHOT</version>
 	<parent>
 		<groupId>com.foreach.libs</groupId>
 		<artifactId>common-projects</artifactId>
-		<version>0.4</version>
+		<version>0.5-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>

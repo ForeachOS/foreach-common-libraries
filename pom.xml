@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.foreach.libs</groupId>
 	<artifactId>common-projects</artifactId>
-	<version>0.4</version>
+	<version>0.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>common-spring</module>
@@ -80,7 +80,7 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<scm>
-      <connection>scm:svn:svn://192.168.2.153/foreach-java/common-projects/tags/common-projects-0.4</connection>
-      <developerConnection>scm:svn:svn://192.168.2.153/foreach-java/common-projects/tags/common-projects-0.4</developerConnection>
+      <connection>scm:svn:svn://192.168.2.153/foreach-java/common-projects/trunk/</connection>
+      <developerConnection>scm:svn:svn://192.168.2.153/foreach-java/common-projects/trunk/</developerConnection>
    </scm>
 </project>
