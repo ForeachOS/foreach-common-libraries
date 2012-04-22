@@ -1,6 +1,5 @@
 package com.foreach.mybatis.enums;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.ibatis.type.JdbcType;
 
 import java.lang.reflect.ParameterizedType;
@@ -71,7 +70,7 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 	 */
 	public final Object getResult( CallableStatement callableStatement, int columnIndex ) throws SQLException
 	{
-		throw new NotImplementedException( getClass().getName() + " does not support CallableStatements" );
+		throw new UnsupportedOperationException( getClass().getName() + " does not support CallableStatements" );
 	}
 
 	/**
@@ -79,14 +78,14 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 	 * <p/>
 	 * You may not override this routine.
 	 */
-	// Yes, it is called getCodeParameter instead of getCodeOrIdParameter.
-	protected final void setCodeParameter(
+	protected final void setEnumParameterValue(
 			PreparedStatement preparedStatement, int i, Object t, JdbcType jdbcType ) throws SQLException
 	{
 		if ( customJdbcType == null ) {
-			if( jdbcType == null ) {
+			if ( jdbcType == null ) {
 				preparedStatement.setObject( i, t );
-			} else {
+			}
+			else {
 				preparedStatement.setObject( i, t, jdbcType.TYPE_CODE );
 			}
 		}
@@ -100,13 +99,28 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 	 * <p/>
 	 * You may not override this routine.
 	 */
-	protected final Object getCodeParameter( ResultSet resultSet, String columnName ) throws SQLException
+	protected final Object getEnumParameterValue( ResultSet resultSet, String columnName ) throws SQLException
 	{
 		if ( customJdbcType == null ) {
 			return resultSet.getObject( columnName );
 		}
 		else {
 			return resultSet.getObject( columnName, map );
+		}
+	}
+
+	/**
+	 * Gets the object representing the enum at the specified column in the result set.
+	 * <p/>
+	 * You may not override this routine.
+	 */
+	protected final Object getEnumParameterValue( ResultSet resultSet, int columnIndex ) throws SQLException
+	{
+		if ( customJdbcType == null ) {
+			return resultSet.getObject( columnIndex );
+		}
+		else {
+			return resultSet.getObject( columnIndex, map );
 		}
 	}
 

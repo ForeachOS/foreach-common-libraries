@@ -26,6 +26,10 @@ common-spring/src/main/java/com/foreach/spring/enums/CodeLookup.java -text
 common-spring/src/main/java/com/foreach/spring/enums/EnumUtils.java -text
 common-spring/src/main/java/com/foreach/spring/enums/IdLookup.java -text
 common-spring/src/main/java/com/foreach/spring/enums/package-info.java -text
+common-spring/src/main/java/com/foreach/spring/localization/AbstractLocalizedFieldsObject.java -text
+common-spring/src/main/java/com/foreach/spring/localization/BaseLocalizedFields.java -text
+common-spring/src/main/java/com/foreach/spring/localization/Language.java -text
+common-spring/src/main/java/com/foreach/spring/localization/LocalizedFields.java -text
 common-spring/src/main/java/com/foreach/spring/logging/Log4JConfigurator.java -text
 common-spring/src/main/java/com/foreach/spring/logging/Log4JUtils.java -text
 common-spring/src/main/java/com/foreach/spring/logging/MethodExecutionTimeLogger.java -text
@@ -40,6 +44,7 @@ common-spring/src/main/java/com/foreach/spring/validators/package-info.java -tex
 common-spring/src/test/java/com/foreach/test/spring/concurrent/TestCallable.java -text
 common-spring/src/test/java/com/foreach/test/spring/concurrent/TestSynchronousTaskExecutor.java -text
 common-spring/src/test/java/com/foreach/test/spring/concurrent/TestTask.java -text
+common-spring/src/test/java/com/foreach/test/spring/localization/TestLocalizedFieldsObject.java -text
 common-spring/src/test/java/com/foreach/test/spring/mail/TestBasicMailService.java -text
 common-spring/src/test/java/com/foreach/test/spring/util/BaseTestService.java -text
 common-spring/src/test/resources/config/spring-test-services.xml -text

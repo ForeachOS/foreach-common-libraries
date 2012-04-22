@@ -1,6 +1,6 @@
 package com.foreach.spring.logging;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.core.io.Resource;
 

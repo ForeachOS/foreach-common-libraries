@@ -3,8 +3,8 @@ package com.foreach.web.logging;
 import com.foreach.spring.context.ApplicationContextInfo;
 import com.foreach.spring.mail.MailService;
 import com.foreach.web.util.WebUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DurationFormatUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
@@ -57,7 +57,6 @@ import java.util.Enumeration;
  */
 public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 {
-
 	private static final String TABLE_START_TAG =
 			"<table border='1' cellpadding='3' style='font-family: tahoma;font-size: 12px;'>";
 

@@ -6,7 +6,6 @@ import com.mockrunner.mock.jdbc.MockCallableStatement;
 import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockPreparedStatement;
 import com.mockrunner.mock.jdbc.MockResultSet;
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.ibatis.type.JdbcType;
 import org.junit.Assert;
 import org.junit.Before;
@@ -45,7 +44,7 @@ public class TestCountryHandler3
 			Country country = (Country) handler.getResult( rs, "country" );
 			Long id = (Long) rs.getObject( "country" );
 
-			Assert.assertSame( EnumUtils.getById(  Country.class, id ), country );
+			Assert.assertSame( EnumUtils.getById( Country.class, id ), country );
 
 			if ( country != null ) {
 				Assert.assertTrue( country.getId().equals( id ) );
@@ -73,7 +72,7 @@ public class TestCountryHandler3
 		}
 	}
 
-	@Test(expected = NotImplementedException.class)
+	@Test(expected = UnsupportedOperationException.class)
 	public void callableNotSupported() throws SQLException
 	{
 		MockCallableStatement stmt = new MockCallableStatement( new MockConnection(), "" );

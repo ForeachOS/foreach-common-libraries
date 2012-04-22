@@ -35,11 +35,7 @@ import java.sql.SQLException;
  * </pre>
  * <p/>
  */
-public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
-
-		extends BaseEnumHandler<E>
-
-		implements TypeHandler
+public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup> extends BaseEnumHandler<E> implements TypeHandler
 {
 	/**
 	 * @param defaultValue   a result to be substituted when the value read from the database can't be mapped.
@@ -71,12 +67,17 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup>
 	{
 		CodeLookup e = (CodeLookup) parameter;
 
-		setCodeParameter( preparedStatement, i, ( e != null ) ? e.getCode() : null, jdbcType );
+		setEnumParameterValue( preparedStatement, i, ( e != null ) ? e.getCode() : null, jdbcType );
 	}
 
 	public final Object getResult( ResultSet resultSet, String columnName ) throws SQLException
 	{
-		return getByCode( getCodeParameter( resultSet, columnName ) );
+		return getByCode( getEnumParameterValue( resultSet, columnName ) );
+	}
+
+	public Object getResult( ResultSet resultSet, int i ) throws SQLException
+	{
+		return getByCode( getEnumParameterValue( resultSet, i ) );
 	}
 
 	private E getByCode( Object code )

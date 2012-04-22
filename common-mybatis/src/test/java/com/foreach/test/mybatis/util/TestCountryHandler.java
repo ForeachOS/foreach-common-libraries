@@ -6,16 +6,13 @@ import com.mockrunner.mock.jdbc.MockCallableStatement;
 import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockPreparedStatement;
 import com.mockrunner.mock.jdbc.MockResultSet;
-import org.apache.commons.lang.NotImplementedException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.JdbcType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import sun.rmi.runtime.Log;
 
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 public class TestCountryHandler
 {
@@ -72,7 +69,7 @@ public class TestCountryHandler
 		}
 	}
 
-	@Test(expected = NotImplementedException.class)
+	@Test(expected = UnsupportedOperationException.class)
 	public void callableNotSupported() throws SQLException
 	{
 		MockCallableStatement stmt = new MockCallableStatement( new MockConnection(), "" );

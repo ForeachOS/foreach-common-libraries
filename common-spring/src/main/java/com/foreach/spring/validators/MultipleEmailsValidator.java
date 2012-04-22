@@ -1,6 +1,6 @@
 package com.foreach.spring.validators;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.impl.EmailValidator;
 
 import javax.validation.ConstraintValidator;

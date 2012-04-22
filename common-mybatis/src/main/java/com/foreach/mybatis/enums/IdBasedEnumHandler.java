@@ -35,11 +35,7 @@ import java.sql.SQLException;
  * </pre>
  * </p>
  */
-public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
-
-		extends BaseEnumHandler<E>
-
-		implements TypeHandler
+public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup> extends BaseEnumHandler<E> implements TypeHandler
 {
 	/**
 	 * @param defaultValue   a result to be substituted when the value read from the database can't be mapped.
@@ -71,12 +67,17 @@ public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup>
 	{
 		IdLookup e = (IdLookup) parameter;
 
-		setCodeParameter( preparedStatement, i, ( e != null ) ? e.getId() : null, jdbcType );
+		setEnumParameterValue( preparedStatement, i, ( e != null ) ? e.getId() : null, jdbcType );
 	}
 
 	public final E getResult( ResultSet resultSet, String columnName ) throws SQLException
 	{
-		return getById( getCodeParameter( resultSet, columnName ) );
+		return getById( getEnumParameterValue( resultSet, columnName ) );
+	}
+
+	public Object getResult( ResultSet resultSet, int columnIndex ) throws SQLException
+	{
+		return getById( getEnumParameterValue( resultSet, columnIndex ) );
 	}
 
 	protected final E getById( Object id )
