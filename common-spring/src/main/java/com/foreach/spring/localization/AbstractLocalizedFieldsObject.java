@@ -1,154 +1,134 @@
 package com.foreach.spring.localization;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-/*
-	An object that contains different versions of <Base> objects dependent on language
+/**
+ * An object that contains different versions of {@link LocalizedFields} instances providing language versioned fields.
  */
 public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields>
 {
-	private Map<Language, Base> fieldsMap = new HashMap<Language, Base>();
-	private Collection<Base> fieldsCollection = new LocalizedFieldsCollection();
+	private final Map<String, Base> fieldsByLanguageCode = new HashMap<String, Base>();
+	private Map<String, Base> fieldsAsUnmodifiableMap = null;
+	private Collection<Base> fieldsAsModifiableCollection = null;
 
 	protected AbstractLocalizedFieldsObject()
 	{
 		createDefaultFields();
 	}
 
+	/**
+	 * <p>Provides an unmodifiable map interface to access the fields by language code (String accessor).
+	 * This allows easier use in things like JSP or mapping files:</p>
+	 * <ul>
+	 * <li>myobject.fields[nl].text <em>(JSTL/JSP)</em></li>
+	 * <li>myobject.fields.nl.text <em>(MyBatis/OGNL implementations)</em></li>
+	 * </ul>
+	 *
+	 * @return All fields in a map of language code/fields implementation.
+	 */
+	public final Map<String, Base> getFields()
+	{
+		if ( fieldsAsUnmodifiableMap == null ) {
+			fieldsAsUnmodifiableMap = Collections.unmodifiableMap( fieldsByLanguageCode );
+		}
+
+		return fieldsAsUnmodifiableMap;
+	}
+
+	/**
+	 * Sets all fields of the entity in one go, passing them as a collection.
+	 *
+	 * @param allFields Collection containing the LocalizedFields implementations.
+	 */
+	public final void setFieldsAsCollection( Collection<Base> allFields )
+	{
+		Collection<Base> current = getFieldsAsCollection();
+		current.clear();
+
+		current.addAll( allFields );
+	}
+
+	/**
+	 * Provides a collection interface to all fields. Fields can be iterated or added through the collection interface.
+	 * @return All fields as a collection that can be modified or iterated over.
+	 */
 	public final Collection<Base> getFieldsAsCollection()
 	{
-		return fieldsCollection;
+		if ( fieldsAsModifiableCollection == null ) {
+			fieldsAsModifiableCollection = new LocalizedFieldsCollection<Base>( fieldsByLanguageCode );
+		}
+
+		return fieldsAsModifiableCollection;
 	}
 
-	public final void setFields( Map<Language, Base> fieldsMap )
-	{
-		this.fieldsMap = fieldsMap;
-	}
-
-	public final Map<Language, Base> getFields()
-	{
-		return fieldsMap;
-	}
-
-	public final Base getFields( Language language )
+	/**
+	 * Method to fetch fields for a given language.
+	 * NOTE: If no fields for that language have been found, they will be created.
+	 *
+	 * @param language Language for which to fetch the fields.
+	 * @return LocalizedFields for the specified language.
+	 */
+	public final Base getFieldsForLanguage( Language language )
 	{
 		Base fields;
 
-		if ( fieldsMap.containsKey( language ) ) {
-			fields = fieldsMap.get( language );
+		String languageCode = language.getCode();
+
+		if ( fieldsByLanguageCode.containsKey( languageCode ) ) {
+			fields = fieldsByLanguageCode.get( languageCode );
 		}
 		else {
 			fields = createFields( language );
 
-			fieldsMap.put( language, fields );
+			if ( fields != null ) {
+				addFields( fields );
+			}
 		}
 
 		return fields;
 	}
 
-	protected abstract void createDefaultFields();
+	/**
+	 * Adds LocalizedFields to this entity.  The language must be set on the LocalizedFields instance.
+	 * If there are already LocalizedFields linked to the same language, they will be replaced by the new instance.
+	 *
+	 * @param fields Specific LocalizedFields implementation.
+	 */
+	public final void addFields( Base fields )
+	{
+		if ( fields.getLanguage() == null ) {
+			throw new NullPointerException( "Language is required on LocalizedFields" );
+		}
 
-	public abstract Base createFields( Language language );
+		fieldsByLanguageCode.put( fields.getLanguage().getCode(), fields );
+	}
 
 	/**
-	 * Helper class for allowing fields to be set as general collection instead of map.
+	 * Removes the LocalizedFields for the specific language.
+	 *
+	 * @param language Language for which to remove the fields.
 	 */
-	private class LocalizedFieldsCollection implements Collection<Base>
+	public final void removeFields( Language language )
 	{
-		public int size()
-		{
-			return fieldsMap.size();
-		}
-
-		public boolean isEmpty()
-		{
-			return fieldsMap.isEmpty();
-		}
-
-		public boolean contains( Object o )
-		{
-			return fieldsMap.containsValue( o );
-		}
-
-		public Iterator<Base> iterator()
-		{
-			return fieldsMap.values().iterator();
-		}
-
-		public Object[] toArray()
-		{
-			return fieldsMap.values().toArray();
-		}
-
-		public <T> T[] toArray( T[] a )
-		{
-			return fieldsMap.values().toArray( a );
-		}
-
-		public boolean add( Base base )
-		{
-			if ( base.getLanguage() != null ) {
-				fieldsMap.put( base.getLanguage(), base );
-				return true;
-			}
-			return false;
-		}
-
-		public boolean remove( Object o )
-		{
-			boolean found = false;
-			Language language = null;
-
-			for ( Map.Entry<Language, Base> entry : fieldsMap.entrySet() ) {
-				if ( entry.getValue().equals( o ) ) {
-					language = entry.getKey();
-					found = true;
-				}
-			}
-
-			Base base = found ? fieldsMap.remove( language ) : null;
-
-			return base != null;
-		}
-
-		public boolean containsAll( Collection<?> c )
-		{
-			return fieldsMap.entrySet().containsAll( c );
-		}
-
-		public boolean addAll( Collection<? extends Base> c )
-		{
-			for ( Base b : c ) {
-				add( b );
-			}
-
-			return true;
-		}
-
-		public boolean removeAll( Collection<?> c )
-		{
-			boolean success = true;
-
-			for ( Object o : c ) {
-				if ( !remove( o ) ) {
-					success = false;
-				}
-			}
-
-			return success;
-		}
-
-		public boolean retainAll( Collection<?> c )
-		{
-			return fieldsMap.entrySet().retainAll( c );
-		}
-
-		public void clear()
-		{
-			fieldsMap.clear();
+		if ( language != null && fieldsByLanguageCode.containsKey( language.getCode() ) ) {
+			fieldsByLanguageCode.remove( language.getCode() );
 		}
 	}
+
+	/**
+	 * Called after construction of this instance.  Can be used to set fields to a predefined state.
+	 */
+	protected abstract void createDefaultFields();
+
+	/**
+	 * Creates new LocalizedFields of the required specific implementation.  This does not add the fields to
+	 * the collection for this entity.
+	 *
+	 * @param language Language for which to create fields.
+	 * @return Specific LocalizedFields implementation.
+	 */
+	public abstract Base createFields( Language language );
 }

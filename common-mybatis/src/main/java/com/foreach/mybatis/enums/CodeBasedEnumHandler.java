@@ -75,7 +75,7 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup> exten
 		return getByCode( getEnumParameterValue( resultSet, columnName ) );
 	}
 
-	public Object getResult( ResultSet resultSet, int i ) throws SQLException
+	public final Object getResult( ResultSet resultSet, int i ) throws SQLException
 	{
 		return getByCode( getEnumParameterValue( resultSet, i ) );
 	}

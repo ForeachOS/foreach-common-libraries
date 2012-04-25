@@ -31,6 +31,7 @@ import java.util.concurrent.Future;
  * <p/>
  * Example spring configuration with a shared javaMailSender and a private asynchronous executorService:
  * <pre>
+ * {@code
  *  <bean id="sharedMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
  *      <property name="host" value="localhost"/>
  *      <property name="defaultEncoding" value="UTF-8"/>
@@ -51,6 +52,7 @@ import java.util.concurrent.Future;
  *      </property>
  *      <property name="javaMailSender" ref="sharedMailSender"/>
  *  </bean>
+ * }
  * </pre>
  */
 public class BasicMailService implements MailService

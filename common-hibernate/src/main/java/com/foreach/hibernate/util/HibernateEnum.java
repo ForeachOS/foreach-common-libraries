@@ -163,6 +163,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 	}
 
 	// Enum equallity IS pointer equality
+	@SuppressWarnings( "all" )
 	public final boolean equals( Object x, Object y )
 	{
 		if( x == null ) {

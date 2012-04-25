@@ -4,6 +4,7 @@ common-hibernate/pom.xml -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateEnum.java -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/HibernateSessionEmulator.java -text
 common-hibernate/src/main/java/com/foreach/hibernate/util/package-info.java -text
+common-mybatis/common-mybatis.iml -text
 common-mybatis/pom.xml -text
 common-mybatis/src/main/java/com/foreach/mybatis/enums/BaseEnumHandler.java -text
 common-mybatis/src/main/java/com/foreach/mybatis/enums/CodeBasedEnumHandler.java -text
@@ -30,6 +31,8 @@ common-spring/src/main/java/com/foreach/spring/localization/AbstractLocalizedFie
 common-spring/src/main/java/com/foreach/spring/localization/BaseLocalizedFields.java -text
 common-spring/src/main/java/com/foreach/spring/localization/Language.java -text
 common-spring/src/main/java/com/foreach/spring/localization/LocalizedFields.java -text
+common-spring/src/main/java/com/foreach/spring/localization/LocalizedFieldsCollection.java -text
+common-spring/src/main/java/com/foreach/spring/localization/package-info.java -text
 common-spring/src/main/java/com/foreach/spring/logging/Log4JConfigurator.java -text
 common-spring/src/main/java/com/foreach/spring/logging/Log4JUtils.java -text
 common-spring/src/main/java/com/foreach/spring/logging/MethodExecutionTimeLogger.java -text
@@ -71,5 +74,9 @@ common-web/src/test/java/com/foreach/test/web/logging/TestRequestLogInterceptor.
 /pom.xml -text
 resources/deploy/deploy.xml -text
 resources/deploy/jsch-0.1.45.jar -text
-src/site/apt/index.apt -text
+src/site/apt/common-hibernate.apt.vm -text
+src/site/apt/common-mybatis.apt.vm -text
+src/site/apt/common-spring.apt.vm -text
+src/site/apt/common-web.apt.vm -text
+src/site/apt/index.apt.vm -text
 src/site/site.xml -text

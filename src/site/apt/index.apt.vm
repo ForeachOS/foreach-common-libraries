@@ -1,0 +1,9 @@
+Common Libraries
+
+    Available FE libraries and a summary of the functionality they offer
+
+* Maven artifacts
+
+    All maven artifacts can be fetched from the Foreach Nexus repository at {{http://java.libs.foreach.com/nexus}}.
+
+

@@ -28,12 +28,15 @@
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.6.8" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:3.1.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-web:3.1.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.4" level="project" />
+    <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.mybatis:mybatis-spring:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:3.1.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:3.1.1.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.9.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:3.1.1.RELEASE" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.mockrunner:mockrunner:0.3.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: commons-lang:commons-lang:2.6" level="project" />
   </component>
 </module>
 

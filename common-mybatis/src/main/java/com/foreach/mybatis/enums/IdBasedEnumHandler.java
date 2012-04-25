@@ -75,7 +75,7 @@ public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup> extends B
 		return getById( getEnumParameterValue( resultSet, columnName ) );
 	}
 
-	public Object getResult( ResultSet resultSet, int columnIndex ) throws SQLException
+	public final Object getResult( ResultSet resultSet, int columnIndex ) throws SQLException
 	{
 		return getById( getEnumParameterValue( resultSet, columnIndex ) );
 	}

@@ -3,60 +3,220 @@ package com.foreach.test.spring.localization;
 import com.foreach.spring.localization.AbstractLocalizedFieldsObject;
 import com.foreach.spring.localization.BaseLocalizedFields;
 import com.foreach.spring.localization.Language;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class TestLocalizedFieldsObject
 {
+	private MyLocalizedText text;
+	private Collection<MyFields> collection;
+	private Map<String, MyFields> map;
+
+	@Before
+	public void createInstance()
+	{
+		text = new MyLocalizedText();
+
+		collection = text.getFieldsAsCollection();
+		map = text.getFields();
+	}
+
+	@Test
+	public void setAndGetFieldsWithDefaults()
+	{
+		MyLocalizedTextWithDefaults text = new MyLocalizedTextWithDefaults();
+
+		Map<String, MyFields> allFields = text.getFields();
+
+		assertEquals( 2, allFields.size() );
+
+		MyFields fields = text.getFieldsForLanguage( MyLanguage.EN );
+		assertNotNull( fields );
+		fields.setText( "Text in English 1" );
+
+		validateSameInAllCollections( fields, text, MyLanguage.EN );
+
+		fields = text.getFieldsForLanguage( MyLanguage.FR );
+		assertNotNull( fields );
+		fields.setText( "Texte en Français" );
+
+		validateSameInAllCollections( fields, text, MyLanguage.FR );
+
+		MyFields newFields = text.createFields( MyLanguage.EN );
+		newFields.setText( "Text in English 2" );
+		text.addFields( newFields );
+
+		assertEquals( 2, allFields.size() );
+
+		validateSameInAllCollections( newFields, text, MyLanguage.EN );
+	}
+
 	@Test
 	public void verifyListCollection()
 	{
-		MyLocalizedText text = new MyLocalizedText();
+		MyLocalizedTextWithDefaults text = new MyLocalizedTextWithDefaults();
 
 		Collection<MyFields> fields = text.getFieldsAsCollection();
 		assertNotNull( fields );
-		assertEquals( 1, fields.size() );
+		assertEquals( 2, fields.size() );
 
-		text.getFields( MyLanguage.EN ).setText( "first" );
+		text.getFieldsForLanguage( MyLanguage.EN ).setText( "first" );
 
 		for ( MyFields f : fields ) {
-			assertEquals( "first", f.getText() );
+			if ( f.getLanguage() == MyLanguage.EN ) {
+				assertEquals( "first", f.getText() );
+			}
 		}
 
 		MyFields other = new MyFields( MyLanguage.EN );
 		other.setText( "other" );
 		fields.add( other );
 
-		assertEquals( "other", text.getFields( MyLanguage.EN ).getText() );
-		assertEquals( 1, fields.size() );
+		assertEquals( "other", text.getFieldsForLanguage( MyLanguage.EN ).getText() );
+		assertEquals( 2, fields.size() );
 
 		for ( MyFields f : fields ) {
-			assertEquals( "other", f.getText() );
+			if ( f.getLanguage() == MyLanguage.EN ) {
+				assertEquals( "other", f.getText() );
+			}
 		}
+	}
+
+	@Test
+	public void removingFields()
+	{
+		MyLocalizedTextWithDefaults text = new MyLocalizedTextWithDefaults();
+
+		Collection<MyFields> collection = text.getFieldsAsCollection();
+		Map<String, MyFields> map = text.getFields();
+
+		assertEquals( 2, collection.size() );
+		assertEquals( 2, map.size() );
+
+		text.removeFields( MyLanguage.EN );
+
+		assertEquals( 1, collection.size() );
+		assertEquals( 1, map.size() );
+		assertFalse( map.containsKey( MyLanguage.EN.getCode() ) );
+		assertTrue( map.containsKey( MyLanguage.FR.getCode() ) );
+	}
+
+	@Test
+	public void addingFieldsThroughGet()
+	{
+		MyFields fields = text.getFieldsForLanguage( MyLanguage.EN );
+		assertNotNull( fields );
+
+		assertEquals( 1, collection.size() );
+		assertEquals( 1, map.size() );
+
+		validateSameInAllCollections( fields, text, MyLanguage.EN );
+	}
+
+	@Test
+	public void addingFieldsThroughCollection()
+	{
+		MyFields fields = text.createFields( MyLanguage.EN );
+		collection.add( fields );
+
+		assertEquals( 1, collection.size() );
+		assertEquals( 1, map.size() );
+
+		validateSameInAllCollections( fields, text, MyLanguage.EN );
+	}
+
+	@Test
+	public void addingFieldsExplicitly()
+	{
+		MyFields fields = text.createFields( MyLanguage.EN );
+		text.addFields( fields );
+
+		assertEquals( 1, collection.size() );
+		assertEquals( 1, map.size() );
+
+		validateSameInAllCollections( fields, text, MyLanguage.EN );
+	}
+
+	@Test
+	public void settingAllFieldsAsCollection()
+	{
+		MyFields fieldsOne = text.createFields( MyLanguage.EN );
+		MyFields fieldsTwo = text.createFields( MyLanguage.FR );
+		MyFields fieldsThree = text.createFields( MyLanguage.EN );
+
+		text.setFieldsAsCollection( Arrays.asList( fieldsOne, fieldsTwo, fieldsThree ) );
+
+		assertEquals( 2, collection.size() );
+		assertEquals( 2, map.size() );
+
+		validateSameInAllCollections( fieldsTwo, text, MyLanguage.FR );
+		validateSameInAllCollections( fieldsThree, text, MyLanguage.EN );
+	}
+
+	@Test
+	public void clearingCollection()
+	{
+		MyLocalizedTextWithDefaults text = new MyLocalizedTextWithDefaults();
+
+		Collection<MyFields> collection = text.getFieldsAsCollection();
+		Map<String, MyFields> map = text.getFields();
+
+		assertEquals( 2, collection.size() );
+		assertEquals( 2, map.size() );
+
+		collection.clear();
+		assertTrue( collection.isEmpty() );
+		assertTrue( map.isEmpty() );
+	}
+
+	private void validateSameInAllCollections( MyFields expected, MyLocalizedText text, MyLanguage language )
+	{
+		MyFields fields = text.getFieldsForLanguage( language );
+		assertSame( expected, fields );
+
+		Collection<MyFields> collection = text.getFieldsAsCollection();
+		assertTrue( collection.contains( fields ) );
+
+		Map<String, MyFields> map = text.getFields();
+		assertTrue( map.containsValue( fields ) );
+		assertEquals( fields, map.get( language.getCode() ) );
 	}
 
 	enum MyLanguage implements Language
 	{
-		EN;
+		EN( "en", "English", Locale.ENGLISH ),
+		FR( "fr", "Français", Locale.FRENCH );
 
-		public String getName()
-		{
-			return "English";
-		}
+		private String code, name;
+		private Locale locale;
 
-		public Locale getLocale()
+		MyLanguage( String code, String name, Locale locale )
 		{
-			return Locale.ENGLISH;
+			this.code = code;
+			this.name = name;
+			this.locale = locale;
 		}
 
 		public String getCode()
 		{
-			return "en";
+			return code;
+		}
+
+		public String getName()
+		{
+			return name;
+		}
+
+		public Locale getLocale()
+		{
+			return locale;
 		}
 	}
 
@@ -85,8 +245,22 @@ public class TestLocalizedFieldsObject
 		@Override
 		protected void createDefaultFields()
 		{
+		}
+
+		@Override
+		public MyFields createFields( Language language )
+		{
+			return new MyFields( language );
+		}
+	}
+
+	class MyLocalizedTextWithDefaults extends MyLocalizedText
+	{
+		@Override
+		protected void createDefaultFields()
+		{
 			for ( Language language : MyLanguage.values() ) {
-				getFields( language );
+				getFieldsForLanguage( language );
 			}
 		}
 
