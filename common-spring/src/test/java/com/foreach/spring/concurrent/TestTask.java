@@ -1,4 +1,4 @@
-package com.foreach.test.spring.concurrent;
+package com.foreach.spring.concurrent;
 
 public class TestTask implements Runnable
 {

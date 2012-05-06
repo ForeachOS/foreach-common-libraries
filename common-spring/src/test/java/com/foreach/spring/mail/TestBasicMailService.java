@@ -1,8 +1,6 @@
-package com.foreach.test.spring.mail;
+package com.foreach.spring.mail;
 
 import com.foreach.spring.concurrent.SynchronousTaskExecutor;
-import com.foreach.spring.mail.BasicMailService;
-import com.foreach.spring.mail.MailStatus;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

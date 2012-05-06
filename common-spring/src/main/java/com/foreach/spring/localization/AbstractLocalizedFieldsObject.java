@@ -1,5 +1,7 @@
 package com.foreach.spring.localization;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -53,6 +55,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 
 	/**
 	 * Provides a collection interface to all fields. Fields can be iterated or added through the collection interface.
+	 *
 	 * @return All fields as a collection that can be modified or iterated over.
 	 */
 	public final Collection<Base> getFieldsAsCollection()
@@ -121,7 +124,12 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	/**
 	 * Called after construction of this instance.  Can be used to set fields to a predefined state.
 	 */
-	protected abstract void createDefaultFields();
+	private void createDefaultFields()
+	{
+		for ( Language language : LanguageConfigurator.getLanguages() ) {
+			getFieldsForLanguage( language );
+		}
+	}
 
 	/**
 	 * Creates new LocalizedFields of the required specific implementation.  This does not add the fields to

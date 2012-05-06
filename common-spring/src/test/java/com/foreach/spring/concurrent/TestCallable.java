@@ -1,4 +1,4 @@
-package com.foreach.test.spring.concurrent;
+package com.foreach.spring.concurrent;
 
 import java.util.concurrent.Callable;
 

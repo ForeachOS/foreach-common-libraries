@@ -1,19 +1,15 @@
-package com.foreach.test.spring.localization;
+package com.foreach.spring.localization;
 
-import com.foreach.spring.localization.AbstractLocalizedFieldsObject;
-import com.foreach.spring.localization.BaseLocalizedFields;
-import com.foreach.spring.localization.Language;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class TestLocalizedFieldsObject
+public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 {
 	private MyLocalizedText text;
 	private Collection<MyFields> collection;
@@ -114,8 +110,8 @@ public class TestLocalizedFieldsObject
 		MyFields fields = text.getFieldsForLanguage( MyLanguage.EN );
 		assertNotNull( fields );
 
-		assertEquals( 1, collection.size() );
-		assertEquals( 1, map.size() );
+		assertEquals( 2, collection.size() );
+		assertEquals( 2, map.size() );
 
 		validateSameInAllCollections( fields, text, MyLanguage.EN );
 	}
@@ -126,8 +122,8 @@ public class TestLocalizedFieldsObject
 		MyFields fields = text.createFields( MyLanguage.EN );
 		collection.add( fields );
 
-		assertEquals( 1, collection.size() );
-		assertEquals( 1, map.size() );
+		assertEquals( 2, collection.size() );
+		assertEquals( 2, map.size() );
 
 		validateSameInAllCollections( fields, text, MyLanguage.EN );
 	}
@@ -138,8 +134,8 @@ public class TestLocalizedFieldsObject
 		MyFields fields = text.createFields( MyLanguage.EN );
 		text.addFields( fields );
 
-		assertEquals( 1, collection.size() );
-		assertEquals( 1, map.size() );
+		assertEquals( 2, collection.size() );
+		assertEquals( 2, map.size() );
 
 		validateSameInAllCollections( fields, text, MyLanguage.EN );
 	}
@@ -189,42 +185,11 @@ public class TestLocalizedFieldsObject
 		assertEquals( fields, map.get( language.getCode() ) );
 	}
 
-	enum MyLanguage implements Language
-	{
-		EN( "en", "English", Locale.ENGLISH ),
-		FR( "fr", "Français", Locale.FRENCH );
-
-		private String code, name;
-		private Locale locale;
-
-		MyLanguage( String code, String name, Locale locale )
-		{
-			this.code = code;
-			this.name = name;
-			this.locale = locale;
-		}
-
-		public String getCode()
-		{
-			return code;
-		}
-
-		public String getName()
-		{
-			return name;
-		}
-
-		public Locale getLocale()
-		{
-			return locale;
-		}
-	}
-
 	class MyFields extends BaseLocalizedFields
 	{
 		private String text;
 
-		MyFields( Language language )
+		public MyFields( Language language )
 		{
 			super( language );
 		}
@@ -243,11 +208,6 @@ public class TestLocalizedFieldsObject
 	class MyLocalizedText extends AbstractLocalizedFieldsObject<MyFields>
 	{
 		@Override
-		protected void createDefaultFields()
-		{
-		}
-
-		@Override
 		public MyFields createFields( Language language )
 		{
 			return new MyFields( language );
@@ -256,18 +216,5 @@ public class TestLocalizedFieldsObject
 
 	class MyLocalizedTextWithDefaults extends MyLocalizedText
 	{
-		@Override
-		protected void createDefaultFields()
-		{
-			for ( Language language : MyLanguage.values() ) {
-				getFieldsForLanguage( language );
-			}
-		}
-
-		@Override
-		public MyFields createFields( Language language )
-		{
-			return new MyFields( language );
-		}
 	}
 }

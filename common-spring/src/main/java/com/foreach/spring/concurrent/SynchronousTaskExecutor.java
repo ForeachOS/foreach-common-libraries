@@ -10,7 +10,7 @@ import java.util.concurrent.*;
 /**
  * SynchronousTaskExecutor is a partial synchronous implementation of ExecutorService.
  * <p/>
- * On methods with timeout, the timout values are ignored.
+ * On methods with timeout, the timeout values are ignored.
  * <p/>
  * Note that executing tasks synchronously may cause scaling issues if there is no upper bound
  * on the number of concurrent threads the executor instance is called from.
