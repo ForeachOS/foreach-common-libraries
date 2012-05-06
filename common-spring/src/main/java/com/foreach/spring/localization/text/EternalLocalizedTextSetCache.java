@@ -43,7 +43,7 @@ public class EternalLocalizedTextSetCache implements LocalizedTextSetCache
 	/**
 	 * @return The number of sets in the cache.
 	 */
-	public int size()
+	public final int size()
 	{
 		return cache.size();
 	}
@@ -67,9 +67,24 @@ public class EternalLocalizedTextSetCache implements LocalizedTextSetCache
 	}
 
 	/**
+	 * Reloads the specific LocalizedTextSet instance if kept in the cache.
+	 *
+	 * @param application Application of the set of items.
+	 * @param group       Group of the set of items.
+	 */
+	public final void reload( String application, String group )
+	{
+		LocalizedTextSet cachedSet = getLocalizedTextSet( application, group );
+
+		if ( cachedSet != null ) {
+			cachedSet.reload();
+		}
+	}
+
+	/**
 	 * @return All LocalizedTextSet instances currently in the cache.
 	 */
-	public Set<LocalizedTextSet> getCachedTextSets()
+	public final Set<LocalizedTextSet> getCachedTextSets()
 	{
 		return new HashSet<LocalizedTextSet>( cache.values() );
 	}

@@ -89,7 +89,7 @@ public class LocalizedText extends AbstractLocalizedFieldsObject<LocalizedTextFi
 	 * @return Specific LocalizedFields implementation.
 	 */
 	@Override
-	public LocalizedTextFields createFields( Language language )
+	public final LocalizedTextFields createFields( Language language )
 	{
 		return new LocalizedTextFields( language );
 	}
@@ -131,7 +131,7 @@ public class LocalizedText extends AbstractLocalizedFieldsObject<LocalizedTextFi
 	}
 
 	@Override
-	public String toString()
+	public final String toString()
 	{
 		return "{" + application + "-" + group + ": " + label + "}";
 	}

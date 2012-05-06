@@ -36,6 +36,14 @@ public interface LocalizedTextSetCache
 	void reload();
 
 	/**
+	 * Reloads the specific LocalizedTextSet instance if kept in the cache.
+	 *
+	 * @param application Application of the set of items.
+	 * @param group Group of the set of items.
+	 */
+	void reload( String application, String group );
+
+	/**
 	 * @return All LocalizedTextSet instances currently in the cache.
 	 */
 	Set<LocalizedTextSet> getCachedTextSets();

@@ -35,9 +35,42 @@ public interface LocalizedTextDataStore
 	void insertLocalizedText( LocalizedText text );
 
 	/**
+	 * Updates an existing item in the datastore.
+	 *
+	 * @param text LocalizedText item.
+	 */
+	void updateLocalizedText( LocalizedText text );
+
+	/**
+	 * Deletes an item in the datastore.
+	 *
+	 * @param text LocalizedText item.
+	 */
+	void deleteLocalizedText( LocalizedText text );
+
+	/**
+	 * @return All applications in the datastore.
+	 */
+	List<String> getApplications();
+
+	/**
+	 * @param application Name of an application in the datastore.
+	 * @return List of groups for this application.
+	 */
+	List<String> getGroups( String application );
+
+	/**
 	 * Flags an item as used in the datastore.
 	 *
 	 * @param text LocalizedText item to be flagged.
 	 */
 	void flagAsUsed( LocalizedText text );
+
+	/**
+	 * This will do a search over all items in the datastore, looking for the text specified.
+	 *
+	 * @param textToSearch Text to search for.
+	 * @return All items that have a match on the text.
+	 */
+	List<LocalizedText> searchLocalizedText( String textToSearch );
 }

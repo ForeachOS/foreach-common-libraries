@@ -70,7 +70,7 @@ public class TestEternalLocalizedTextSetCache
 	}
 
 	@Test
-	public void reload()
+	public void reloadAll()
 	{
 		LocalizedTextSet first = mockTextSet( "myapp1", "group1" );
 		LocalizedTextSet second = mockTextSet( "myapp1", "group2" );
@@ -81,6 +81,21 @@ public class TestEternalLocalizedTextSetCache
 		cache.reload();
 
 		verify( first, times( 1 ) ).reload();
+		verify( second, times( 1 ) ).reload();
+	}
+
+	@Test
+	public void reloadSingle()
+	{
+		LocalizedTextSet first = mockTextSet( "myapp1", "group1" );
+		LocalizedTextSet second = mockTextSet( "myapp1", "group2" );
+
+		cache.storeLocalizedTextSet( first );
+		cache.storeLocalizedTextSet( second );
+
+		cache.reload( "myapp1", "group2" );
+
+		verify( first, never() ).reload();
 		verify( second, times( 1 ) ).reload();
 	}
 

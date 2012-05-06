@@ -5,6 +5,7 @@ import com.foreach.spring.localization.Language;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>LocalizedTextSet is a collection of LocalizedText instances scoped to a particular group.
@@ -22,7 +23,7 @@ public class LocalizedTextSetImpl implements LocalizedTextSet
 {
 	private final String application, group;
 	private final LocalizedTextService localizedTextService;
-	private HashMap<String, LocalizedText> textMap = new HashMap<String, LocalizedText>();
+	private Map<String, LocalizedText> textMap = new HashMap<String, LocalizedText>();
 
 	/**
 	 * <p>Constructs a new LocalizedTextSet based on a collection of items.  The collection may contain duplicates

@@ -8,6 +8,7 @@ import com.foreach.spring.enums.EnumUtils;
  * LanguageConfigurator is in fact a sort of singleton approach, but the singleton reference can be set
  * by simply constructing a LanguageConfigurator bean with the implementing Language class as parameter.
  */
+@SuppressWarnings( "all" )
 public final class LanguageConfigurator
 {
 	private static Class languageClass;

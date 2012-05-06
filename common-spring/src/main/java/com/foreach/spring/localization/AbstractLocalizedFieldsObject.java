@@ -1,7 +1,5 @@
 package com.foreach.spring.localization;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -103,7 +101,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	public final void addFields( Base fields )
 	{
 		if ( fields.getLanguage() == null ) {
-			throw new NullPointerException( "Language is required on LocalizedFields" );
+			throw new RuntimeException( "Language is required on LocalizedFields" );
 		}
 
 		fieldsByLanguageCode.put( fields.getLanguage().getCode(), fields );
