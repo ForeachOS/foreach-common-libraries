@@ -42,7 +42,7 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 	}
 
 	/**
-	 * @return the class of enums being persisted by this TypeHandler.
+	 * @return The class of enums being persisted by this TypeHandler.
 	 */
 	public final Class<E> getClazz()
 	{
@@ -50,7 +50,7 @@ abstract class BaseEnumHandler<E extends Enum<E>>
 	}
 
 	/**
-	 * returns the default enum value if one was specified at construction, null otherwise.
+	 * returns The default enum value if one was specified at construction, null otherwise.
 	 */
 	public final E getDefaultValue()
 	{
