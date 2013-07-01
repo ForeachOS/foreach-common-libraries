@@ -25,6 +25,7 @@
         <module name="common-hibernate" />
         <module name="common-mybatis" />
         <module name="common-spring" />
+        <module name="common-test" />
         <module name="common-web" />
       </profile>
     </annotationProcessing>
@@ -33,6 +34,7 @@
       <module name="common-mybatis" target="1.5" />
       <module name="common-projects" target="1.5" />
       <module name="common-spring" target="1.5" />
+      <module name="common-test" target="1.5" />
       <module name="common-web" target="1.5" />
     </bytecodeTargetLevel>
   </component>

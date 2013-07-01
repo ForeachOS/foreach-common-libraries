@@ -11,7 +11,8 @@
 		<module>common-hibernate</module>
 		<module>common-mybatis</module>
 		<module>common-web</module>
-	</modules>
+        <module>common-test</module>
+    </modules>
 	<build>
 		<plugins>
 			<plugin>

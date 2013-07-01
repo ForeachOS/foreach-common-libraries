@@ -3,17 +3,368 @@
   <component name="ChangeListManager">
     <list default="true" id="957e6009-df39-4e82-b856-abff4d5998bd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common-hibernate/common-hibernate.iml" afterPath="$PROJECT_DIR$/common-hibernate/common-hibernate.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common-mybatis/common-mybatis.iml" afterPath="$PROJECT_DIR$/common-mybatis/common-mybatis.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common-spring/common-spring.iml" afterPath="$PROJECT_DIR$/common-spring/common-spring.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common-web/common-web.iml" afterPath="$PROJECT_DIR$/common-web/common-web.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="common-projects.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372663268277" ignored="false" />
-    <file path="/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372663377559" ignored="false" />
+    <file path="/Dummy.txt" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372683185410" ignored="false" />
+    <file path="/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372684202792" ignored="false" />
     <file path="/common-spring.apt.vm" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372663535061" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/test/be/mediafin/solr/web/TestSolrReindexController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="/TestSolrReindexController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682453418" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/wines_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/editor.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/admin/admin.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/signal_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/digitalsignage/digitalsignage.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/mobile/mobile.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/finance.bankdata/bankdata.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/data.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/investor/investor.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/backoffice/backoffice.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/Site_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/solr.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682944309" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/solr_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/bankdata_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/cca/cca.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/admin_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/ajax_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/sites-test/sites-test.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/finance/finance.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/wines/wines.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/ajax/ajax.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/mobile_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/digitalsignage_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/webservices_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/business/business.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/investor_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/signal/signal.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/engine.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/webservices/webservices.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/advrendering/advrendering.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/cca_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/advrendering_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/finance_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682818726" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/base.web.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682944309" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/adverts_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/services.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/artifacts/editor_war_exploded.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/adverts/adverts.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682773264" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/site/Site.iml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682944309" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/r65/R65XmlParser.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/mme/agents/newsml/NewsmlMessageParser.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/cca/src/be/mediafin/web/controllers/SubscriptionController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/site/MessagentTijdShared.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/wines/src/be/mediafin/web/config/WinesManagerConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/META-INF/mf.tld" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/mme/MmeFileBasedAssetImport.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/DoctoolServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/mme/BaseMmeImport.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/mme/MmeImageImport.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/mme/MmeSliderImport.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/cca/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/META-INF/AssetFunctions.tld" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/digital/packager/DigitalPublicationFilePackager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/registration/RegistrationModuleController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/hlnfeeds/HlnFeedFacade.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/registration/NewOrEditRegistrationInvestorOrSignalController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/jsp/JspLinkFunctions.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/META-INF/UserFunctions.tld" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/articles/ArticleController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/backoffice/src/be/mediafin/webtv/BaseWebTvController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/articles/ReactionsController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/articles/ArticleBasedController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/admin/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/articles/DossierController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/jsp/tijd/BaseLinkFunctions.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/digital/render/DigitalEditionHttpRenderer.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/hitlist/HitListFacade.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/digital/advert/DigitalAdvertServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/GroupServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/digital/api/DigitalEditionCacheableApiController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/MobileUserServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/digital/api/DigitalArticleArchiveController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/mobile/src/be/mediafin/web/config/MobileWebConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/jsp/TextFunctions.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/META-INF/baseTags.tld" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/PortfolioServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/digital/api/DigitalAuthenticationController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/mobile/src/be/mediafin/web/config/MobileManagerConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/META-INF/LinkFunctions.tld" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/digital/api/DigitalEditionApiController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/digital/api/DigitalPublicationCheckController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/digital/DigitalEditionRenderController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/direct/DirectAdvertManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/digital/DigitalPublicationServiceTest.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/article/DirectArticleManager.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/article/MmeArticleImport.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/digital/DigitalPublicationServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/backoffice/LdapServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/jsp/AbstractBaseLinkFunctions.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/digital/DigitalImageServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/ImmoServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/article/DirectAssetManager.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/src/be/mediafin/web/controllers/EbabPromocodeController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/SliderControllerAjax.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/src/be/mediafin/web/controllers/BlocksController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/business/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/MultipleSiteAgendaServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/test/testData/data/article/DirectArticleManager.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/NodeServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/BlockV2ServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/src/be/mediafin/web/controllers/JsonController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/AdvertServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/AutofillController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/ArticleServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/backoffice/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/WinesServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/TvInitController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/CorrectArticleController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/TeaserAssetServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/mailables/MailViewFactory.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/SendToFriendController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/site/src/be/mediafin/web/config/TijdManagerConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/user/assets/UserAssetsFacade.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/NewRegController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/adverts/util/ImageGeneratorImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/WebTvServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/src/be/mediafin/web/controllers/ArticlesController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/direct/DirectAssetManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/src/be/mediafin/web/controllers/NodesController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/AgendaServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/HitListServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/ImageServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/user/DirectUserManager.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/direct/DirectEloketWebServiceManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/PortfolioNewShareController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/direct/DirectEbabUpgradeManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/CommentsServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/SubscriptionTeaserAjaxController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/NotificationAbuseController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/ajax/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ajax/PortfolioChangeShareController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/site/WEB-INF/jsp/pages/tablettemplate.jsp" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/services/SerializationServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/site/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/src/be/mediafin/web/config/EditorManagerConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/src/be/mediafin/web/config/EditorWebConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/be/mediafin/mmeImport/testData/article/article_investor.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/digitalsignage/DigitalSignageServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/direct/DirectArticleManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/be/mediafin/mmeImport/testData/article/article.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ELoketOgoneRecurringBillingController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/be/mediafin/mmeImport/testData/article/breakingnews.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/be/mediafin/mmeImport/testData/article/article_finance.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/be/mediafin/mmeImport/testData/article/article_tijdfinance.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/Html5FeedController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/advrendering/test/be/mediafin/web/controllers/TestTileController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/EbabOgoneThanksController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/diocontent/DiocontentServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/MatrixController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/advrendering/test/be/mediafin/web/controllers/TestClickController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ServicePageController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/RegistrationTestController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/CollectionPageController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/cache/coherence/CachedCitationManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/cache/coherence/CachedUserManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/cache/coherence/CachedHtmlAssetManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/cache/coherence/CachedSubscriptionManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/mobile/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/advrendering/src/be/mediafin/web/controllers/TileController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/CoherenceCacheController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/PollController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/test/be/mediafin/solr/web/TestSolrReindexController2.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/AjaxController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/cache/CachedEbabWebServiceManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/test/be/mediafin/solr/TestArticlesCore.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/test/be/mediafin/solr/TestMultiCoreSolrService.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/mobile/WEB-INF/tld/mf-mobi.tld" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/test/be/mediafin/solr/TestSolrSearch.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/BlockController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785203" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/test/be/mediafin/solr/TestEntityExtractor.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/EbabOgoneTemplateController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/EbabController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/RegistrationController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/advrendering/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/EbabRenewalController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/test/be/mediafin/solr/TestSynonymFilter.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ELoketMoveMutationController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/MailingPageController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/cache/CachedImageManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/imageslider/SliderHelper.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/cache/CachedCorporateActionManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/IpAccessDebugController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/search/solr/SolrSuggestionServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/business/src/be/mediafin/user/subscription/SubscriptionType.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ELoketDeliveryComplaintController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/Redirect404Controller.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/PaperController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/search/solr/SolrEntityServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/TvServingController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/BumpController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/ELoketBaseScenarioController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/controllers/DebugController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/search/solr/MultiCoreSolrServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/blocksV2/handlers/MostReadArticleHandler.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/annotation/Param.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/blocksV2/handlers/SliderHandler.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/blocksV2/handlers/WebTvHandler.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/helpers/UserViewBuilder.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/search/solr/SolrSearchImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/assets/AssetFactory.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/helpers/CmsAuthenticationHelper.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/managers/cache/CachedImmoManager.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/blocksV2/command/ChooseTemplateCommand.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/helpers/DigitalAuthenticationHelper.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/helpers/WebTvHelper.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/test/testData/data/digitalsignage/TestDigitalSignageDAO.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/helpers/AjaxControllerHelper.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/mailings/UserMailServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/blocksV2/command/SearchCommand.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/mailings/KeywordServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/blocksV2/command/EditBlockCommand.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/web/config/BaseWebConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/teaser/TeaserServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/eloket/DppSoapServicePortFactory.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/test/testData/data/digital/digitalEditions.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/eloket/ELoketServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/blocksV2/BlocksFlusherTask.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/blocksV2/BlockHandlerFactory.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/assets/AssetServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/user/ConcurrentUserServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/user/UserServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/admin/src/be/mediafin/tasks/solr/SolrFullReindexTask.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/user/EbabFrontServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/user/RegistrationServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/jsp/UserFunctions.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/jsp/FacadeFunctions.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/finance/src/be/mediafin/web/config/FinanceManagerConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/rest/dpp/AssetConversionServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/mobile/test/be/mediafin/web/commands/MatrixMobiControllerCommandTest.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/config/logback/logback.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/jsp/AssetFunctionsImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/config/logback/logback.signauxboursiers.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/config/logback/logback.editor.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/MailingServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/config/logback/logback.investisseur.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/config/logback/logback.belegger.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/dao/model/articles/ArticleMapper.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/SubscriptionServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/signal/src/be/mediafin/web/config/SignalManagerConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/WebTvSiteJobTaskServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/eshop/EshopServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/config/logback/logback.beurssignaal.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/UserAssetsServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/fb/FbHandlerFactory.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/dao/model/articles/HitCounterMapper.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/MobileAdvertServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/WebServiceServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/digital/DigitalCropContextServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/UserSearchAssetServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/CitationServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/dao/model/digital/DigitalEditionMapper.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/signal/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/be/mediafin/mmeImport/testData/article/article_digital.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/be/mediafin/mmeImport/testData/article/article_investor2.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/be/mediafin/mmeImport/testData/article/article_digital_no_node.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/ApplicationContextBuilder.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/adverts/src/be/mediafin/web/controllers/WebTvAdvertController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/MessagentUserServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/FinipediaServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/investor/Investor.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/BaseContextListener.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/UserNewspaperAssetServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/investor/InvestorAlert.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/user/ebab/EbabServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/MessagentMailServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/util/FTLoggerImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/user/ebab/EbabWebServiceServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/digitalsignage/DigitalSignageDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/PdfServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/user/ebab/EbabUpgradeServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/dao/model/blocks/CmsPageMapper.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/QuotationServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/backoffice/RoleDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/backoffice/FastArticleDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/dao/model/advice/AdviceMapper.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/test/be/mediafin/adverts/TestAdvertBookingContainerBookingCRUD.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/WebTvJobServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/finance/MessagentFinance.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/quotation/RealtimeDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/be/mediafin/digital/DigitalPublicationServiceTest.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/signal/MessagentSignal.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/ImageFileServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/site/morningcomment/MessagentMorningComment.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/mailings/KeywordDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/BlockContentRuleServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/PaperServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/dao/model/users/UserExtMapper.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/AdministrativeMailServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/base/web/navcontext/NavigationConfiguration.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/digital/DigitalPublicationDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/TemplateServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/services/AdviceServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/base/web/BILoggingController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/admin/test/testData/data/user/SubscriptionDetailsTask.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785204" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/base/web/GenericResponseWrapper.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/base/web/RequestContext.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/advice/AdviceDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/base/web/RequestParameters.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/mobi/sms/ForeachOperatorServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/site/middayevening/MessagentMiddayUpdateEveningRoundup.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/user/subscription/SubscriptionDetailsImportHistoryDaoImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/base/web/BaseRegistrationController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/user/ebab/DirectEbabDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/src/be/mediafin/solr/web/controllers/MultiCoreSolrRequestController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/fund/FundServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/src/be/mediafin/solr/web/controllers/SolrReindexController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/business/src/be/mediafin/images/Format.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/base/web/PageNotFoundException.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/blocksV2/render/impl/TeaserBlockRenderer.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/finance.bankdata/src/be/mediafin/web/controllers/ImageUploadController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/investor/src/be/mediafin/web/controllers/AdvicesController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/business/src/be/mediafin/images/Image.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/site/breakingnews/MessagentBreakingNews.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/base/web/BeanHelperImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/blocksV2/render/impl/DefaultRenderEngine.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/engine/src/be/mediafin/facade/AssetFacadeImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/dao/model/html/HtmlAssetMapper.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/dao/model/fund/FundListMapper.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/blog/typepad/TypepadServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/dao/model/fund/EmittentMapper.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/ajax/command/registration/ActivateAboCommand.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/admin/src/be/mediafin/web/config/AdminManagerConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/ajax/command/graydon/GraydonDetailsCommand.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/site/keyaccount/MessagentKeyAccount.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/fund/FundListDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/data/src/be/mediafin/data/fund/EmittentDAOImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/web/config/BaseManagerConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/ajax/command/archive/AddToArchiveCommand.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/solr/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/investor/src/be/mediafin/web/config/InvestorManagerConfig.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/cca/test/be/mediafin/web/controllers/TestUserAjaxController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/editor/test/be/mediafin/web/controllers/TestNodesController.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/test/testData/data/mailings/templatetest/site/selection/MessagentSelection.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/services/src/be/mediafin/blocksV2/export/CmsPageExportServiceImpl.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sites/base.web/src/be/mediafin/ajax/command/SliderListCommand.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682785205" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sql/liquibase/changelog-base.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682815455" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/sql/liquibase/2013/05/PROJ-2535_add_manual_formats.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372682815455" ignored="false" />
+    <file path="$PROJECT_DIR$/../../MEDIAFIN/site/.idea/workspace.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372684889275" ignored="false" />
+    <file path="/fragment.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372683045568" ignored="false" />
+    <file path="/MockedLoader.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372684765923" ignored="false" />
+    <file path="$PROJECT_DIR$/../../RESTO/resto/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372684287764" ignored="false" />
+    <file path="$MAVEN_REPOSITORY$/com/foreach/libs/common-mybatis/0.5-SNAPSHOT/common-mybatis-0.5-SNAPSHOT.jar!/META-INF/maven/com.foreach.libs/common-mybatis/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372683726495" ignored="false" />
+    <file path="$MAVEN_REPOSITORY$/com/foreach/libs/common-spring/0.5-SNAPSHOT/common-spring-0.5-SNAPSHOT.jar!/META-INF/maven/com.foreach.libs/common-spring/pom.xml" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372683889968" ignored="false" />
+    <file path="/package-info.java" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372684749422" ignored="false" />
+    <file path="/.gitignore" changelist="957e6009-df39-4e82-b856-abff4d5998bd" time="1372684900656" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,19 +425,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ApplicationEnvironment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/context/ApplicationEnvironment.java">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="14" selection-start="302" selection-end="302" vertical-scroll-proportion="0.0">
+            <state line="57" column="28" selection-start="1746" selection-end="1746" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+        <entry file="file://$PROJECT_DIR$/common-spring/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="12" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.0">
+            <state line="62" column="31" selection-start="1905" selection-end="1905" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -95,52 +446,73 @@
       <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="1" column="19" selection-start="29" selection-end="29" vertical-scroll-proportion="0.02">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="deploy.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/deploy/deploy.xml">
+      <file leaf-file-name="MockedLoader.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common-test/src/main/java/com/foreach/test/MockedLoader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="10" selection-start="544" selection-end="544" vertical-scroll-proportion="0.0">
+            <state line="33" column="42" selection-start="1542" selection-end="1542" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3480#3495#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BasicMailService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/mail/BasicMailService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="41" selection-start="1977" selection-end="1977" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitattributes" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitattributes">
+      <file leaf-file-name="package-info.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common-test/src/main/java/com/foreach/test/package-info.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="1" column="23" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="site.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/site/site.xml">
+      <file leaf-file-name="package-info.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/validators/package-info.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="67" selection-start="756" selection-end="817" vertical-scroll-proportion="0.0">
+            <state line="5" column="0" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="common-spring.apt.vm" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/site/apt/common-spring.apt.vm">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common-test/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="0" selection-start="1521" selection-end="1521" vertical-scroll-proportion="-20.923077">
+            <state line="21" column="29" selection-start="851" selection-end="851" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RequestLogInterceptor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/common-web/src/main/java/com/foreach/web/logging/RequestLogInterceptor.java">
+      <file leaf-file-name="MultipleEmails.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/validators/MultipleEmails.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="142" column="9" selection-start="4816" selection-end="4816" vertical-scroll-proportion="0.0">
+            <state line="24" column="25" selection-start="615" selection-end="615" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MultipleEmailsValidator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/validators/MultipleEmailsValidator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="7" selection-start="952" selection-end="952" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -166,6 +538,9 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/site/apt/common-spring.apt.vm" />
+        <option value="$PROJECT_DIR$/common-test/pom.xml" />
+        <option value="$PROJECT_DIR$/common-test/src/main/java/com/foreach/test/package-info.java" />
+        <option value="$PROJECT_DIR$/common-test/src/main/java/com/foreach/test/MockedLoader.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
@@ -175,14 +550,25 @@
       <MavenImportingSettings>
         <option name="downloadDocsAutomatically" value="true" />
         <option name="downloadSourcesAutomatically" value="true" />
+        <option name="importAutomatically" value="true" />
       </MavenImportingSettings>
     </option>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </treeState>
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1618" />
-    <option name="height" value="1184" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -191,27 +577,27 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="0" />
+    <option name="STATE" value="2" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
-      <flattenPackages />
+      <flattenPackages ProjectPane="true" />
       <showMembers />
       <showModules />
       <showLibraryContents />
       <hideEmptyPackages />
       <abbreviatePackageNames />
-      <autoscrollToSource />
+      <autoscrollToSource ProjectPane="true" />
       <autoscrollFromSource />
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -226,7 +612,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="foreach-commons" />
+              <option name="myItemId" value="java-common-libraries" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -236,7 +622,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="foreach-commons" />
+              <option name="myItemId" value="java-common-libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java-common-libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -244,7 +648,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="site" />
+              <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -254,15 +658,181 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="foreach-commons" />
+              <option name="myItemId" value="java-common-libraries" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
+              <option name="myItemId" value="common-test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="deploy" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java-common-libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java-common-libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-spring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java-common-libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-spring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java-common-libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-spring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="validators" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java-common-libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-spring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mail" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java-common-libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-spring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java-common-libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common-mybatis" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -281,6 +851,14 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\code\FOREACH\java-common-libraries\common-test\src\main\java\com\foreach\libs\test" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.foreach.test" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -390,33 +968,34 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1618" height="1184" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32905138" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24967825" sideWeight="0.6709486" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20704375" sideWeight="0.6709486" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32905138" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -484,30 +1063,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/context/ApplicationEnvironment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="14" selection-start="302" selection-end="302" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitattributes">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/site/site.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="67" selection-start="756" selection-end="817" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/site/apt/common-spring.apt.vm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="0" selection-start="1521" selection-end="1521" vertical-scroll-proportion="-20.923077">
+        <state line="44" column="0" selection-start="1521" selection-end="1521" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -526,16 +1084,96 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/common-web/src/main/java/com/foreach/web/logging/ExceptionToMailResolver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="13" selection-start="2413" selection-end="2413" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar!/org/slf4j/Logger.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="246" selection-end="246" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.5.2/slf4j-api-1.5.2-sources.jar!/org/slf4j/Logger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="12" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.0">
+        <state line="57" column="28" selection-start="1746" selection-end="1746" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common-spring/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="31" selection-start="1905" selection-end="1905" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common-test/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="29" selection-start="851" selection-end="851" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/validators/MultipleEmails.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="25" selection-start="615" selection-end="615" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/validators/MultipleEmailsValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="7" selection-start="952" selection-end="952" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/validators/package-info.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common-test/src/main/java/com/foreach/test/package-info.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="23" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common-test/src/main/java/com/foreach/test/MockedLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="42" selection-start="1542" selection-end="1542" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3480#3495#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common-spring/src/main/java/com/foreach/spring/mail/BasicMailService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="41" selection-start="1977" selection-end="1977" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="1" column="19" selection-start="29" selection-end="29" vertical-scroll-proportion="0.02">
           <folding />
         </state>
       </provider>
