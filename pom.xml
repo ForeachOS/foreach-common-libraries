@@ -3,14 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.foreach.libs</groupId>
 	<artifactId>common-projects</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.5</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>common-spring</module>
 		<module>common-hibernate</module>
 		<module>common-mybatis</module>
 		<module>common-web</module>
-	</modules>
+        <module>common-test</module>
+    </modules>
 	<build>
 		<plugins>
 			<plugin>
@@ -80,7 +81,7 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<scm>
-      <connection>scm:svn:svn://192.168.2.153/foreach-java/common-projects/trunk/</connection>
-      <developerConnection>scm:svn:svn://192.168.2.153/foreach-java/common-projects/trunk/</developerConnection>
-   </scm>
+		<connection>scm:git:http://stash.foreach.be/scm/fe/java-common-libraries.git</connection>
+		<developerConnection>scm:git:http://stash.foreach.be/scm/fe/java-common-libraries.git</developerConnection>
+	</scm>
 </project>

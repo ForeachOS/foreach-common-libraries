@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/common-hibernate/common-hibernate.iml" filepath="$PROJECT_DIR$/common-hibernate/common-hibernate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-mybatis/common-mybatis.iml" filepath="$PROJECT_DIR$/common-mybatis/common-mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-projects.iml" filepath="$PROJECT_DIR$/common-projects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-spring/common-spring.iml" filepath="$PROJECT_DIR$/common-spring/common-spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-test/common-test.iml" filepath="$PROJECT_DIR$/common-test/common-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-web/common-web.iml" filepath="$PROJECT_DIR$/common-web/common-web.iml" />
+    </modules>
+  </component>
+</project>
+
