@@ -69,10 +69,10 @@
 								          value="foreach@192.168.2.91:/var/www2/java.libs.foreach.com/sites/common-projects/"/>
 								<loadproperties srcfile="${user.home}/.foreach/foreach-buildserver.properties"/>
 
-								<delete dir="target/javadoc-deploy/${project.artifactId}-${project.version}"
+								<delete dir="target/javadoc-deploy/${project.version}"
 								        failonerror="false"/>
 
-								<copy todir="target/javadoc-deploy/${project.artifactId}-${project.version}">
+								<copy todir="target/javadoc-deploy/${project.version}">
 									<fileset dir="target/site/apidocs"/>
 								</copy>
 
