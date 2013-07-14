@@ -7,24 +7,21 @@ import static org.junit.Assert.*;
 public class TestLanguageConfigurator
 {
 	@Test(expected = LanguageConfigurator.LanguagesNotConfiguredException.class)
-	public void notConfigured()
-	{
+	public void notConfigured() {
 		new LanguageConfigurator( (Class) null );
 
 		LanguageConfigurator.getLanguages();
 	}
 
 	@Test(expected = LanguageConfigurator.LanguagesNotConfiguredException.class)
-	public void notConfiguredAlternative()
-	{
+	public void notConfiguredAlternative() {
 		new LanguageConfigurator( (Class) null );
 
 		LanguageConfigurator.getLanguageByCode( "en" );
 	}
 
 	@Test
-	public void validLanguageSet()
-	{
+	public void validLanguageSet() {
 		new LanguageConfigurator( MyLanguage.class );
 
 		assertNotNull( LanguageConfigurator.getLanguages() );
@@ -32,8 +29,7 @@ public class TestLanguageConfigurator
 	}
 
 	@Test
-	public void getLanguageByCode()
-	{
+	public void getLanguageByCode() {
 		new LanguageConfigurator( MyLanguage.class );
 
 		assertSame( MyLanguage.FR, LanguageConfigurator.getLanguageByCode( "fr" ) );

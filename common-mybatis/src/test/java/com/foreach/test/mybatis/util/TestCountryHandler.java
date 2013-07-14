@@ -25,14 +25,12 @@ public class TestCountryHandler
 	private CountryHandler handler;
 
 	@Before
-	public void prepareForTest()
-	{
+	public void prepareForTest() {
 		handler = new CountryHandler();
 	}
 
 	@Test
-	public void codeToCountryConversion() throws SQLException
-	{
+	public void codeToCountryConversion() throws SQLException {
 		// Verify code to country conversion
 		MockResultSet rs = new MockResultSet( "" );
 		rs.addColumn( "country", countryCodes );
@@ -50,8 +48,7 @@ public class TestCountryHandler
 	}
 
 	@Test
-	public void countryToCodeConversion() throws SQLException
-	{
+	public void countryToCodeConversion() throws SQLException {
 		// Verify country to code conversion
 		MockPreparedStatement stmt = new MockPreparedStatement( new MockConnection(), "" );
 
@@ -70,8 +67,7 @@ public class TestCountryHandler
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void callableNotSupported() throws SQLException
-	{
+	public void callableNotSupported() throws SQLException {
 		MockCallableStatement stmt = new MockCallableStatement( new MockConnection(), "" );
 
 		handler.getResult( stmt, 1 );

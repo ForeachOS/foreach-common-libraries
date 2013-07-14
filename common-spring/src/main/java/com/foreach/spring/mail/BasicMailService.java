@@ -3,7 +3,8 @@ package com.foreach.spring.mail;
 import com.foreach.spring.concurrent.PreComputedFuture;
 import com.foreach.spring.concurrent.SynchronousTaskExecutor;
 import com.foreach.spring.validators.MultipleEmailsValidator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -57,7 +58,7 @@ import java.util.concurrent.Future;
  */
 public class BasicMailService implements MailService
 {
-	private Logger logger = Logger.getLogger( getClass() );
+	private Logger logger = LoggerFactory.getLogger( getClass() );
 
 	private JavaMailSender javaMailSender;
 	private String originator;
@@ -66,8 +67,7 @@ public class BasicMailService implements MailService
 	// default to synchronous operation.
 	private ExecutorService executorService = new SynchronousTaskExecutor();
 
-	protected final void setLogger( Logger logger )
-	{
+	protected final void setLogger( Logger logger ) {
 		this.logger = logger;
 	}
 
@@ -76,16 +76,14 @@ public class BasicMailService implements MailService
 	 *
 	 * @return Logger
 	 */
-	protected final Logger getLogger()
-	{
+	protected final Logger getLogger() {
 		return this.logger;
 	}
 
 	/**
 	 * Set the JavaMailSender to be used.
 	 */
-	public final void setJavaMailSender( JavaMailSender javaMailSender )
-	{
+	public final void setJavaMailSender( JavaMailSender javaMailSender ) {
 		this.javaMailSender = javaMailSender;
 	}
 
@@ -95,8 +93,7 @@ public class BasicMailService implements MailService
 	 * @param originator the email address of the default originator.
 	 *                   This value can be overridden on a per message basis.
 	 */
-	public final void setOriginator( String originator )
-	{
+	public final void setOriginator( String originator ) {
 		this.originator = originator;
 	}
 
@@ -106,13 +103,11 @@ public class BasicMailService implements MailService
 	 * @param serviceBccRecipients a comma or semicolon separated list of email adresses.
 	 *                             This value can be overridden on a per message basis.
 	 */
-	public final void setServiceBccRecipients( String serviceBccRecipients )
-	{
+	public final void setServiceBccRecipients( String serviceBccRecipients ) {
 		this.serviceBccRecipients = serviceBccRecipients;
 	}
 
-	public final String getServiceBccRecipients()
-	{
+	public final String getServiceBccRecipients() {
 		return serviceBccRecipients;
 	}
 
@@ -121,16 +116,14 @@ public class BasicMailService implements MailService
 	 *
 	 * @param executorService By default, a synchronous TaskExecutoService is configured.
 	 */
-	public final synchronized void setExecutorService( ExecutorService executorService )
-	{
+	public final synchronized void setExecutorService( ExecutorService executorService ) {
 		this.executorService = executorService;
 	}
 
 	/**
 	 * Get the current ExecutorService being used.
 	 */
-	public final synchronized ExecutorService getExecutorService()
-	{
+	public final synchronized ExecutorService getExecutorService() {
 		return executorService;
 	}
 
@@ -147,9 +140,12 @@ public class BasicMailService implements MailService
 	 *         If success it usually means the message was successfully delivered to the MSA or MTA.
 	 * @see <a href="http://tools.ietf.org/html/rfc2476">RFC 2476</a>.
 	 */
-	public final Future<MailStatus> sendMimeMail(
-			String from, String to, String bccs, String subject, String body, Map<String, File> attachments )
-	{
+	public final Future<MailStatus> sendMimeMail( String from,
+	                                              String to,
+	                                              String bccs,
+	                                              String subject,
+	                                              String body,
+	                                              Map<String, File> attachments ) {
 		final Logger log = getLogger();
 
 		try {
@@ -166,14 +162,12 @@ public class BasicMailService implements MailService
 		}
 	}
 
-	private MimeMessage createMimeMessage(
-			String from,
-			String to,
-			String bccs,
-			String subject,
-			String body,
-			Map<String, File> attachments ) throws MessagingException
-	{
+	private MimeMessage createMimeMessage( String from,
+	                                       String to,
+	                                       String bccs,
+	                                       String subject,
+	                                       String body,
+	                                       Map<String, File> attachments ) throws MessagingException {
 		MimeMessage message = javaMailSender.createMimeMessage();
 
 		// inform the MessageHelper on the multipartness of our message
@@ -199,12 +193,10 @@ public class BasicMailService implements MailService
 		return message;
 	}
 
-	private Future<MailStatus> sendMail( final MimeMessage message )
-	{
+	private Future<MailStatus> sendMail( final MimeMessage message ) {
 		return getExecutorService().submit( new Callable<MailStatus>()
 		{
-			public MailStatus call() throws Exception
-			{
+			public MailStatus call() throws Exception {
 				try {
 					javaMailSender.send( message );
 
@@ -218,8 +210,7 @@ public class BasicMailService implements MailService
 		} );
 	}
 
-	private String[] getToAddresses( String to )
-	{
+	private String[] getToAddresses( String to ) {
 		List<String> emailList = MultipleEmailsValidator.separateEmailAddresses( to );
 
 		return emailList.toArray( new String[emailList.size()] );

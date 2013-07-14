@@ -20,8 +20,7 @@ public class TestLocalizedTextSet extends AbstractLocalizationTest
 	private LocalizedText existingText;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		textService = mock( LocalizedTextService.class );
 
 		existingText = new LocalizedText();
@@ -36,8 +35,7 @@ public class TestLocalizedTextSet extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void getItems()
-	{
+	public void getItems() {
 		Collection<LocalizedText> items = textSet.getItems();
 
 		assertEquals( 1, items.size() );
@@ -45,15 +43,13 @@ public class TestLocalizedTextSet extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void exists()
-	{
+	public void exists() {
 		assertTrue( textSet.exists( "existing_label" ) );
 		assertFalse( textSet.exists( "non_existing" ) );
 	}
 
 	@Test
-	public void getExistingTextThatHasBeenUsed()
-	{
+	public void getExistingTextThatHasBeenUsed() {
 		existingText.setUsed( true );
 
 		assertEquals( "existing_value_en", text( "existing_label", MyLanguage.EN ) );
@@ -66,8 +62,7 @@ public class TestLocalizedTextSet extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void getExistingTextThatHasNotBeenUsed()
-	{
+	public void getExistingTextThatHasNotBeenUsed() {
 		existingText.setUsed( false );
 
 		assertEquals( "existing_value_en", text( "existing_label", MyLanguage.EN ) );
@@ -80,8 +75,7 @@ public class TestLocalizedTextSet extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void getNonExistingTextWithoutDefault()
-	{
+	public void getNonExistingTextWithoutDefault() {
 		assertEquals( 1, textSet.size() );
 
 		LocalizedText created = new LocalizedText();
@@ -103,8 +97,7 @@ public class TestLocalizedTextSet extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void getNonExistingTextWithDefault()
-	{
+	public void getNonExistingTextWithDefault() {
 		assertEquals( 1, textSet.size() );
 
 		LocalizedText created = new LocalizedText();
@@ -127,8 +120,7 @@ public class TestLocalizedTextSet extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void reload()
-	{
+	public void reload() {
 		LocalizedText updated = new LocalizedText();
 		updated.setLabel( "other_label" );
 		updated.setGroup( "othergroup" );
@@ -143,13 +135,11 @@ public class TestLocalizedTextSet extends AbstractLocalizationTest
 		assertTrue( textSet.exists( "other_label" ) );
 	}
 
-	private String text( String label, Language language )
-	{
+	private String text( String label, Language language ) {
 		return textSet.getText( label, language );
 	}
 
-	private String text( String label, Language language, String defaultValue )
-	{
+	private String text( String label, Language language, String defaultValue ) {
 		return textSet.getText( label, language, defaultValue );
 	}
 }

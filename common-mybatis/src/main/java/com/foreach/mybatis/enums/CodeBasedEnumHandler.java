@@ -43,8 +43,7 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup> exten
 	 * @param customJdbcType a custom jdbcType to be used when reading or writing the code
 	 *                       corresponding to an enum to the database.
 	 */
-	protected CodeBasedEnumHandler( E defaultValue, JdbcType customJdbcType )
-	{
+	protected CodeBasedEnumHandler( E defaultValue, JdbcType customJdbcType ) {
 		super( defaultValue, customJdbcType );
 	}
 
@@ -52,36 +51,32 @@ public abstract class CodeBasedEnumHandler<E extends Enum<E> & CodeLookup> exten
 	 * @param defaultValue a result to be substituted when the value read from the database can't be mapped.
 	 *                     This only works in one direction, a null value is always written to the database as null.
 	 */
-	protected CodeBasedEnumHandler( E defaultValue )
-	{
+	protected CodeBasedEnumHandler( E defaultValue ) {
 		this( defaultValue, null );
 	}
 
-	protected CodeBasedEnumHandler()
-	{
+	protected CodeBasedEnumHandler() {
 		this( null, null );
 	}
 
-	public final void setParameter(
-			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
-	{
+	public final void setParameter( PreparedStatement preparedStatement,
+	                                int i,
+	                                Object parameter,
+	                                JdbcType jdbcType ) throws SQLException {
 		CodeLookup e = (CodeLookup) parameter;
 
 		setEnumParameterValue( preparedStatement, i, ( e != null ) ? e.getCode() : null, jdbcType );
 	}
 
-	public final Object getResult( ResultSet resultSet, String columnName ) throws SQLException
-	{
+	public final Object getResult( ResultSet resultSet, String columnName ) throws SQLException {
 		return getByCode( getEnumParameterValue( resultSet, columnName ) );
 	}
 
-	public final Object getResult( ResultSet resultSet, int i ) throws SQLException
-	{
+	public final Object getResult( ResultSet resultSet, int i ) throws SQLException {
 		return getByCode( getEnumParameterValue( resultSet, i ) );
 	}
 
-	private E getByCode( Object code )
-	{
+	private E getByCode( Object code ) {
 		E e = (E) EnumUtils.getByCode( getClazz(), code );
 		return ( e == null ) ? getDefaultValue() : e;
 	}

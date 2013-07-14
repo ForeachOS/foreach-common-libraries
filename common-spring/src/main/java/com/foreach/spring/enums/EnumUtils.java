@@ -9,8 +9,7 @@ import java.util.List;
  */
 public class EnumUtils
 {
-	protected EnumUtils()
-	{
+	protected EnumUtils() {
 	}
 
 	/**
@@ -18,8 +17,7 @@ public class EnumUtils
 	 * @param id    an instance of type I
 	 * @return the instance e of class clazz such that e.getId().equals( id )
 	 */
-	public static final <I, E extends Enum<E> & IdLookup<I>> E getById( Class<E> clazz, I id )
-	{
+	public static <I, E extends Enum<E> & IdLookup<I>> E getById( Class<E> clazz, I id ) {
 		for ( E e : clazz.getEnumConstants() ) {
 			if ( e.getId().equals( id ) ) {
 				return e;
@@ -32,11 +30,10 @@ public class EnumUtils
 	 * @param clazz an Enum class implementing CodeLookup&lt;S&gt;
 	 * @param code  an instance of type S
 	 * @return the instance e of class clazz such that e.getCode().equals( code ), unless S is String,
-	 * in which case equalsIgnoreCase is used instead of equals().
+	 *         in which case equalsIgnoreCase is used instead of equals().
 	 */
-	public static final <S, E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code )
-	{
-		if( code instanceof String ) {
+	public static <S, E extends Enum<E> & CodeLookup<S>> E getByCode( Class<E> clazz, S code ) {
+		if ( code instanceof String ) {
 			return getByCaseInsensitiveString( clazz, code );
 		}
 
@@ -48,13 +45,12 @@ public class EnumUtils
 		return null;
 	}
 
-	public static final <I, E extends Enum<E> & IdLookup<I>> List<E> getByIds( Class<E> clazz, List<I> ids )
-	{
+	public static <I, E extends Enum<E> & IdLookup<I>> List<E> getByIds( Class<E> clazz, List<I> ids ) {
 		List<E> result = new ArrayList<E>();
 
-		for( I id : ids ) {
+		for ( I id : ids ) {
 			E e = getById( clazz, id );
-			if( e != null ) {
+			if ( e != null ) {
 				result.add( e );
 			}
 		}
@@ -62,10 +58,9 @@ public class EnumUtils
 		return result;
 	}
 
-	private static <S, E extends Enum<E> & CodeLookup<S>> E getByCaseInsensitiveString( Class<E> clazz, S code )
-	{
+	private static <S, E extends Enum<E> & CodeLookup<S>> E getByCaseInsensitiveString( Class<E> clazz, S code ) {
 		for ( E e : clazz.getEnumConstants() ) {
-			if ( ((String) e.getCode()).equalsIgnoreCase( (String) code ) ) {
+			if ( ( (String) e.getCode() ).equalsIgnoreCase( (String) code ) ) {
 				return e;
 			}
 		}

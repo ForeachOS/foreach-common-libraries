@@ -5,7 +5,8 @@ import com.foreach.spring.mail.MailService;
 import com.foreach.web.util.WebUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
@@ -62,7 +63,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private static final String TABLE_END_TAG = "</table>";
 
-	private Logger logger = Logger.getLogger( getClass() );
+	private Logger logger = LoggerFactory.getLogger( getClass() );
 
 	private String fromAddress, toAddress;
 
@@ -75,8 +76,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 *
 	 * @param logger
 	 */
-	protected final void setLogger( Logger logger )
-	{
+	protected final void setLogger( Logger logger ) {
 		this.logger = logger;
 	}
 
@@ -85,8 +85,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 *
 	 * @return Logger
 	 */
-	protected final Logger getLogger()
-	{
+	protected final Logger getLogger() {
 		return this.logger;
 	}
 
@@ -95,8 +94,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 *
 	 * @param fromAddress
 	 */
-	public final void setFromAddress( String fromAddress )
-	{
+	public final void setFromAddress( String fromAddress ) {
 		this.fromAddress = fromAddress;
 	}
 
@@ -105,8 +103,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 *
 	 * @param toAddress
 	 */
-	public final void setToAddress( String toAddress )
-	{
+	public final void setToAddress( String toAddress ) {
 		this.toAddress = toAddress;
 	}
 
@@ -115,8 +112,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 *
 	 * @param mailService
 	 */
-	public final void setMailService( MailService mailService )
-	{
+	public final void setMailService( MailService mailService ) {
 		this.mailService = mailService;
 	}
 
@@ -125,8 +121,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 *
 	 * @param context
 	 */
-	public final void setApplicationContext( ApplicationContextInfo context )
-	{
+	public final void setApplicationContext( ApplicationContextInfo context ) {
 		this.applicationContextInfo = context;
 	}
 
@@ -134,9 +129,10 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ModelAndView doResolveException(
-			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex )
-	{
+	public final ModelAndView doResolveException( HttpServletRequest request,
+	                                              HttpServletResponse response,
+	                                              Object handler,
+	                                              Exception ex ) {
 		logger.error( "Exception has occured ", ex );
 
 		try {
@@ -154,16 +150,13 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		return super.doResolveException( request, response, handler, ex );
 	}
 
-	private String createExceptionMailSubject( Exception ex )
-	{
+	private String createExceptionMailSubject( Exception ex ) {
 		return new StringBuffer( "[" ).append( applicationContextInfo.getLabel() ).append( "-" ).append(
 				applicationContextInfo.getApplicationName() ).append( " v" ).append(
 				applicationContextInfo.getBuildNumber() ).append( "] " ).append( ex.getClass().toString() ).toString();
 	}
 
-	private String createExceptionMailBody(
-			HttpServletRequest request, Object handler, Exception ex )
-	{
+	private String createExceptionMailBody( HttpServletRequest request, Object handler, Exception ex ) {
 		DateFormat readableDate = new SimpleDateFormat( "dd-MMM-yyyy HH:mm:ss" );
 
 		Date now = new Date();
@@ -235,8 +228,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		return message.toString();
 	}
 
-	private void writeCookies( PrintWriter html, HttpServletRequest request )
-	{
+	private void writeCookies( PrintWriter html, HttpServletRequest request ) {
 		if ( request.getCookies() != null ) {
 			// Write cookies
 			html.append( "<h5>Cookies</h5>" );
@@ -257,8 +249,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		}
 	}
 
-	private void writeRequestAttributes( PrintWriter html, HttpServletRequest request )
-	{
+	private void writeRequestAttributes( PrintWriter html, HttpServletRequest request ) {
 		html.append( "<h5>Request attributes</h5>" );
 		html.print( TABLE_START_TAG );
 		Enumeration enumeration = request.getAttributeNames();
@@ -270,8 +261,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		html.append( TABLE_END_TAG );
 	}
 
-	private void writeSessionAttributes( PrintWriter html, HttpServletRequest request )
-	{
+	private void writeSessionAttributes( PrintWriter html, HttpServletRequest request ) {
 		html.append( "<h5>Session attributes</h5>" );
 		html.print( TABLE_START_TAG );
 		HttpSession session = request.getSession( false );
@@ -294,8 +284,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		html.append( TABLE_END_TAG );
 	}
 
-	private void writeRequestHeaders( PrintWriter html, HttpServletRequest request )
-	{
+	private void writeRequestHeaders( PrintWriter html, HttpServletRequest request ) {
 		html.append( "<h5>Request headers</h5>" );
 		html.print( TABLE_START_TAG );
 		Enumeration enumeration = request.getHeaderNames();
@@ -309,8 +298,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		html.append( TABLE_END_TAG );
 	}
 
-	private void writeRequestParameters( PrintWriter html, HttpServletRequest request )
-	{
+	private void writeRequestParameters( PrintWriter html, HttpServletRequest request ) {
 		html.append( "<h5>Request parameters</h5>" );
 		html.print( TABLE_START_TAG );
 		Enumeration enumeration = request.getParameterNames();
@@ -322,8 +310,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		html.append( TABLE_END_TAG );
 	}
 
-	private String getRequestDuration( HttpServletRequest request )
-	{
+	private String getRequestDuration( HttpServletRequest request ) {
 		Long startTime = (Long) request.getAttribute( RequestLogInterceptor.ATTRIBUTE_START_TIME );
 
 		if ( startTime == null ) {
@@ -337,14 +324,12 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		}
 	}
 
-	private void writeParam( PrintWriter html, String paramName, Object paramValue )
-	{
+	private void writeParam( PrintWriter html, String paramName, Object paramValue ) {
 		html.append( "<tr><td><strong>" ).append( paramName ).append( "</strong></td><td>" ).print( paramValue );
 		html.append( "</td></tr>" );
 	}
 
-	private String createUrlFromRequest( HttpServletRequest request )
-	{
+	private String createUrlFromRequest( HttpServletRequest request ) {
 		StringBuffer buf = request.getRequestURL();
 		String qs = request.getQueryString();
 

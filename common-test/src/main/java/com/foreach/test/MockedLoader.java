@@ -33,100 +33,110 @@ import static org.mockito.Mockito.reset;
 /**
  * Somebody will write a short howto here.
  */
-public class MockedLoader extends DelegatingSmartContextLoader {
+public class MockedLoader extends DelegatingSmartContextLoader
+{
 
-    private AnnotationConfigContextLoaderDecorator loader = new AnnotationConfigContextLoaderDecorator();
-    private static final Logger LOG = LoggerFactory.getLogger( MockedLoader.class );
+	private AnnotationConfigContextLoaderDecorator loader = new AnnotationConfigContextLoaderDecorator();
+	private static final Logger LOG = LoggerFactory.getLogger( MockedLoader.class );
 
-    @Override
-    public ApplicationContext loadContext( MergedContextConfiguration mergedConfig ) throws Exception {
-        // Overwrite the annotationConfigLoader with out implementation
-        ReflectionTestUtils.setField( this, "annotationConfigLoader", loader );
-        return super.loadContext( mergedConfig );
-    }
+	@Override
+	public ApplicationContext loadContext( MergedContextConfiguration mergedConfig ) throws Exception {
+		// Overwrite the annotationConfigLoader with out implementation
+		ReflectionTestUtils.setField( this, "annotationConfigLoader", loader );
+		return super.loadContext( mergedConfig );
+	}
 
-    @Override
-    public void processContextConfiguration( ContextConfigurationAttributes configAttributes ) {
-        Class<?>[] classes = configAttributes.getClasses();
-        if ( classes.length == 0 ) {
-            // Allow empty loaders, in this case everything should be mocked
-            configAttributes.setClasses( new Class<?>[]{Object.class} );
-        }
-        super.processContextConfiguration( configAttributes );
-    }
+	@Override
+	public void processContextConfiguration( ContextConfigurationAttributes configAttributes ) {
+		Class<?>[] classes = configAttributes.getClasses();
+		if ( classes.length == 0 ) {
+			// Allow empty loaders, in this case everything should be mocked
+			configAttributes.setClasses( new Class<?>[] { Object.class } );
+		}
+		super.processContextConfiguration( configAttributes );
+	}
 
-    private class AnnotationConfigContextLoaderDecorator extends AnnotationConfigContextLoader {
+	private class AnnotationConfigContextLoaderDecorator extends AnnotationConfigContextLoader
+	{
 
-        @Override
-        protected void prepareContext( GenericApplicationContext context ) {
-            QualifierAnnotationAutowireCandidateResolver qualifierAnnotationAutowireCandidateResolver = new QualifierAnnotationAutowireCandidateResolver();
-            BeanFactoryDecorator beanFactoryDecorator = new BeanFactoryDecorator();
-            beanFactoryDecorator.setAutowireCandidateResolver( qualifierAnnotationAutowireCandidateResolver );
-            // Override the beanFactory with our custom implementation
-            ReflectionTestUtils.setField( context, "beanFactory", beanFactoryDecorator );
-            super.prepareContext( context );
-        }
-    }
+		@Override
+		protected void prepareContext( GenericApplicationContext context ) {
+			QualifierAnnotationAutowireCandidateResolver qualifierAnnotationAutowireCandidateResolver =
+					new QualifierAnnotationAutowireCandidateResolver();
+			BeanFactoryDecorator beanFactoryDecorator = new BeanFactoryDecorator();
+			beanFactoryDecorator.setAutowireCandidateResolver( qualifierAnnotationAutowireCandidateResolver );
+			// Override the beanFactory with our custom implementation
+			ReflectionTestUtils.setField( context, "beanFactory", beanFactoryDecorator );
+			super.prepareContext( context );
+		}
+	}
 
-    private class BeanFactoryDecorator extends DefaultListableBeanFactory {
+	private class BeanFactoryDecorator extends DefaultListableBeanFactory
+	{
 
-        private final Map<Class, Object> mockedBeans = new HashMap<Class, Object>();
-        //        private final Map<Class, Object> usedBeans = new HashMap<Class, Object>();
+		private final Map<Class, Object> mockedBeans = new HashMap<Class, Object>();
+		//        private final Map<Class, Object> usedBeans = new HashMap<Class, Object>();
 
-        //        public BeanFactoryDecorator() {
-        //            for( Map.Entry<Class, Object> bean : usedBeans.entrySet() ) {
-        //                reset( bean.getValue() );
-        //            }
-        //        }
+		//        public BeanFactoryDecorator() {
+		//            for( Map.Entry<Class, Object> bean : usedBeans.entrySet() ) {
+		//                reset( bean.getValue() );
+		//            }
+		//        }
 
-        @Override
-        public void destroySingletons() {
-            super.destroySingletons();
-            int mockedBeansWithoutInvocations = 0;
-            int mockedBeansWithInvocations = 0;
-            MockUtil mockUtil = new MockUtil();
-            for ( Map.Entry<Class, Object> entry : mockedBeans.entrySet() ) {
-                Object mock = entry.getValue();
-                InvocationContainer container = mockUtil.getMockHandler( mock ).getInvocationContainer();
-                List<Invocation> invocations = container.getInvocations();
-                if ( invocations.isEmpty() ) {
-                    mockedBeansWithoutInvocations++;
-                } else {
-                    mockedBeansWithInvocations++;
-                }
-                reset( mock );
-            }
-            System.out.println( "*** MockedLoader stats: [" + mockedBeans.size() + "] mocked beans of which [" + mockedBeansWithInvocations + "] with invocations and [" + mockedBeansWithoutInvocations + "] without invocations" );
-            mockedBeans.clear();
+		@Override
+		public void destroySingletons() {
+			super.destroySingletons();
+			int mockedBeansWithoutInvocations = 0;
+			int mockedBeansWithInvocations = 0;
+			MockUtil mockUtil = new MockUtil();
+			for ( Map.Entry<Class, Object> entry : mockedBeans.entrySet() ) {
+				Object mock = entry.getValue();
+				InvocationContainer container = mockUtil.getMockHandler( mock ).getInvocationContainer();
+				List<Invocation> invocations = container.getInvocations();
+				if ( invocations.isEmpty() ) {
+					mockedBeansWithoutInvocations++;
+				}
+				else {
+					mockedBeansWithInvocations++;
+				}
+				reset( mock );
+			}
+			System.out.println(
+					"*** MockedLoader stats: [" + mockedBeans.size() + "] mocked beans of which [" + mockedBeansWithInvocations + "] with invocations and [" + mockedBeansWithoutInvocations + "] without invocations" );
+			mockedBeans.clear();
 
-        }
+		}
 
-        @Override
-        public Object resolveDependency( DependencyDescriptor descriptor, String beanName,
-                                         Set<String> autowiredBeanNames,
-                                         TypeConverter typeConverter ) throws BeansException {
-            try {
-                return super.resolveDependency( descriptor, beanName, autowiredBeanNames, typeConverter );
-            } catch ( NoSuchBeanDefinitionException noSuchBeanDefinitionException ) {
+		@Override
+		public Object resolveDependency( DependencyDescriptor descriptor,
+		                                 String beanName,
+		                                 Set<String> autowiredBeanNames,
+		                                 TypeConverter typeConverter ) throws BeansException {
+			try {
+				return super.resolveDependency( descriptor, beanName, autowiredBeanNames, typeConverter );
+			}
+			catch ( NoSuchBeanDefinitionException noSuchBeanDefinitionException ) {
 
-                Class<?> dependencyType = descriptor.getDependencyType();
-                if ( !dependencyType.isInterface() ) {
-                    throw new NoSuchBeanDefinitionException( dependencyType, "Cannot create an automatic for for a non-interface for type: " + dependencyType );
-                }
+				Class<?> dependencyType = descriptor.getDependencyType();
+				if ( !dependencyType.isInterface() ) {
+					throw new NoSuchBeanDefinitionException( dependencyType,
+					                                         "Cannot create an automatic for for a non-interface for type: " + dependencyType );
+				}
 
-                Object mockedBean = mockedBeans.get( dependencyType );
-                if ( mockedBean == null ) {
-                    LOG.debug( "Did not find a mocked bean for type {}", dependencyType );
-                    mockedBean = mock( dependencyType );
+				Object mockedBean = mockedBeans.get( dependencyType );
+				if ( mockedBean == null ) {
+					LOG.debug( "Did not find a mocked bean for type {}", dependencyType );
+					mockedBean = mock( dependencyType );
 
-                    // We could actually also try to instantiate the Impl if we feel the
-                    mockedBeans.put( dependencyType, mockedBean );
-                } else {
-                    //                    usedBeans.put( dependencyType, mockedBean );
-                    LOG.debug( "returning mocked bean for type {}", dependencyType );
-                }
-                return mockedBean;
-            }
-        }
-    }
+					// We could actually also try to instantiate the Impl if we feel the
+					mockedBeans.put( dependencyType, mockedBean );
+				}
+				else {
+					//                    usedBeans.put( dependencyType, mockedBean );
+					LOG.debug( "returning mocked bean for type {}", dependencyType );
+				}
+				return mockedBean;
+			}
+		}
+	}
 }

@@ -14,8 +14,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	private Map<String, Base> fieldsAsUnmodifiableMap = null;
 	private Collection<Base> fieldsAsModifiableCollection = null;
 
-	protected AbstractLocalizedFieldsObject()
-	{
+	protected AbstractLocalizedFieldsObject() {
 		createDefaultFields();
 	}
 
@@ -29,8 +28,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	 *
 	 * @return All fields in a map of language code/fields implementation.
 	 */
-	public final Map<String, Base> getFields()
-	{
+	public final Map<String, Base> getFields() {
 		if ( fieldsAsUnmodifiableMap == null ) {
 			fieldsAsUnmodifiableMap = Collections.unmodifiableMap( fieldsByLanguageCode );
 		}
@@ -43,8 +41,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	 *
 	 * @param allFields Collection containing the LocalizedFields implementations.
 	 */
-	public final void setFieldsAsCollection( Collection<Base> allFields )
-	{
+	public final void setFieldsAsCollection( Collection<Base> allFields ) {
 		Collection<Base> current = getFieldsAsCollection();
 		current.clear();
 
@@ -56,8 +53,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	 *
 	 * @return All fields as a collection that can be modified or iterated over.
 	 */
-	public final Collection<Base> getFieldsAsCollection()
-	{
+	public final Collection<Base> getFieldsAsCollection() {
 		if ( fieldsAsModifiableCollection == null ) {
 			fieldsAsModifiableCollection = new LocalizedFieldsCollection<Base>( fieldsByLanguageCode );
 		}
@@ -72,8 +68,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	 * @param language Language for which to fetch the fields.
 	 * @return LocalizedFields for the specified language.
 	 */
-	public final Base getFieldsForLanguage( Language language )
-	{
+	public final Base getFieldsForLanguage( Language language ) {
 		Base fields;
 
 		String languageCode = language.getCode();
@@ -98,8 +93,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	 *
 	 * @param fields Specific LocalizedFields implementation.
 	 */
-	public final void addFields( Base fields )
-	{
+	public final void addFields( Base fields ) {
 		if ( fields.getLanguage() == null ) {
 			throw new RuntimeException( "Language is required on LocalizedFields" );
 		}
@@ -112,8 +106,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	 *
 	 * @param language Language for which to remove the fields.
 	 */
-	public final void removeFields( Language language )
-	{
+	public final void removeFields( Language language ) {
 		if ( language != null && fieldsByLanguageCode.containsKey( language.getCode() ) ) {
 			fieldsByLanguageCode.remove( language.getCode() );
 		}
@@ -122,8 +115,7 @@ public abstract class AbstractLocalizedFieldsObject<Base extends LocalizedFields
 	/**
 	 * Called after construction of this instance.  Can be used to set fields to a predefined state.
 	 */
-	private void createDefaultFields()
-	{
+	private void createDefaultFields() {
 		for ( Language language : LanguageConfigurator.getLanguages() ) {
 			getFieldsForLanguage( language );
 		}

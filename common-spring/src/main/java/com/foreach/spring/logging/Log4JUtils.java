@@ -15,8 +15,7 @@ import java.util.List;
  */
 public class Log4JUtils
 {
-	protected Log4JUtils()
-	{
+	protected Log4JUtils() {
 		// protected constructor, so that this class can be extended.
 	}
 
@@ -26,8 +25,7 @@ public class Log4JUtils
 	 *
 	 * @return List of loggers
 	 */
-	public static final List<Logger> getClassLoggers()
-	{
+	public static final List<Logger> getClassLoggers() {
 		List<String> loggerNames = new ArrayList<String>();
 		Enumeration enumeration = LogManager.getCurrentLoggers();
 		while ( enumeration.hasMoreElements() ) {

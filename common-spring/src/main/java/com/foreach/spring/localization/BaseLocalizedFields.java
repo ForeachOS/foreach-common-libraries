@@ -8,16 +8,14 @@ public abstract class BaseLocalizedFields implements LocalizedFields
 {
 	private final Language language;
 
-	public BaseLocalizedFields( Language language )
-	{
+	public BaseLocalizedFields( Language language ) {
 		this.language = language;
 	}
 
 	/**
 	 * @return Language these fields are linked to.
 	 */
-	public final Language getLanguage()
-	{
+	public final Language getLanguage() {
 		return language;
 	}
 }

@@ -41,8 +41,7 @@ public class ApplicationContextInfo
 	 *
 	 * @param environmentLabel
 	 */
-	public final void setEnvironmentLabel( String environmentLabel )
-	{
+	public final void setEnvironmentLabel( String environmentLabel ) {
 		environment = ApplicationEnvironment.valueOf( StringUtils.upperCase( environmentLabel ) );
 	}
 
@@ -51,16 +50,14 @@ public class ApplicationContextInfo
 	 *
 	 * @param environment
 	 */
-	public final void setEnvironment( ApplicationEnvironment environment )
-	{
+	public final void setEnvironment( ApplicationEnvironment environment ) {
 		this.environment = environment;
 	}
 
 	/**
 	 * Returns the current application environment
 	 */
-	public final ApplicationEnvironment getEnvironment()
-	{
+	public final ApplicationEnvironment getEnvironment() {
 		return environment;
 	}
 
@@ -71,8 +68,7 @@ public class ApplicationContextInfo
 	 * @param environmentToCheck
 	 * @return true if environment is not null and equal to environmentToCheck, false otherwise.
 	 */
-	public final boolean isRunningIn( ApplicationEnvironment environmentToCheck )
-	{
+	public final boolean isRunningIn( ApplicationEnvironment environmentToCheck ) {
 		return environment != null && environment.equals( environmentToCheck );
 	}
 
@@ -81,16 +77,14 @@ public class ApplicationContextInfo
 	 *
 	 * @param label
 	 */
-	public final void setLabel( String label )
-	{
+	public final void setLabel( String label ) {
 		this.label = label;
 	}
 
 	/**
 	 * Returns the specified label of the current application
 	 */
-	public final String getLabel()
-	{
+	public final String getLabel() {
 		return label;
 	}
 
@@ -99,35 +93,31 @@ public class ApplicationContextInfo
 	 *
 	 * @param applicationName
 	 */
-	public final void setApplicationName( String applicationName )
-	{
+	public final void setApplicationName( String applicationName ) {
 		this.applicationName = applicationName;
 	}
 
 	/**
 	 * Returns the specified application name
 	 */
-	public final String getApplicationName()
-	{
+	public final String getApplicationName() {
 		return applicationName;
 	}
 
 	/**
 	 * Specify the build number of the current application
-
+	 *
 	 * @param buildNumber a number corresponding to a unique build to facilitate
-	 * defect tracking.
+	 *                    defect tracking.
 	 */
-	public final void setBuildNumber( long buildNumber )
-	{
+	public final void setBuildNumber( long buildNumber ) {
 		this.buildNumber = buildNumber;
 	}
 
 	/**
 	 * Returns the build number of the current application
 	 */
-	public final long getBuildNumber()
-	{
+	public final long getBuildNumber() {
 		return buildNumber != 0 ? buildNumber : getBuildDate().getTime();
 	}
 
@@ -136,16 +126,14 @@ public class ApplicationContextInfo
 	 *
 	 * @param buildDate the date the application was built.
 	 */
-	public final void setBuildDate( Date buildDate )
-	{
+	public final void setBuildDate( Date buildDate ) {
 		this.buildDate = buildDate;
 	}
 
 	/**
 	 * Returns the build date of the current application
 	 */
-	public final Date getBuildDate()
-	{
+	public final Date getBuildDate() {
 		return buildDate != null ? buildDate : startupDate;
 	}
 
@@ -153,14 +141,12 @@ public class ApplicationContextInfo
 	 * Returns the start-up date of the current application.
 	 * This value is set automatically at instantiation.
 	 */
-	public final Date getStartupDate()
-	{
+	public final Date getStartupDate() {
 		return startupDate;
 	}
 
 	@Override
-	public final String toString()
-	{
+	public final String toString() {
 		return "ApplicationContextInfo{" + "environment=" + environment + ", label='" + label + '\'' + ", applicationName='" + applicationName + '\'' + ", buildNumber=" + buildNumber + ", buildDate=" + buildDate + ", startupDate=" + startupDate + '}';
 	}
 

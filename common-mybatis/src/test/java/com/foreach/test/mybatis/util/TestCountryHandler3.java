@@ -17,8 +17,7 @@ public class TestCountryHandler3
 {
 	private class CountryHandler extends IdBasedEnumHandler<Country>
 	{
-		public CountryHandler()
-		{
+		public CountryHandler() {
 			super( null, JdbcType.DECIMAL );
 		}
 	}
@@ -28,14 +27,12 @@ public class TestCountryHandler3
 	private CountryHandler handler;
 
 	@Before
-	public void prepareForTest()
-	{
+	public void prepareForTest() {
 		handler = new CountryHandler();
 	}
 
 	@Test
-	public void idToCountryConversion() throws SQLException
-	{
+	public void idToCountryConversion() throws SQLException {
 		// Verify code to country conversion
 		MockResultSet rs = new MockResultSet( "" );
 		rs.addColumn( "country", countryIds );
@@ -53,8 +50,7 @@ public class TestCountryHandler3
 	}
 
 	@Test
-	public void countryToIdConversion() throws SQLException
-	{
+	public void countryToIdConversion() throws SQLException {
 		// Verify country to code conversion
 		MockPreparedStatement stmt = new MockPreparedStatement( new MockConnection(), "" );
 
@@ -73,8 +69,7 @@ public class TestCountryHandler3
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void callableNotSupported() throws SQLException
-	{
+	public void callableNotSupported() throws SQLException {
 		MockCallableStatement stmt = new MockCallableStatement( new MockConnection(), "" );
 
 		handler.getResult( stmt, 1 );

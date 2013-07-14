@@ -30,8 +30,7 @@ public class TestExceptionToMailResolver
 	private String fromAddress;
 
 	@Before
-	public void prepareForTest()
-	{
+	public void prepareForTest() {
 		resolver = new ExceptionToMailResolver();
 
 		mailService = mock( MailService.class );
@@ -53,8 +52,7 @@ public class TestExceptionToMailResolver
 
 	@Test
 	// Don't break if request attributes set by an optional RequestlogInterceptor are unavailable when throwing an Exception.
-	public void optionalRequestLogInterceptor()
-	{
+	public void optionalRequestLogInterceptor() {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -65,8 +63,7 @@ public class TestExceptionToMailResolver
 	}
 
 	@Test
-	public void resolverRecoversIfMailServiceThrowsRuntimeException()
-	{
+	public void resolverRecoversIfMailServiceThrowsRuntimeException() {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -78,8 +75,7 @@ public class TestExceptionToMailResolver
 	}
 
 	@Test
-	public void addCookiesAndAttributesAndStuffLikeForARealMessage()
-	{
+	public void addCookiesAndAttributesAndStuffLikeForARealMessage() {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 

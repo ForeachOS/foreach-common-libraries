@@ -15,12 +15,11 @@ public class BaseConversionServiceTest
 	protected ConversionService conversionService;
 
 	@Before
-	public void prepareTest()
-	{
+	public void prepareTest() {
 		CustomConversionServiceFactoryBean factory = new CustomConversionServiceFactoryBean();
-		Set<Object> converters = new HashSet<Object>(  );
+		Set<Object> converters = new HashSet<Object>();
 
-		EnumConverterFactory converterFactory =  new EnumConverterFactory();
+		EnumConverterFactory converterFactory = new EnumConverterFactory();
 
 		converters.add( converterFactory );
 		converters.add( new EnumIdRenderer() );

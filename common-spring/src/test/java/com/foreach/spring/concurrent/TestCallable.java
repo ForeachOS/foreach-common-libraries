@@ -6,13 +6,11 @@ public class TestCallable implements Callable<Integer>
 {
 	private int delay;
 
-	public TestCallable( int delay )
-	{
+	public TestCallable( int delay ) {
 		this.delay = delay;
 	}
 
-	public Integer call()
-	{
+	public Integer call() {
 		try {
 			Thread.sleep( delay );
 			return new Integer( delay );

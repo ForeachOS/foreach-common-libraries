@@ -11,24 +11,20 @@ public enum Country implements CodeLookup<String>, IdLookup<Long>
 	private String code;
 	private long largeNumber;
 
-	Country( String code, long largeNumber )
-	{
+	Country( String code, long largeNumber ) {
 		this.code = code;
 		this.largeNumber = largeNumber;
 	}
 
-	public String getCode()
-	{
+	public String getCode() {
 		return code;
 	}
 
-	public Long getId()
-	{
+	public Long getId() {
 		return largeNumber;
 	}
 
-	public static final Country getByCode( String code )
-	{
+	public static final Country getByCode( String code ) {
 		for ( Country c : values() ) {
 			if ( c.getCode().equals( code ) ) {
 				return c;
@@ -38,8 +34,7 @@ public enum Country implements CodeLookup<String>, IdLookup<Long>
 		return null;
 	}
 
-	public static final Country getById( Long id )
-	{
+	public static final Country getById( Long id ) {
 		for ( Country c : values() ) {
 			if ( c.getId().equals( id ) ) {
 				return c;

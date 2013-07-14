@@ -39,7 +39,7 @@ public interface LocalizedTextSetCache
 	 * Reloads the specific LocalizedTextSet instance if kept in the cache.
 	 *
 	 * @param application Application of the set of items.
-	 * @param group Group of the set of items.
+	 * @param group       Group of the set of items.
 	 */
 	void reload( String application, String group );
 

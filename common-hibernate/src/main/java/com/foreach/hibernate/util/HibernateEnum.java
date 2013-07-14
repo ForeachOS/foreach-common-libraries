@@ -46,8 +46,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 	private NullableType type;
 	private int[] sqlTypes;
 
-	public HibernateEnum()
-	{
+	public HibernateEnum() {
 		// an empty constructor setting member variables to null to dodge sonar from reporting
 		// "Variables not initialized inside constructor"
 		this.enumClass = null;
@@ -57,8 +56,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 		this.sqlTypes = null;
 	}
 
-	public final void setParameterValues( Properties parameters )
-	{
+	public final void setParameterValues( Properties parameters ) {
 		String enumClassName = parameters.getProperty( "enumClassName" );
 		Class identifierType = null;
 
@@ -92,13 +90,11 @@ public class HibernateEnum implements UserType, ParameterizedType
 		}
 	}
 
-	public final Class returnedClass()
-	{
+	public final Class returnedClass() {
 		return enumClass;
 	}
 
-	public final Object nullSafeGet( ResultSet rs, String[] names, Object owner ) throws SQLException
-	{
+	public final Object nullSafeGet( ResultSet rs, String[] names, Object owner ) throws SQLException {
 		Object identifier = type.get( rs, names[0] );
 		if ( rs.wasNull() ) {
 			return null;
@@ -119,8 +115,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 		}
 	}
 
-	public final void nullSafeSet( PreparedStatement st, Object value, int index ) throws SQLException
-	{
+	public final void nullSafeSet( PreparedStatement st, Object value, int index ) throws SQLException {
 		StringBuffer errorMsg = new StringBuffer( "Exception while invoking identifierMethod method \"" );
 		try {
 			errorMsg.append( identifierMethod.getName() ).append( "\" of " ).append( "enumeration class \"" ).append(
@@ -142,48 +137,40 @@ public class HibernateEnum implements UserType, ParameterizedType
 		}
 	}
 
-	public final int[] sqlTypes()
-	{
+	public final int[] sqlTypes() {
 		return sqlTypes;
 	}
 
-	public final Object assemble( Serializable cached, Object owner )
-	{
+	public final Object assemble( Serializable cached, Object owner ) {
 		return cached;
 	}
 
-	public final Object deepCopy( Object value )
-	{
+	public final Object deepCopy( Object value ) {
 		return value;
 	}
 
-	public final Serializable disassemble( Object value )
-	{
+	public final Serializable disassemble( Object value ) {
 		return (Serializable) value;
 	}
 
 	// Enum equallity IS pointer equality
-	@SuppressWarnings( "all" )
-	public final boolean equals( Object x, Object y )
-	{
-		if( x == null ) {
+	@SuppressWarnings("all")
+	public final boolean equals( Object x, Object y ) {
+		if ( x == null ) {
 			return ( y == null );
 		}
 		return x.equals( y );
 	}
 
-	public final int hashCode( Object x )
-	{
+	public final int hashCode( Object x ) {
 		return x.hashCode();
 	}
 
-	public final boolean isMutable()
-	{
+	public final boolean isMutable() {
 		return false;
 	}
 
-	public final Object replace( Object original, Object target, Object owner )
-	{
+	public final Object replace( Object original, Object target, Object owner ) {
 		return original;
 	}
 }

@@ -40,8 +40,7 @@ public class Log4JConfigurator
 	 *
 	 * @throws java.io.IOException if something goes wrong with reading the properties file.
 	 */
-	public final void configure() throws IOException
-	{
+	public final void configure() throws IOException {
 		if ( propertiesFile != null ) {
 			URL url = propertiesFile.getURL();
 			PropertyConfigurator.configure( url );
@@ -53,8 +52,7 @@ public class Log4JConfigurator
 	 *
 	 * @return a {@link org.springframework.core.io.Resource} object.
 	 */
-	public final Resource getPropertiesFile()
-	{
+	public final Resource getPropertiesFile() {
 		return propertiesFile;
 	}
 
@@ -63,8 +61,7 @@ public class Log4JConfigurator
 	 *
 	 * @param location a {@link org.springframework.core.io.Resource} object.
 	 */
-	public final void setPropertiesFile( Resource location )
-	{
+	public final void setPropertiesFile( Resource location ) {
 		this.propertiesFile = location;
 	}
 
@@ -73,8 +70,7 @@ public class Log4JConfigurator
 	 *
 	 * @return a {@link java.lang.String} object.
 	 */
-	public final String getLogDirectory()
-	{
+	public final String getLogDirectory() {
 		return logDirectory;
 	}
 
@@ -84,8 +80,7 @@ public class Log4JConfigurator
 	 *
 	 * @param logDirectory a {@link java.lang.String} object.
 	 */
-	public final void setLogDirectory( String logDirectory )
-	{
+	public final void setLogDirectory( String logDirectory ) {
 		if ( StringUtils.isNotBlank( logDirectory ) ) {
 			this.logDirectory = logDirectory;
 

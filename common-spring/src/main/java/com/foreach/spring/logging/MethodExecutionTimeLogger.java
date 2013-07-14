@@ -1,7 +1,8 @@
 package com.foreach.spring.logging;
 
-import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -25,12 +26,11 @@ import org.aspectj.lang.ProceedingJoinPoint;
  */
 public class MethodExecutionTimeLogger
 {
-	private Logger logger = Logger.getLogger( getClass() );
+	private Logger logger = LoggerFactory.getLogger( getClass() );
 
 	private int minimumDuration = 75;
 
-	public MethodExecutionTimeLogger()
-	{
+	public MethodExecutionTimeLogger() {
 	}
 
 	/**
@@ -38,8 +38,7 @@ public class MethodExecutionTimeLogger
 	 *
 	 * @param log
 	 */
-	protected final void setLogger( Logger log )
-	{
+	protected final void setLogger( Logger log ) {
 		this.logger = log;
 	}
 
@@ -48,8 +47,7 @@ public class MethodExecutionTimeLogger
 	 *
 	 * @return Logger
 	 */
-	protected final Logger getLogger()
-	{
+	protected final Logger getLogger() {
 		return this.logger;
 	}
 
@@ -59,8 +57,7 @@ public class MethodExecutionTimeLogger
 	 *
 	 * @param time minimum duration time of methods in milliseconds (exclusive)
 	 */
-	public final void setMinimumDuration( int time )
-	{
+	public final void setMinimumDuration( int time ) {
 		this.minimumDuration = time;
 	}
 
@@ -80,8 +77,7 @@ public class MethodExecutionTimeLogger
 	 * @throws Throwable
 	 */
 	@SuppressWarnings("all")
-	protected final Object proceedAndLogExecutionTime( ProceedingJoinPoint point ) throws Throwable
-	{
+	protected final Object proceedAndLogExecutionTime( ProceedingJoinPoint point ) throws Throwable {
 		long startTime = System.currentTimeMillis();
 		Object result = point.proceed();
 		long duration = System.currentTimeMillis() - startTime;

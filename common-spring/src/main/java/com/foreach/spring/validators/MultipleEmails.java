@@ -26,7 +26,7 @@ import static java.lang.annotation.ElementType.*;
  *
  * </pre>
  */
-@Target( { METHOD, FIELD, ANNOTATION_TYPE })
+@Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = MultipleEmailsValidator.class)
 @Documented

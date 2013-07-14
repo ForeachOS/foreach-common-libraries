@@ -8,18 +8,18 @@ import com.foreach.spring.enums.EnumUtils;
  * LanguageConfigurator is in fact a sort of singleton approach, but the singleton reference can be set
  * by simply constructing a LanguageConfigurator bean with the implementing Language class as parameter.
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public final class LanguageConfigurator
 {
 	private static Class languageClass;
 
 	/**
 	 * Initializes the Language system using the specified enum class implementing the Language interface.
+	 *
 	 * @param languageClass Class that is an Enum and implements the Language interface.
-	 * @param <E> Type parameter for Enum and Language interface.
+	 * @param <E>           Type parameter for Enum and Language interface.
 	 */
-	public <E extends Enum<E> & Language> LanguageConfigurator( Class<E> languageClass )
-	{
+	public <E extends Enum<E> & Language> LanguageConfigurator( Class<E> languageClass ) {
 		LanguageConfigurator.languageClass = languageClass;
 	}
 
@@ -27,8 +27,7 @@ public final class LanguageConfigurator
 	 * @param code Code to lookup the Language instance for.
 	 * @return Language with that code, null if not found.
 	 */
-	public static Language getLanguageByCode( String code )
-	{
+	public static Language getLanguageByCode( String code ) {
 		if ( languageClass == null ) {
 			throw new LanguagesNotConfiguredException();
 		}
@@ -39,8 +38,7 @@ public final class LanguageConfigurator
 	/**
 	 * @return All languages possible.
 	 */
-	public static Language[] getLanguages()
-	{
+	public static Language[] getLanguages() {
 		if ( languageClass == null ) {
 			throw new LanguagesNotConfiguredException();
 		}
@@ -54,8 +52,7 @@ public final class LanguageConfigurator
 	 */
 	public static final class LanguagesNotConfiguredException extends RuntimeException
 	{
-		private LanguagesNotConfiguredException()
-		{
+		private LanguagesNotConfiguredException() {
 			super( "Languages have not been configured, please initialize the system by creating a LanguageConfigurator first." );
 		}
 	}

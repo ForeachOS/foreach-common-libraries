@@ -14,43 +14,35 @@ public final class LocalizedFieldsCollection<Base extends LocalizedFields> imple
 {
 	private final Map<String, Base> fieldsMap;
 
-	LocalizedFieldsCollection( Map<String, Base> fieldsMap )
-	{
+	LocalizedFieldsCollection( Map<String, Base> fieldsMap ) {
 		this.fieldsMap = fieldsMap;
 	}
 
-	public int size()
-	{
+	public int size() {
 		return fieldsMap.size();
 	}
 
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		return fieldsMap.isEmpty();
 	}
 
-	public boolean contains( Object o )
-	{
+	public boolean contains( Object o ) {
 		return fieldsMap.containsValue( o );
 	}
 
-	public Iterator<Base> iterator()
-	{
+	public Iterator<Base> iterator() {
 		return fieldsMap.values().iterator();
 	}
 
-	public Object[] toArray()
-	{
+	public Object[] toArray() {
 		return fieldsMap.values().toArray();
 	}
 
-	public <T> T[] toArray( T[] a )
-	{
+	public <T> T[] toArray( T[] a ) {
 		return fieldsMap.values().toArray( a );
 	}
 
-	public boolean add( Base base )
-	{
+	public boolean add( Base base ) {
 		if ( base.getLanguage() != null ) {
 			fieldsMap.put( base.getLanguage().getCode(), base );
 			return true;
@@ -58,8 +50,7 @@ public final class LocalizedFieldsCollection<Base extends LocalizedFields> imple
 		return false;
 	}
 
-	public boolean remove( Object o )
-	{
+	public boolean remove( Object o ) {
 		boolean found = false;
 		String languageCode = null;
 
@@ -75,13 +66,11 @@ public final class LocalizedFieldsCollection<Base extends LocalizedFields> imple
 		return base != null;
 	}
 
-	public boolean containsAll( Collection<?> c )
-	{
+	public boolean containsAll( Collection<?> c ) {
 		return fieldsMap.entrySet().containsAll( c );
 	}
 
-	public boolean addAll( Collection<? extends Base> c )
-	{
+	public boolean addAll( Collection<? extends Base> c ) {
 		for ( Base b : c ) {
 			add( b );
 		}
@@ -89,8 +78,7 @@ public final class LocalizedFieldsCollection<Base extends LocalizedFields> imple
 		return true;
 	}
 
-	public boolean removeAll( Collection<?> c )
-	{
+	public boolean removeAll( Collection<?> c ) {
 		boolean success = true;
 
 		for ( Object o : c ) {
@@ -102,13 +90,11 @@ public final class LocalizedFieldsCollection<Base extends LocalizedFields> imple
 		return success;
 	}
 
-	public boolean retainAll( Collection<?> c )
-	{
+	public boolean retainAll( Collection<?> c ) {
 		return fieldsMap.entrySet().retainAll( c );
 	}
 
-	public void clear()
-	{
+	public void clear() {
 		fieldsMap.clear();
 	}
 }

@@ -11,28 +11,23 @@ public final class LocalizedTextFields extends BaseLocalizedFields
 	/**
 	 * For deserialization.
 	 */
-	protected LocalizedTextFields()
-	{
+	protected LocalizedTextFields() {
 		super( null );
 	}
 
-	public LocalizedTextFields( Language language )
-	{
+	public LocalizedTextFields( Language language ) {
 		super( language );
 	}
 
-	public String getText()
-	{
+	public String getText() {
 		return text;
 	}
 
-	public void setText( String text )
-	{
+	public void setText( String text ) {
 		this.text = text;
 	}
 
-	public boolean equals( Object o )
-	{
+	public boolean equals( Object o ) {
 		if ( this == o ) {
 			return true;
 		}
@@ -52,8 +47,7 @@ public final class LocalizedTextFields extends BaseLocalizedFields
 		return StringUtils.equals( thisText, thatText );
 	}
 
-	public int hashCode()
-	{
+	public int hashCode() {
 		int result = getLanguage() != null ? getLanguage().hashCode() : 0;
 		result = 31 * result + ( text != null ? text.hashCode() : 0 );
 		return result;

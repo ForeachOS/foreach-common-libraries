@@ -1,7 +1,8 @@
 package com.foreach.web.logging;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.NDC;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,8 +20,8 @@ import java.util.concurrent.atomic.AtomicLong;
  *  &lt;/mvc:interceptors&gt;
  * </pre>
  * <p/>
- * <p>You need to define a logger with appender in your log4j.properties file or set your own custom logger using method setLogger.
- * See below for defining new logger in your log4j properties file</p>
+ * <p>You need to define a logger with appender in your log properties/xml file or set your own custom logger using method setLogger.
+ *  * See below for defining new logger in your log4j properties file</p>
  * <pre>
  *
  *  Logger definition
@@ -32,16 +33,16 @@ import java.util.concurrent.atomic.AtomicLong;
  *  log4j.appender.request.rollingPolicy=org.apache.log4j.rolling.TimeBasedRollingPolicy
  *  log4j.appender.request.rollingPolicy.FileNamePattern=${log.dir}/%d{yyyy'/'MM'/'dd'/request.'yyyy-MM-dd}.log
  *  log4j.appender.request.layout=org.apache.log4j.PatternLayout
- *  log4j.appender.request.layout.ConversionPattern=%d{ISO8601} [%t] %m%n
+ *  log4j.appender.request.layout.ConversionPattern=%d{ISO8601} [%t] [%X{requestId}] %m%n
  * </pre>
  * <p/>
  * <p><em>Ideally, a log interceptor should be declared as the first (outermost) interceptor in an interceptor chain
  * so the timing is as accurately as possible.</em></p>
  * <p/>
  * <p>
- * RequestLogInterceptor uses {@link org.apache.log4j.NDC org.apache.log4j.NDC} for storing a unique request id which can be referred back in Firebug.
- * Look for the request header attribute "Request-Reference" to know the generated unique request id.
- * </p>
+ * RequestLogInterceptor uses {@link org.slf4j.MDC org.slf4j.MDC} for storing a unique request id which can be referred to in logfiles.
+ * The unique id can be added to any logfile by adding the %X{requestId} parameter.
+ * The same id can found in the request header attribute "Request-Reference".</p>
  *
  * @version 1.0
  */
@@ -51,18 +52,18 @@ public class RequestLogInterceptor implements HandlerInterceptor
 	public static final String ATTRIBUTE_UNIQUE_ID = "_log_uniqueRequestId";
 	public static final String ATTRIBUTE_VIEW_NAME = "_log_resolvedViewName";
 	public static final String HEADER_REQUEST_ID = "Request-Reference";
+	public static final String LOG_REQUESTID = "requestId";
 
 	private final AtomicLong counter = new AtomicLong( System.currentTimeMillis() );
 
-	private Logger logger = Logger.getLogger( getClass() );
+	private Logger logger = LoggerFactory.getLogger( getClass() );
 
 	/**
 	 * Specify your custom logger
 	 *
 	 * @param log
 	 */
-	protected final void setLogger( Logger log )
-	{
+	protected final void setLogger( Logger log ) {
 		this.logger = log;
 	}
 
@@ -71,22 +72,19 @@ public class RequestLogInterceptor implements HandlerInterceptor
 	 *
 	 * @return Logger
 	 */
-	protected final Logger getLogger()
-	{
+	protected final Logger getLogger() {
 		return this.logger;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean preHandle(
-			HttpServletRequest request, HttpServletResponse response, Object handler )
-	{
+	public final boolean preHandle( HttpServletRequest request, HttpServletResponse response, Object handler ) {
 		// Create a unique id for this request
 		String requestId = "" + counter.getAndIncrement();
 
-		// Put id as NDC for log4j: this can be used to identify this request in the log files
-		NDC.push( requestId );
+		// Put id as MDC in your logging: this can be used to identify this request in the log files
+		MDC.put( LOG_REQUESTID, requestId );
 
 		response.setHeader( HEADER_REQUEST_ID, requestId );
 		request.setAttribute( ATTRIBUTE_UNIQUE_ID, requestId );
@@ -98,9 +96,10 @@ public class RequestLogInterceptor implements HandlerInterceptor
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void postHandle(
-			HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView )
-	{
+	public final void postHandle( HttpServletRequest request,
+	                              HttpServletResponse response,
+	                              Object handler,
+	                              ModelAndView modelAndView ) {
 		// Redirects won't have a modelAndView
 		if ( modelAndView != null ) {
 			request.setAttribute( ATTRIBUTE_VIEW_NAME, modelAndView.getViewName() );
@@ -110,9 +109,10 @@ public class RequestLogInterceptor implements HandlerInterceptor
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void afterCompletion(
-			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex )
-	{
+	public final void afterCompletion( HttpServletRequest request,
+	                                   HttpServletResponse response,
+	                                   Object handler,
+	                                   Exception ex ) {
 		// Determine duration before sending the log
 		long startTime = (Long) request.getAttribute( ATTRIBUTE_START_TIME );
 		long duration = System.currentTimeMillis() - startTime;
@@ -128,13 +128,11 @@ public class RequestLogInterceptor implements HandlerInterceptor
 
 		logger.debug( buf.toString() );
 
-		// Remove the NDC
-		NDC.pop();
-		NDC.remove();
+		// Remove the MDC
+		MDC.clear();
 	}
 
-	private String createUrlFromRequest( HttpServletRequest request )
-	{
+	private String createUrlFromRequest( HttpServletRequest request ) {
 		StringBuffer buf = request.getRequestURL();
 		String qs = request.getQueryString();
 

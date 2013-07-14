@@ -37,8 +37,7 @@ public class TestBasicMailService
 	private String body;
 
 	@Before
-	public void prepareForTest()
-	{
+	public void prepareForTest() {
 		originator = "testMailService@serverkot.be";
 		serviceBccRecipients = "bigbrother@serverkot.be";
 
@@ -56,8 +55,7 @@ public class TestBasicMailService
 	}
 
 	@Test
-	public void simpleMail() throws Exception
-	{
+	public void simpleMail() throws Exception {
 		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
 
 		InternetAddress fromAddress = new InternetAddress( from );
@@ -75,8 +73,7 @@ public class TestBasicMailService
 	}
 
 	@Test
-	public void testMultipleRecipients() throws MessagingException
-	{
+	public void testMultipleRecipients() throws MessagingException {
 		String tos[] = { "foo1@foreach.com", "foo2@foreach.com", "foo3@foreach.com" };
 		String bccs[] = { "foo4@foreach.com", "foo5@foreach.com", "foo6@foreach.com" };
 
@@ -107,8 +104,7 @@ public class TestBasicMailService
 	}
 
 	@Test
-	public void testAttachments() throws MessagingException, IOException
-	{
+	public void testAttachments() throws MessagingException, IOException {
 		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
 
 		when( mailSender.createMimeMessage() ).thenReturn( message );
@@ -136,8 +132,7 @@ public class TestBasicMailService
 	}
 
 	@Test
-	public void testCustomExecutorService() throws Exception
-	{
+	public void testCustomExecutorService() throws Exception {
 		mailService.setExecutorService( new ScheduledThreadPoolExecutor( 2 ) );
 
 		MimeMessage message = new MimeMessage( Session.getInstance( new Properties() ) );
@@ -150,8 +145,7 @@ public class TestBasicMailService
 	}
 
 	@Test
-	public void exceptionDoesNotGetEatenWithSyncExecutor() throws Exception
-	{
+	public void exceptionDoesNotGetEatenWithSyncExecutor() throws Exception {
 		mailService.setExecutorService( new SynchronousTaskExecutor() );
 
 		RuntimeException expected = new RuntimeException();
@@ -167,8 +161,7 @@ public class TestBasicMailService
 	}
 
 	@Test
-	public void exceptionDoesNotGetEatenWithAsync() throws Exception
-	{
+	public void exceptionDoesNotGetEatenWithAsync() throws Exception {
 		mailService.setExecutorService( new ScheduledThreadPoolExecutor( 2 ) );
 
 		RuntimeException expected = new RuntimeException();
@@ -184,8 +177,7 @@ public class TestBasicMailService
 		assertSame( expected, status.getException() );
 	}
 
-	private InternetAddress[] adressesFromStrings( String s[] ) throws AddressException
-	{
+	private InternetAddress[] adressesFromStrings( String s[] ) throws AddressException {
 		InternetAddress addresses[] = new InternetAddress[s.length];
 
 		for ( int i = 0; i < s.length; i++ ) {
@@ -195,8 +187,7 @@ public class TestBasicMailService
 		return addresses;
 	}
 
-	private String condense( String s[] )
-	{
+	private String condense( String s[] ) {
 		StringBuilder sb = new StringBuilder();
 		for ( int i = 0; i < s.length; i++ ) {
 			if ( i > 0 ) {

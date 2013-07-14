@@ -6,7 +6,7 @@
 
 	<bean id="asynchronousTaskExecutor"
 	      class="java.util.concurrent.ScheduledThreadPoolExecutor">
-			<constructor-arg index="0" type="int" value="2"/>
+		<constructor-arg index="0" type="int" value="2"/>
 	</bean>
 
 	<bean id="synchronousTaskExecutor"

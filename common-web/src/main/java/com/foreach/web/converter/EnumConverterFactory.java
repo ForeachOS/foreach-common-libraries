@@ -3,7 +3,8 @@ package com.foreach.web.converter;
 import com.foreach.spring.enums.CodeLookup;
 import com.foreach.spring.enums.EnumUtils;
 import com.foreach.spring.enums.IdLookup;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
@@ -37,7 +38,7 @@ import java.lang.reflect.Type;
 
 public class EnumConverterFactory implements ConverterFactory<String, Enum>, RecursiveConverter
 {
-	private Logger logger = Logger.getLogger( getClass() );
+	private Logger logger = LoggerFactory.getLogger( getClass() );
 
 	// Try to not get in an infinite loop here...
 
@@ -47,8 +48,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 	 * Set the conversionService. This service must be able to convert String to all
 	 * the parameter types used.
 	 */
-	public final void setConversionService( ConversionService conversionService )
-	{
+	public final void setConversionService( ConversionService conversionService ) {
 		this.conversionService = conversionService;
 	}
 
@@ -59,11 +59,10 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 	 * @return a converter implementing the Spring Converter interface
 	 *         that converts String to the specified enum class.
 	 */
-	public final <E extends Enum> Converter<String, E> getConverter( Class<E> targetType )
-	{
-		logger.debug( "converter requested for type "+targetType.getName() );
+	public final <E extends Enum> Converter<String, E> getConverter( Class<E> targetType ) {
+		logger.debug( "converter requested for type " + targetType.getName() );
 
-		if( conversionService == null ) {
+		if ( conversionService == null ) {
 			logger.error( "conversionService not set for EnumConverterFactory instance" );
 		}
 
@@ -75,20 +74,18 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 
 		private Class<E> enumType;
 
-		public EnumConverter( Class<E> enumType )
-		{
+		public EnumConverter( Class<E> enumType ) {
 			this.enumType = enumType;
 		}
 
-		public E convert( String source )
-		{
+		public E convert( String source ) {
 			if ( IdLookup.class.isAssignableFrom( enumType ) ) {
 
-				logger.debug( "attempting to convert "+source+" to "+enumType+" using IdLookup" );
+				logger.debug( "attempting to convert " + source + " to " + enumType + " using IdLookup" );
 
 				Class intermediateType = lookupMethodParameterClass( enumType, IdLookup.class );
 
-				if( intermediateType == null ) {
+				if ( intermediateType == null ) {
 					logger.error( "IdLookup parameter type not specified, assuming Integer." );
 					intermediateType = Integer.class;
 				}
@@ -102,11 +99,11 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 
 			if ( CodeLookup.class.isAssignableFrom( enumType ) ) {
 
-				logger.debug( "attempting to convert "+source+" to "+enumType+" using CodeLookup" );
+				logger.debug( "attempting to convert " + source + " to " + enumType + " using CodeLookup" );
 
 				Class intermediateType = lookupMethodParameterClass( enumType, CodeLookup.class );
 
-				if( intermediateType == null ) {
+				if ( intermediateType == null ) {
 					logger.error( "CodeLookup parameter type not specified, assuming String." );
 					intermediateType = String.class;
 				}
@@ -125,8 +122,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 		 * Find the type parameter of the argument class for the specified lookupInterface,
 		 * so for Foo implements LookUp<Bar>, return Bar.Class;
 		 */
-		private Class lookupMethodParameterClass( Class targetClass, Class lookupInterface )
-		{
+		private Class lookupMethodParameterClass( Class targetClass, Class lookupInterface ) {
 			Type[] ts = targetClass.getGenericInterfaces();
 
 			for ( Type t : ts ) {
@@ -141,32 +137,33 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 			return null;
 		}
 
-		private E tryConvertUsingMethod( String source, Class intermediateType, String lookupMethodName )
-		{
+		private E tryConvertUsingMethod( String source, Class intermediateType, String lookupMethodName ) {
 			try {
 
 				Object id = source;
 
-				logger.debug( "performing intermediate conversion of "+source+" to "+intermediateType );
+				logger.debug( "performing intermediate conversion of " + source + " to " + intermediateType );
 
 				if ( !String.class.isAssignableFrom( intermediateType ) ) {
 					id = conversionService.convert( source, TypeDescriptor.valueOf( String.class ),
 					                                TypeDescriptor.valueOf( intermediateType ) );
 				}
 
-				Method m = com.foreach.spring.enums.EnumUtils.class.getMethod( lookupMethodName, Class.class, Object.class );
+				Method m = com.foreach.spring.enums.EnumUtils.class.getMethod( lookupMethodName, Class.class,
+				                                                               Object.class );
 
 				return (E) m.invoke( EnumUtils.class, enumType, id );
 			}
 			catch ( NoSuchMethodException nsme ) {
-				logger.error( nsme );
+				logger.error( nsme.getMessage(), nsme );
 			}
 			catch ( IllegalAccessException iae ) {
-				logger.error( iae );
+				logger.error( iae.getMessage(), iae );
 			}
 			catch ( InvocationTargetException ite ) {
-				logger.error( ite );
-			} catch( ConversionFailedException ce) {
+				logger.error( ite.getMessage(), ite );
+			}
+			catch ( ConversionFailedException ce ) {
 				// this is allowed if both interfaces are implemented
 			}
 

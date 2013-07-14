@@ -43,8 +43,7 @@ public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup> extends B
 	 * @param customJdbcType a custom jdbcType to be used when reading or writing the id
 	 *                       corresponding to an enum to the database.
 	 */
-	protected IdBasedEnumHandler( E defaultValue, JdbcType customJdbcType )
-	{
+	protected IdBasedEnumHandler( E defaultValue, JdbcType customJdbcType ) {
 		super( defaultValue, customJdbcType );
 	}
 
@@ -52,36 +51,32 @@ public abstract class IdBasedEnumHandler<E extends Enum<E> & IdLookup> extends B
 	 * @param defaultValue a result to be substituted when the value read from the database can't be mapped.
 	 *                     This only works in one direction, a null value is always written to the database as null.
 	 */
-	protected IdBasedEnumHandler( E defaultValue )
-	{
+	protected IdBasedEnumHandler( E defaultValue ) {
 		this( defaultValue, null );
 	}
 
-	protected IdBasedEnumHandler()
-	{
+	protected IdBasedEnumHandler() {
 		this( null, null );
 	}
 
-	public final void setParameter(
-			PreparedStatement preparedStatement, int i, Object parameter, JdbcType jdbcType ) throws SQLException
-	{
+	public final void setParameter( PreparedStatement preparedStatement,
+	                                int i,
+	                                Object parameter,
+	                                JdbcType jdbcType ) throws SQLException {
 		IdLookup e = (IdLookup) parameter;
 
 		setEnumParameterValue( preparedStatement, i, ( e != null ) ? e.getId() : null, jdbcType );
 	}
 
-	public final E getResult( ResultSet resultSet, String columnName ) throws SQLException
-	{
+	public final E getResult( ResultSet resultSet, String columnName ) throws SQLException {
 		return getById( getEnumParameterValue( resultSet, columnName ) );
 	}
 
-	public final Object getResult( ResultSet resultSet, int columnIndex ) throws SQLException
-	{
+	public final Object getResult( ResultSet resultSet, int columnIndex ) throws SQLException {
 		return getById( getEnumParameterValue( resultSet, columnIndex ) );
 	}
 
-	protected final E getById( Object id )
-	{
+	protected final E getById( Object id ) {
 		E e = (E) EnumUtils.getById( getClazz(), id );
 		return ( e == null ) ? getDefaultValue() : e;
 	}

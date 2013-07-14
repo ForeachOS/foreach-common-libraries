@@ -12,14 +12,12 @@ public class TestRequestLogInterceptor
 	private RequestLogInterceptor interceptor;
 
 	@Before
-	public void prepareForTest()
-	{
+	public void prepareForTest() {
 		interceptor = new RequestLogInterceptor();
 	}
 
 	@Test
-	public void preHandlePostConditions()
-	{
+	public void preHandlePostConditions() {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 

@@ -13,14 +13,12 @@ public class TestEternalLocalizedTextSetCache
 	private LocalizedTextSetCache cache;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		cache = new EternalLocalizedTextSetCache();
 	}
 
 	@Test
-	public void putAndGet()
-	{
+	public void putAndGet() {
 		assertNull( cache.getLocalizedTextSet( "myapp", "mygroup" ) );
 
 		LocalizedTextSet set = mockTextSet( "myapp", "mygroup" );
@@ -30,8 +28,7 @@ public class TestEternalLocalizedTextSetCache
 	}
 
 	@Test
-	public void doublePutReplaces()
-	{
+	public void doublePutReplaces() {
 		assertNull( cache.getLocalizedTextSet( "myapp", "mygroup" ) );
 
 		LocalizedTextSet set = mockTextSet( "myapp", "mygroup" );
@@ -44,24 +41,21 @@ public class TestEternalLocalizedTextSetCache
 	}
 
 	@Test
-	public void nullGetDoesntBreak()
-	{
+	public void nullGetDoesntBreak() {
 		assertNull( cache.getLocalizedTextSet( null, null ) );
 		assertNull( cache.getLocalizedTextSet( null, "mygroup" ) );
 		assertNull( cache.getLocalizedTextSet( "myapp", null ) );
 	}
 
 	@Test
-	public void nullPutDoesntBreak()
-	{
+	public void nullPutDoesntBreak() {
 		cache.storeLocalizedTextSet( null );
 
 		assertNull( cache.getLocalizedTextSet( "myapp", "mygroup" ) );
 	}
 
 	@Test
-	public void clear()
-	{
+	public void clear() {
 		cache.storeLocalizedTextSet( mockTextSet( "myapp", "mygroup" ) );
 		assertNotNull( cache.getLocalizedTextSet( "myapp", "mygroup" ) );
 
@@ -70,8 +64,7 @@ public class TestEternalLocalizedTextSetCache
 	}
 
 	@Test
-	public void reloadAll()
-	{
+	public void reloadAll() {
 		LocalizedTextSet first = mockTextSet( "myapp1", "group1" );
 		LocalizedTextSet second = mockTextSet( "myapp1", "group2" );
 
@@ -85,8 +78,7 @@ public class TestEternalLocalizedTextSetCache
 	}
 
 	@Test
-	public void reloadSingle()
-	{
+	public void reloadSingle() {
 		LocalizedTextSet first = mockTextSet( "myapp1", "group1" );
 		LocalizedTextSet second = mockTextSet( "myapp1", "group2" );
 
@@ -100,8 +92,7 @@ public class TestEternalLocalizedTextSetCache
 	}
 
 	@Test
-	public void size()
-	{
+	public void size() {
 		assertEquals( 0, cache.size() );
 
 		cache.storeLocalizedTextSet( mockTextSet( "myapp1", "group1" ) );
@@ -122,8 +113,7 @@ public class TestEternalLocalizedTextSetCache
 	}
 
 	@Test
-	public void getCachedSets()
-	{
+	public void getCachedSets() {
 		assertNotNull( cache.getCachedTextSets() );
 		assertEquals( 0, cache.getCachedTextSets().size() );
 
@@ -139,8 +129,7 @@ public class TestEternalLocalizedTextSetCache
 		assertTrue( setsInCache.contains( second ) );
 	}
 
-	private LocalizedTextSet mockTextSet( String application, String group )
-	{
+	private LocalizedTextSet mockTextSet( String application, String group ) {
 		LocalizedTextSet set = mock( LocalizedTextSet.class );
 		when( set.getApplication() ).thenReturn( application );
 		when( set.getGroup() ).thenReturn( group );

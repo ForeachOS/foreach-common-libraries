@@ -16,8 +16,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	private Map<String, MyFields> map;
 
 	@Before
-	public void createInstance()
-	{
+	public void createInstance() {
 		text = new MyLocalizedText();
 
 		collection = text.getFieldsAsCollection();
@@ -25,8 +24,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void setAndGetFieldsWithDefaults()
-	{
+	public void setAndGetFieldsWithDefaults() {
 		MyLocalizedTextWithDefaults text = new MyLocalizedTextWithDefaults();
 
 		Map<String, MyFields> allFields = text.getFields();
@@ -55,8 +53,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void verifyListCollection()
-	{
+	public void verifyListCollection() {
 		MyLocalizedTextWithDefaults text = new MyLocalizedTextWithDefaults();
 
 		Collection<MyFields> fields = text.getFieldsAsCollection();
@@ -86,8 +83,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void removingFields()
-	{
+	public void removingFields() {
 		MyLocalizedTextWithDefaults text = new MyLocalizedTextWithDefaults();
 
 		Collection<MyFields> collection = text.getFieldsAsCollection();
@@ -105,8 +101,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void addingFieldsThroughGet()
-	{
+	public void addingFieldsThroughGet() {
 		MyFields fields = text.getFieldsForLanguage( MyLanguage.EN );
 		assertNotNull( fields );
 
@@ -117,8 +112,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void addingFieldsThroughCollection()
-	{
+	public void addingFieldsThroughCollection() {
 		MyFields fields = text.createFields( MyLanguage.EN );
 		collection.add( fields );
 
@@ -129,8 +123,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void addingFieldsExplicitly()
-	{
+	public void addingFieldsExplicitly() {
 		MyFields fields = text.createFields( MyLanguage.EN );
 		text.addFields( fields );
 
@@ -141,8 +134,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void settingAllFieldsAsCollection()
-	{
+	public void settingAllFieldsAsCollection() {
 		MyFields fieldsOne = text.createFields( MyLanguage.EN );
 		MyFields fieldsTwo = text.createFields( MyLanguage.FR );
 		MyFields fieldsThree = text.createFields( MyLanguage.EN );
@@ -157,8 +149,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	}
 
 	@Test
-	public void clearingCollection()
-	{
+	public void clearingCollection() {
 		MyLocalizedTextWithDefaults text = new MyLocalizedTextWithDefaults();
 
 		Collection<MyFields> collection = text.getFieldsAsCollection();
@@ -172,8 +163,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 		assertTrue( map.isEmpty() );
 	}
 
-	private void validateSameInAllCollections( MyFields expected, MyLocalizedText text, MyLanguage language )
-	{
+	private void validateSameInAllCollections( MyFields expected, MyLocalizedText text, MyLanguage language ) {
 		MyFields fields = text.getFieldsForLanguage( language );
 		assertSame( expected, fields );
 
@@ -189,18 +179,15 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	{
 		private String text;
 
-		public MyFields( Language language )
-		{
+		public MyFields( Language language ) {
 			super( language );
 		}
 
-		public String getText()
-		{
+		public String getText() {
 			return text;
 		}
 
-		public void setText( String text )
-		{
+		public void setText( String text ) {
 			this.text = text;
 		}
 	}
@@ -208,8 +195,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	class MyLocalizedText extends AbstractLocalizedFieldsObject<MyFields>
 	{
 		@Override
-		public MyFields createFields( Language language )
-		{
+		public MyFields createFields( Language language ) {
 			return new MyFields( language );
 		}
 	}

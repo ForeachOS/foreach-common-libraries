@@ -4,13 +4,11 @@ public class TestTask implements Runnable
 {
 	private int delay;
 
-	public TestTask( int delay )
-	{
+	public TestTask( int delay ) {
 		this.delay = delay;
 	}
 
-	public void run()
-	{
+	public void run() {
 		try {
 			Thread.sleep( delay );
 		}

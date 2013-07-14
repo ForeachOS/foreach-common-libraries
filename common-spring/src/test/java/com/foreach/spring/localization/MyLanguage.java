@@ -10,25 +10,21 @@ public enum MyLanguage implements Language
 	private String code, name;
 	private Locale locale;
 
-	MyLanguage( String code, String name, Locale locale )
-	{
+	MyLanguage( String code, String name, Locale locale ) {
 		this.code = code;
 		this.name = name;
 		this.locale = locale;
 	}
 
-	public String getCode()
-	{
+	public String getCode() {
 		return code;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public Locale getLocale()
-	{
+	public Locale getLocale() {
 		return locale;
 	}
 }

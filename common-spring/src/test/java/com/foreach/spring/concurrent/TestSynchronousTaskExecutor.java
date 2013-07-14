@@ -17,14 +17,12 @@ public class TestSynchronousTaskExecutor extends BaseTestService
 	private ExecutorService synchronousTaskExecutor;
 
 	@Before
-	public void prepareForTest()
-	{
+	public void prepareForTest() {
 	}
 
 	@Test
 	@Ignore
-	public void taskExecutionIsSynchronous()
-	{
+	public void taskExecutionIsSynchronous() {
 		long startTime = System.currentTimeMillis();
 
 		synchronousTaskExecutor.execute( new TestTask( 2000 ) );
@@ -36,8 +34,7 @@ public class TestSynchronousTaskExecutor extends BaseTestService
 
 	@Test
 	@Ignore
-	public void callableExecutionIsSynchronous()
-	{
+	public void callableExecutionIsSynchronous() {
 		long startTime = System.currentTimeMillis();
 
 		synchronousTaskExecutor.submit( new TestCallable( 2000 ) );

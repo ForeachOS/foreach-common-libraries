@@ -8,16 +8,14 @@ import static org.junit.Assert.*;
 public class TestLocalizedText extends AbstractLocalizationTest
 {
 	@Test
-	public void createdIsSetAfterConstruction()
-	{
+	public void createdIsSetAfterConstruction() {
 		LocalizedText text = new LocalizedText();
 		assertNotNull( text.getCreated() );
 		assertNull( text.getUpdated() );
 	}
 
 	@Test
-	public void equalOnApplicationGroupAndLabel()
-	{
+	public void equalOnApplicationGroupAndLabel() {
 		LocalizedText left = new LocalizedText();
 		LocalizedText right = new LocalizedText();
 
@@ -51,15 +49,13 @@ public class TestLocalizedText extends AbstractLocalizationTest
 		equal( left, right );
 	}
 
-	private void equal( LocalizedText left, LocalizedText right )
-	{
+	private void equal( LocalizedText left, LocalizedText right ) {
 		assertEquals( left, right );
 		assertEquals( right, left );
 		assertEquals( left.hashCode(), right.hashCode() );
 	}
 
-	private void different( LocalizedText left, LocalizedText right )
-	{
+	private void different( LocalizedText left, LocalizedText right ) {
 		assertFalse( left.equals( right ) );
 		assertFalse( right.equals( left ) );
 	}

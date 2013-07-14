@@ -37,7 +37,7 @@ import java.util.concurrent.ExecutorService;
  */
 public abstract class AbstractLocalizedTextService implements LocalizedTextService
 {
-	@SuppressWarnings( "all" )
+	@SuppressWarnings("all")
 	protected final Logger LOG;
 
 	private final LocalizedTextDataStore localizedTextDao;
@@ -48,8 +48,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	/**
 	 * @param localizedTextDao DAO providing callback methods to the datastore.
 	 */
-	protected AbstractLocalizedTextService( LocalizedTextDataStore localizedTextDao )
-	{
+	protected AbstractLocalizedTextService( LocalizedTextDataStore localizedTextDao ) {
 		this.localizedTextDao = localizedTextDao;
 
 		LOG = Logger.getLogger( this.getClass() );
@@ -58,8 +57,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	/**
 	 * @param executorService The ExecutorService to use for the {@link #flagAsUsed(LocalizedText)} calls.
 	 */
-	public final void setExecutorService( ExecutorService executorService )
-	{
+	public final void setExecutorService( ExecutorService executorService ) {
 		this.executorService = executorService;
 
 		if ( this.executorService == null ) {
@@ -70,8 +68,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	/**
 	 * @param textSetCache The LocalizedTextSetCache implementation to use for caching the textSet instances.
 	 */
-	public final void setTextSetCache( LocalizedTextSetCache textSetCache )
-	{
+	public final void setTextSetCache( LocalizedTextSetCache textSetCache ) {
 		this.textSetCache = textSetCache;
 
 		if ( this.textSetCache == null ) {
@@ -86,8 +83,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	 * @param group       Name of the group.
 	 * @return All items converted into a set instance.
 	 */
-	public final LocalizedTextSet getLocalizedTextSet( String application, String group )
-	{
+	public final LocalizedTextSet getLocalizedTextSet( String application, String group ) {
 		LocalizedTextSet textSet = textSetCache.getLocalizedTextSet( application, group );
 
 		if ( textSet == null ) {
@@ -105,8 +101,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	 * @param group       Name of the group.
 	 * @return List of items.
 	 */
-	public final List<LocalizedText> getLocalizedTextItems( String application, String group )
-	{
+	public final List<LocalizedText> getLocalizedTextItems( String application, String group ) {
 		return localizedTextDao.getLocalizedTextForGroup( application, group );
 	}
 
@@ -115,15 +110,13 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	 *
 	 * @param text Text item that should be flagged as used.
 	 */
-	public final void flagAsUsed( final LocalizedText text )
-	{
+	public final void flagAsUsed( final LocalizedText text ) {
 		text.setUsed( true );
 		text.setUpdated( new Date() );
 
 		executorService.submit( new Runnable()
 		{
-			public void run()
-			{
+			public void run() {
 				try {
 					localizedTextDao.flagAsUsed( text );
 				}
@@ -150,9 +143,10 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	 * @param defaultValue Default value to be set for the text.
 	 * @return Constructed and saved text item.
 	 */
-	public final synchronized LocalizedText saveDefaultText(
-			String application, String group, String label, String defaultValue )
-	{
+	public final synchronized LocalizedText saveDefaultText( String application,
+	                                                         String group,
+	                                                         String label,
+	                                                         String defaultValue ) {
 		// Look directly in the database to see if the text item does not yet exist
 		LocalizedText existing = localizedTextDao.getLocalizedText( application, group, label );
 
@@ -194,8 +188,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	 * @param label       Label of the text item.
 	 * @return Text item or null if not found.
 	 */
-	public final LocalizedText getLocalizedText( String application, String group, String label )
-	{
+	public final LocalizedText getLocalizedText( String application, String group, String label ) {
 		return localizedTextDao.getLocalizedText( application, group, label );
 	}
 
@@ -205,8 +198,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	 *
 	 * @param text Text item to save.
 	 */
-	public final void saveLocalizedText( final LocalizedText text )
-	{
+	public final void saveLocalizedText( final LocalizedText text ) {
 		if ( text != null ) {
 			LocalizedText existing = getLocalizedText( text.getApplication(), text.getGroup(), text.getLabel() );
 
@@ -220,8 +212,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 			// Reload cache asynchronously
 			executorService.submit( new Runnable()
 			{
-				public void run()
-				{
+				public void run() {
 					try {
 						textSetCache.reload( text.getApplication(), text.getGroup() );
 					}
@@ -239,16 +230,14 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	 * @param textToSearchFor String with the text to search for.
 	 * @return List of items.
 	 */
-	public final List<LocalizedText> searchLocalizedTextItemsForText( String textToSearchFor )
-	{
+	public final List<LocalizedText> searchLocalizedTextItemsForText( String textToSearchFor ) {
 		return localizedTextDao.searchLocalizedText( textToSearchFor );
 	}
 
 	/**
 	 * @return All applications with text items.
 	 */
-	public final List<String> getApplications()
-	{
+	public final List<String> getApplications() {
 		return localizedTextDao.getApplications();
 	}
 
@@ -256,8 +245,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	 * @param application Name of an application.
 	 * @return List of text item groups for this application.
 	 */
-	public final List<String> getGroups( String application )
-	{
+	public final List<String> getGroups( String application ) {
 		return localizedTextDao.getGroups( application );
 	}
 
@@ -267,16 +255,14 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	 *
 	 * @param text Text item to delete.
 	 */
-	public final void deleteLocalizedText( final LocalizedText text )
-	{
+	public final void deleteLocalizedText( final LocalizedText text ) {
 		if ( text != null ) {
 			localizedTextDao.deleteLocalizedText( text );
 
 			// Reload cache asynchronously
 			executorService.submit( new Runnable()
 			{
-				public void run()
-				{
+				public void run() {
 					try {
 						textSetCache.reload( text.getApplication(), text.getGroup() );
 					}
@@ -290,34 +276,27 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 
 	private static final class NoCachingLocalizedTextSetCache implements LocalizedTextSetCache
 	{
-		public LocalizedTextSet getLocalizedTextSet( String application, String group )
-		{
+		public LocalizedTextSet getLocalizedTextSet( String application, String group ) {
 			return null;
 		}
 
-		public void storeLocalizedTextSet( LocalizedTextSet textSet )
-		{
+		public void storeLocalizedTextSet( LocalizedTextSet textSet ) {
 		}
 
-		public int size()
-		{
+		public int size() {
 			return 0;
 		}
 
-		public void clear()
-		{
+		public void clear() {
 		}
 
-		public void reload()
-		{
+		public void reload() {
 		}
 
-		public void reload( String application, String group )
-		{
+		public void reload( String application, String group ) {
 		}
 
-		public Set<LocalizedTextSet> getCachedTextSets()
-		{
+		public Set<LocalizedTextSet> getCachedTextSets() {
 			return Collections.emptySet();
 		}
 	}

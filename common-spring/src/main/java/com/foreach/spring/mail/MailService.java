@@ -19,6 +19,10 @@ public interface MailService
 	 *         If success it usually means the message was successfully delivered to the MSA or MTA.
 	 * @see <a href="http://tools.ietf.org/html/rfc2476">RFC 2476</a>.
 	 */
-	Future<MailStatus> sendMimeMail(
-			String from, String to, String bccs, String subject, String body, Map<String, File> attachments );
+	Future<MailStatus> sendMimeMail( String from,
+	                                 String to,
+	                                 String bccs,
+	                                 String subject,
+	                                 String body,
+	                                 Map<String, File> attachments );
 }

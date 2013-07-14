@@ -1,6 +1,7 @@
 package com.foreach.spring.concurrent;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,31 +18,28 @@ import java.util.concurrent.*;
  */
 public class SynchronousTaskExecutor implements ExecutorService
 {
-	private Logger logger = Logger.getLogger( getClass() );
+	private Logger logger = LoggerFactory.getLogger( getClass() );
 
 	private volatile boolean stopped = false;
 
 	/**
 	 * Set the logger for ths instance
 	 */
-	protected final void setLogger( Logger log )
-	{
+	protected final void setLogger( Logger log ) {
 		this.logger = log;
 	}
 
 	/**
 	 * Get the logger for this instance
 	 */
-	protected final Logger getLogger()
-	{
+	protected final Logger getLogger() {
 		return logger;
 	}
 
 	/**
 	 * Prevent the executor from accepting any more tasks.
 	 */
-	public final synchronized void shutdown()
-	{
+	public final synchronized void shutdown() {
 		stopped = true;
 	}
 
@@ -49,8 +47,7 @@ public class SynchronousTaskExecutor implements ExecutorService
 	 * Prevent the executor from accepting any more tasks and return an empty List.
 	 */
 	// Spec says we should interrupt all tasks in progress here...
-	public final List<Runnable> shutdownNow()
-	{
+	public final List<Runnable> shutdownNow() {
 		shutdown();
 		return new ArrayList<Runnable>();
 	}
@@ -58,31 +55,26 @@ public class SynchronousTaskExecutor implements ExecutorService
 	/**
 	 * Returns true if the executor no longer accepts tasks
 	 */
-	public final synchronized boolean isShutdown()
-	{
+	public final synchronized boolean isShutdown() {
 		return stopped;
 	}
 
 	/**
 	 * Returns true if the executor no longer accepts tasks
 	 */
-	public final boolean isTerminated()
-	{
+	public final boolean isTerminated() {
 		return isShutdown();
 	}
 
 	/**
 	 * Returns true
 	 */
-	public final boolean awaitTermination(long timeout, TimeUnit unit)
-	    throws InterruptedException
-	{
+	public final boolean awaitTermination( long timeout, TimeUnit unit ) throws InterruptedException {
 		return true;
 	}
 
-	private void checkNotStopped()
-	{
-		if(isShutdown()) {
+	private void checkNotStopped() {
+		if ( isShutdown() ) {
 			throw new RejectedExecutionException();
 		}
 	}
@@ -91,8 +83,7 @@ public class SynchronousTaskExecutor implements ExecutorService
 	 * If the executor is not shut down, the command will be executed synchronously,
 	 * otherwise a RejectedExecutionException is thrown.
 	 */
-	public final void execute(Runnable command)
-	{
+	public final void execute( Runnable command ) {
 		checkNotStopped();
 		command.run();
 	}
@@ -102,13 +93,13 @@ public class SynchronousTaskExecutor implements ExecutorService
 	 * and its result returned,
 	 * otherwise a RejectedExecutionException is thrown.
 	 */
-	public final <T> Future<T> submit(Callable<T> task)
-	{
+	public final <T> Future<T> submit( Callable<T> task ) {
 		checkNotStopped();
 
 		try {
 			return new PreComputedFuture<T>( task.call(), null );
-		} catch ( Exception e ) {
+		}
+		catch ( Exception e ) {
 			return new PreComputedFuture<T>( null, e );
 		}
 	}
@@ -118,12 +109,12 @@ public class SynchronousTaskExecutor implements ExecutorService
 	 * and the passed result will be wrapped in a future,
 	 * otherwise a RejectedExecutionException is thrown.
 	 */
-	public final <T> Future<T> submit(Runnable task, T result)
-	{
+	public final <T> Future<T> submit( Runnable task, T result ) {
 		try {
 			task.run();
 			return new PreComputedFuture<T>( result, null );
-		} catch ( Exception e ) {
+		}
+		catch ( Exception e ) {
 			return new PreComputedFuture<T>( null, e );
 		}
 	}
@@ -134,37 +125,32 @@ public class SynchronousTaskExecutor implements ExecutorService
 	 * otherwise a RejectedExecutionException is thrown.
 	 */
 
-	public final Future<?> submit(Runnable task)
-	{
+	public final Future<?> submit( Runnable task ) {
 		return submit( task, null );
 	}
 
-	public final <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
-	    throws InterruptedException
-	{
+	public final <T> List<Future<T>> invokeAll( Collection<? extends Callable<T>> tasks ) throws InterruptedException {
 		List<Future<T>> result = new ArrayList<Future<T>>();
 
-		for(Callable<T> task : tasks) {
+		for ( Callable<T> task : tasks ) {
 			result.add( submit( task ) );
 		}
 
 		return result;
 	}
 
-	public final <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
-	                              long timeout, TimeUnit unit)
-	    throws InterruptedException
-	{
+	public final <T> List<Future<T>> invokeAll( Collection<? extends Callable<T>> tasks,
+	                                            long timeout,
+	                                            TimeUnit unit ) throws InterruptedException {
 		return invokeAll( tasks );
 	}
 
-	public final <T> T invokeAny(Collection<? extends Callable<T>> tasks)
-	    throws InterruptedException, ExecutionException
-	{
-		for(Callable<T> task : tasks) {
+	public final <T> T invokeAny( Collection<? extends Callable<T>> tasks ) throws InterruptedException, ExecutionException {
+		for ( Callable<T> task : tasks ) {
 			try {
 				return task.call();
-			} catch (Exception e) {
+			}
+			catch ( Exception e ) {
 
 			}
 		}
@@ -172,10 +158,9 @@ public class SynchronousTaskExecutor implements ExecutorService
 		throw new ExecutionException( "No task completed succesfully", null );
 	}
 
-	public final <T> T invokeAny(Collection<? extends Callable<T>> tasks,
-	                long timeout, TimeUnit unit)
-	    throws InterruptedException, ExecutionException, TimeoutException
-	{
+	public final <T> T invokeAny( Collection<? extends Callable<T>> tasks,
+	                              long timeout,
+	                              TimeUnit unit ) throws InterruptedException, ExecutionException, TimeoutException {
 		return invokeAny( tasks );
 	}
 }

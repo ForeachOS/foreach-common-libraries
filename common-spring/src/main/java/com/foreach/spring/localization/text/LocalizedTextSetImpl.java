@@ -33,9 +33,7 @@ public class LocalizedTextSetImpl implements LocalizedTextSet
 	 * @param group                Name of the group that new items in this set should be created in.
 	 * @param localizedTextService Service owning this set, where callbacks will occur based on set modifications.
 	 */
-	protected LocalizedTextSetImpl(
-			String application, String group, LocalizedTextService localizedTextService )
-	{
+	protected LocalizedTextSetImpl( String application, String group, LocalizedTextService localizedTextService ) {
 		this.application = application;
 		this.group = group;
 		this.localizedTextService = localizedTextService;
@@ -46,32 +44,28 @@ public class LocalizedTextSetImpl implements LocalizedTextSet
 	/**
 	 * @return The application this set belongs to, new items in this set will be created in this application.
 	 */
-	public final String getApplication()
-	{
+	public final String getApplication() {
 		return application;
 	}
 
 	/**
 	 * @return The group this set represents, new items in this set will be created in this group.
 	 */
-	public final String getGroup()
-	{
+	public final String getGroup() {
 		return group;
 	}
 
 	/**
 	 * @return The LocalizedTextService this set is linked to.
 	 */
-	final LocalizedTextService getLocalizedTextService()
-	{
+	final LocalizedTextService getLocalizedTextService() {
 		return localizedTextService;
 	}
 
 	/**
 	 * @return All items in this set.
 	 */
-	public final Collection<LocalizedText> getItems()
-	{
+	public final Collection<LocalizedText> getItems() {
 		return textMap.values();
 	}
 
@@ -84,8 +78,7 @@ public class LocalizedTextSetImpl implements LocalizedTextSet
 	 * @param language Language for which we want the value.
 	 * @return Value as a string.
 	 */
-	public final String getText( String label, Language language )
-	{
+	public final String getText( String label, Language language ) {
 		return getText( label, language, null );
 	}
 
@@ -99,8 +92,7 @@ public class LocalizedTextSetImpl implements LocalizedTextSet
 	 * @param defaultValue Value to return in case the text item does not yet exist.
 	 * @return Value as a string.
 	 */
-	public final String getText( String label, Language language, String defaultValue )
-	{
+	public final String getText( String label, Language language, String defaultValue ) {
 		LocalizedText text = textMap.get( label );
 
 		// If the requested item doesn't exist, assume it should and create it
@@ -122,16 +114,14 @@ public class LocalizedTextSetImpl implements LocalizedTextSet
 	 * @param label Label of the item to search for.
 	 * @return True if the item exists in this set, false if not.
 	 */
-	public final boolean exists( String label )
-	{
+	public final boolean exists( String label ) {
 		return textMap.containsKey( label );
 	}
 
 	/**
 	 * @return Number of items (different label) in the set.
 	 */
-	public final int size()
-	{
+	public final int size() {
 		return textMap.size();
 	}
 
@@ -139,8 +129,7 @@ public class LocalizedTextSetImpl implements LocalizedTextSet
 	 * Reloads all items in this set from the backing data store.
 	 */
 
-	public final void reload()
-	{
+	public final void reload() {
 		HashMap<String, LocalizedText> updatedMap = new HashMap<String, LocalizedText>();
 		List<LocalizedText> items = localizedTextService.getLocalizedTextItems( application, group );
 

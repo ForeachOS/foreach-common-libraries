@@ -8,13 +8,11 @@ public final class MailStatus
 	private final boolean mailSent;
 	private final Throwable exception;
 
-	public MailStatus( boolean mailSent )
-	{
+	public MailStatus( boolean mailSent ) {
 		this( mailSent, null );
 	}
 
-	public MailStatus( boolean mailSent, Throwable exception )
-	{
+	public MailStatus( boolean mailSent, Throwable exception ) {
 		this.mailSent = mailSent;
 		this.exception = exception;
 	}
@@ -22,18 +20,17 @@ public final class MailStatus
 	/**
 	 * If false then the exception causing mail to fail can be found
 	 * using getException().  If any exception occurred.
+	 *
 	 * @return True if mail sent ok, false otherwise.
 	 */
-	public boolean isMailSent()
-	{
+	public boolean isMailSent() {
 		return mailSent;
 	}
 
 	/**
 	 * @return Exception if one has been thrown.
 	 */
-	public Throwable getException()
-	{
+	public Throwable getException() {
 		return exception;
 	}
 }

@@ -19,13 +19,11 @@ public class TestConvertorFactory
 
 		private int id;
 
-		private Flavour( int id )
-		{
+		private Flavour( int id ) {
 			this.id = id;
 		}
 
-		public Integer getId()
-		{
+		public Integer getId() {
 			return id;
 		}
 	}
@@ -38,13 +36,11 @@ public class TestConvertorFactory
 
 		private String code;
 
-		private Color( String code )
-		{
+		private Color( String code ) {
 			this.code = code;
 		}
 
-		public String getCode()
-		{
+		public String getCode() {
 			return code;
 		}
 	}
@@ -57,26 +53,22 @@ public class TestConvertorFactory
 
 		private Character code;
 
-		private Gender( Character code )
-		{
+		private Gender( Character code ) {
 			this.code = code;
 		}
 
-		public Character getCode()
-		{
+		public Character getCode() {
 			return code;
 		}
 	}
 
 	private class StringConversionService implements ConversionService
 	{
-		public boolean canConvert( Class<?> sourceType, Class<?> targetType )
-		{
+		public boolean canConvert( Class<?> sourceType, Class<?> targetType ) {
 			return true;
 		}
 
-		public <T> T convert( Object source, Class<T> targetType )
-		{
+		public <T> T convert( Object source, Class<T> targetType ) {
 			if ( source instanceof Character ) {
 				return (T) new Character( source.toString().charAt( 0 ) );
 			}
@@ -90,13 +82,11 @@ public class TestConvertorFactory
 			}
 		}
 
-		public boolean canConvert( TypeDescriptor sourceType, TypeDescriptor targetType )
-		{
+		public boolean canConvert( TypeDescriptor sourceType, TypeDescriptor targetType ) {
 			return true;
 		}
 
-		public Object convert( Object source, TypeDescriptor sourceType, TypeDescriptor targetType )
-		{
+		public Object convert( Object source, TypeDescriptor sourceType, TypeDescriptor targetType ) {
 			if ( targetType.getType().equals( Character.class ) ) {
 				return source.toString().charAt( 0 );
 			}
@@ -115,8 +105,7 @@ public class TestConvertorFactory
 	private ConversionService conversionService;
 
 	@Before
-	public void prepareForTest()
-	{
+	public void prepareForTest() {
 		converterfactory = new EnumConverterFactory();
 
 		conversionService = new StringConversionService();
@@ -125,8 +114,7 @@ public class TestConvertorFactory
 	}
 
 	@Test
-	public void convertToEnum()
-	{
+	public void convertToEnum() {
 
 		Converter<String, Flavour> flavourConvertor = converterfactory.getConverter( Flavour.class );
 

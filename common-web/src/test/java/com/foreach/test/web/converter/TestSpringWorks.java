@@ -7,8 +7,7 @@ import org.springframework.core.io.Resource;
 public class TestSpringWorks extends BaseConversionServiceTest
 {
 	@Test
-	public void weConvertEnumsButNotResources()
-	{
+	public void weConvertEnumsButNotResources() {
 		Assert.assertEquals( true, conversionService.canConvert( String.class, Enum.class ) );
 		Assert.assertEquals( false, conversionService.canConvert( String.class, Resource.class ) );
 	}
