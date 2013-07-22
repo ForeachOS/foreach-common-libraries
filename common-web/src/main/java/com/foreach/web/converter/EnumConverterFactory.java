@@ -34,6 +34,18 @@ import java.lang.reflect.Type;
  * on how to configure a conversion service for your application.
  * <p/>If an object can't be converted with the conversion service, the system falls back to property editors.
  * For this reason, you should keep all your converters as specific as possible.
+ * <p>
+ *     To use the EnumConverterFactory in Spring 3.1+ with @Configuration annotations:
+ *     <pre>
+ *         public class WebConfig extends WebMvcConfigurerAdapter
+ *         {
+*             {@literal @}Override
+*             public void addFormatters( FormatterRegistry registry ) {
+*               registry.addConverterFactory( new EnumConverterFactory() );
+*             }
+ *         }
+ *     </pre>
+ * </p>
  */
 
 public class EnumConverterFactory implements ConverterFactory<String, Enum>, RecursiveConverter
