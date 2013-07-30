@@ -25,7 +25,7 @@ public class Log4JUtils
 	 *
 	 * @return List of loggers
 	 */
-	public static final List<Logger> getClassLoggers() {
+	public static List<Logger> getClassLoggers() {
 		List<String> loggerNames = new ArrayList<String>();
 		Enumeration enumeration = LogManager.getCurrentLoggers();
 		while ( enumeration.hasMoreElements() ) {
