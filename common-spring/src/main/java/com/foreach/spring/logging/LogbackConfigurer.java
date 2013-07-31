@@ -19,6 +19,15 @@ import java.util.Map;
  *     return new LogbackConfigurer( logDir, baseConfig, envConfig );
  *   }
  * </pre>
+ * <p>Properties configuration:</p>
+ * <pre>
+ *   # logging configuration
+ *   log.dir=/logs/myapplication
+ *   log.config=classpath:/config/logback.xml
+ *   log.config.extend=classpath:/config/development/logback.xml
+ * </pre>
+ * <p><strong>Note:</strong> number of resources passed in is variable, and resources do not have to exist as
+ * they will be ignored if they don't.</p>
  */
 public class LogbackConfigurer extends LogbackConfigurerAdapter
 {

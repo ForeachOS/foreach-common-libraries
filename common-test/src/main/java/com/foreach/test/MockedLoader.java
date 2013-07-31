@@ -5,7 +5,6 @@ import org.mockito.internal.stubbing.InvocationContainer;
 import org.mockito.internal.util.MockUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.TypeConverter;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.QualifierAnnotationAutowireCandidateResolver;
@@ -31,14 +30,40 @@ import static org.mockito.Mockito.reset;
 // So we'll just extend DelegatingSmartContextLoader like SpringJUnit4ClassRunner does
 
 /**
- * Somebody will write a short howto here.
+ * <p>MockedLoader can be used in unit tests to automatically create mocks for all autowired
+ * beans that are not yet defined in the spring context.  To be used in combination with
+ * TestConfig classes.  Example use:</p>
+ * <pre>
+ *  {@literal @}RunWith(SpringJUnit4ClassRunner.class)
+ *  {@literal @}DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+ *  {@literal @}ContextConfiguration(classes = MyTest.TestConfig.class, loader = MockedLoader.class)
+ *  public class MyTest {
+ *      {@literal @}Autowired
+ *      private ClassBeingTested classBeingTested;
+ *      ...
+ *
+ *     {@literal @}Configuration
+ *     public static class TestConfig {
+ *       // Only the ClassBeingTested should be manually created with the actual implementation.
+ *       // All autowired beans that the ClassBeingTested depends on, will be replaced by a mock
+ *       // by the MockedLoader.  Only beans for which a specific implementation should be used
+ *       // need to be specified in the TestConfig.
+ *       {@literal @}Bean
+ *       public ClassBeingTested classBeingTested() {
+ *         return new ClassBeingTested();
+ *       }
+ *     }
+ *  }
+ * </pre>
+ * <p><strong>Note:</strong> MockedLoader is based on Mockito mocking.</p>
  */
 public class MockedLoader extends DelegatingSmartContextLoader
 {
-
-	private AnnotationConfigContextLoaderDecorator loader = new AnnotationConfigContextLoaderDecorator();
 	private static final Logger LOG = LoggerFactory.getLogger( MockedLoader.class );
 
+	private AnnotationConfigContextLoaderDecorator loader = new AnnotationConfigContextLoaderDecorator();
+
+	@SuppressWarnings("all")
 	@Override
 	public ApplicationContext loadContext( MergedContextConfiguration mergedConfig ) throws Exception {
 		// Overwrite the annotationConfigLoader with out implementation
@@ -58,7 +83,6 @@ public class MockedLoader extends DelegatingSmartContextLoader
 
 	private class AnnotationConfigContextLoaderDecorator extends AnnotationConfigContextLoader
 	{
-
 		@Override
 		protected void prepareContext( GenericApplicationContext context ) {
 			QualifierAnnotationAutowireCandidateResolver qualifierAnnotationAutowireCandidateResolver =
@@ -71,17 +95,9 @@ public class MockedLoader extends DelegatingSmartContextLoader
 		}
 	}
 
-	private class BeanFactoryDecorator extends DefaultListableBeanFactory
+	private static class BeanFactoryDecorator extends DefaultListableBeanFactory
 	{
-
 		private final Map<Class, Object> mockedBeans = new HashMap<Class, Object>();
-		//        private final Map<Class, Object> usedBeans = new HashMap<Class, Object>();
-
-		//        public BeanFactoryDecorator() {
-		//            for( Map.Entry<Class, Object> bean : usedBeans.entrySet() ) {
-		//                reset( bean.getValue() );
-		//            }
-		//        }
 
 		@Override
 		public void destroySingletons() {
@@ -101,7 +117,7 @@ public class MockedLoader extends DelegatingSmartContextLoader
 				}
 				reset( mock );
 			}
-			System.out.println(
+			LOG.debug(
 					"*** MockedLoader stats: [" + mockedBeans.size() + "] mocked beans of which [" + mockedBeansWithInvocations + "] with invocations and [" + mockedBeansWithoutInvocations + "] without invocations" );
 			mockedBeans.clear();
 
@@ -111,7 +127,7 @@ public class MockedLoader extends DelegatingSmartContextLoader
 		public Object resolveDependency( DependencyDescriptor descriptor,
 		                                 String beanName,
 		                                 Set<String> autowiredBeanNames,
-		                                 TypeConverter typeConverter ) throws BeansException {
+		                                 TypeConverter typeConverter ) {
 			try {
 				return super.resolveDependency( descriptor, beanName, autowiredBeanNames, typeConverter );
 			}
@@ -128,11 +144,10 @@ public class MockedLoader extends DelegatingSmartContextLoader
 					LOG.debug( "Did not find a mocked bean for type {}", dependencyType );
 					mockedBean = mock( dependencyType );
 
-					// We could actually also try to instantiate the Impl if we feel the
+					// We could actually also try to instantiate the Impl if we feel the need
 					mockedBeans.put( dependencyType, mockedBean );
 				}
 				else {
-					//                    usedBeans.put( dependencyType, mockedBean );
 					LOG.debug( "returning mocked bean for type {}", dependencyType );
 				}
 				return mockedBean;

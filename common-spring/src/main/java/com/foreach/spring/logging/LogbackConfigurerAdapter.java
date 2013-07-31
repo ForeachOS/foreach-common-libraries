@@ -110,11 +110,13 @@ public abstract class LogbackConfigurerAdapter
 		}
 	}
 
+	@SuppressWarnings( "all" )
 	private void info( String message, Object... parameters ) {
 		System.out.println( String.format( StringUtils.replace( message, "{}", "%s" ), parameters ) );
 		LOG.info( message, parameters );
 	}
 
+	@SuppressWarnings( "all" )
 	private void warn( String message, Object... parameters ) {
 		System.err.println( String.format( StringUtils.replace( message, "{}", "%s" ), parameters ) );
 		LOG.warn( message, parameters );
