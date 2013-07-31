@@ -1,4 +1,4 @@
 /**
- * This package contains classes to implement Log4j in given application
+ * This package contains classes to implement Log4j or Logback in applications
  */
 package com.foreach.spring.logging;
