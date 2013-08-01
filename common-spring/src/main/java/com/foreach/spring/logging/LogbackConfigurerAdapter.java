@@ -3,7 +3,6 @@ package com.foreach.spring.logging;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -35,7 +34,7 @@ public abstract class LogbackConfigurerAdapter
 	public void configure() {
 		Collection<Resource> configurationResources = new LinkedList<Resource>();
 
-		info( "Initializing logging system with logback configuration files" );
+		LOG.info( "Initializing logging system with logback configuration files" );
 
 		addConfigurationResources( configurationResources );
 
@@ -90,7 +89,7 @@ public abstract class LogbackConfigurerAdapter
 	private void parseResources( LoggerContext context, Collection<Resource> resources ) {
 		for ( Resource resource : resources ) {
 			if ( resource != null && resource.exists() ) {
-				info( "Applying logback configuration {}", resource );
+				LOG.info( "Applying logback configuration {}", resource );
 				parseLogbackFile( context, resource );
 			}
 		}
@@ -103,22 +102,10 @@ public abstract class LogbackConfigurerAdapter
 			joranConfigurator.doConfigure( file.getInputStream() );
 		}
 		catch ( JoranException jex ) {
-			warn( "Exception parsing logback configuration {}: {}", file, jex );
+			LOG.warn( "Exception parsing logback configuration {}: {}", file, jex );
 		}
 		catch ( Exception e ) {
 			throw new LogbackConfigurerException( e );
 		}
-	}
-
-	@SuppressWarnings( "all" )
-	private void info( String message, Object... parameters ) {
-		System.out.println( String.format( StringUtils.replace( message, "{}", "%s" ), parameters ) );
-		LOG.info( message, parameters );
-	}
-
-	@SuppressWarnings( "all" )
-	private void warn( String message, Object... parameters ) {
-		System.err.println( String.format( StringUtils.replace( message, "{}", "%s" ), parameters ) );
-		LOG.warn( message, parameters );
 	}
 }

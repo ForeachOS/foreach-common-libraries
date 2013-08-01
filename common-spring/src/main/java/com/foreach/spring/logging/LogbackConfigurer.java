@@ -27,7 +27,7 @@ import java.util.Map;
  *   log.config.extend=classpath:/config/development/logback.xml
  * </pre>
  * <p><strong>Note:</strong> number of resources passed in is variable, and resources do not have to exist as
- * they will be ignored if they don't.</p>
+ * they will be ignored if they don't.  In Spring xml configuration, resources should be passed in as a collection.</p>
  */
 public class LogbackConfigurer extends LogbackConfigurerAdapter
 {
