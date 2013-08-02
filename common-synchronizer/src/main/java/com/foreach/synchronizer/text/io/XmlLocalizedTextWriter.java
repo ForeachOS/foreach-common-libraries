@@ -22,7 +22,7 @@ public class XmlLocalizedTextWriter implements LocalizedTextWriter {
         return xStream;
     }
 
-    public void write(String application, String group, Collection<LocalizedText> localizedTexts) {
+    public void write(Collection<LocalizedText> localizedTexts) {
         for (LocalizedText text : localizedTexts) {
             xStream.toXML(text, outputStream);
         }
