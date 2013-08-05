@@ -4,6 +4,6 @@ import java.io.OutputStream;
 
 public interface LocalizedTextWriterFactory {
 
-    LocalizedTextWriter createLocalizedTextWriter(LocalizedTextOutputFormat format, OutputStream outputStream);
+	LocalizedTextWriter createLocalizedTextWriter( LocalizedTextOutputFormat format, OutputStream outputStream );
 
 }
