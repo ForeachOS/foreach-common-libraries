@@ -1,42 +1,45 @@
 package com.foreach.synchronizer.text;
 
 import com.foreach.synchronizer.text.actions.SynchronizerAction;
-import org.apache.commons.cli.*;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Map;
+public class TextSynchronizer {
 
-public class TextSynchronizer implements ApplicationContextAware {
-	private ApplicationContext context;
+	@Autowired
+	private java.util.Collection<SynchronizerAction> synchronizerActions;
 
 	public void execute( String[] args ) {
-		Map<String, SynchronizerAction> actions = context.getBeansOfType( SynchronizerAction.class );
-
-		SynchronizerAction foundAction = null;
-
-		for ( SynchronizerAction action : actions.values() ) {
-			if ( action.getActionName().equals( args[ 1 ] ) ) {
-				foundAction = action;
-				break;
-			}
-		}
+		SynchronizerAction foundAction = getSynchronizerActionForName( args[ 1 ] );
 
 		if ( foundAction == null ) {
-			throw new TextSynchronizerException( "Unknown action:" + args[ 1 ] );
+			throw new TextSynchronizerException( "Unknown action: " + args[ 1 ] );
 		}
 
-		CommandLineParser parser = new PosixParser();
+		CommandLine cmd = parseArguments( args, foundAction );
+
+		foundAction.execute( cmd );
+	}
+
+	private CommandLine parseArguments( String[] args, SynchronizerAction foundAction ) {
 		try {
-			CommandLine cmd = parser.parse( foundAction.getCliOptions(), args );
-			foundAction.execute( cmd );
+			CommandLineParser parser = new PosixParser();
+			return parser.parse( foundAction.getCliOptions(), args );
 		} catch ( ParseException e ) {
 			throw new TextSynchronizerException( e.getMessage(), e );
 		}
 	}
 
-	public void setApplicationContext( ApplicationContext applicationContext ) throws BeansException {
-		this.context = applicationContext;
+	private SynchronizerAction getSynchronizerActionForName( String actionName ) {
+		for ( SynchronizerAction action : synchronizerActions ) {
+			if ( StringUtils.equalsIgnoreCase( action.getActionName(), actionName ) ) {
+				return action;
+			}
+		}
+		return null;
 	}
 }

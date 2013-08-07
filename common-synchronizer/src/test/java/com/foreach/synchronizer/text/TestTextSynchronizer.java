@@ -56,6 +56,38 @@ public class TestTextSynchronizer {
 		}
 	}
 
+	@Test
+	public void executeMissingArgument() {
+		String downloadActionName = "download";
+		when( downloadAction.getActionName() ).thenReturn( downloadActionName );
+
+		Options options = new Options();
+		options.addOption( DownloadAction.SHORT_OPTION_OUTPUT_DIR, DownloadAction.OPTION_OUTPUT_DIR, true, "the output directory to save the files to" );
+		when( downloadAction.getCliOptions() ).thenReturn( options );
+
+		boolean thrown = false;
+		String[] args = { "sync.jar", downloadActionName, "--wrong-option=blah" };
+		try {
+			textSynchronizer.execute( args );
+		} catch ( TextSynchronizerException e ) {
+			assertEquals( "Unrecognized option: --wrong-option=blah", e.getMessage() );
+			thrown = true;
+		}
+		assertTrue( thrown );
+	}
+
+	@Test
+	public void executeWrongCommand() throws TextSynchronizerException {
+		String[] args = { "sync.jar", "unknownAction", "--output-dir=path/to/files/production" };
+		boolean thrown = false;
+		try {
+			textSynchronizer.execute( args );
+		} catch ( TextSynchronizerException e ) {
+			assertEquals( "Unknown action: unknownAction", e.getMessage() );
+			thrown = true;
+		}
+		assertTrue( thrown );
+	}
 
 	public static class TestConfig {
 		@Bean
@@ -69,10 +101,8 @@ public class TestTextSynchronizer {
 		}
 
 		@Bean
-		public SynchronizerAction downloadAction() { //This name has to be the same as the variable on top.
+		public SynchronizerAction downloadAction() {
 			return mock( SynchronizerAction.class );
 		}
-
-
 	}
 }
