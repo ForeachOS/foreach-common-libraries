@@ -75,6 +75,29 @@ public class TestTextSynchronizer {
         String downloadActionName = "download";
         when(downloadAction.getActionName()).thenReturn(downloadActionName);
 
+        Option option = new Option(DownloadAction.SHORT_OPTION_OUTPUT_DIR, DownloadAction.OPTION_OUTPUT_DIR, true, "the output directory to save the files to");
+        option.setRequired(true);
+
+        Options options = new Options();
+        options.addOption(option);
+        when(downloadAction.getCliOptions()).thenReturn(options);
+
+        boolean thrown = false;
+        String[] args = {downloadActionName};
+        try {
+            textSynchronizer.execute(args);
+        } catch (TextSynchronizerException e) {
+            assertEquals("Missing required option: o", e.getMessage());
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
+
+    @Test
+    public void executeWrongArgument() {
+        String downloadActionName = "download";
+        when(downloadAction.getActionName()).thenReturn(downloadActionName);
+
         Options options = new Options();
         options.addOption(DownloadAction.SHORT_OPTION_OUTPUT_DIR, DownloadAction.OPTION_OUTPUT_DIR, true, "the output directory to save the files to");
         when(downloadAction.getCliOptions()).thenReturn(options);
