@@ -18,16 +18,14 @@ public class TextSynchronizer {
 
     public void execute(String[] args) {
         if (ArrayUtils.isEmpty(args)) {
-            throw new TextSynchronizerException(new IllegalArgumentException("Argument is null or empty"));
+            throw new TextSynchronizerException("Argument is null or empty");
         }
         SynchronizerAction foundAction = getSynchronizerActionForName(args[0]);
 
         if (foundAction == null) {
             throw new TextSynchronizerException("Unknown action: " + args[0]);
         }
-
         CommandLine cmd = parseArguments(args, foundAction);
-
         foundAction.execute(cmd);
     }
 
