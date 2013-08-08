@@ -3,14 +3,14 @@ package com.foreach.synchronizer.text.io;
 import com.foreach.synchronizer.text.TextSynchronizerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-@Service
+@Component
 public class LocalizedTextFileHandlerImpl implements LocalizedTextFileHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger( LocalizedTextFileHandlerImpl.class );
