@@ -20,10 +20,10 @@ public class TextSynchronizer {
         if (ArrayUtils.isEmpty(args)) {
             throw new TextSynchronizerException(new IllegalArgumentException("Argument is null or empty"));
         }
-        SynchronizerAction foundAction = getSynchronizerActionForName(args[1]);
+        SynchronizerAction foundAction = getSynchronizerActionForName(args[0]);
 
         if (foundAction == null) {
-            throw new TextSynchronizerException("Unknown action: " + args[1]);
+            throw new TextSynchronizerException("Unknown action: " + args[0]);
         }
 
         CommandLine cmd = parseArguments(args, foundAction);
