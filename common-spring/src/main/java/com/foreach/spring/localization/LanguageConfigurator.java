@@ -46,7 +46,11 @@ public final class LanguageConfigurator
 		return (Language[]) languageClass.getEnumConstants();
 	}
 
-	/**
+    public static Class getLanguageClass() {
+        return languageClass;
+    }
+
+    /**
 	 * Exception thrown when the Language system has not been properly initialized.
 	 * This means no LanguageConfigurator singleton has been created.
 	 */

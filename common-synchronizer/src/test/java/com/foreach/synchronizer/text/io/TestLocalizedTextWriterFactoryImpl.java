@@ -1,6 +1,8 @@
 package com.foreach.synchronizer.text.io;
 
+import com.foreach.spring.localization.LanguageConfigurator;
 import com.foreach.test.MockedLoader;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,12 @@ public class TestLocalizedTextWriterFactoryImpl {
 	@Autowired
 	private LocalizedTextWriterFactory localizedTextWriterFactory;
 
-	@Test
+    @Before
+    public void setup() {
+        new LanguageConfigurator(TestLanguage.class);
+    }
+
+    @Test
 	public void createLocalizedTextWriter() throws Exception {
 		OutputStream outputStream = mock( OutputStream.class );
 		//Xml output format

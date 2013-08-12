@@ -26,7 +26,7 @@ public class XmlLocalizedTextWriter implements LocalizedTextWriter {
         xStream = new XStream();
         xStream.alias("text", LocalizedText.class);
         xStream.alias("fields", LocalizedTextFields.class);
-        xStream.addDefaultImplementation(LanguageConfigurator.getLanguages()[0].getClass(), Language.class);
+        xStream.addDefaultImplementation(LanguageConfigurator.getLanguageClass(), Language.class);
         xStream.omitField(AbstractLocalizedFieldsObject.class, "fieldsAsUnmodifiableMap");
         xStream.omitField(AbstractLocalizedFieldsObject.class, "fieldsAsModifiableCollection");
         xStream.addImplicitMap(LocalizedText.class, "fieldsByLanguageCode", LocalizedTextFields.class, "language");
