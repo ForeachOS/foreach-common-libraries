@@ -16,31 +16,31 @@ public class TextSynchronizer {
     @Autowired
     private java.util.Collection<SynchronizerAction> synchronizerActions;
 
-    public void execute(String[] args) {
-        if (ArrayUtils.isEmpty(args)) {
-            throw new TextSynchronizerException("Argument is null or empty");
+    public void execute( String[] args ) {
+        if( ArrayUtils.isEmpty( args ) ) {
+            throw new TextSynchronizerException( "Argument is null or empty" );
         }
-        SynchronizerAction foundAction = getSynchronizerActionForName(args[0]);
+        SynchronizerAction foundAction = getSynchronizerActionForName( args[0] );
 
-        if (foundAction == null) {
-            throw new TextSynchronizerException("Unknown action: " + args[0]);
+        if( foundAction == null ) {
+            throw new TextSynchronizerException( "Unknown action: " + args[0] );
         }
-        CommandLine cmd = parseArguments(args, foundAction);
-        foundAction.execute(cmd);
+        CommandLine cmd = parseArguments( args, foundAction );
+        foundAction.execute( cmd );
     }
 
-    private CommandLine parseArguments(String[] args, SynchronizerAction foundAction) {
+    private CommandLine parseArguments( String[] args, SynchronizerAction foundAction ) {
         try {
             CommandLineParser parser = new PosixParser();
-            return parser.parse(foundAction.getCliOptions(), args);
-        } catch (ParseException e) {
-            throw new TextSynchronizerException(e.getMessage(), e);
+            return parser.parse( foundAction.getCliOptions(), args );
+        } catch ( ParseException e ) {
+            throw new TextSynchronizerException( e.getMessage(), e );
         }
     }
 
-    private SynchronizerAction getSynchronizerActionForName(String actionName) {
-        for (SynchronizerAction action : synchronizerActions) {
-            if (StringUtils.equalsIgnoreCase(action.getActionName(), actionName)) {
+    private SynchronizerAction getSynchronizerActionForName( String actionName ) {
+        for( SynchronizerAction action : synchronizerActions ) {
+            if( StringUtils.equalsIgnoreCase( action.getActionName(), actionName ) ) {
                 return action;
             }
         }

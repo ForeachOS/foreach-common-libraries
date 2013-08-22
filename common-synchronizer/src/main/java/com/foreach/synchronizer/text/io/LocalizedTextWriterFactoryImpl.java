@@ -7,14 +7,14 @@ import java.io.OutputStream;
 
 @Component
 public class LocalizedTextWriterFactoryImpl implements LocalizedTextWriterFactory {
-	public LocalizedTextWriter createLocalizedTextWriter( LocalizedTextOutputFormat format, OutputStream outputStream ) {
-		switch ( format ) {
-			case XML:
-				return new XmlLocalizedTextWriter( outputStream );
-			case EXCEL:
-				return new ExcelLocalizedTextWriter( outputStream );
-			default:
-				throw new TextSynchronizerException( "Unexpected format " + format + " !" );
-		}
-	}
+    public LocalizedTextWriter createLocalizedTextWriter( LocalizedTextOutputFormat format, OutputStream outputStream ) {
+        switch (format) {
+            case XML:
+                return new XmlLocalizedTextWriter( outputStream );
+            case EXCEL:
+                return new ExcelLocalizedTextWriter( outputStream );
+            default:
+                throw new TextSynchronizerException( "Unexpected format " + format + " !" );
+        }
+    }
 }

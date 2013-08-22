@@ -9,18 +9,18 @@ import java.util.Collection;
 
 public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
 
-	private OutputStream outputStream;
+    private OutputStream outputStream;
 
-	public ExcelLocalizedTextWriter( OutputStream outputStream ) {
-		this.outputStream = outputStream;
-	}
+    public ExcelLocalizedTextWriter( OutputStream outputStream ) {
+        this.outputStream = outputStream;
+    }
 
-	public void write( Collection<LocalizedText> localizedTexts ) {
-		//TODO
-		throw new RuntimeException( "Not yet implemented" );
-	}
+    public void write( Collection<LocalizedText> localizedTexts ) {
+        //TODO
+        throw new RuntimeException( "Not yet implemented" );
+    }
 
-	public void close() throws IOException {
-		IOUtils.closeQuietly( outputStream );
-	}
+    public void close() throws IOException {
+        IOUtils.closeQuietly( outputStream );
+    }
 }

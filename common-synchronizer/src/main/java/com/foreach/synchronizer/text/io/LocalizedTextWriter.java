@@ -6,5 +6,5 @@ import java.io.Closeable;
 import java.util.Collection;
 
 public interface LocalizedTextWriter extends Closeable {
-	void write( Collection<LocalizedText> localizedTexts );
+    void write( Collection<LocalizedText> localizedTexts );
 }
