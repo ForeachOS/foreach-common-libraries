@@ -20,6 +20,9 @@ public class DownloadAction implements SynchronizerAction {
 
     public static final String OPTION_OUTPUT_DIR = "output-dir";
     public static final String SHORT_OPTION_OUTPUT_DIR = "o";
+    public static final String OPTION_FORMAT = "format";
+    public static final String SHORT_OPTION_FORMAT = "f";
+    private static final LocalizedTextOutputFormat DEFAULT_OUTPUT_FORMAT = LocalizedTextOutputFormat.XML;
 
     @Autowired
     private LocalizedTextWriterFactory localizedTextWriterFactory;
@@ -33,6 +36,7 @@ public class DownloadAction implements SynchronizerAction {
     public Options getCliOptions() {
         Options options = new Options();
         options.addOption( SHORT_OPTION_OUTPUT_DIR, OPTION_OUTPUT_DIR, true, "the output directory to save the files to" );
+        options.addOption( SHORT_OPTION_FORMAT, OPTION_FORMAT, true, "the output format (default=" + DEFAULT_OUTPUT_FORMAT.name() + ")" );
         return options;
     }
 
@@ -41,17 +45,28 @@ public class DownloadAction implements SynchronizerAction {
     }
 
     public void execute( CommandLine commandLine ) {
-        writeToFiles( commandLine.getOptionValue( OPTION_OUTPUT_DIR ) );
+        String outputDir = commandLine.getOptionValue( OPTION_OUTPUT_DIR );
+        LocalizedTextOutputFormat outputFormat = getOutputFormat( commandLine );
+        writeToFiles( outputDir, outputFormat );
     }
 
-    public void writeToFiles( String outputDirectory ) {
+    private LocalizedTextOutputFormat getOutputFormat( CommandLine commandLine ) {
+        String formatAsString = commandLine.getOptionValue( OPTION_FORMAT );
+        if( formatAsString == null ) {
+            return DEFAULT_OUTPUT_FORMAT;
+        } else {
+            return LocalizedTextOutputFormat.valueOf( formatAsString );
+        }
+    }
+
+    public void writeToFiles( String outputDirectory, LocalizedTextOutputFormat outputFormat ) {
         for( String application : localizedTextService.getApplications() ) {
             for( String group : localizedTextService.getGroups( application ) ) {
                 LocalizedTextWriter writer = null;
                 try {
-                    OutputStream outputStream = localizedTextFileHandler.getOutputStream( outputDirectory, application, group, LocalizedTextOutputFormat.XML );
+                    OutputStream outputStream = localizedTextFileHandler.getOutputStream( outputDirectory, application, group, outputFormat );
                     List<LocalizedText> localizedTextItems = localizedTextService.getLocalizedTextItems( application, group );
-                    writer = localizedTextWriterFactory.createLocalizedTextWriter( LocalizedTextOutputFormat.XML, outputStream );
+                    writer = localizedTextWriterFactory.createLocalizedTextWriter( outputFormat, outputStream );
                     writer.write( localizedTextItems );
                 } finally {
                     IOUtils.closeQuietly( writer );

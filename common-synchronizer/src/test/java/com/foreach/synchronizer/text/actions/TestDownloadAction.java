@@ -7,9 +7,12 @@ import com.foreach.synchronizer.text.io.LocalizedTextOutputFormat;
 import com.foreach.synchronizer.text.io.LocalizedTextWriter;
 import com.foreach.synchronizer.text.io.LocalizedTextWriterFactory;
 import com.foreach.test.MockedLoader;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.annotation.DirtiesContext;
@@ -24,9 +27,9 @@ import java.util.List;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@ContextConfiguration(classes = TestDownloadAction.TestConfig.class, loader = MockedLoader.class)
+@RunWith( SpringJUnit4ClassRunner.class )
+@DirtiesContext( classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD )
+@ContextConfiguration( classes = TestDownloadAction.TestConfig.class, loader = MockedLoader.class )
 public class TestDownloadAction {
 
     @Autowired
@@ -52,7 +55,7 @@ public class TestDownloadAction {
         LocalizedTextWriter localizedTextWriter2 = mock( LocalizedTextWriter.class );
         LocalizedTextWriter localizedTextWriter3 = mock( LocalizedTextWriter.class );
         when( localizedTextWriterFactory.createLocalizedTextWriter(
-                Mockito.eq( LocalizedTextOutputFormat.XML ), any( OutputStream.class ) ) )
+                eq( LocalizedTextOutputFormat.XML ), any( OutputStream.class ) ) )
                 .thenReturn( localizedTextWriter1, localizedTextWriter2, localizedTextWriter3 );
 
         when( localizedTextService.getApplications() ).thenReturn( Arrays.asList( "app1", "app2" ) );
@@ -76,10 +79,39 @@ public class TestDownloadAction {
                 .getOutputStream( outputDirectory, "app2", "group21", LocalizedTextOutputFormat.XML ) ).thenReturn(
                 outputStream3 );
 
-        downloadAction.writeToFiles( outputDirectory );
+        downloadAction.writeToFiles( outputDirectory, LocalizedTextOutputFormat.XML );
         verify( localizedTextWriter1, times( 1 ) ).write( items11 );
         verify( localizedTextWriter2, times( 1 ) ).write( items12 );
         verify( localizedTextWriter3, times( 1 ) ).write( items21 );
+    }
+
+    @Test
+    public void testExcelFormat() throws ParseException {
+        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "EXCEL"}, LocalizedTextOutputFormat.EXCEL );
+    }
+
+    @Test
+    public void testXMLFormat() throws ParseException {
+        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "XML"}, LocalizedTextOutputFormat.XML );
+    }
+
+    @Test
+    public void testDefaultFormat() throws ParseException {
+        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/"}, LocalizedTextOutputFormat.XML );
+    }
+
+    private void verifyExpectedFormatUsed( String[] args, LocalizedTextOutputFormat expectedOutputFormat ) throws ParseException {
+        CommandLineParser parser = new PosixParser();
+        CommandLine commandLine = parser.parse( downloadAction.getCliOptions(), args );
+
+        when( localizedTextService.getApplications() ).thenReturn( Arrays.asList( "app3" ) );
+        when( localizedTextService.getGroups( "app3" ) ).thenReturn( Arrays.asList( "group31" ) );
+        when( localizedTextWriterFactory.createLocalizedTextWriter( eq( expectedOutputFormat ), any( OutputStream.class ) ) ).thenReturn( mock( LocalizedTextWriter.class ) );
+
+        downloadAction.execute( commandLine );
+
+        verify( localizedTextFileHandler ).getOutputStream( "/some/dir/", "app3", "group31", expectedOutputFormat );
+        verify( localizedTextWriterFactory ).createLocalizedTextWriter( eq( expectedOutputFormat ), any( OutputStream.class ) );
     }
 
     public static class TestConfig {
