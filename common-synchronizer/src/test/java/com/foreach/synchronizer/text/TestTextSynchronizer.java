@@ -16,10 +16,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@ContextConfiguration(classes = TestTextSynchronizer.TestConfig.class, loader = MockedLoader.class)
+@RunWith( SpringJUnit4ClassRunner.class )
+@DirtiesContext( classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD )
+@ContextConfiguration( classes = TestTextSynchronizer.TestConfig.class, loader = MockedLoader.class )
 public class TestTextSynchronizer {
     @Autowired
     private TextSynchronizer textSynchronizer;
@@ -37,22 +36,22 @@ public class TestTextSynchronizer {
         String[] args = {downloadActionName, "--output-dir=path/to/files/production"};
 
         Options options = new Options();
-        options.addOption(DownloadAction.SHORT_OPTION_OUTPUT_DIR, DownloadAction.OPTION_OUTPUT_DIR, true, "the output directory to save the files to");
+        options.addOption( DownloadAction.SHORT_OPTION_OUTPUT_DIR, DownloadAction.OPTION_OUTPUT_DIR, true, "the output directory to save the files to" );
         CommandLineParser parser = new PosixParser();
-        CommandLine cmd = parser.parse(options, args);
+        CommandLine cmd = parser.parse( options, args );
 
-        when(mergeAction.getActionName()).thenReturn("merge");
-        when(downloadAction.getActionName()).thenReturn(downloadActionName);
-        when(downloadAction.getCliOptions()).thenReturn(options);
+        when( mergeAction.getActionName() ).thenReturn( "merge" );
+        when( downloadAction.getActionName() ).thenReturn( downloadActionName );
+        when( downloadAction.getCliOptions() ).thenReturn( options );
 
-        textSynchronizer.execute(args);
+        textSynchronizer.execute( args );
 
-        ArgumentCaptor<CommandLine> argument = ArgumentCaptor.forClass(CommandLine.class);
-        verify(downloadAction, times(1)).execute(argument.capture());
-        assertArrayEquals(cmd.getOptions(), argument.getValue().getOptions());
-        assertArrayEquals(cmd.getArgs(), argument.getValue().getArgs());
-        for (int i = 0; i < argument.getValue().getOptions().length; i++) {
-            assertEquals(cmd.getOptions()[i].getValue(), argument.getValue().getOptions()[i].getValue());
+        ArgumentCaptor<CommandLine> argument = ArgumentCaptor.forClass( CommandLine.class );
+        verify( downloadAction, times( 1 ) ).execute( argument.capture() );
+        assertArrayEquals( cmd.getOptions(), argument.getValue().getOptions() );
+        assertArrayEquals( cmd.getArgs(), argument.getValue().getArgs() );
+        for( int i = 0; i < argument.getValue().getOptions().length; i++ ) {
+            assertEquals( cmd.getOptions()[i].getValue(), argument.getValue().getOptions()[i].getValue() );
         }
     }
 
@@ -62,55 +61,55 @@ public class TestTextSynchronizer {
         boolean exceptionThrown = false;
 
         try {
-            textSynchronizer.execute(args);
-        } catch (TextSynchronizerException ex) {
-            assertEquals("Argument is null or empty", ex.getMessage());
+            textSynchronizer.execute( args );
+        } catch ( TextSynchronizerException ex ) {
+            assertEquals( "Argument is null or empty", ex.getMessage() );
             exceptionThrown = true;
         }
-        assertTrue(exceptionThrown);
+        assertTrue( exceptionThrown );
     }
 
     @Test
     public void executeMissingArgument() {
         String downloadActionName = "download";
-        when(downloadAction.getActionName()).thenReturn(downloadActionName);
+        when( downloadAction.getActionName() ).thenReturn( downloadActionName );
 
-        Option option = new Option(DownloadAction.SHORT_OPTION_OUTPUT_DIR, DownloadAction.OPTION_OUTPUT_DIR, true, "the output directory to save the files to");
-        option.setRequired(true);
+        Option option = new Option( DownloadAction.SHORT_OPTION_OUTPUT_DIR, DownloadAction.OPTION_OUTPUT_DIR, true, "the output directory to save the files to" );
+        option.setRequired( true );
 
         Options options = new Options();
-        options.addOption(option);
-        when(downloadAction.getCliOptions()).thenReturn(options);
+        options.addOption( option );
+        when( downloadAction.getCliOptions() ).thenReturn( options );
 
         boolean thrown = false;
         String[] args = {downloadActionName};
         try {
-            textSynchronizer.execute(args);
-        } catch (TextSynchronizerException e) {
-            assertEquals("Missing required option: o", e.getMessage());
+            textSynchronizer.execute( args );
+        } catch ( TextSynchronizerException e ) {
+            assertEquals( "Missing required option: o", e.getMessage() );
             thrown = true;
         }
-        assertTrue(thrown);
+        assertTrue( thrown );
     }
 
     @Test
     public void executeWrongArgument() {
         String downloadActionName = "download";
-        when(downloadAction.getActionName()).thenReturn(downloadActionName);
+        when( downloadAction.getActionName() ).thenReturn( downloadActionName );
 
         Options options = new Options();
-        options.addOption(DownloadAction.SHORT_OPTION_OUTPUT_DIR, DownloadAction.OPTION_OUTPUT_DIR, true, "the output directory to save the files to");
-        when(downloadAction.getCliOptions()).thenReturn(options);
+        options.addOption( DownloadAction.SHORT_OPTION_OUTPUT_DIR, DownloadAction.OPTION_OUTPUT_DIR, true, "the output directory to save the files to" );
+        when( downloadAction.getCliOptions() ).thenReturn( options );
 
         boolean thrown = false;
         String[] args = {downloadActionName, "--wrong-option=blah"};
         try {
-            textSynchronizer.execute(args);
-        } catch (TextSynchronizerException e) {
-            assertEquals("Unrecognized option: --wrong-option=blah", e.getMessage());
+            textSynchronizer.execute( args );
+        } catch ( TextSynchronizerException e ) {
+            assertEquals( "Unrecognized option: --wrong-option=blah", e.getMessage() );
             thrown = true;
         }
-        assertTrue(thrown);
+        assertTrue( thrown );
     }
 
     @Test
@@ -118,12 +117,12 @@ public class TestTextSynchronizer {
         String[] args = {"unknownAction", "--output-dir=path/to/files/production"};
         boolean thrown = false;
         try {
-            textSynchronizer.execute(args);
-        } catch (TextSynchronizerException e) {
-            assertEquals("Unknown action: unknownAction", e.getMessage());
+            textSynchronizer.execute( args );
+        } catch ( TextSynchronizerException e ) {
+            assertEquals( "Unknown action: unknownAction", e.getMessage() );
             thrown = true;
         }
-        assertTrue(thrown);
+        assertTrue( thrown );
     }
 
     public static class TestConfig {
@@ -134,12 +133,12 @@ public class TestTextSynchronizer {
 
         @Bean
         public SynchronizerAction mergeAction() {
-            return mock(SynchronizerAction.class);
+            return mock( SynchronizerAction.class );
         }
 
         @Bean
         public SynchronizerAction downloadAction() {
-            return mock(SynchronizerAction.class);
+            return mock( SynchronizerAction.class );
         }
     }
 }

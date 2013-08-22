@@ -22,36 +22,36 @@ import static org.mockito.Mockito.mock;
 @ContextConfiguration( classes = TestLocalizedTextWriterFactoryImpl.TestConfig.class, loader = MockedLoader.class )
 public class TestLocalizedTextWriterFactoryImpl {
 
-	@Autowired
-	private LocalizedTextWriterFactory localizedTextWriterFactory;
+    @Autowired
+    private LocalizedTextWriterFactory localizedTextWriterFactory;
 
     @Before
     public void setup() {
-        new LanguageConfigurator(TestLanguage.class);
+        new LanguageConfigurator( TestLanguage.class );
     }
 
     @Test
-	public void createLocalizedTextWriter() throws Exception {
-		OutputStream outputStream = mock( OutputStream.class );
-		//Xml output format
-		LocalizedTextWriter xmlWriter = localizedTextWriterFactory.createLocalizedTextWriter( LocalizedTextOutputFormat.XML, outputStream );
-		assertNotNull( xmlWriter );
-		assertEquals( xmlWriter.getClass(), XmlLocalizedTextWriter.class );
-	}
+    public void createLocalizedTextWriter() throws Exception {
+        OutputStream outputStream = mock( OutputStream.class );
+        //Xml output format
+        LocalizedTextWriter xmlWriter = localizedTextWriterFactory.createLocalizedTextWriter( LocalizedTextOutputFormat.XML, outputStream );
+        assertNotNull( xmlWriter );
+        assertEquals( xmlWriter.getClass(), XmlLocalizedTextWriter.class );
+    }
 
-	@Test
-	public void createLocalizedTextWriterExcel() throws Exception {
-		OutputStream outputStream = mock( OutputStream.class );
-		LocalizedTextWriter excelWriter = localizedTextWriterFactory.createLocalizedTextWriter( LocalizedTextOutputFormat.EXCEL, outputStream );
-		assertNotNull( excelWriter );
-		assertEquals( excelWriter.getClass(), ExcelLocalizedTextWriter.class );
-	}
+    @Test
+    public void createLocalizedTextWriterExcel() throws Exception {
+        OutputStream outputStream = mock( OutputStream.class );
+        LocalizedTextWriter excelWriter = localizedTextWriterFactory.createLocalizedTextWriter( LocalizedTextOutputFormat.EXCEL, outputStream );
+        assertNotNull( excelWriter );
+        assertEquals( excelWriter.getClass(), ExcelLocalizedTextWriter.class );
+    }
 
-	public static class TestConfig {
+    public static class TestConfig {
 
-		@Bean
-		public LocalizedTextWriterFactory localizedTextWriterFactory() {
-			return new LocalizedTextWriterFactoryImpl();
-		}
-	}
+        @Bean
+        public LocalizedTextWriterFactory localizedTextWriterFactory() {
+            return new LocalizedTextWriterFactoryImpl();
+        }
+    }
 }

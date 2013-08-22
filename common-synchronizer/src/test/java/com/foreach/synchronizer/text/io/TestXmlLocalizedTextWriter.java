@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 
 import static org.junit.Assert.assertEquals;
 
-
 public class TestXmlLocalizedTextWriter extends BaseLocalizedTextWriterTest {
 
     private String expectedOutput = "<list>\n" +
@@ -32,20 +31,20 @@ public class TestXmlLocalizedTextWriter extends BaseLocalizedTextWriterTest {
 
     @Before
     public void setup() {
-        new LanguageConfigurator(TestLanguage.class);
+        new LanguageConfigurator( TestLanguage.class );
     }
 
     @Test
     public void testWrite() throws Exception {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        XmlLocalizedTextWriter xmlLocalizedTextWriter = new XmlLocalizedTextWriter(outputStream);
+        XmlLocalizedTextWriter xmlLocalizedTextWriter = new XmlLocalizedTextWriter( outputStream );
 
-        xmlLocalizedTextWriter.write(createLocalizedTexts());
+        xmlLocalizedTextWriter.write( createLocalizedTexts() );
 
-        String actualOutput = new String(outputStream.toByteArray());
+        String actualOutput = new String( outputStream.toByteArray() );
 
-        assertEquals(expectedOutput, actualOutput);
+        assertEquals( expectedOutput, actualOutput );
     }
 
 }
