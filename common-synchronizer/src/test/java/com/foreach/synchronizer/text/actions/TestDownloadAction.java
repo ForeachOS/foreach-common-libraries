@@ -91,6 +91,11 @@ public class TestDownloadAction {
     }
 
     @Test
+    public void testExcelFormatLowerCase() throws ParseException {
+        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "excel"}, LocalizedTextOutputFormat.EXCEL );
+    }
+
+    @Test
     public void testXMLFormat() throws ParseException {
         verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "XML"}, LocalizedTextOutputFormat.XML );
     }

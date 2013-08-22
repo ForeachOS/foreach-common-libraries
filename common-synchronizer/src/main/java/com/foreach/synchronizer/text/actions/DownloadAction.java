@@ -55,7 +55,7 @@ public class DownloadAction implements SynchronizerAction {
         if( formatAsString == null ) {
             return DEFAULT_OUTPUT_FORMAT;
         } else {
-            return LocalizedTextOutputFormat.valueOf( formatAsString );
+            return LocalizedTextOutputFormat.valueOf( formatAsString.toUpperCase() );
         }
     }
 
