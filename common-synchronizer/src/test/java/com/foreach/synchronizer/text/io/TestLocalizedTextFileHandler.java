@@ -26,7 +26,7 @@ public class TestLocalizedTextFileHandler {
     @Autowired
     private LocalizedTextFileHandlerImpl localizedTextFileHandler;
 
-    private String outputDir = "/test_files/";
+    private String outputDir = "./target/test_files/";
     private String application = "my_application";
     private String group = "my_group";
 
@@ -38,7 +38,7 @@ public class TestLocalizedTextFileHandler {
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
         writer.write(expectedContent);
         writer.close();
-        File expectedFile = new File(outputDir + application + "." + group + ".xml");
+        File expectedFile = new File(outputDir , application + "." + group + ".xml");
         assertTrue(expectedFile.exists());
         assertTrue(expectedFile.isFile());
         InputStream fileInputStream = new FileInputStream(expectedFile);
