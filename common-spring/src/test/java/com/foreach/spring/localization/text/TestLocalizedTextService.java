@@ -7,339 +7,405 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class TestLocalizedTextService extends AbstractLocalizationTest
-{
-	private LocalizedTextDataStore textDao;
-	private AbstractLocalizedTextService textService;
+public class TestLocalizedTextService extends AbstractLocalizationTest {
+    private LocalizedTextDataStore textDao;
+    private AbstractLocalizedTextService textService;
 
-	@Before
-	public void setUp() {
-		textDao = mock( LocalizedTextDataStore.class );
+    @Before
+    public void setUp() {
+        textDao = mock( LocalizedTextDataStore.class );
 
-		textService = new LocalizedTextServiceImpl( textDao );
-	}
+        textService = new LocalizedTextServiceImpl( textDao );
+    }
 
-	@Test
-	public void createTextSet() {
-		LocalizedText existing = new LocalizedText();
-		existing.setLabel( "existing" );
-		existing.setUsed( true );
+    @Test
+    public void createTextSet() {
+        LocalizedText existing = new LocalizedText();
+        existing.setLabel( "existing" );
+        existing.setUsed( true );
 
-		when( textDao.getLocalizedTextForGroup( "myapp", "mygroup" ) ).thenReturn( Arrays.asList( existing ) );
+        when( textDao.getLocalizedTextForGroup( "myapp", "mygroup" ) ).thenReturn( Arrays.asList( existing ) );
 
-		LocalizedTextSet textSet = textService.getLocalizedTextSet( "myapp", "mygroup" );
+        LocalizedTextSet textSet = textService.getLocalizedTextSet( "myapp", "mygroup" );
 
-		assertTrue( textSet instanceof LocalizedTextSetImpl );
-		assertNotNull( textSet );
-		assertEquals( 1, textSet.size() );
-		assertEquals( "myapp", textSet.getApplication() );
-		assertEquals( "mygroup", textSet.getGroup() );
-		assertSame( textService, ( (LocalizedTextSetImpl) textSet ).getLocalizedTextService() );
-		assertTrue( textSet.exists( "existing" ) );
-	}
+        assertTrue( textSet instanceof LocalizedTextSetImpl );
+        assertNotNull( textSet );
+        assertEquals( 1, textSet.size() );
+        assertEquals( "myapp", textSet.getApplication() );
+        assertEquals( "mygroup", textSet.getGroup() );
+        assertSame( textService, (( LocalizedTextSetImpl ) textSet).getLocalizedTextService() );
+        assertTrue( textSet.exists( "existing" ) );
+    }
 
-	@Test
-	public void textSetShouldComeFromCacheIfPossible() {
-		LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
-		LocalizedTextSet expected = mock( LocalizedTextSet.class );
+    @Test
+    public void textSetShouldComeFromCacheIfPossible() {
+        LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
+        LocalizedTextSet expected = mock( LocalizedTextSet.class );
 
-		textService.setTextSetCache( cache );
+        textService.setTextSetCache( cache );
 
-		when( cache.getLocalizedTextSet( "myapp", "mygroup" ) ).thenReturn( expected );
+        when( cache.getLocalizedTextSet( "myapp", "mygroup" ) ).thenReturn( expected );
 
-		LocalizedTextSet textSet = textService.getLocalizedTextSet( "myapp", "mygroup" );
-		assertSame( expected, textSet );
+        LocalizedTextSet textSet = textService.getLocalizedTextSet( "myapp", "mygroup" );
+        assertSame( expected, textSet );
 
-		verifyZeroInteractions( textDao );
-	}
+        verifyZeroInteractions( textDao );
+    }
 
-	@Test
-	public void textSetShouldBeStoredInCacheIfCreated() {
-		LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
-		textService.setTextSetCache( cache );
+    @Test
+    public void textSetShouldBeStoredInCacheIfCreated() {
+        LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
+        textService.setTextSetCache( cache );
 
-		LocalizedText existing = new LocalizedText();
-		existing.setLabel( "existing" );
-		existing.setUsed( true );
+        LocalizedText existing = new LocalizedText();
+        existing.setLabel( "existing" );
+        existing.setUsed( true );
 
-		when( textDao.getLocalizedTextForGroup( "myapp", "mygroup" ) ).thenReturn( Arrays.asList( existing ) );
+        when( textDao.getLocalizedTextForGroup( "myapp", "mygroup" ) ).thenReturn( Arrays.asList( existing ) );
 
-		LocalizedTextSet textSet = textService.getLocalizedTextSet( "myapp", "mygroup" );
+        LocalizedTextSet textSet = textService.getLocalizedTextSet( "myapp", "mygroup" );
 
-		verify( cache, times( 1 ) ).storeLocalizedTextSet( textSet );
-	}
+        verify( cache, times( 1 ) ).storeLocalizedTextSet( textSet );
+    }
 
-	@Test
-	public void settingNullCacheShouldNotBreakThings() {
-		textService.setTextSetCache( null );
+    @Test
+    public void textSetFetchingShouldBeQueuedFromMultipleThreads() throws InterruptedException {
+        LocalizedTextSetCache cache = new LocalizedTextSetCache() {
+            private LocalizedTextSet saved = null;
 
-		createTextSet();
+            public LocalizedTextSet getLocalizedTextSet( String application, String group ) {
+                return saved;
+            }
 
-		reset( textDao );
-		saveItemThatDoesExist();
+            public void storeLocalizedTextSet( LocalizedTextSet textSet ) {
+                saved = textSet;
+            }
 
-		reset( textDao );
-		saveItemThatDoesNotYetExist();
-	}
+            public int size() {
+                return 0;
+            }
 
-	@Test
-	public void ifItemExistsItWillBeReturnedInsteadOfCreated() {
-		LocalizedText existing = new LocalizedText();
+            public void clear() {
+            }
 
-		when( textDao.getLocalizedText( "myapp", "mygroup", "mylabel" ) ).thenReturn( existing );
+            public void reload() {
+            }
 
-		LocalizedText text = textService.saveDefaultText( "myapp", "mygroup", "mylabel", "default" );
+            public void reload( String application, String group ) {
+            }
 
-		assertSame( existing, text );
-	}
+            public Set<LocalizedTextSet> getCachedTextSets() {
+                return null;
+            }
+        };
 
-	@Test
-	public void createNewItem() {
-		LocalizedText text = textService.saveDefaultText( "myapp", "mygroup", "mylabel", "default" );
+        textService.setTextSetCache( cache );
 
-		assertNotNull( text );
-		assertEquals( "myapp", text.getApplication() );
-		assertEquals( "mygroup", text.getGroup() );
-		assertEquals( "mylabel", text.getLabel() );
-		assertTrue( text.isUsed() );
-		assertTrue( text.isAutoGenerated() );
-		assertNotNull( text.getCreated() );
-		assertEquals( "default", text.getFieldsForLanguage( MyLanguage.EN ).getText() );
-		assertEquals( "default", text.getFieldsForLanguage( MyLanguage.FR ).getText() );
+        ExecutorService threads = Executors.newFixedThreadPool( 5 );
 
-		verify( textDao, times( 1 ) ).insertLocalizedText( text );
-	}
+        final LocalizedTextSet[] fetched = new LocalizedTextSet[5];
 
-	@Test
-	public void getExistingItem() {
-		when( textDao.getLocalizedText( "myapp", "mygroup", "mylabel" ) ).thenReturn( null );
+        for( int i = 0; i < 5; i++ ) {
+            final int index = i;
+            threads.submit( new Runnable() {
+                public void run() {
+                    LocalizedTextSet text = textService.getLocalizedTextSet( "myapp", "mygroup" );
 
-		LocalizedText expected = new LocalizedText();
-		when( textDao.getLocalizedText( "myapp2", "mygroup", "mylabel" ) ).thenReturn( expected );
+                    fetched[index] = text;
+                }
+            } );
+        }
 
-		assertNull( textService.getLocalizedText( "myapp", "mygroup", "mylabel" ) );
-		assertSame( expected, textService.getLocalizedText( "myapp2", "mygroup", "mylabel" ) );
-	}
+        threads.shutdown();
+        threads.awaitTermination( 5, TimeUnit.SECONDS );
 
-	@Test
-	public void savingNullItemShouldNotBreak() {
-		LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
-		textService.setTextSetCache( cache );
+        LocalizedTextSet found = null;
 
-		textService.saveLocalizedText( null );
+        verify( textDao, times( 1 ) ).getLocalizedTextForGroup( "myapp", "mygroup" );
 
-		verifyZeroInteractions( textDao, cache );
-	}
+        for( int i = 0; i < 5; i++ ) {
+            if( found == null ) {
+                found = fetched[i];
+            }
 
-	@Test
-	public void saveItemShouldUseTheCache() {
-		LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
-		textService.setTextSetCache( cache );
+            assertNotNull( fetched[i] );
+            assertSame( found, fetched[i] );
+        }
+    }
 
-		saveItemThatDoesNotYetExist();
-		verify( cache, times( 1 ) ).reload( "myapp1", "mygroup" );
+    @Test
+    public void settingNullCacheShouldNotBreakThings() {
+        textService.setTextSetCache( null );
 
-		reset( cache, textDao );
+        createTextSet();
 
-		saveItemThatDoesExist();
-		verify( cache, times( 1 ) ).reload( "myapp1", "mygroup" );
-	}
+        reset( textDao );
+        saveItemThatDoesExist();
 
-	@Test
-	public void saveItemShouldUseExecutorServiceForCache() {
-		LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
-		textService.setTextSetCache( cache );
+        reset( textDao );
+        saveItemThatDoesNotYetExist();
+    }
 
-		ExecutorService executorService = mock( ExecutorService.class );
-		textService.setExecutorService( executorService );
+    @Test
+    public void ifItemExistsItWillBeReturnedInsteadOfCreated() {
+        LocalizedText existing = new LocalizedText();
 
-		saveItemThatDoesNotYetExist();
+        when( textDao.getLocalizedText( "myapp", "mygroup", "mylabel" ) ).thenReturn( existing );
 
-		// Cache interaction should have been suppressed
-		verifyZeroInteractions( cache );
-		verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
+        LocalizedText text = textService.saveDefaultText( "myapp", "mygroup", "mylabel", "default" );
 
-		reset( cache, textDao, executorService );
+        assertSame( existing, text );
+    }
 
-		saveItemThatDoesExist();
+    @Test
+    public void createNewItem() {
+        LocalizedText text = textService.saveDefaultText( "myapp", "mygroup", "mylabel", "default" );
 
-		verifyZeroInteractions( cache );
-		verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
-	}
+        assertNotNull( text );
+        assertEquals( "myapp", text.getApplication() );
+        assertEquals( "mygroup", text.getGroup() );
+        assertEquals( "mylabel", text.getLabel() );
+        assertTrue( text.isUsed() );
+        assertTrue( text.isAutoGenerated() );
+        assertNotNull( text.getCreated() );
+        assertEquals( "default", text.getFieldsForLanguage( MyLanguage.EN ).getText() );
+        assertEquals( "default", text.getFieldsForLanguage( MyLanguage.FR ).getText() );
 
-	@Test
-	public void saveItemThatDoesNotYetExist() {
-		LocalizedText text = new LocalizedText();
-		text.setApplication( "myapp1" );
-		text.setGroup( "mygroup" );
-		text.setLabel( "mylabel" );
+        verify( textDao, times( 1 ) ).insertLocalizedText( text );
+    }
 
-		when( textDao.getLocalizedText( "myapp1", "mygroup", "mylabel" ) ).thenReturn( null );
+    @Test
+    public void getExistingItem() {
+        when( textDao.getLocalizedText( "myapp", "mygroup", "mylabel" ) ).thenReturn( null );
 
-		textService.saveLocalizedText( text );
+        LocalizedText expected = new LocalizedText();
+        when( textDao.getLocalizedText( "myapp2", "mygroup", "mylabel" ) ).thenReturn( expected );
 
-		verify( textDao, times( 1 ) ).insertLocalizedText( text );
-		verify( textDao, never() ).updateLocalizedText( text );
-	}
+        assertNull( textService.getLocalizedText( "myapp", "mygroup", "mylabel" ) );
+        assertSame( expected, textService.getLocalizedText( "myapp2", "mygroup", "mylabel" ) );
+    }
 
-	@Test
-	public void saveItemThatDoesExist() {
-		LocalizedText text = new LocalizedText();
-		text.setApplication( "myapp1" );
-		text.setGroup( "mygroup" );
-		text.setLabel( "mylabel" );
+    @Test
+    public void savingNullItemShouldNotBreak() {
+        LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
+        textService.setTextSetCache( cache );
 
-		when( textDao.getLocalizedText( "myapp1", "mygroup", "mylabel" ) ).thenReturn( new LocalizedText() );
+        textService.saveLocalizedText( null );
 
-		textService.saveLocalizedText( text );
+        verifyZeroInteractions( textDao, cache );
+    }
 
-		verify( textDao, times( 1 ) ).updateLocalizedText( text );
-		verify( textDao, never() ).insertLocalizedText( text );
-	}
+    @Test
+    public void saveItemShouldUseTheCache() {
+        LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
+        textService.setTextSetCache( cache );
 
-	@Test
-	public void deleteNullItemShouldDoNothing() {
-		LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
-		textService.setTextSetCache( cache );
+        saveItemThatDoesNotYetExist();
+        verify( cache, times( 1 ) ).reload( "myapp1", "mygroup" );
 
-		textService.deleteLocalizedText( null );
+        reset( cache, textDao );
 
-		verifyZeroInteractions( textDao, cache );
-	}
+        saveItemThatDoesExist();
+        verify( cache, times( 1 ) ).reload( "myapp1", "mygroup" );
+    }
 
-	@Test
-	public void deleteItemShouldUseTheCache() {
-		LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
-		textService.setTextSetCache( cache );
+    @Test
+    public void saveItemShouldUseExecutorServiceForCache() {
+        LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
+        textService.setTextSetCache( cache );
 
-		deleteItem();
-		verify( cache, times( 1 ) ).reload( "myapp1", "mygroup" );
-	}
+        ExecutorService executorService = mock( ExecutorService.class );
+        textService.setExecutorService( executorService );
 
-	@Test
-	public void deleteItemShouldUseExecutorServiceForCache() {
-		LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
-		textService.setTextSetCache( cache );
+        saveItemThatDoesNotYetExist();
 
-		ExecutorService executorService = mock( ExecutorService.class );
-		textService.setExecutorService( executorService );
+        // Cache interaction should have been suppressed
+        verifyZeroInteractions( cache );
+        verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
 
-		deleteItem();
+        reset( cache, textDao, executorService );
 
-		// Cache interaction should have been suppressed
-		verifyZeroInteractions( cache );
-		verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
-	}
+        saveItemThatDoesExist();
 
-	@Test
-	public void deleteItem() {
-		LocalizedText text = new LocalizedText();
-		text.setApplication( "myapp1" );
-		text.setGroup( "mygroup" );
-		text.setLabel( "mylabel" );
+        verifyZeroInteractions( cache );
+        verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
+    }
 
-		textService.deleteLocalizedText( text );
+    @Test
+    public void saveItemThatDoesNotYetExist() {
+        LocalizedText text = new LocalizedText();
+        text.setApplication( "myapp1" );
+        text.setGroup( "mygroup" );
+        text.setLabel( "mylabel" );
 
-		verify( textDao, times( 1 ) ).deleteLocalizedText( text );
-	}
+        when( textDao.getLocalizedText( "myapp1", "mygroup", "mylabel" ) ).thenReturn( null );
 
-	@Test
-	public void createShouldFailSilently() {
-		doThrow( new RuntimeException( "Insert failed" ) ).when( textDao ).insertLocalizedText(
-				any( LocalizedText.class ) );
+        textService.saveLocalizedText( text );
 
-		LocalizedText text = textService.saveDefaultText( "myapp", "mygroup", "mylabel", "default" );
+        verify( textDao, times( 1 ) ).insertLocalizedText( text );
+        verify( textDao, never() ).updateLocalizedText( text );
+    }
 
-		assertNotNull( text );
-		assertEquals( "myapp", text.getApplication() );
-		assertEquals( "mygroup", text.getGroup() );
-		assertEquals( "mylabel", text.getLabel() );
-		assertTrue( text.isUsed() );
-		assertTrue( text.isAutoGenerated() );
-		assertNotNull( text.getCreated() );
-	}
+    @Test
+    public void saveItemThatDoesExist() {
+        LocalizedText text = new LocalizedText();
+        text.setApplication( "myapp1" );
+        text.setGroup( "mygroup" );
+        text.setLabel( "mylabel" );
 
-	@Test
-	public void flagAsUsed() {
-		LocalizedText text = new LocalizedText();
-		assertFalse( text.isUsed() );
-		assertNull( text.getUpdated() );
+        when( textDao.getLocalizedText( "myapp1", "mygroup", "mylabel" ) ).thenReturn( new LocalizedText() );
 
-		textService.flagAsUsed( text );
+        textService.saveLocalizedText( text );
 
-		assertTrue( text.isUsed() );
-		assertNotNull( text.getUpdated() );
+        verify( textDao, times( 1 ) ).updateLocalizedText( text );
+        verify( textDao, never() ).insertLocalizedText( text );
+    }
 
-		verify( textDao, times( 1 ) ).flagAsUsed( text );
-	}
+    @Test
+    public void deleteNullItemShouldDoNothing() {
+        LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
+        textService.setTextSetCache( cache );
 
-	@Test
-	public void flagAsUsedShouldUseTheExecutorService() {
-		ExecutorService executorService = mock( ExecutorService.class );
-		textService.setExecutorService( executorService );
+        textService.deleteLocalizedText( null );
 
-		LocalizedText text = new LocalizedText();
-		assertFalse( text.isUsed() );
-		assertNull( text.getUpdated() );
+        verifyZeroInteractions( textDao, cache );
+    }
 
-		textService.flagAsUsed( text );
+    @Test
+    public void deleteItemShouldUseTheCache() {
+        LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
+        textService.setTextSetCache( cache );
 
-		// Properties should still be set
-		assertTrue( text.isUsed() );
-		assertNotNull( text.getUpdated() );
+        deleteItem();
+        verify( cache, times( 1 ) ).reload( "myapp1", "mygroup" );
+    }
 
-		// Dao should never have been called, but the executorService should have been
-		verify( textDao, never() ).flagAsUsed( text );
-		verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
-	}
+    @Test
+    public void deleteItemShouldUseExecutorServiceForCache() {
+        LocalizedTextSetCache cache = mock( LocalizedTextSetCache.class );
+        textService.setTextSetCache( cache );
 
-	@Test
-	public void settingNullExecutorServiceShouldNotBreakThings() {
-		textService.setExecutorService( null );
+        ExecutorService executorService = mock( ExecutorService.class );
+        textService.setExecutorService( executorService );
 
-		// Flag as used behavior should be same as default even with null ExecutorService
-		flagAsUsed();
-	}
+        deleteItem();
 
-	@Test
-	public void getApplications() {
-		List<String> expected = Arrays.asList( "myapp", "myotherapp" );
-		when( textDao.getApplications() ).thenReturn( expected );
+        // Cache interaction should have been suppressed
+        verifyZeroInteractions( cache );
+        verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
+    }
 
-		List<String> applications = textService.getApplications();
+    @Test
+    public void deleteItem() {
+        LocalizedText text = new LocalizedText();
+        text.setApplication( "myapp1" );
+        text.setGroup( "mygroup" );
+        text.setLabel( "mylabel" );
 
-		assertSame( expected, applications );
-	}
+        textService.deleteLocalizedText( text );
 
-	@Test
-	public void getGroups() {
-		List<String> expected = Arrays.asList( "mygroup", "myothergroup" );
-		when( textDao.getGroups( "myapp" ) ).thenReturn( expected );
+        verify( textDao, times( 1 ) ).deleteLocalizedText( text );
+    }
 
-		List<String> groups = textService.getGroups( "myapp" );
+    @Test
+    public void createShouldFailSilently() {
+        doThrow( new RuntimeException( "Insert failed" ) ).when( textDao ).insertLocalizedText(
+                any( LocalizedText.class ) );
 
-		assertSame( expected, groups );
-	}
+        LocalizedText text = textService.saveDefaultText( "myapp", "mygroup", "mylabel", "default" );
 
-	@Test
-	public void searchLocalizedText() {
-		List<LocalizedText> expected = Arrays.asList( new LocalizedText() );
-		when( textDao.searchLocalizedText( "some text" ) ).thenReturn( expected );
+        assertNotNull( text );
+        assertEquals( "myapp", text.getApplication() );
+        assertEquals( "mygroup", text.getGroup() );
+        assertEquals( "mylabel", text.getLabel() );
+        assertTrue( text.isUsed() );
+        assertTrue( text.isAutoGenerated() );
+        assertNotNull( text.getCreated() );
+    }
 
-		List<LocalizedText> found = textService.searchLocalizedTextItemsForText( "some text" );
+    @Test
+    public void flagAsUsed() {
+        LocalizedText text = new LocalizedText();
+        assertFalse( text.isUsed() );
+        assertNull( text.getUpdated() );
 
-		assertSame( expected, found );
-	}
+        textService.flagAsUsed( text );
 
-	private class LocalizedTextServiceImpl extends AbstractLocalizedTextService
-	{
-		private LocalizedTextServiceImpl( LocalizedTextDataStore localizedTextDao ) {
-			super( localizedTextDao );
-		}
-	}
+        assertTrue( text.isUsed() );
+        assertNotNull( text.getUpdated() );
+
+        verify( textDao, times( 1 ) ).flagAsUsed( text );
+    }
+
+    @Test
+    public void flagAsUsedShouldUseTheExecutorService() {
+        ExecutorService executorService = mock( ExecutorService.class );
+        textService.setExecutorService( executorService );
+
+        LocalizedText text = new LocalizedText();
+        assertFalse( text.isUsed() );
+        assertNull( text.getUpdated() );
+
+        textService.flagAsUsed( text );
+
+        // Properties should still be set
+        assertTrue( text.isUsed() );
+        assertNotNull( text.getUpdated() );
+
+        // Dao should never have been called, but the executorService should have been
+        verify( textDao, never() ).flagAsUsed( text );
+        verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
+    }
+
+    @Test
+    public void settingNullExecutorServiceShouldNotBreakThings() {
+        textService.setExecutorService( null );
+
+        // Flag as used behavior should be same as default even with null ExecutorService
+        flagAsUsed();
+    }
+
+    @Test
+    public void getApplications() {
+        List<String> expected = Arrays.asList( "myapp", "myotherapp" );
+        when( textDao.getApplications() ).thenReturn( expected );
+
+        List<String> applications = textService.getApplications();
+
+        assertSame( expected, applications );
+    }
+
+    @Test
+    public void getGroups() {
+        List<String> expected = Arrays.asList( "mygroup", "myothergroup" );
+        when( textDao.getGroups( "myapp" ) ).thenReturn( expected );
+
+        List<String> groups = textService.getGroups( "myapp" );
+
+        assertSame( expected, groups );
+    }
+
+    @Test
+    public void searchLocalizedText() {
+        List<LocalizedText> expected = Arrays.asList( new LocalizedText() );
+        when( textDao.searchLocalizedText( "some text" ) ).thenReturn( expected );
+
+        List<LocalizedText> found = textService.searchLocalizedTextItemsForText( "some text" );
+
+        assertSame( expected, found );
+    }
+
+    private class LocalizedTextServiceImpl extends AbstractLocalizedTextService {
+        private LocalizedTextServiceImpl( LocalizedTextDataStore localizedTextDao ) {
+            super( localizedTextDao );
+        }
+    }
 }
