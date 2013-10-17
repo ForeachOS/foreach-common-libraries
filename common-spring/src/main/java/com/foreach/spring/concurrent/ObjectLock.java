@@ -77,6 +77,8 @@ public class ObjectLock<T> {
 
     /**
      * Unlocks and releases the ObjectLock - communicating it will not be used again in the same thread.
+     * After a call to release() the instance should not longer be used, summarized: the release() call should be
+     * the last method call on the ObjectLock instance.
      */
     public void release() {
         unlock();
