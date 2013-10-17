@@ -79,7 +79,10 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
     }
 
     /**
-     * Gets a {@link LocalizedTextSetImpl} for a group of items.
+     * <p>Gets a {@link LocalizedTextSetImpl} for a group of items.  Synchronizes access to the same application/group combination.</p>
+     * <p>If the textSet is not found in the cache it will be fetched from the dataStore and stored in the
+     * cache.  While this is happening, other threads trying to access the same textSet will wait.
+     * </p>
      *
      * @param application Application to get the group of items from.
      * @param group       Name of the group.
