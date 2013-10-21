@@ -71,7 +71,7 @@ public class MergeAction implements SynchronizerAction {
     public void merge( String outputDir, String[] inputDirs, LocalizedTextFormat format ) {
 
         HashMap<LocalizedTextWrapper, LocalizedTextWrapper> mergedTexts = getMergedTextsCollection( inputDirs, format );
-        HashMap<String, List<LocalizedText>> orderedTexts = sortByApplication( mergedTexts );
+        HashMap<String, List<LocalizedText>> orderedTexts = sortByApplication( mergedTexts, inputDirs.length );
 
         for( List<LocalizedText> textList : orderedTexts.values() ) {
             String application = textList.get( 0 ).getApplication();
@@ -88,11 +88,11 @@ public class MergeAction implements SynchronizerAction {
         }
     }
 
-    private HashMap<String, List<LocalizedText>> sortByApplication( HashMap<LocalizedTextWrapper, LocalizedTextWrapper> mergedTexts ) {
+    private HashMap<String, List<LocalizedText>> sortByApplication( HashMap<LocalizedTextWrapper, LocalizedTextWrapper> mergedTexts, int amountOfEnvironments ) {
         HashMap<String, List<LocalizedText>> orderedTexts = new HashMap<String, List<LocalizedText>>();
 
         for( LocalizedTextWrapper textWrapper : mergedTexts.values() ) {
-            if( textWrapper.hasChanged() ) {
+            if( textWrapper.shouldUpdate(amountOfEnvironments) ) {
                 LocalizedText text = textWrapper.getLocalizedText();
                 String key = getUniqueName( text );
                 if( !orderedTexts.containsKey( key ) ) {

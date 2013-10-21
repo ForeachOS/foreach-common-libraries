@@ -9,9 +9,12 @@ public class LocalizedTextWrapper {
     private LocalizedText localizedText;
     private boolean changed;
 
+    private int amountOfEnvironmentsPresent;
+
     public LocalizedTextWrapper( LocalizedText localizedText ) {
         this.localizedText = localizedText;
         changed = false;
+        amountOfEnvironmentsPresent = 1;
     }
 
     public LocalizedText getLocalizedText() {
@@ -37,35 +40,18 @@ public class LocalizedTextWrapper {
         LocalizedTextWrapper thatWrapper = ( LocalizedTextWrapper ) o;
         LocalizedText thatText = thatWrapper.getLocalizedText();
         return localizedText.equals( thatText );
-
-//        String thisApplication = localizedText.getApplication();
-//        String thisGroup = localizedText.getGroup();
-//        String thatApplication = thatText.getApplication();
-//        String thatGroup = thatText.getGroup();
-//
-//        if( thisApplication != null ? !thisApplication.equals( thatApplication ) : thatApplication != null ) {
-//            return false;
-//        }
-//        if( thisGroup != null ? !thisGroup.equals( thatGroup ) : thatGroup != null ) {
-//            return false;
-//        }
-//        return true;
     }
 
     @Override
     public int hashCode() {
         return localizedText.hashCode();
-//        if( localizedText != null ) {
-//            String x = localizedText.getApplication() + localizedText.getGroup();
-//            return x.hashCode();
-//        }
-//        return (new LocalizedTextWrapper( new LocalizedText() )).hashCode();
     }
 
     public void merge( LocalizedText newText ) {
         if( newText == null ) {
             return;
         }
+        amountOfEnvironmentsPresent++;
         if( updatedEquals( newText ) ) {
             //dates are the same, so the current one has priority.
             if( !hasEqualValues( newText ) ) {
@@ -77,6 +63,10 @@ public class LocalizedTextWrapper {
                 localizedText = newText;
             }
         }
+    }
+
+    public boolean shouldUpdate( int amountOfEnvironments ) {
+        return (amountOfEnvironments != amountOfEnvironmentsPresent || changed);
     }
 
     private boolean hasEqualValues( LocalizedText text ) {
@@ -104,5 +94,9 @@ public class LocalizedTextWrapper {
         } else {
             return !localizedText.getUpdated().before( text.getUpdated() );
         }
+    }
+
+    public int getAmountOfEnvironmentsPresent() {
+        return amountOfEnvironmentsPresent;
     }
 }
