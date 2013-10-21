@@ -1,8 +1,8 @@
 package com.foreach.test;
 
-import org.mockito.internal.invocation.Invocation;
 import org.mockito.internal.stubbing.InvocationContainer;
 import org.mockito.internal.util.MockUtil;
+import org.mockito.invocation.Invocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeConverter;
