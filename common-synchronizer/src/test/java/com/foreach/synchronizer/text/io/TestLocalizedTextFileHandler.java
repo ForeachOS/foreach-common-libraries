@@ -32,7 +32,7 @@ public class TestLocalizedTextFileHandler {
     @Test
     public void testGetOutputStream() throws Exception {
         String expectedContent = "test test";
-        OutputStream outputStream = localizedTextFileHandler.getOutputStream( outputDir, application, group, LocalizedTextOutputFormat.XML );
+        OutputStream outputStream = localizedTextFileHandler.getOutputStream( outputDir, application, group, LocalizedTextFormat.XML );
         BufferedWriter writer = new BufferedWriter( new OutputStreamWriter( outputStream ) );
         writer.write( expectedContent );
         writer.close();

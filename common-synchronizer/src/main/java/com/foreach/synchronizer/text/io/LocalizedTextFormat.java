@@ -1,5 +1,5 @@
 package com.foreach.synchronizer.text.io;
 
-public enum LocalizedTextOutputFormat {
+public enum LocalizedTextFormat {
     XML, EXCEL
 }

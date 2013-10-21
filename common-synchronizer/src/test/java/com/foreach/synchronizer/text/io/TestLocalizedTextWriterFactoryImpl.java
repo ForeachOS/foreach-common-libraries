@@ -34,7 +34,7 @@ public class TestLocalizedTextWriterFactoryImpl {
     public void createLocalizedTextWriter() throws Exception {
         OutputStream outputStream = mock( OutputStream.class );
         //Xml output format
-        LocalizedTextWriter xmlWriter = localizedTextWriterFactory.createLocalizedTextWriter( LocalizedTextOutputFormat.XML, outputStream );
+        LocalizedTextWriter xmlWriter = localizedTextWriterFactory.createLocalizedTextWriter( LocalizedTextFormat.XML, outputStream );
         assertNotNull( xmlWriter );
         assertEquals( xmlWriter.getClass(), XmlLocalizedTextWriter.class );
     }
@@ -42,7 +42,7 @@ public class TestLocalizedTextWriterFactoryImpl {
     @Test
     public void createLocalizedTextWriterExcel() throws Exception {
         OutputStream outputStream = mock( OutputStream.class );
-        LocalizedTextWriter excelWriter = localizedTextWriterFactory.createLocalizedTextWriter( LocalizedTextOutputFormat.EXCEL, outputStream );
+        LocalizedTextWriter excelWriter = localizedTextWriterFactory.createLocalizedTextWriter( LocalizedTextFormat.EXCEL, outputStream );
         assertNotNull( excelWriter );
         assertEquals( excelWriter.getClass(), ExcelLocalizedTextWriter.class );
     }

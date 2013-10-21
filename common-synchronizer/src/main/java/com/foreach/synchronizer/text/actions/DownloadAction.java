@@ -3,7 +3,7 @@ package com.foreach.synchronizer.text.actions;
 import com.foreach.spring.localization.text.LocalizedText;
 import com.foreach.spring.localization.text.LocalizedTextService;
 import com.foreach.synchronizer.text.io.LocalizedTextFileHandler;
-import com.foreach.synchronizer.text.io.LocalizedTextOutputFormat;
+import com.foreach.synchronizer.text.io.LocalizedTextFormat;
 import com.foreach.synchronizer.text.io.LocalizedTextWriter;
 import com.foreach.synchronizer.text.io.LocalizedTextWriterFactory;
 import org.apache.commons.cli.CommandLine;
@@ -22,7 +22,7 @@ public class DownloadAction implements SynchronizerAction {
     public static final String SHORT_OPTION_OUTPUT_DIR = "o";
     public static final String OPTION_FORMAT = "format";
     public static final String SHORT_OPTION_FORMAT = "f";
-    private static final LocalizedTextOutputFormat DEFAULT_OUTPUT_FORMAT = LocalizedTextOutputFormat.XML;
+    private static final LocalizedTextFormat DEFAULT_OUTPUT_FORMAT = LocalizedTextFormat.XML;
 
     @Autowired
     private LocalizedTextWriterFactory localizedTextWriterFactory;
@@ -46,20 +46,20 @@ public class DownloadAction implements SynchronizerAction {
 
     public void execute( CommandLine commandLine ) {
         String outputDir = commandLine.getOptionValue( OPTION_OUTPUT_DIR );
-        LocalizedTextOutputFormat outputFormat = getOutputFormat( commandLine );
+        LocalizedTextFormat outputFormat = getOutputFormat( commandLine );
         writeToFiles( outputDir, outputFormat );
     }
 
-    private LocalizedTextOutputFormat getOutputFormat( CommandLine commandLine ) {
+    private LocalizedTextFormat getOutputFormat( CommandLine commandLine ) {
         String formatAsString = commandLine.getOptionValue( OPTION_FORMAT );
         if( formatAsString == null ) {
             return DEFAULT_OUTPUT_FORMAT;
         } else {
-            return LocalizedTextOutputFormat.valueOf( formatAsString.toUpperCase() );
+            return LocalizedTextFormat.valueOf( formatAsString.toUpperCase() );
         }
     }
 
-    public void writeToFiles( String outputDirectory, LocalizedTextOutputFormat outputFormat ) {
+    public void writeToFiles( String outputDirectory, LocalizedTextFormat outputFormat ) {
         for( String application : localizedTextService.getApplications() ) {
             for( String group : localizedTextService.getGroups( application ) ) {
                 LocalizedTextWriter writer = null;

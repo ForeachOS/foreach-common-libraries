@@ -3,7 +3,7 @@ package com.foreach.synchronizer.text.actions;
 import com.foreach.spring.localization.text.LocalizedText;
 import com.foreach.spring.localization.text.LocalizedTextService;
 import com.foreach.synchronizer.text.io.LocalizedTextFileHandler;
-import com.foreach.synchronizer.text.io.LocalizedTextOutputFormat;
+import com.foreach.synchronizer.text.io.LocalizedTextFormat;
 import com.foreach.synchronizer.text.io.LocalizedTextWriter;
 import com.foreach.synchronizer.text.io.LocalizedTextWriterFactory;
 import com.foreach.test.MockedLoader;
@@ -55,7 +55,7 @@ public class TestDownloadAction {
         LocalizedTextWriter localizedTextWriter2 = mock( LocalizedTextWriter.class );
         LocalizedTextWriter localizedTextWriter3 = mock( LocalizedTextWriter.class );
         when( localizedTextWriterFactory.createLocalizedTextWriter(
-                eq( LocalizedTextOutputFormat.XML ), any( OutputStream.class ) ) )
+                eq( LocalizedTextFormat.XML ), any( OutputStream.class ) ) )
                 .thenReturn( localizedTextWriter1, localizedTextWriter2, localizedTextWriter3 );
 
         when( localizedTextService.getApplications() ).thenReturn( Arrays.asList( "app1", "app2" ) );
@@ -70,16 +70,16 @@ public class TestDownloadAction {
         when( localizedTextService.getLocalizedTextItems( "app2", "group21" ) ).thenReturn( items21 );
 
         when( localizedTextFileHandler
-                .getOutputStream( outputDirectory, "app1", "group11", LocalizedTextOutputFormat.XML ) ).thenReturn(
+                .getOutputStream( outputDirectory, "app1", "group11", LocalizedTextFormat.XML ) ).thenReturn(
                 outputStream1 );
         when( localizedTextFileHandler
-                .getOutputStream( outputDirectory, "app1", "group12", LocalizedTextOutputFormat.XML ) ).thenReturn(
+                .getOutputStream( outputDirectory, "app1", "group12", LocalizedTextFormat.XML ) ).thenReturn(
                 outputStream2 );
         when( localizedTextFileHandler
-                .getOutputStream( outputDirectory, "app2", "group21", LocalizedTextOutputFormat.XML ) ).thenReturn(
+                .getOutputStream( outputDirectory, "app2", "group21", LocalizedTextFormat.XML ) ).thenReturn(
                 outputStream3 );
 
-        downloadAction.writeToFiles( outputDirectory, LocalizedTextOutputFormat.XML );
+        downloadAction.writeToFiles( outputDirectory, LocalizedTextFormat.XML );
         verify( localizedTextWriter1, times( 1 ) ).write( items11 );
         verify( localizedTextWriter2, times( 1 ) ).write( items12 );
         verify( localizedTextWriter3, times( 1 ) ).write( items21 );
@@ -87,25 +87,25 @@ public class TestDownloadAction {
 
     @Test
     public void testExcelFormat() throws ParseException {
-        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "EXCEL"}, LocalizedTextOutputFormat.EXCEL );
+        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "EXCEL"}, LocalizedTextFormat.EXCEL );
     }
 
     @Test
     public void testExcelFormatLowerCase() throws ParseException {
-        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "excel"}, LocalizedTextOutputFormat.EXCEL );
+        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "excel"}, LocalizedTextFormat.EXCEL );
     }
 
     @Test
     public void testXMLFormat() throws ParseException {
-        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "XML"}, LocalizedTextOutputFormat.XML );
+        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/", "-f", "XML"}, LocalizedTextFormat.XML );
     }
 
     @Test
     public void testDefaultFormat() throws ParseException {
-        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/"}, LocalizedTextOutputFormat.XML );
+        verifyExpectedFormatUsed( new String[]{"-o", "/some/dir/"}, LocalizedTextFormat.XML );
     }
 
-    private void verifyExpectedFormatUsed( String[] args, LocalizedTextOutputFormat expectedOutputFormat ) throws ParseException {
+    private void verifyExpectedFormatUsed( String[] args, LocalizedTextFormat expectedOutputFormat ) throws ParseException {
         CommandLineParser parser = new PosixParser();
         CommandLine commandLine = parser.parse( downloadAction.getCliOptions(), args );
 

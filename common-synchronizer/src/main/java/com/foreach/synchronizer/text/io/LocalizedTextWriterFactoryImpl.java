@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 @Component
 public class LocalizedTextWriterFactoryImpl implements LocalizedTextWriterFactory {
-    public LocalizedTextWriter createLocalizedTextWriter( LocalizedTextOutputFormat format, OutputStream outputStream ) {
+    public LocalizedTextWriter createLocalizedTextWriter( LocalizedTextFormat format, OutputStream outputStream ) {
         switch (format) {
             case XML:
                 return new XmlLocalizedTextWriter( outputStream );
