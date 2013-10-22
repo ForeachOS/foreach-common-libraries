@@ -44,14 +44,18 @@ public class TestTextSynchronizer {
         when( downloadAction.getActionName() ).thenReturn( downloadActionName );
         when( downloadAction.getCliOptions() ).thenReturn( options );
 
-        textSynchronizer.execute( args );
+        try {
+            textSynchronizer.execute( args );
 
-        ArgumentCaptor<CommandLine> argument = ArgumentCaptor.forClass( CommandLine.class );
-        verify( downloadAction, times( 1 ) ).execute( argument.capture() );
-        assertArrayEquals( cmd.getOptions(), argument.getValue().getOptions() );
-        assertArrayEquals( cmd.getArgs(), argument.getValue().getArgs() );
-        for( int i = 0; i < argument.getValue().getOptions().length; i++ ) {
-            assertEquals( cmd.getOptions()[i].getValue(), argument.getValue().getOptions()[i].getValue() );
+            ArgumentCaptor<CommandLine> argument = ArgumentCaptor.forClass( CommandLine.class );
+            verify( downloadAction, times( 1 ) ).execute( argument.capture() );
+            assertArrayEquals( cmd.getOptions(), argument.getValue().getOptions() );
+            assertArrayEquals( cmd.getArgs(), argument.getValue().getArgs() );
+            for( int i = 0; i < argument.getValue().getOptions().length; i++ ) {
+                assertEquals( cmd.getOptions()[i].getValue(), argument.getValue().getOptions()[i].getValue() );
+            }
+        } catch ( Exception e ) {
+            assertTrue( "An exception has been thrown", false );
         }
     }
 
@@ -65,6 +69,8 @@ public class TestTextSynchronizer {
         } catch ( TextSynchronizerException ex ) {
             assertEquals( "Argument is null or empty", ex.getMessage() );
             exceptionThrown = true;
+        } catch ( Exception e ) {
+            assertTrue( "Unexpected exception thrown" + e.getMessage(), false );
         }
         assertTrue( exceptionThrown );
     }
@@ -89,6 +95,10 @@ public class TestTextSynchronizer {
             assertEquals( "Missing required option: o", e.getMessage() );
             thrown = true;
         }
+        catch(Exception e)
+        {
+            assertTrue("Unexpected exception thrown" + e.getMessage(), false);
+        }
         assertTrue( thrown );
     }
 
@@ -109,6 +119,10 @@ public class TestTextSynchronizer {
             assertEquals( "Unrecognized option: --wrong-option=blah", e.getMessage() );
             thrown = true;
         }
+        catch(Exception e)
+        {
+            assertTrue("Unexpected exception thrown" + e.getMessage(), false);
+        }
         assertTrue( thrown );
     }
 
@@ -121,6 +135,8 @@ public class TestTextSynchronizer {
         } catch ( TextSynchronizerException e ) {
             assertEquals( "Unknown action: unknownAction", e.getMessage() );
             thrown = true;
+        } catch ( Exception e ) {
+            assertTrue( "Unexpected exception thrown" + e.getMessage(), false );
         }
         assertTrue( thrown );
     }

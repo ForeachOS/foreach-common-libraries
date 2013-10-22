@@ -26,12 +26,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith( SpringJUnit4ClassRunner.class )
-@DirtiesContext( classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD )
-@ContextConfiguration( classes = TestUploadAction.TestConfig.class, loader = MockedLoader.class )
+@RunWith(SpringJUnit4ClassRunner.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@ContextConfiguration(classes = TestUploadAction.TestConfig.class, loader = MockedLoader.class)
 public class TestUploadAction {
 
     @Autowired
@@ -106,7 +107,11 @@ public class TestUploadAction {
 
         LocalizedTextReader localizedTextReader = mock( LocalizedTextReader.class );
         when( localizedTextReaderFactory.createLocalizedTextReader( any( LocalizedTextFormat.class ), any( InputStream.class ) ) ).thenReturn( localizedTextReader );
-        uploadAction.execute( commandLine );
+        try {
+            uploadAction.execute( commandLine );
+        } catch ( Exception e ) {
+            assertTrue( "Unexpected exception thrown" + e.getMessage(), false );
+        }
 
         verify( localizedTextReaderFactory ).createLocalizedTextReader( eq( expectedOutputFormat ), any( InputStream.class ) );
     }

@@ -14,7 +14,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +31,7 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
         this.outputStream = outputStream;
     }
 
-    public void write( Collection<LocalizedText> localizedTexts ) {
+    public void write( List<LocalizedText> localizedTexts ) {
         final StringWriter xml = new StringWriter();
         final XMLStreamWriter writer;
 

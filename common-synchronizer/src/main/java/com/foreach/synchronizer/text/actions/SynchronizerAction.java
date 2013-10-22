@@ -6,5 +6,5 @@ import org.apache.commons.cli.Options;
 public interface SynchronizerAction {
     Options getCliOptions();
     String getActionName();
-    void execute( CommandLine commandLine );
+    void execute( CommandLine commandLine ) throws Exception;
 }

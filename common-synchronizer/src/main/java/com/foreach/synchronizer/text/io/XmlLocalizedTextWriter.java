@@ -10,7 +10,8 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class XmlLocalizedTextWriter implements LocalizedTextWriter {
 
@@ -32,7 +33,8 @@ public class XmlLocalizedTextWriter implements LocalizedTextWriter {
         xStream.addImplicitMap( LocalizedText.class, "fieldsByLanguageCode", LocalizedTextFields.class, "language" );
     }
 
-    public void write( Collection<LocalizedText> localizedTexts ) {
+    public void write( List<LocalizedText> localizedTexts ) {
+        Collections.sort( localizedTexts );
         xStream.toXML( localizedTexts, outputStream );
     }
 

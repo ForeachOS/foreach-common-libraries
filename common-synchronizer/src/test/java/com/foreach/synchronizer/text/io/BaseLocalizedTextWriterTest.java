@@ -10,7 +10,7 @@ import org.junit.Before;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 public class BaseLocalizedTextWriterTest {
 
@@ -25,7 +25,7 @@ public class BaseLocalizedTextWriterTest {
         new LanguageConfigurator( TestLanguage.class );
     }
 
-    public Collection<LocalizedText> createLocalizedTexts() throws ParseException {
+    public List<LocalizedText> createLocalizedTexts() throws ParseException {
         LocalizedText text1 = new LocalizedText();
         text1.setApplication( APP );
         text1.setGroup( GROUP );
@@ -38,7 +38,7 @@ public class BaseLocalizedTextWriterTest {
 
         text1.setFieldsAsCollection( Arrays.asList( fieldsNl, fieldsEn ) );
 
-        Collection<LocalizedText> localizedTexts = new ArrayList<LocalizedText>();
+        List<LocalizedText> localizedTexts = new ArrayList<LocalizedText>();
         localizedTexts.add( text1 );
         return localizedTexts;
     }
