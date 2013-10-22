@@ -25,7 +25,7 @@ public class MergeAction implements SynchronizerAction {
     public static final String SHORT_OPTION_INPUT_DIR = "i";
     public static final String OPTION_FORMAT = "format";
     public static final String SHORT_OPTION_FORMAT = "f";
-    private static final LocalizedTextFormat DEFAULT_OUTPUT_FORMAT = LocalizedTextFormat.XML;
+    private static final LocalizedTextFormat DEFAULT_FORMAT = LocalizedTextFormat.XML;
 
     @Autowired
     private LocalizedTextFileHandler localizedTextFileHandler;
@@ -43,7 +43,7 @@ public class MergeAction implements SynchronizerAction {
         options.addOption( SHORT_OPTION_INPUT_DIR, OPTION_INPUT_DIR, true,
                 "the input directory to get the files from" );
         options.addOption( SHORT_OPTION_FORMAT, OPTION_FORMAT, true,
-                "the output format (default=" + DEFAULT_OUTPUT_FORMAT.name() + ")" );
+                "the output format (default=" + DEFAULT_FORMAT.name() + ")" );
         return options;
     }
 
@@ -62,7 +62,7 @@ public class MergeAction implements SynchronizerAction {
     private LocalizedTextFormat getFormat( CommandLine commandLine ) {
         String formatAsString = commandLine.getOptionValue( OPTION_FORMAT );
         if( formatAsString == null ) {
-            return DEFAULT_OUTPUT_FORMAT;
+            return DEFAULT_FORMAT;
         } else {
             return LocalizedTextFormat.valueOf( formatAsString.toUpperCase() );
         }
@@ -92,7 +92,7 @@ public class MergeAction implements SynchronizerAction {
         HashMap<String, List<LocalizedText>> orderedTexts = new HashMap<String, List<LocalizedText>>();
 
         for( LocalizedTextWrapper textWrapper : mergedTexts.values() ) {
-            if( textWrapper.shouldUpdate(amountOfEnvironments) ) {
+            if( textWrapper.shouldUpdate( amountOfEnvironments ) ) {
                 LocalizedText text = textWrapper.getLocalizedText();
                 String key = getUniqueName( text );
                 if( !orderedTexts.containsKey( key ) ) {

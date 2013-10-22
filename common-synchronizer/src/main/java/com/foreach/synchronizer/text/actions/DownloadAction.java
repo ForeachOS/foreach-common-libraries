@@ -22,7 +22,7 @@ public class DownloadAction implements SynchronizerAction {
     public static final String SHORT_OPTION_OUTPUT_DIR = "o";
     public static final String OPTION_FORMAT = "format";
     public static final String SHORT_OPTION_FORMAT = "f";
-    private static final LocalizedTextFormat DEFAULT_OUTPUT_FORMAT = LocalizedTextFormat.XML;
+    private static final LocalizedTextFormat DEFAULT_FORMAT = LocalizedTextFormat.XML;
 
     @Autowired
     private LocalizedTextWriterFactory localizedTextWriterFactory;
@@ -36,7 +36,7 @@ public class DownloadAction implements SynchronizerAction {
     public Options getCliOptions() {
         Options options = new Options();
         options.addOption( SHORT_OPTION_OUTPUT_DIR, OPTION_OUTPUT_DIR, true, "the output directory to save the files to" );
-        options.addOption( SHORT_OPTION_FORMAT, OPTION_FORMAT, true, "the output format (default=" + DEFAULT_OUTPUT_FORMAT.name() + ")" );
+        options.addOption( SHORT_OPTION_FORMAT, OPTION_FORMAT, true, "the output format (default=" + DEFAULT_FORMAT.name() + ")" );
         return options;
     }
 
@@ -53,7 +53,7 @@ public class DownloadAction implements SynchronizerAction {
     private LocalizedTextFormat getOutputFormat( CommandLine commandLine ) {
         String formatAsString = commandLine.getOptionValue( OPTION_FORMAT );
         if( formatAsString == null ) {
-            return DEFAULT_OUTPUT_FORMAT;
+            return DEFAULT_FORMAT;
         } else {
             return LocalizedTextFormat.valueOf( formatAsString.toUpperCase() );
         }
