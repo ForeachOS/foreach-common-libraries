@@ -6,7 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,13 +38,17 @@ public class TestXmlLocalizedTextReader extends BaseLocalizedTextWriterTest {
     }
 
     @Test
-    public void testWrite() throws Exception {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream( expectedOutput.getBytes("UTF-8") );
+    public void testRead() throws Exception {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream( expectedOutput.getBytes( "UTF-8" ) );
         XmlLocalizedTextReader xmlLocalizedTextReader = new XmlLocalizedTextReader( inputStream );
-
-        Collection<LocalizedText> read = xmlLocalizedTextReader.read();
-
-        assertEquals( createLocalizedTexts(), read );
+        List<LocalizedText> read = new ArrayList<LocalizedText>( xmlLocalizedTextReader.read() );
+        List<LocalizedText> expected = createLocalizedTexts();
+        assertEquals( expected, read );
+        for( int i = 0; i < expected.size(); i++ ) {
+            LocalizedText readField = read.get( i );
+            LocalizedText expectedField = expected.get( i );
+            assertEquals( expectedField.getFields(), readField.getFields() );
+        }
     }
 
 }

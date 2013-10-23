@@ -1,16 +1,16 @@
 package com.foreach.synchronizer.text.io;
 
-import com.foreach.spring.localization.AbstractLocalizedFieldsObject;
-import com.foreach.spring.localization.Language;
-import com.foreach.spring.localization.LanguageConfigurator;
 import com.foreach.spring.localization.text.LocalizedText;
-import com.foreach.spring.localization.text.LocalizedTextFields;
+import com.foreach.synchronizer.text.PersistentLanguageText;
+import com.foreach.synchronizer.text.PersistentLocalizedText;
 import com.thoughtworks.xstream.XStream;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class XmlLocalizedTextReader implements LocalizedTextReader {
 
@@ -24,12 +24,9 @@ public class XmlLocalizedTextReader implements LocalizedTextReader {
 
     private void initializeXStream() {
         xStream = new XStream();
-        xStream.alias( "text", LocalizedText.class );
-        xStream.alias( "fields", LocalizedTextFields.class );
-        xStream.addDefaultImplementation( LanguageConfigurator.getLanguageClass(), Language.class );
-        xStream.omitField( AbstractLocalizedFieldsObject.class, "fieldsAsUnmodifiableMap" );
-        xStream.omitField( AbstractLocalizedFieldsObject.class, "fieldsAsModifiableCollection" );
-        xStream.addImplicitMap( LocalizedText.class, "fieldsByLanguageCode", LocalizedTextFields.class, "language" );
+        xStream.alias( "text", PersistentLocalizedText.class );
+        xStream.alias( "fields", PersistentLanguageText.class );
+        xStream.addImplicitMap( PersistentLocalizedText.class, "languageTexts", PersistentLanguageText.class, "language" );
     }
 
     public void close() throws IOException {
@@ -37,7 +34,12 @@ public class XmlLocalizedTextReader implements LocalizedTextReader {
     }
 
     public Collection<LocalizedText> read(  ) {
-        Collection<LocalizedText> localizedTexts  = (Collection<LocalizedText>) xStream.fromXML( inputStream );
+        Collection<PersistentLocalizedText> persistentLocalizedTexts  = (Collection<PersistentLocalizedText>) xStream.fromXML( inputStream );
+        List<LocalizedText> localizedTexts = new ArrayList<LocalizedText>(  );
+        for(PersistentLocalizedText persistentLocalizedText: persistentLocalizedTexts)
+        {
+            localizedTexts.add( persistentLocalizedText.convert() );
+        }
         return localizedTexts;
     }
 }

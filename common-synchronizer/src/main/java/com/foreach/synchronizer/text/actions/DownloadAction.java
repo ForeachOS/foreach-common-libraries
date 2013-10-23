@@ -64,10 +64,13 @@ public class DownloadAction implements SynchronizerAction {
             for( String group : localizedTextService.getGroups( application ) ) {
                 LocalizedTextWriter writer = null;
                 try {
-                    OutputStream outputStream = localizedTextFileHandler.getOutputStream( outputDirectory, application, group, outputFormat );
                     List<LocalizedText> localizedTextItems = localizedTextService.getLocalizedTextItems( application, group );
-                    writer = localizedTextWriterFactory.createLocalizedTextWriter( outputFormat, outputStream );
-                    writer.write( localizedTextItems );
+                    if(localizedTextItems!=null && !localizedTextItems.isEmpty())
+                    {
+                        OutputStream outputStream = localizedTextFileHandler.getOutputStream( outputDirectory, application, group, outputFormat );
+                        writer = localizedTextWriterFactory.createLocalizedTextWriter( outputFormat, outputStream );
+                        writer.write( localizedTextItems );
+                    }
                 } finally {
                     IOUtils.closeQuietly( writer );
                 }

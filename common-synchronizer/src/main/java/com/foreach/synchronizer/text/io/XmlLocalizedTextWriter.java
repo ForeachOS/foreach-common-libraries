@@ -1,15 +1,14 @@
 package com.foreach.synchronizer.text.io;
 
-import com.foreach.spring.localization.AbstractLocalizedFieldsObject;
-import com.foreach.spring.localization.Language;
-import com.foreach.spring.localization.LanguageConfigurator;
 import com.foreach.spring.localization.text.LocalizedText;
-import com.foreach.spring.localization.text.LocalizedTextFields;
+import com.foreach.synchronizer.text.PersistentLanguageText;
+import com.foreach.synchronizer.text.PersistentLocalizedText;
 import com.thoughtworks.xstream.XStream;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,17 +24,25 @@ public class XmlLocalizedTextWriter implements LocalizedTextWriter {
 
     private void initializeXStream() {
         xStream = new XStream();
-        xStream.alias( "text", LocalizedText.class );
-        xStream.alias( "fields", LocalizedTextFields.class );
-        xStream.addDefaultImplementation( LanguageConfigurator.getLanguageClass(), Language.class );
-        xStream.omitField( AbstractLocalizedFieldsObject.class, "fieldsAsUnmodifiableMap" );
-        xStream.omitField( AbstractLocalizedFieldsObject.class, "fieldsAsModifiableCollection" );
-        xStream.addImplicitMap( LocalizedText.class, "fieldsByLanguageCode", LocalizedTextFields.class, "language" );
+        xStream.alias( "text", PersistentLocalizedText.class );
+        xStream.alias( "fields", PersistentLanguageText.class );
+        xStream.addImplicitMap( PersistentLocalizedText.class, "languageTexts", PersistentLanguageText.class, "language" );
     }
 
     public void write( List<LocalizedText> localizedTexts ) {
+        if( localizedTexts == null ) {
+            return;
+        }
+        if(localizedTexts.isEmpty())
+        {
+            return;
+        }
         Collections.sort( localizedTexts );
-        xStream.toXML( localizedTexts, outputStream );
+        List<PersistentLocalizedText> persistentLocalizedTexts = new ArrayList<PersistentLocalizedText>();
+        for( LocalizedText localizedText : localizedTexts ) {
+            persistentLocalizedTexts.add( new PersistentLocalizedText( localizedText ) );
+        }
+        xStream.toXML( persistentLocalizedTexts, outputStream );
     }
 
     public void close() throws IOException {
