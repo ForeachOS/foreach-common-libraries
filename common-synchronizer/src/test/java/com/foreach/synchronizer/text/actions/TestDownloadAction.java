@@ -1,16 +1,15 @@
 package com.foreach.synchronizer.text.actions;
 
+import com.foreach.spring.localization.LanguageConfigurator;
 import com.foreach.spring.localization.text.LocalizedText;
 import com.foreach.spring.localization.text.LocalizedTextService;
-import com.foreach.synchronizer.text.io.LocalizedTextFileHandler;
-import com.foreach.synchronizer.text.io.LocalizedTextFormat;
-import com.foreach.synchronizer.text.io.LocalizedTextWriter;
-import com.foreach.synchronizer.text.io.LocalizedTextWriterFactory;
+import com.foreach.synchronizer.text.io.*;
 import com.foreach.test.MockedLoader;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +43,11 @@ public class TestDownloadAction {
     @Autowired
     private LocalizedTextFileHandler localizedTextFileHandler;
 
+    @Before
+    public void setup() {
+        LanguageConfigurator languageConfigurator = new LanguageConfigurator( TestLanguage.class );
+    }
+
     @Test
     public void testWriteToFiles() throws Exception {
         String outputDirectory = "/some/dir";
@@ -63,8 +67,12 @@ public class TestDownloadAction {
         when( localizedTextService.getGroups( "app2" ) ).thenReturn( Arrays.asList( "group21" ) );
 
         List<LocalizedText> items11 = new ArrayList<LocalizedText>();
+        items11.add( new LocalizedText() );
         List<LocalizedText> items12 = new ArrayList<LocalizedText>();
+        items12.add( new LocalizedText() );
         List<LocalizedText> items21 = new ArrayList<LocalizedText>();
+        items21.add( new LocalizedText() );
+
         when( localizedTextService.getLocalizedTextItems( "app1", "group11" ) ).thenReturn( items11 );
         when( localizedTextService.getLocalizedTextItems( "app1", "group12" ) ).thenReturn( items12 );
         when( localizedTextService.getLocalizedTextItems( "app2", "group21" ) ).thenReturn( items21 );
@@ -111,7 +119,11 @@ public class TestDownloadAction {
 
         when( localizedTextService.getApplications() ).thenReturn( Arrays.asList( "app3" ) );
         when( localizedTextService.getGroups( "app3" ) ).thenReturn( Arrays.asList( "group31" ) );
-        when( localizedTextWriterFactory.createLocalizedTextWriter( eq( expectedOutputFormat ), any( OutputStream.class ) ) ).thenReturn( mock( LocalizedTextWriter.class ) );
+        List<LocalizedText> localizedTexts = new ArrayList<LocalizedText>(  );
+        localizedTexts.add( new LocalizedText() );
+        when( localizedTextService.getLocalizedTextItems( "app3", "group31" ) ).thenReturn(localizedTexts);
+        LocalizedTextWriter localizedTextWriter =  mock( LocalizedTextWriter.class );
+        when( localizedTextWriterFactory.createLocalizedTextWriter( eq( expectedOutputFormat ), any( OutputStream.class ) ) ).thenReturn( localizedTextWriter );
 
         downloadAction.execute( commandLine );
 
