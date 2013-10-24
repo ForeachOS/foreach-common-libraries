@@ -11,8 +11,8 @@ public class LocalizedTextReaderFactoryImpl implements LocalizedTextReaderFactor
         switch (format) {
             case XML:
                 return new XmlLocalizedTextReader( inputStream );
-//            case EXCEL:
-//                return new ExcelLocalizedTextReader( inputStream );
+            case EXCEL:
+                return new ExcelLocalizedTextReader( inputStream );
             default:
                 throw new TextSynchronizerException( "Unexpected format " + format + " !" );
         }

@@ -3,16 +3,14 @@ package com.foreach.synchronizer.text.io;
 import com.foreach.spring.localization.Language;
 import com.foreach.spring.localization.LanguageConfigurator;
 import com.foreach.spring.localization.text.LocalizedText;
-import com.sun.org.apache.xerces.internal.impl.PropertyManager;
-import com.sun.xml.internal.stream.writers.XMLStreamWriterImpl;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.math.BigDecimal;
@@ -26,8 +24,8 @@ import java.util.regex.Pattern;
 
 public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
 
-    private static final String templateResource = "C:\\projects\\java-common-libraries\\common-synchronizer\\target\\classes\\com\\foreach\\synchronizer\\text\\template.xml";
-//    private static final String templateResource = "com/foreach/synchronizer/text/template.xml";
+    private static final String templateResource = "common-synchronizer\\target\\classes\\com\\foreach\\synchronizer\\text\\template.xml";
+//    private static final String templateResource = "com\\foreach\\synchronizer\\text\\template.xml";
 
     public static final String SS_STYLE_ID = "ss:StyleID";
     public static final String NEWLINE = "\n      ";
@@ -38,7 +36,7 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
 
     public ExcelLocalizedTextWriter( OutputStream outputStream ) {
         this.outputStream = outputStream;
-        DecimalFormatSymbols symbols= DecimalFormatSymbols.getInstance();
+        DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
         symbols.setDecimalSeparator( '.' );
         formatter = new DecimalFormat( "0.00", symbols );
     }
@@ -47,12 +45,17 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
         final StringWriter xml = new StringWriter();
         final XMLStreamWriter writer;
 
-//        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
 
         try {
-//            writer = factory.createXMLStreamWriter( xml );
-            writer = new XMLStreamWriterImpl( xml, new PropertyManager( PropertyManager.CONTEXT_WRITER ) );
+            writer = factory.createXMLStreamWriter( xml );
 
+            writer.writeStartElement( "Table" );
+            writer.writeAttribute( "ss:ExpandedColumnCount", "15" );
+            writer.writeAttribute( "ss:FullColumns", "1" );
+            writer.writeAttribute( "ss:FullRows", "1" );
+            writer.writeAttribute( "ss:DefaultRowHeight", "15" );
+            writer.writeAttribute( "ss:ExpandedRowCount", (( Integer ) (localizedTexts.size() + 1)).toString() );
             writeColumnInitialization( writer, "s66", "150", 11 );
 
             WriteTitleRow( writer );
@@ -60,29 +63,29 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
             for( LocalizedText item : localizedTexts ) {
                 WriteRow( writer, item );
             }
+            writer.writeEndElement();
             writer.flush();
             writer.close();
         } catch ( XMLStreamException xmle ) {
             throw new RuntimeException( xmle );
-        } catch ( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
         try {
-            String excel = FileUtils.readFileToString( new File(templateResource), "UTF-8" );
+            //String excel = FileUtils.readFileToString( new File(templateResource), "UTF-8" );
+            InputStream templateInputStream = this.getClass().getResourceAsStream( "/com/foreach/synchronizer/text/template.xml" );
+            String excel = IOUtils.toString( templateInputStream, "UTF-8" );
 
-            Pattern pattern = Pattern.compile( "<Table.*>(.*)</Table", Pattern.MULTILINE | Pattern.DOTALL );
+            Pattern pattern = Pattern.compile( "<Worksheet.*>(.*)<WorksheetOptions", Pattern.MULTILINE | Pattern.DOTALL );
             Matcher matcher = pattern.matcher( excel );
 
-            if ( matcher.find() ) {
+            if( matcher.find() ) {
                 String original = matcher.group( 1 );
-                excel = excel.replaceAll( "ss:ExpandedRowCount=\".{1,5}\"",
-                        "ss:ExpandedRowCount=\"" + ( localizedTexts.size() + 1 ) + "\"" );
+//                excel = excel.replaceAll( "ss:ExpandedRowCount=\".{1,5}\"",
+//                        "ss:ExpandedRowCount=\"" + ( localizedTexts.size() + 1 ) + "\"" );
                 excel = excel.replace( original, xml.toString() );
             }
             outputStream.write( excel.getBytes() );
-        }
-        catch ( IOException ioe ) {
+        } catch ( IOException ioe ) {
             throw new RuntimeException( ioe );
         }
     }
@@ -113,7 +116,7 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
         Boolean isUsed = item.isUsed();
         Boolean isAutoGenerated = item.isAutoGenerated();
         writeLabel( writer, isUsed.toString() );
-        writeLabel( writer, isAutoGenerated.toString());
+        writeLabel( writer, isAutoGenerated.toString() );
 
         DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
         String created = item.getCreated() == null ? "" : dateFormat.format( item.getCreated() );
