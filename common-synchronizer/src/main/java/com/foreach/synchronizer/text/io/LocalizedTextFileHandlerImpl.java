@@ -75,7 +75,7 @@ public class LocalizedTextFileHandlerImpl implements LocalizedTextFileHandler {
 
     public String getFileName( String application, String group, LocalizedTextFormat outputFormat ) {
         String fileName = application + "." + group;
-        fileName = fileName.toLowerCase() + "." + outputFormat.toString().toLowerCase();
+        fileName = fileName.toLowerCase() + ".xml"; // + outputFormat.toString().toLowerCase();
         return fileName;
     }
 }

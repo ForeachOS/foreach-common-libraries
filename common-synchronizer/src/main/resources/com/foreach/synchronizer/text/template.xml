@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <?mso-application progid="Excel.Sheet"?>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
- xmlns:o="urn:schemas-microsoft-com:office:office"
- xmlns:x="urn:schemas-microsoft-com:office:excel"
- xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
- xmlns:html="http://www.w3.org/TR/REC-html40">
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+        >
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
   <Author>Foreach</Author>
   <LastAuthor>Foreach</LastAuthor>
@@ -59,22 +58,9 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
-  <Table ss:ExpandedColumnCount="4" ss:ExpandedRowCount="3" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="15" ss:ExpandedRowCount="3" x:FullColumns="1"
    x:FullRows="1" ss:DefaultRowHeight="15">
-   <Column ss:StyleID="s79" ss:AutoFitWidth="0" ss:Width="325.5"/>
-   <Column ss:StyleID="s66" ss:AutoFitWidth="0" ss:Width="225" ss:Span="2"/>
-   <Row ss:AutoFitHeight="0" ss:Height="30.75">
-    <Cell ss:StyleID="s74"><Data ss:Type="String">Label</Data></Cell>
-    <Cell ss:StyleID="s76"><Data ss:Type="String">Nederlands</Data></Cell>
-    <Cell ss:StyleID="s76"><Data ss:Type="String">Français</Data></Cell>
-    <Cell ss:StyleID="s76"><Data ss:Type="String">English</Data></Cell>
-   </Row>
-   <Row ss:AutoFitHeight="0" ss:Height="20.25">
-    <Cell><Data ss:Type="String">appUser.action.deleteConfirmation</Data></Cell>
-    <Cell ss:StyleID="s67"><Data ss:Type="String">Are you sure you want to delete this user?</Data></Cell>
-    <Cell ss:StyleID="s67"><Data ss:Type="String">Are you sure you want to delete this user?</Data></Cell>
-    <Cell ss:StyleID="s67"><Data ss:Type="String">Are you sure you want to delete this user?</Data></Cell>
-   </Row>
+
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
    <PageSetup>

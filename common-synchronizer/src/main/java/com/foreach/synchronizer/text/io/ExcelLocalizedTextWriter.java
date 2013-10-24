@@ -3,130 +3,145 @@ package com.foreach.synchronizer.text.io;
 import com.foreach.spring.localization.Language;
 import com.foreach.spring.localization.LanguageConfigurator;
 import com.foreach.spring.localization.text.LocalizedText;
+import com.sun.org.apache.xerces.internal.impl.PropertyManager;
+import com.sun.xml.internal.stream.writers.XMLStreamWriterImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringWriter;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
 
-    private static final String templateResource = "com/foreach/synchronizer/text/template.xml";
+    private static final String templateResource = "C:\\projects\\java-common-libraries\\common-synchronizer\\target\\classes\\com\\foreach\\synchronizer\\text\\template.xml";
+//    private static final String templateResource = "com/foreach/synchronizer/text/template.xml";
 
     public static final String SS_STYLE_ID = "ss:StyleID";
     public static final String NEWLINE = "\n      ";
 
     private OutputStream outputStream;
 
+    private DecimalFormat formatter;
+
     public ExcelLocalizedTextWriter( OutputStream outputStream ) {
         this.outputStream = outputStream;
+        DecimalFormatSymbols symbols= DecimalFormatSymbols.getInstance();
+        symbols.setDecimalSeparator( '.' );
+        formatter = new DecimalFormat( "0.00", symbols );
     }
 
     public void write( List<LocalizedText> localizedTexts ) {
         final StringWriter xml = new StringWriter();
         final XMLStreamWriter writer;
 
-        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+//        XMLOutputFactory factory = XMLOutputFactory.newInstance();
 
         try {
-            writer = factory.createXMLStreamWriter( xml );
+//            writer = factory.createXMLStreamWriter( xml );
+            writer = new XMLStreamWriterImpl( xml, new PropertyManager( PropertyManager.CONTEXT_WRITER ) );
 
-            writer.writeCharacters( NEWLINE );
+            writeColumnInitialization( writer, "s66", "150", 11 );
 
-            writer.writeStartElement( "Table" );
-            writer.writeAttribute( "ss:ExpandedColumnCount", "4" );
-            writer.writeAttribute( "ss:ExpandedRowCount", "3" );
-            writer.writeAttribute( "x:FullColumns", "1" );
-            writer.writeAttribute( "x:FullRows", "1" );
-            writer.writeAttribute( "ss:DefaultRowHeight", "15" );
-
-            writer.writeCharacters( NEWLINE );
-            writer.writeStartElement( "Column" );
-            writer.writeAttribute( SS_STYLE_ID, "s79" );
-            writer.writeAttribute( "ss:AutoFitWidth", "0" );
-            writer.writeAttribute( "ss:Width", "325.5" );
-            writer.writeEndElement();
-
-            writer.writeCharacters( NEWLINE );
-            writer.writeStartElement( "Column" );
-            writer.writeAttribute( SS_STYLE_ID, "s66" );
-            writer.writeAttribute( "ss:AutoFitWidth", "0" );
-            writer.writeAttribute( "ss:Width", "225" );
-            writer.writeAttribute( "ss:Span", "2" );
-            writer.writeEndElement();
-
-            writer.writeCharacters( NEWLINE );
-            writer.writeStartElement( "Row" );
-            writer.writeAttribute( "ss:AutoFitHeight", "0" );
-            writer.writeAttribute( "ss:Height", "30.75" );
-
-            writeHeader( writer, "Application" );
-            writeHeader( writer, "Group" );
-            writeHeader( writer, "Label" );
-            for( Language language : LanguageConfigurator.getLanguages() ) {
-                writeHeader( writer, language.getName() );
-            }
-
-            writer.writeEndElement();
-
-            DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
-            symbols.setDecimalSeparator( '.' );
-
-            DecimalFormat formatter = new DecimalFormat( "0.00", symbols );
+            WriteTitleRow( writer );
 
             for( LocalizedText item : localizedTexts ) {
-                writer.writeCharacters( NEWLINE );
-                writer.writeStartElement( "Row" );
-                writer.writeAttribute( "ss:AutoFitHeight", "0" );
-                writer.writeAttribute( "ss:Height", formatter.format( calculateHeight( item ) ) );
-                writeLabel( writer, item.getApplication() );
-                writeLabel( writer, item.getGroup() );
-                writeLabel( writer, item.getLabel() );
-                for( Language language : LanguageConfigurator.getLanguages() ) {
-                    writeCell( writer, item.getFieldsForLanguage( language ).getText() );
-                }
-                writer.writeEndElement();
+                WriteRow( writer, item );
             }
-
-            writer.writeEndElement();
-
             writer.flush();
             writer.close();
         } catch ( XMLStreamException xmle ) {
             throw new RuntimeException( xmle );
+        } catch ( IOException e ) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            File templateFile = new File( classLoader.getResource( templateResource ).getFile() );
-            String excel = FileUtils.readFileToString( templateFile, "UTF-8" );
+            String excel = FileUtils.readFileToString( new File(templateResource), "UTF-8" );
 
-            Pattern pattern = Pattern.compile( "<Worksheet ss:Name=\\\"Sheet1\\\">(.*)<WorksheetOptions",
-                    Pattern.MULTILINE | Pattern.DOTALL );
+            Pattern pattern = Pattern.compile( "<Table.*>(.*)</Table", Pattern.MULTILINE | Pattern.DOTALL );
             Matcher matcher = pattern.matcher( excel );
 
-            if( matcher.find() ) {
+            if ( matcher.find() ) {
                 String original = matcher.group( 1 );
-                excel = excel.replace( original, xml.toString() );
                 excel = excel.replaceAll( "ss:ExpandedRowCount=\".{1,5}\"",
-                        "ss:ExpandedRowCount=\"" + (localizedTexts.size() + 1) + "\"" );
+                        "ss:ExpandedRowCount=\"" + ( localizedTexts.size() + 1 ) + "\"" );
+                excel = excel.replace( original, xml.toString() );
             }
-
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter( outputStream, "UTF-8" );
-            outputStreamWriter.write( excel );
-            outputStreamWriter.close();
-        } catch ( IOException ioe ) {
-            throw new RuntimeException( "Error while writing to output stream", ioe );
+            outputStream.write( excel.getBytes() );
         }
+        catch ( IOException ioe ) {
+            throw new RuntimeException( ioe );
+        }
+    }
+
+    private void writeColumnInitialization( XMLStreamWriter writer, String style, String width, Integer columnCount ) throws XMLStreamException {
+        String span = (--columnCount).toString();
+
+        writer.writeCharacters( NEWLINE );
+        writer.writeStartElement( "Column" );
+        writer.writeAttribute( SS_STYLE_ID, style );
+        writer.writeAttribute( "ss:AutoFitWidth", "0" );
+        writer.writeAttribute( "ss:Width", width );
+        writer.writeAttribute( "ss:Span", span );
+        writer.writeEndElement();
+    }
+
+    private void WriteRow( XMLStreamWriter writer, LocalizedText item ) throws XMLStreamException {
+//        writer.writeCharacters( NEWLINE );
+        writer.writeStartElement( "Row" );
+        writer.writeAttribute( "ss:AutoFitHeight", "0" );
+        writer.writeAttribute( "ss:Height", formatter.format( calculateHeight( item ) ) );
+        writeLabel( writer, item.getApplication() );
+        writeLabel( writer, item.getGroup() );
+        writeLabel( writer, item.getLabel() );
+        for( Language language : LanguageConfigurator.getLanguages() ) {
+            writeCell( writer, item.getFieldsForLanguage( language ).getText() );
+        }
+        Boolean isUsed = item.isUsed();
+        Boolean isAutoGenerated = item.isAutoGenerated();
+        writeLabel( writer, isUsed.toString() );
+        writeLabel( writer, isAutoGenerated.toString());
+
+        DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+        String created = item.getCreated() == null ? "" : dateFormat.format( item.getCreated() );
+        String updated = item.getUpdated() == null ? "" : dateFormat.format( item.getUpdated() );
+        writeLabel( writer, created );
+        writeLabel( writer, updated );
+
+        writer.writeEndElement();
+    }
+
+    private void WriteTitleRow( XMLStreamWriter writer ) throws XMLStreamException {
+//        writer.writeCharacters( NEWLINE );
+        writer.writeStartElement( "Row" );
+        writer.writeAttribute( "ss:AutoFitHeight", "0" );
+        writer.writeAttribute( "ss:Height", "30.75" );
+
+        writeHeader( writer, "Application" );
+        writeHeader( writer, "Group" );
+        writeHeader( writer, "Label" );
+        for( Language language : LanguageConfigurator.getLanguages() ) {
+            writeHeader( writer, language.getName() );
+        }
+
+        writeHeader( writer, "used" );
+        writeHeader( writer, "autoGenerated" );
+        writeHeader( writer, "created" );
+        writeHeader( writer, "updated" );
+        writer.writeEndElement();
     }
 
     public void close() throws IOException {
