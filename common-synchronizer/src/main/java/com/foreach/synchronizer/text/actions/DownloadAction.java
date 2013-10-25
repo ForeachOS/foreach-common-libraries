@@ -67,7 +67,10 @@ public class DownloadAction implements SynchronizerAction {
                     List<LocalizedText> localizedTextItems = localizedTextService.getLocalizedTextItems( application, group );
                     if(localizedTextItems!=null && !localizedTextItems.isEmpty())
                     {
-                        OutputStream outputStream = localizedTextFileHandler.getOutputStream( outputDirectory, application, group, outputFormat );
+                        //we use applicationForFilename to prevent files in resto to be name 'default.'... as this is a fake application name returned by the DAO
+                        String applicationForFilename = localizedTextItems.get(0).getApplication();
+
+                        OutputStream outputStream = localizedTextFileHandler.getOutputStream( outputDirectory, applicationForFilename, group, outputFormat );
                         writer = localizedTextWriterFactory.createLocalizedTextWriter( outputFormat, outputStream );
                         writer.write( localizedTextItems );
                     }
