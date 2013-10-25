@@ -6,8 +6,7 @@ import com.foreach.synchronizer.text.PersistentLocalizedText;
 import com.thoughtworks.xstream.XStream;
 import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,12 +33,17 @@ public class XmlLocalizedTextReader implements LocalizedTextReader {
     }
 
     public Collection<LocalizedText> read(  ) {
-        Collection<PersistentLocalizedText> persistentLocalizedTexts  = (Collection<PersistentLocalizedText>) xStream.fromXML( inputStream );
-        List<LocalizedText> localizedTexts = new ArrayList<LocalizedText>(  );
-        for(PersistentLocalizedText persistentLocalizedText: persistentLocalizedTexts)
-        {
-            localizedTexts.add( persistentLocalizedText.convert() );
+        try {
+            Reader reader = new InputStreamReader( inputStream, "UTF-8" );
+            Collection<PersistentLocalizedText> persistentLocalizedTexts  = (Collection<PersistentLocalizedText>) xStream.fromXML( reader );
+            List<LocalizedText> localizedTexts = new ArrayList<LocalizedText>(  );
+            for(PersistentLocalizedText persistentLocalizedText: persistentLocalizedTexts)
+            {
+                localizedTexts.add( persistentLocalizedText.convert() );
+            }
+            return localizedTexts;
+        } catch ( UnsupportedEncodingException e ) {
+            throw new RuntimeException( "UTF-8 encoding not supported!" );
         }
-        return localizedTexts;
     }
 }
