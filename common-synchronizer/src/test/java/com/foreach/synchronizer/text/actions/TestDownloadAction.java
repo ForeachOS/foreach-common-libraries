@@ -120,7 +120,9 @@ public class TestDownloadAction {
         when( localizedTextService.getApplications() ).thenReturn( Arrays.asList( "app3" ) );
         when( localizedTextService.getGroups( "app3" ) ).thenReturn( Arrays.asList( "group31" ) );
         List<LocalizedText> localizedTexts = new ArrayList<LocalizedText>(  );
-        localizedTexts.add( new LocalizedText() );
+        LocalizedText localizedText = new LocalizedText();
+        localizedText.setApplication( "app3" );
+        localizedTexts.add(localizedText);
         when( localizedTextService.getLocalizedTextItems( "app3", "group31" ) ).thenReturn(localizedTexts);
         LocalizedTextWriter localizedTextWriter =  mock( LocalizedTextWriter.class );
         when( localizedTextWriterFactory.createLocalizedTextWriter( eq( expectedOutputFormat ), any( OutputStream.class ) ) ).thenReturn( localizedTextWriter );
