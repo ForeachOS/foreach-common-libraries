@@ -9,10 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -42,13 +39,14 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
     }
 
     public void write( List<LocalizedText> localizedTexts ) {
-        final StringWriter xml = new StringWriter();
+//        final StringWriter xml = new StringWriter();
         final XMLStreamWriter writer;
+	    ByteArrayOutputStream xml = new ByteArrayOutputStream(  );
 
         XMLOutputFactory factory = XMLOutputFactory.newInstance();
 
         try {
-            writer = factory.createXMLStreamWriter( xml );
+            writer = factory.createXMLStreamWriter( xml, "UTF-8" );
 
             writer.writeStartElement( "Table" );
             writer.writeAttribute( "ss:ExpandedColumnCount", "15" );
@@ -71,7 +69,6 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
         }
 
         try {
-            //String excel = FileUtils.readFileToString( new File(templateResource), "UTF-8" );
             InputStream templateInputStream = this.getClass().getResourceAsStream( "/com/foreach/synchronizer/text/template.xml" );
             String excel = IOUtils.toString( templateInputStream, "UTF-8" );
 
@@ -80,11 +77,13 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
 
             if( matcher.find() ) {
                 String original = matcher.group( 1 );
-//                excel = excel.replaceAll( "ss:ExpandedRowCount=\".{1,5}\"",
-//                        "ss:ExpandedRowCount=\"" + ( localizedTexts.size() + 1 ) + "\"" );
-                excel = excel.replace( original, xml.toString() );
+                excel = excel.replace( original, xml.toString( "UTF-8" ) );
             }
-            outputStream.write( excel.getBytes() );
+
+	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter( outputStream , "UTF-8"));
+	        bw.write(excel);
+            bw.flush();
+            bw.close();
         } catch ( IOException ioe ) {
             throw new RuntimeException( ioe );
         }
