@@ -39,7 +39,6 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
     }
 
     public void write( List<LocalizedText> localizedTexts ) {
-//        final StringWriter xml = new StringWriter();
         final XMLStreamWriter writer;
 	    ByteArrayOutputStream xml = new ByteArrayOutputStream(  );
 
@@ -102,7 +101,6 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
     }
 
     private void WriteRow( XMLStreamWriter writer, LocalizedText item ) throws XMLStreamException {
-//        writer.writeCharacters( NEWLINE );
         writer.writeStartElement( "Row" );
         writer.writeAttribute( "ss:AutoFitHeight", "0" );
         writer.writeAttribute( "ss:Height", formatter.format( calculateHeight( item ) ) );
@@ -120,14 +118,13 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
         DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
         String created = item.getCreated() == null ? "" : dateFormat.format( item.getCreated() );
         String updated = item.getUpdated() == null ? "" : dateFormat.format( item.getUpdated() );
-        writeLabel( writer, created );
-        writeLabel( writer, updated );
+        writeDate( writer, created );
+        writeDate( writer, updated );
 
         writer.writeEndElement();
     }
 
     private void WriteTitleRow( XMLStreamWriter writer ) throws XMLStreamException {
-//        writer.writeCharacters( NEWLINE );
         writer.writeStartElement( "Row" );
         writer.writeAttribute( "ss:AutoFitHeight", "0" );
         writer.writeAttribute( "ss:Height", "30.75" );
@@ -164,6 +161,18 @@ public class ExcelLocalizedTextWriter implements LocalizedTextWriter {
 
     private void writeLabel( XMLStreamWriter xml, String text ) throws XMLStreamException {
         xml.writeStartElement( "Cell" );
+
+        xml.writeStartElement( "Data" );
+        xml.writeAttribute( "ss:Type", "String" );
+        xml.writeCharacters( (text == null) ? "" : text );
+        xml.writeEndElement();
+
+        xml.writeEndElement();
+    }
+
+    private void writeDate( XMLStreamWriter xml, String text ) throws XMLStreamException {
+        xml.writeStartElement( "Cell" );
+        xml.writeAttribute( SS_STYLE_ID, "s80" );
 
         xml.writeStartElement( "Data" );
         xml.writeAttribute( "ss:Type", "String" );

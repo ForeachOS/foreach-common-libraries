@@ -56,6 +56,11 @@
    <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"
     ss:Bold="1"/>
   </Style>
+ <Style ss:ID="s80">
+     <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+     <Font ss:FontName="Calibri" x:Family="Swiss" ss:Color="#000000"/>
+     <NumberFormat ss:Format="@"/>
+ </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
 
