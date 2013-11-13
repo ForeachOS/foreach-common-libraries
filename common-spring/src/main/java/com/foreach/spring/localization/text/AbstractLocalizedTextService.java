@@ -7,7 +7,10 @@ import com.foreach.spring.localization.Language;
 import com.foreach.spring.localization.LanguageConfigurator;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -218,40 +221,6 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
                 localizedTextDao.insertLocalizedText( text );
             } else {
                 localizedTextDao.updateLocalizedText( text );
-                //all existing languages have now been updated.
-                //check if there are languages in text that are not in the DB and insert them
-                for(Map.Entry<String, LocalizedTextFields> translation : existing.getFields().entrySet() )
-                {
-                    if(translation.getValue().getText() != null)
-                    {
-                        Language language = LanguageConfigurator.getLanguageByCode( translation.getKey() );
-                        if(language!=null)
-                        {
-                            text.removeFields( language );
-                        }
-                    }
-                }
-                List<Language> languagesToRemove = new ArrayList<Language>(  );
-                for(Map.Entry<String, LocalizedTextFields> translation : text.getFields().entrySet())
-                {
-                    if(translation.getValue().getText() == null)
-                    {
-                        Language language = LanguageConfigurator.getLanguageByCode( translation.getKey() );
-                        if(language!=null)
-                        {
-                            languagesToRemove.add( language );
-                        }
-                    }
-                }
-                for(Language language : languagesToRemove)
-                {
-                    text.removeFields( language );
-                }
-
-                if(text.getFields().size()>0)
-                {
-                    localizedTextDao.insertLocalizedText( text );
-                }
             }
 
             // Reload cache asynchronously
