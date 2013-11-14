@@ -124,16 +124,4 @@
         <connection>scm:git:http://stash.foreach.be/scm/fe/java-common-libraries.git</connection>
         <developerConnection>scm:git:http://stash.foreach.be/scm/fe/java-common-libraries.git</developerConnection>
     </scm>
-    <profiles>
-        <profile>
-            <id>sonar</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <sonar.branch>${project.version}</sonar.branch>
-                <sonar.profile>Tools - High tolerance</sonar.profile>
-            </properties>
-        </profile>
-    </profiles>
 </project>
