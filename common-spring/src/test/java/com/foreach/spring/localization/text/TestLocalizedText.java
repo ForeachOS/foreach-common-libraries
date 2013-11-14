@@ -8,9 +8,9 @@ import static org.junit.Assert.*;
 public class TestLocalizedText extends AbstractLocalizationTest
 {
 	@Test
-	public void createdIsSetAfterConstruction() {
+	public void createdIsNotSetAfterConstruction() {
 		LocalizedText text = new LocalizedText();
-		assertNotNull( text.getCreated() );
+		assertNull( text.getCreated() );
 		assertNull( text.getUpdated() );
 	}
 

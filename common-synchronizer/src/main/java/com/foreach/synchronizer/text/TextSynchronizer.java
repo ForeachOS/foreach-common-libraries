@@ -8,42 +8,58 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TextSynchronizer {
+public class TextSynchronizer
+{
 
-    @Autowired
-    private java.util.Collection<SynchronizerAction> synchronizerActions;
+	public static void initSpringAndRunTextSynchronizer( String[] args, String springConfigFile ) throws Exception
+	{
+		ApplicationContext spring = new ClassPathXmlApplicationContext( springConfigFile );
+		TextSynchronizer synchronizer = spring.getBean( TextSynchronizer.class );
+		synchronizer.execute( args );
+		( (ConfigurableApplicationContext) spring ).close();
+	}
 
-    public void execute(String[] args) {
-        if (ArrayUtils.isEmpty(args)) {
-            throw new TextSynchronizerException("Argument is null or empty");
-        }
-        SynchronizerAction foundAction = getSynchronizerActionForName(args[0]);
+	@Autowired
+	private java.util.Collection<SynchronizerAction> synchronizerActions;
 
-        if (foundAction == null) {
-            throw new TextSynchronizerException("Unknown action: " + args[0]);
-        }
-        CommandLine cmd = parseArguments(args, foundAction);
-        foundAction.execute(cmd);
-    }
+	public void execute( String[] args ) throws Exception
+	{
+		if ( ArrayUtils.isEmpty( args ) ) {
+			throw new TextSynchronizerException( "Argument is null or empty" );
+		}
+		SynchronizerAction foundAction = getSynchronizerActionForName( args[0] );
 
-    private CommandLine parseArguments(String[] args, SynchronizerAction foundAction) {
-        try {
-            CommandLineParser parser = new PosixParser();
-            return parser.parse(foundAction.getCliOptions(), args);
-        } catch (ParseException e) {
-            throw new TextSynchronizerException(e.getMessage(), e);
-        }
-    }
+		if ( foundAction == null ) {
+			throw new TextSynchronizerException( "Unknown action: " + args[0] );
+		}
+		CommandLine cmd = parseArguments( args, foundAction );
+		foundAction.execute( cmd );
+	}
 
-    private SynchronizerAction getSynchronizerActionForName(String actionName) {
-        for (SynchronizerAction action : synchronizerActions) {
-            if (StringUtils.equalsIgnoreCase(action.getActionName(), actionName)) {
-                return action;
-            }
-        }
-        return null;
-    }
+	private CommandLine parseArguments( String[] args, SynchronizerAction foundAction )
+	{
+		try {
+			CommandLineParser parser = new PosixParser();
+			return parser.parse( foundAction.getCliOptions(), args );
+		}
+		catch ( ParseException e ) {
+			throw new TextSynchronizerException( e.getMessage(), e );
+		}
+	}
+
+	private SynchronizerAction getSynchronizerActionForName( String actionName )
+	{
+		for ( SynchronizerAction action : synchronizerActions ) {
+			if ( StringUtils.equalsIgnoreCase( action.getActionName(), actionName ) ) {
+				return action;
+			}
+		}
+		return null;
+	}
 }

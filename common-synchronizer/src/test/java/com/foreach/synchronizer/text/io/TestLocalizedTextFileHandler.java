@@ -17,45 +17,43 @@ import java.io.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@ContextConfiguration(classes = TestLocalizedTextFileHandler.TestConfig.class, loader = MockedLoader.class)
+@RunWith( SpringJUnit4ClassRunner.class )
+@DirtiesContext( classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD )
+@ContextConfiguration( classes = TestLocalizedTextFileHandler.TestConfig.class, loader = MockedLoader.class )
 public class TestLocalizedTextFileHandler {
 
     @Autowired
     private LocalizedTextFileHandlerImpl localizedTextFileHandler;
 
-    private String outputDir = "/test_files/";
+    private String outputDir = "./target/test_files/";
     private String application = "my_application";
     private String group = "my_group";
-
 
     @Test
     public void testGetOutputStream() throws Exception {
         String expectedContent = "test test";
-        OutputStream outputStream = localizedTextFileHandler.getOutputStream(outputDir, application, group, LocalizedTextOutputFormat.XML);
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
-        writer.write(expectedContent);
+        OutputStream outputStream = localizedTextFileHandler.getOutputStream( outputDir, application, group, LocalizedTextFormat.XML );
+        BufferedWriter writer = new BufferedWriter( new OutputStreamWriter( outputStream ) );
+        writer.write( expectedContent );
         writer.close();
-        File expectedFile = new File(outputDir + application + "." + group + ".xml");
-        assertTrue(expectedFile.exists());
-        assertTrue(expectedFile.isFile());
-        InputStream fileInputStream = new FileInputStream(expectedFile);
-        String actualContent = IOUtils.toString(fileInputStream);
-        assertEquals(expectedContent, actualContent);
+        File expectedFile = new File( outputDir, application + "." + group + ".xml" );
+        assertTrue( expectedFile.exists() );
+        assertTrue( expectedFile.isFile() );
+        InputStream fileInputStream = new FileInputStream( expectedFile );
+        String actualContent = IOUtils.toString( fileInputStream );
+        assertEquals( expectedContent, actualContent );
         fileInputStream.close();
     }
 
     @After
     public void removeTestFile() throws IOException {
-        File outputFile = new File(outputDir + application + "." + group + ".xml");
-        if (outputFile.exists()) {
+        File outputFile = new File( outputDir + application + "." + group + ".xml" );
+        if( outputFile.exists() ) {
             outputFile.delete();
         }
-        File outputDirectory = new File(outputDir);
-        if (outputDirectory.exists()) {
-            FileUtils.deleteDirectory(outputDirectory);
+        File outputDirectory = new File( outputDir );
+        if( outputDirectory.exists() ) {
+            FileUtils.deleteDirectory( outputDirectory );
         }
     }
 

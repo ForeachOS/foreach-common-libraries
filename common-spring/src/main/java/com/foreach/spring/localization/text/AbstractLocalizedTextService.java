@@ -1,5 +1,7 @@
 package com.foreach.spring.localization.text;
 
+import com.foreach.spring.concurrent.ObjectLock;
+import com.foreach.spring.concurrent.ObjectLockRepository;
 import com.foreach.spring.concurrent.SynchronousTaskExecutor;
 import com.foreach.spring.localization.Language;
 import com.foreach.spring.localization.LanguageConfigurator;
@@ -35,269 +37,276 @@ import java.util.concurrent.ExecutorService;
  * By default no caching is being done.
  * </p>
  */
-public abstract class AbstractLocalizedTextService implements LocalizedTextService
-{
-	@SuppressWarnings("all")
-	protected final Logger LOG;
+public abstract class AbstractLocalizedTextService implements LocalizedTextService {
+    @SuppressWarnings( "all" )
+    protected final Logger LOG;
 
-	private final LocalizedTextDataStore localizedTextDao;
+    private final ObjectLockRepository<String> textSetFetchLocks = new ObjectLockRepository<String>();
+    private final LocalizedTextDataStore localizedTextDao;
 
-	private ExecutorService executorService = new SynchronousTaskExecutor();
-	private LocalizedTextSetCache textSetCache = new NoCachingLocalizedTextSetCache();
+    private ExecutorService executorService = new SynchronousTaskExecutor();
+    private LocalizedTextSetCache textSetCache = new NoCachingLocalizedTextSetCache();
 
-	/**
-	 * @param localizedTextDao DAO providing callback methods to the datastore.
-	 */
-	protected AbstractLocalizedTextService( LocalizedTextDataStore localizedTextDao ) {
-		this.localizedTextDao = localizedTextDao;
+    /**
+     * @param localizedTextDao DAO providing callback methods to the datastore.
+     */
+    protected AbstractLocalizedTextService( LocalizedTextDataStore localizedTextDao ) {
+        this.localizedTextDao = localizedTextDao;
 
-		LOG = Logger.getLogger( this.getClass() );
-	}
+        LOG = Logger.getLogger( this.getClass() );
+    }
 
-	/**
-	 * @param executorService The ExecutorService to use for the {@link #flagAsUsed(LocalizedText)} calls.
-	 */
-	public final void setExecutorService( ExecutorService executorService ) {
-		this.executorService = executorService;
+    /**
+     * @param executorService The ExecutorService to use for the {@link #flagAsUsed(LocalizedText)} calls.
+     */
+    public final void setExecutorService( ExecutorService executorService ) {
+        this.executorService = executorService;
 
-		if ( this.executorService == null ) {
-			this.executorService = new SynchronousTaskExecutor();
-		}
-	}
+        if( this.executorService == null ) {
+            this.executorService = new SynchronousTaskExecutor();
+        }
+    }
 
-	/**
-	 * @param textSetCache The LocalizedTextSetCache implementation to use for caching the textSet instances.
-	 */
-	public final void setTextSetCache( LocalizedTextSetCache textSetCache ) {
-		this.textSetCache = textSetCache;
+    /**
+     * @param textSetCache The LocalizedTextSetCache implementation to use for caching the textSet instances.
+     */
+    public final void setTextSetCache( LocalizedTextSetCache textSetCache ) {
+        this.textSetCache = textSetCache;
 
-		if ( this.textSetCache == null ) {
-			this.textSetCache = new NoCachingLocalizedTextSetCache();
-		}
-	}
+        if( this.textSetCache == null ) {
+            this.textSetCache = new NoCachingLocalizedTextSetCache();
+        }
+    }
 
-	/**
-	 * Gets a {@link LocalizedTextSetImpl} for a group of items.
-	 *
-	 * @param application Application to get the group of items from.
-	 * @param group       Name of the group.
-	 * @return All items converted into a set instance.
-	 */
-	public final LocalizedTextSet getLocalizedTextSet( String application, String group ) {
-		LocalizedTextSet textSet = textSetCache.getLocalizedTextSet( application, group );
+    /**
+     * <p>Gets a {@link LocalizedTextSetImpl} for a group of items.  Synchronizes access to the same application/group combination.</p>
+     * <p>If the textSet is not found in the cache it will be fetched from the dataStore and stored in the
+     * cache.  While this is happening, other threads trying to access the same textSet will wait.
+     * </p>
+     *
+     * @param application Application to get the group of items from.
+     * @param group       Name of the group.
+     * @return All items converted into a set instance.
+     */
+    public final LocalizedTextSet getLocalizedTextSet( String application, String group ) {
+        LocalizedTextSet textSet = textSetCache.getLocalizedTextSet( application, group );
 
-		if ( textSet == null ) {
-			textSet = new LocalizedTextSetImpl( application, group, this );
-			textSetCache.storeLocalizedTextSet( textSet );
-		}
+        if( textSet == null ) {
+            ObjectLock<String> writeLock = textSetFetchLocks.getLock( application + group );
+            try {
+                writeLock.lock();
 
-		return textSet;
-	}
+                // Fetch again from cache to avoid double querying
+                textSet = textSetCache.getLocalizedTextSet( application, group );
 
-	/**
-	 * Gets a list of all LocalizedText items for a given group.
-	 *
-	 * @param application Application to get the group of items from.
-	 * @param group       Name of the group.
-	 * @return List of items.
-	 */
-	public final List<LocalizedText> getLocalizedTextItems( String application, String group ) {
-		return localizedTextDao.getLocalizedTextForGroup( application, group );
-	}
+                if( textSet == null ) {
+                    textSet = new LocalizedTextSetImpl( application, group, this );
+                    textSetCache.storeLocalizedTextSet( textSet );
+                }
 
-	/**
-	 * Flags a text item as used, this will also call a method on the DAO to flag the item in the data store.
-	 *
-	 * @param text Text item that should be flagged as used.
-	 */
-	public final void flagAsUsed( final LocalizedText text ) {
-		text.setUsed( true );
-		text.setUpdated( new Date() );
+            } finally {
+                writeLock.release();
+            }
+        }
 
-		executorService.submit( new Runnable()
-		{
-			public void run() {
-				try {
-					localizedTextDao.flagAsUsed( text );
-				}
-				catch ( RuntimeException re ) {
-					LOG.error( "Failed to flag item as used: " + text, re );
-				}
-			}
-		} );
-	}
+        return textSet;
+    }
 
-	/**
-	 * <p>Creates a new text item with default values.  If the item already exists in the datastore, the existing
-	 * item will be returned instead.  Otherwise this will also execute an insert call on the DAO.
-	 * Note that no exceptions are being thrown in case saving fails.  An ERROR message will be logged
-	 * but the constructed text item will be returned.</p>
-	 * <p>Unlike a normal save or delete, this method will not trigger a cache reload for the text set
-	 * the item belongs to.  Because this method does a lookup first, it is assumed that other instances
-	 * will fetch the recently created item and return it instead of trying to save twice.  In that case
-	 * fetching the single item is cheaper than reloading the entire set.</p>
-	 *
-	 * @param application  Application in which to create the text item.
-	 * @param group        Group the text item should belong to.
-	 * @param label        Label of the text item.
-	 * @param defaultValue Default value to be set for the text.
-	 * @return Constructed and saved text item.
-	 */
-	public final synchronized LocalizedText saveDefaultText( String application,
-	                                                         String group,
-	                                                         String label,
-	                                                         String defaultValue ) {
-		// Look directly in the database to see if the text item does not yet exist
-		LocalizedText existing = localizedTextDao.getLocalizedText( application, group, label );
+    /**
+     * Gets a list of all LocalizedText items for a given group.
+     *
+     * @param application Application to get the group of items from.
+     * @param group       Name of the group.
+     * @return List of items.
+     */
+    public final List<LocalizedText> getLocalizedTextItems( String application, String group ) {
+        return localizedTextDao.getLocalizedTextForGroup( application, group );
+    }
 
-		if ( existing != null ) {
-			LOG.debug( "Not creating text item with defaults because it already exists: " + existing );
-			return existing;
-		}
+    /**
+     * Flags a text item as used, this will also call a method on the DAO to flag the item in the data store.
+     *
+     * @param text Text item that should be flagged as used.
+     */
+    public final void flagAsUsed( final LocalizedText text ) {
+        text.setUsed( true );
+        text.setUpdated( new Date() );
 
-		LocalizedText text = new LocalizedText();
-		text.setApplication( application );
-		text.setGroup( group );
-		text.setLabel( label );
+        executorService.submit( new Runnable() {
+            public void run() {
+                try {
+                    localizedTextDao.flagAsUsed( text );
+                } catch ( RuntimeException re ) {
+                    LOG.error( "Failed to flag item as used: " + text, re );
+                }
+            }
+        } );
+    }
 
-		for ( Language language : LanguageConfigurator.getLanguages() ) {
-			text.getFieldsForLanguage( language ).setText( defaultValue );
-		}
+    /**
+     * <p>Creates a new text item with default values.  If the item already exists in the datastore, the existing
+     * item will be returned instead.  Otherwise this will also execute an insert call on the DAO.
+     * Note that no exceptions are being thrown in case saving fails.  An ERROR message will be logged
+     * but the constructed text item will be returned.</p>
+     * <p>Unlike a normal save or delete, this method will not trigger a cache reload for the text set
+     * the item belongs to.  Because this method does a lookup first, it is assumed that other instances
+     * will fetch the recently created item and return it instead of trying to save twice.  In that case
+     * fetching the single item is cheaper than reloading the entire set.</p>
+     *
+     * @param application  Application in which to create the text item.
+     * @param group        Group the text item should belong to.
+     * @param label        Label of the text item.
+     * @param defaultValue Default value to be set for the text.
+     * @return Constructed and saved text item.
+     */
+    public final synchronized LocalizedText saveDefaultText( String application,
+                                                             String group,
+                                                             String label,
+                                                             String defaultValue ) {
+        // Look directly in the database to see if the text item does not yet exist
+        LocalizedText existing = localizedTextDao.getLocalizedText( application, group, label );
 
-		text.setUsed( true );
-		text.setAutoGenerated( true );
-		text.setCreated( new Date() );
+        if( existing != null ) {
+            LOG.debug( "Not creating text item with defaults because it already exists: " + existing );
+            return existing;
+        }
 
-		LOG.debug( "Creating new text item with defaults: " + text );
+        LocalizedText text = new LocalizedText();
+        text.setApplication( application );
+        text.setGroup( group );
+        text.setLabel( label );
 
-		try {
-			localizedTextDao.insertLocalizedText( text );
-		}
-		catch ( RuntimeException re ) {
-			LOG.error( "Insert of new text item failed ", re );
-		}
+        for( Language language : LanguageConfigurator.getLanguages() ) {
+            text.getFieldsForLanguage( language ).setText( defaultValue );
+        }
 
-		return text;
-	}
+        text.setUsed( true );
+        text.setAutoGenerated( true );
+        text.setCreated( new Date() );
 
-	/**
-	 * Gets a single LocalizedText item from the datastore.
-	 *
-	 * @param application Application in which to find the text item.
-	 * @param group       Group the text item belongs to.
-	 * @param label       Label of the text item.
-	 * @return Text item or null if not found.
-	 */
-	public final LocalizedText getLocalizedText( String application, String group, String label ) {
-		return localizedTextDao.getLocalizedText( application, group, label );
-	}
+        LOG.debug( "Creating new text item with defaults: " + text );
 
-	/**
-	 * Saves a LocalizedText item in the backing datastore.  This will also trigger a reload of the cache for the
-	 * set this item belongs to.
-	 *
-	 * @param text Text item to save.
-	 */
-	public final void saveLocalizedText( final LocalizedText text ) {
-		if ( text != null ) {
-			LocalizedText existing = getLocalizedText( text.getApplication(), text.getGroup(), text.getLabel() );
+        try {
+            localizedTextDao.insertLocalizedText( text );
+        } catch ( RuntimeException re ) {
+            LOG.error( "Insert of new text item failed ", re );
+        }
 
-			if ( existing == null ) {
-				localizedTextDao.insertLocalizedText( text );
-			}
-			else {
-				localizedTextDao.updateLocalizedText( text );
-			}
+        return text;
+    }
 
-			// Reload cache asynchronously
-			executorService.submit( new Runnable()
-			{
-				public void run() {
-					try {
-						textSetCache.reload( text.getApplication(), text.getGroup() );
-					}
-					catch ( RuntimeException re ) {
-						LOG.error( "Failed to reload cache ", re );
-					}
-				}
-			} );
-		}
-	}
+    /**
+     * Gets a single LocalizedText item from the datastore.
+     *
+     * @param application Application in which to find the text item.
+     * @param group       Group the text item belongs to.
+     * @param label       Label of the text item.
+     * @return Text item or null if not found.
+     */
+    public final LocalizedText getLocalizedText( String application, String group, String label ) {
+        return localizedTextDao.getLocalizedText( application, group, label );
+    }
 
-	/**
-	 * Gets a list of all LocalizedText items containing a string.
-	 *
-	 * @param textToSearchFor String with the text to search for.
-	 * @return List of items.
-	 */
-	public final List<LocalizedText> searchLocalizedTextItemsForText( String textToSearchFor ) {
-		return localizedTextDao.searchLocalizedText( textToSearchFor );
-	}
+    /**
+     * Saves a LocalizedText item in the backing datastore.  This will also trigger a reload of the cache for the
+     * set this item belongs to.
+     *
+     * @param text Text item to save.
+     */
+    public final void saveLocalizedText( final LocalizedText text ) {
+        if( text != null ) {
+            LocalizedText existing = getLocalizedText( text.getApplication(), text.getGroup(), text.getLabel() );
 
-	/**
-	 * @return All applications with text items.
-	 */
-	public final List<String> getApplications() {
-		return localizedTextDao.getApplications();
-	}
+            if( existing == null ) {
+                localizedTextDao.insertLocalizedText( text );
+            } else {
+                localizedTextDao.updateLocalizedText( text );
+            }
 
-	/**
-	 * @param application Name of an application.
-	 * @return List of text item groups for this application.
-	 */
-	public final List<String> getGroups( String application ) {
-		return localizedTextDao.getGroups( application );
-	}
+            // Reload cache asynchronously
+            executorService.submit( new Runnable() {
+                public void run() {
+                    try {
+                        textSetCache.reload( text.getApplication(), text.getGroup() );
+                    } catch ( RuntimeException re ) {
+                        LOG.error( "Failed to reload cache ", re );
+                    }
+                }
+            } );
+        }
+    }
 
-	/**
-	 * Deletes a LocalizedText item from the backing datastore.  This will also trigger a reload of the cache for
-	 * the set this items belongs to.
-	 *
-	 * @param text Text item to delete.
-	 */
-	public final void deleteLocalizedText( final LocalizedText text ) {
-		if ( text != null ) {
-			localizedTextDao.deleteLocalizedText( text );
+    /**
+     * Gets a list of all LocalizedText items containing a string.
+     *
+     * @param textToSearchFor String with the text to search for.
+     * @return List of items.
+     */
+    public final List<LocalizedText> searchLocalizedTextItemsForText( String textToSearchFor ) {
+        return localizedTextDao.searchLocalizedText( textToSearchFor );
+    }
 
-			// Reload cache asynchronously
-			executorService.submit( new Runnable()
-			{
-				public void run() {
-					try {
-						textSetCache.reload( text.getApplication(), text.getGroup() );
-					}
-					catch ( RuntimeException re ) {
-						LOG.error( "Failed to reload cache ", re );
-					}
-				}
-			} );
-		}
-	}
+    /**
+     * @return All applications with text items.
+     */
+    public final List<String> getApplications() {
+        return localizedTextDao.getApplications();
+    }
 
-	private static final class NoCachingLocalizedTextSetCache implements LocalizedTextSetCache
-	{
-		public LocalizedTextSet getLocalizedTextSet( String application, String group ) {
-			return null;
-		}
+    /**
+     * @param application Name of an application.
+     * @return List of text item groups for this application.
+     */
+    public final List<String> getGroups( String application ) {
+        return localizedTextDao.getGroups( application );
+    }
 
-		public void storeLocalizedTextSet( LocalizedTextSet textSet ) {
-		}
+    /**
+     * Deletes a LocalizedText item from the backing datastore.  This will also trigger a reload of the cache for
+     * the set this items belongs to.
+     *
+     * @param text Text item to delete.
+     */
+    public final void deleteLocalizedText( final LocalizedText text ) {
+        if( text != null ) {
+            localizedTextDao.deleteLocalizedText( text );
 
-		public int size() {
-			return 0;
-		}
+            // Reload cache asynchronously
+            executorService.submit( new Runnable() {
+                public void run() {
+                    try {
+                        textSetCache.reload( text.getApplication(), text.getGroup() );
+                    } catch ( RuntimeException re ) {
+                        LOG.error( "Failed to reload cache ", re );
+                    }
+                }
+            } );
+        }
+    }
 
-		public void clear() {
-		}
+    private static final class NoCachingLocalizedTextSetCache implements LocalizedTextSetCache {
+        public LocalizedTextSet getLocalizedTextSet( String application, String group ) {
+            return null;
+        }
 
-		public void reload() {
-		}
+        public void storeLocalizedTextSet( LocalizedTextSet textSet ) {
+        }
 
-		public void reload( String application, String group ) {
-		}
+        public int size() {
+            return 0;
+        }
 
-		public Set<LocalizedTextSet> getCachedTextSets() {
-			return Collections.emptySet();
-		}
-	}
+        public void clear() {
+        }
+
+        public void reload() {
+        }
+
+        public void reload( String application, String group ) {
+        }
+
+        public Set<LocalizedTextSet> getCachedTextSets() {
+            return Collections.emptySet();
+        }
+    }
 }
