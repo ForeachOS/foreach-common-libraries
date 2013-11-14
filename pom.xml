@@ -132,6 +132,7 @@
             </activation>
             <properties>
                 <sonar.branch>${project.version}</sonar.branch>
+                <sonar.profile>Tools - High tolerance</sonar.profile>
             </properties>
         </profile>
     </profiles>
