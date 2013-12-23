@@ -134,11 +134,11 @@ public class SubClassAllowingRequestHandlerMapping extends DefaultAnnotationHand
 
             if( mappedHandler != resolvedHandler ) {
                 // This is where the magic happens
-                if( handler.getClass().isAssignableFrom( mappedHandler.getClass() ) ) { // handler is superClass
+                if( resolvedHandler.getClass().isAssignableFrom( mappedHandler.getClass() ) ) { // handler is superClass
                     return;
-                } else if( !mappedHandler.getClass().isAssignableFrom( handler.getClass() ) ) {
+                } else if( !mappedHandler.getClass().isAssignableFrom( resolvedHandler.getClass() ) ) {
                     throw new IllegalStateException(
-                            "Cannot map " + getHandlerDescription( handler ) + " to URL path [" + urlPath +
+                            "Cannot map " + getHandlerDescription( resolvedHandler ) + " to URL path [" + urlPath +
                                     "]: There is already " + getHandlerDescription( mappedHandler ) + " mapped and it is not a subclass." );
                 }
             }
@@ -152,22 +152,22 @@ public class SubClassAllowingRequestHandlerMapping extends DefaultAnnotationHand
             } else if( getRootHandler() != null && !getRootHandler().getClass().isAssignableFrom(
                     resolvedHandler.getClass() ) ) {
                 throw new IllegalStateException(
-                        "Cannot map " + getHandlerDescription( handler ) + " to URL path [" + urlPath +
+                        "Cannot map " + getHandlerDescription( resolvedHandler ) + " to URL path [" + urlPath +
                                 "]: There is already " + getHandlerDescription( getRootHandler() ) + " mapped and it is not a subclass." );
             }
             if( logger.isInfoEnabled() ) {
-                logger.info( "Root mapping to " + getHandlerDescription( handler ) );
+                logger.info( "Root mapping to " + getHandlerDescription( resolvedHandler ) );
             }
             setRootHandler( resolvedHandler );
         } else if( urlPath.equals( "/*" ) ) {
             if( logger.isInfoEnabled() ) {
-                logger.info( "Default mapping to " + getHandlerDescription( handler ) );
+                logger.info( "Default mapping to " + getHandlerDescription( resolvedHandler ) );
             }
             setDefaultHandler( resolvedHandler );
         } else {
             this.handlerMap.put( urlPath, resolvedHandler );
             if( logger.isInfoEnabled() ) {
-                logger.info( "Mapped URL path [" + urlPath + "] onto " + getHandlerDescription( handler ) );
+                logger.info( "Mapped URL path [" + urlPath + "] onto " + getHandlerDescription( resolvedHandler ) );
             }
         }
     }
