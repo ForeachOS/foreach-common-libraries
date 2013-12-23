@@ -4,15 +4,14 @@ import com.foreach.web.mapper.SubClassAllowingRequestHandlerMapping;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.runners.statements.ExpectException;
 import org.springframework.beans.BeansException;
 import org.springframework.web.servlet.HandlerExecutionChain;
 
 import javax.management.AttributeList;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TestSubClassAllowingRequestHandlerMapping {
@@ -70,7 +69,6 @@ public class TestSubClassAllowingRequestHandlerMapping {
         mapper.registerHandler( url, handler2 );
         mapper.registerHandler( url, handler1);
 
-        HandlerExecutionChain actual = ( HandlerExecutionChain ) mapper.lookupHandler( url, null );
         Assert.assertSame(handler2, mapper.getRootHandler() );
     }
 
@@ -83,7 +81,6 @@ public class TestSubClassAllowingRequestHandlerMapping {
         mapper.registerHandler( url, handler1);
         mapper.registerHandler( url, handler2 );
 
-        HandlerExecutionChain actual = ( HandlerExecutionChain ) mapper.lookupHandler( url, null );
         Assert.assertSame(handler2, mapper.getRootHandler() );
     }
 
