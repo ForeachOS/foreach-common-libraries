@@ -19,124 +19,143 @@ import java.util.Map;
  * <p>A LocalizedTextSet is hooked to a LocalizedTextService that should provide the actual implementation of
  * the LocalizedText backend.  Things like creating default values, saving in database, etc.</p>
  */
-public class LocalizedTextSetImpl implements LocalizedTextSet
-{
-	private final String application, group;
-	private final LocalizedTextService localizedTextService;
-	private Map<String, LocalizedText> textMap = new HashMap<String, LocalizedText>();
+public class LocalizedTextSetImpl implements LocalizedTextSet {
+    private final String application, group;
+    private final LocalizedTextService localizedTextService;
+    private Map<String, LocalizedText> textMap = new HashMap<String, LocalizedText>();
 
-	/**
-	 * <p>Constructs a new LocalizedTextSet based on a collection of items.  The collection may contain duplicates
-	 * but in case of multiples the item with the highest index in the collection will be retained.</p>
-	 *
-	 * @param application          Name of the application that new items in this set should be created in.
-	 * @param group                Name of the group that new items in this set should be created in.
-	 * @param localizedTextService Service owning this set, where callbacks will occur based on set modifications.
-	 */
-	protected LocalizedTextSetImpl( String application, String group, LocalizedTextService localizedTextService ) {
-		this.application = application;
-		this.group = group;
-		this.localizedTextService = localizedTextService;
+    /**
+     * <p>Constructs a new LocalizedTextSet based on a collection of items.  The collection may contain duplicates
+     * but in case of multiples the item with the highest index in the collection will be retained.</p>
+     *
+     * @param application          Name of the application that new items in this set should be created in.
+     * @param group                Name of the group that new items in this set should be created in.
+     * @param localizedTextService Service owning this set, where callbacks will occur based on set modifications.
+     */
+    protected LocalizedTextSetImpl( String application, String group, LocalizedTextService localizedTextService ) {
+        this.application = application;
+        this.group = group;
+        this.localizedTextService = localizedTextService;
 
-		reload();
-	}
+        reload();
+    }
 
-	/**
-	 * @return The application this set belongs to, new items in this set will be created in this application.
-	 */
-	public final String getApplication() {
-		return application;
-	}
+    /**
+     * @return The application this set belongs to, new items in this set will be created in this application.
+     */
+    public final String getApplication() {
+        return application;
+    }
 
-	/**
-	 * @return The group this set represents, new items in this set will be created in this group.
-	 */
-	public final String getGroup() {
-		return group;
-	}
+    /**
+     * @return The group this set represents, new items in this set will be created in this group.
+     */
+    public final String getGroup() {
+        return group;
+    }
 
-	/**
-	 * @return The LocalizedTextService this set is linked to.
-	 */
-	final LocalizedTextService getLocalizedTextService() {
-		return localizedTextService;
-	}
+    /**
+     * @return The LocalizedTextService this set is linked to.
+     */
+    final LocalizedTextService getLocalizedTextService() {
+        return localizedTextService;
+    }
 
-	/**
-	 * @return All items in this set.
-	 */
-	public final Collection<LocalizedText> getItems() {
-		return textMap.values();
-	}
+    /**
+     * @return All items in this set.
+     */
+    public final Collection<LocalizedText> getItems() {
+        return textMap.values();
+    }
 
-	/**
-	 * Returns the value for a specific language of a text item.  If the text item is found and it is the first time
-	 * it has been requested (based on the Used property of {@link LocalizedText}), this method will trigger a
-	 * flagAsUsed call on the {@link LocalizedTextService} provided.
-	 *
-	 * @param label    Label of the text item.
-	 * @param language Language for which we want the value.
-	 * @return Value as a string.
-	 */
-	public final String getText( String label, Language language ) {
-		return getText( label, language, null );
-	}
+    /**
+     * Returns the value for a specific language of a text item.  If the text item is found and it is the first time
+     * it has been requested (based on the Used property of {@link LocalizedText}), this method will trigger a
+     * flagAsUsed call on the {@link LocalizedTextService} provided.
+     *
+     * @param label    Label of the text item.
+     * @param language Language for which we want the value.
+     * @return Value as a string.
+     */
+    public final String getText( String label, Language language ) {
+        return getText( label, language, null );
+    }
 
-	/**
-	 * Returns the value for a specific language of a text item.  If the text item is found and it is the first time
-	 * it has been requested (based on the Used property of {@link LocalizedText}), this method will trigger a
-	 * flagAsUsed call on the {@link LocalizedTextService} provided.
-	 *
-	 * @param label        Label of the text item.
-	 * @param language     Language for which we want the value.
-	 * @param defaultValue Value to return in case the text item does not yet exist.
-	 * @return Value as a string.
-	 */
-	public final String getText( String label, Language language, String defaultValue ) {
-		LocalizedText text = textMap.get( label );
+    /**
+     * Returns the value for a specific language of a text item.  If the text item is found and it is the first time
+     * it has been requested (based on the Used property of {@link LocalizedText}), this method will trigger a
+     * flagAsUsed call on the {@link LocalizedTextService} provided.
+     *
+     * @param label        Label of the text item.
+     * @param language     Language for which we want the value.
+     * @param defaultValue Value to return in case the text item does not yet exist.
+     * @return Value as a string.
+     */
+    public final String getText( String label, Language language, String defaultValue ) {
+        return getText( label, language, defaultValue, true );
+    }
 
-		// If the requested item doesn't exist, assume it should and create it
-		if ( text == null ) {
-			text = localizedTextService.saveDefaultText( application, group, label, defaultValue );
-			textMap.put( text.getLabel(), text );
-		}
+    /**
+     * Returns the value for a specific language of a text item.  If the text item is found and it is the first time
+     * it has been requested (based on the Used property of {@link LocalizedText}), this method will trigger a
+     * flagAsUsed call on the {@link LocalizedTextService} provided.
+     *
+     * @param label        Label of the text item.
+     * @param language     Language for which we want the value.
+     * @param defaultValue Value to return in case the text item does not yet exist.
+     * @param storeDefault Whether the default value should be stored when not found.
+     * @return Value as a string.
+     */
+    public String getText( String label, Language language, String defaultValue, boolean storeDefault ) {
+        LocalizedText text = textMap.get( label );
 
-		// Upon first use, flag the text as being used
-		if ( !text.isUsed() ) {
-			text.setUsed( true );
-			localizedTextService.flagAsUsed( text );
-		}
+        // If the requested item doesn't exist, assume it should and create it
+        if( text == null && storeDefault ) {
+            text = localizedTextService.saveDefaultText( application, group, label, defaultValue );
+            textMap.put( text.getLabel(), text );
+        }
 
-		return text.getFieldsForLanguage( language ).getText();
-	}
+        String result = null;
 
-	/**
-	 * @param label Label of the item to search for.
-	 * @return True if the item exists in this set, false if not.
-	 */
-	public final boolean exists( String label ) {
-		return textMap.containsKey( label );
-	}
+        // Upon first use, flag the text as being used
+        if( text != null ) {
+            if( !text.isUsed() ) {
+                text.setUsed( true );
+                localizedTextService.flagAsUsed( text );
+            }
+            result = text.getFieldsForLanguage( language ).getText();
+        }
 
-	/**
-	 * @return Number of items (different label) in the set.
-	 */
-	public final int size() {
-		return textMap.size();
-	}
+        return result;
+    }
 
-	/**
-	 * Reloads all items in this set from the backing data store.
-	 */
+    /**
+     * @param label Label of the item to search for.
+     * @return True if the item exists in this set, false if not.
+     */
+    public final boolean exists( String label ) {
+        return textMap.containsKey( label );
+    }
 
-	public final void reload() {
-		HashMap<String, LocalizedText> updatedMap = new HashMap<String, LocalizedText>();
-		List<LocalizedText> items = localizedTextService.getLocalizedTextItems( application, group );
+    /**
+     * @return Number of items (different label) in the set.
+     */
+    public final int size() {
+        return textMap.size();
+    }
 
-		for ( LocalizedText text : items ) {
-			updatedMap.put( text.getLabel(), text );
-		}
+    /**
+     * Reloads all items in this set from the backing data store.
+     */
 
-		textMap = updatedMap;
-	}
+    public final void reload() {
+        HashMap<String, LocalizedText> updatedMap = new HashMap<String, LocalizedText>();
+        List<LocalizedText> items = localizedTextService.getLocalizedTextItems( application, group );
+
+        for( LocalizedText text : items ) {
+            updatedMap.put( text.getLabel(), text );
+        }
+
+        textMap = updatedMap;
+    }
 }
