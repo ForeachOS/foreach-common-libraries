@@ -9,6 +9,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -44,7 +45,7 @@ public class TestLocalizedTextWrapper {
         localizedTextWrapper.merge( localizedTextInitial );
 
         assertEquals( true, localizedTextWrapper.hasChanged() );
-        assertEquals( initialDate, localizedTextWrapper.getLocalizedText().getUpdated() );
+        assertEquals(DateUtils.truncate( initialDate, Calendar.SECOND), DateUtils.truncate( localizedTextWrapper.getLocalizedText().getUpdated(), Calendar.SECOND) );
     }
 
     @Test
