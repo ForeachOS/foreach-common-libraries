@@ -69,9 +69,13 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
      */
     @SuppressWarnings( "unchecked" )
     public <O> O getValue( T property, Class<O> expectedType ) {
-        Object originalValue = source.get( property );
+        if( source.containsKey( property ) ) {
+            Object originalValue = source.get( property );
 
-        return conversionService.convert( originalValue, expectedType );
+            return conversionService.convert( originalValue, expectedType );
+        } else {
+            return (O) propertyTypeRegistry.getDefaultValueForProperty( property );
+        }
     }
 
     /**

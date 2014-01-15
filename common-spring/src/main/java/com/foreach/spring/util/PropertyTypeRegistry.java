@@ -1,5 +1,6 @@
 package com.foreach.spring.util;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,7 +13,25 @@ import java.util.TreeMap;
 public class PropertyTypeRegistry<T> {
     private Class classForUnknownProperties = String.class;
 
-    private final Map<T, Class> definitions = new TreeMap<T, Class>();
+    private final Map<T, PropertyTypeRecord> definitions = new TreeMap<T, PropertyTypeRecord>();
+
+    private static class PropertyTypeRecord {
+        private final Class propertyType;
+        private final Object defaultValue;
+
+        private PropertyTypeRecord( Class propertyType, Object defaultValue ) {
+            this.propertyType = propertyType;
+            this.defaultValue = defaultValue;
+        }
+
+        public Class getPropertyType() {
+            return propertyType;
+        }
+
+        public Object getDefaultValue() {
+            return defaultValue;
+        }
+    }
 
     public PropertyTypeRegistry() {
     }
@@ -22,7 +41,11 @@ public class PropertyTypeRegistry<T> {
     }
 
     public void register( T propertyKey, Class propertyClass ) {
-        definitions.put( propertyKey, propertyClass );
+        register( propertyKey, propertyClass, null );
+    }
+
+    public <A> void register( T propertyKey, Class<A> propertyClass, A propertyValue ) {
+        definitions.put( propertyKey, new PropertyTypeRecord( propertyClass, propertyValue ) );
     }
 
     public void unregister( T propertyKey ) {
@@ -30,13 +53,23 @@ public class PropertyTypeRegistry<T> {
     }
 
     public Class getClassForProperty( T propertyKey ) {
-        Class actual = definitions.get( propertyKey );
+        PropertyTypeRecord actual = definitions.get( propertyKey );
 
-        if( actual == null ) {
-            actual = getClassForUnknownProperties();
+        if( actual != null ) {
+            return actual.getPropertyType();
         }
 
-        return actual;
+        return getClassForUnknownProperties();
+    }
+
+    public Object getDefaultValueForProperty( T propertyKey ) {
+        PropertyTypeRecord actual = definitions.get( propertyKey );
+
+        if( actual != null ) {
+            return actual.getDefaultValue();
+        }
+
+        return null;
     }
 
     public Class getClassForUnknownProperties() {
@@ -54,8 +87,8 @@ public class PropertyTypeRegistry<T> {
         return definitions.containsKey( propertyKey );
     }
 
-    public Map<T, Class> getRegisteredProperties() {
-        return Collections.unmodifiableMap( definitions );
+    public Collection<T> getRegisteredProperties() {
+        return definitions.keySet();
     }
 
     public boolean isEmpty() {

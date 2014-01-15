@@ -60,6 +60,31 @@ public class TestTypedPropertyMap {
     }
 
     @Test
+    public void ifNoDefaultValuesSpecifiedNullIsReturned() {
+        map.clear();
+
+        assertNull( map.getValue( "date" ) );
+        assertNull( map.getValue( "decimal" ) );
+        assertNull( map.getValue( "number" ) );
+        assertNull( map.getValue( "text" ) );
+    }
+
+    @Test
+    public void defaultValueAreReturnedIfValueNotSet() {
+        map.clear();
+
+        registry.register( "date", Date.class, new Date( 0 ) );
+        registry.register( "decimal", BigDecimal.class, new BigDecimal( 10 ) );
+        registry.register( "number", Integer.class, -1 );
+        registry.register( "text", String.class, "" );
+
+        assertEquals( new Date( 0 ), map.getValue( "date" ) );
+        assertEquals( new BigDecimal( 10 ), map.getValue( "decimal" ) );
+        assertEquals( -1, map.getValue( "number" ) );
+        assertEquals( "", map.getValue( "text" ) );
+    }
+
+    @Test
     public void propertyValuesReturnedAsTypeRegistered() {
         registry.register( "date", Date.class );
         registry.register( "decimal", BigDecimal.class );
