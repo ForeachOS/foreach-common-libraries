@@ -18,13 +18,15 @@ import java.util.*;
  * @param <T> The type of the property key (most often String).
  * @see com.foreach.spring.util.CachingTypedPropertyMap
  * @see com.foreach.spring.util.PropertyTypeRegistry
+ * @see com.foreach.spring.util.PropertiesSource
  * @see org.springframework.core.convert.ConversionService
  */
 public class TypedPropertyMap<T> implements Map<T, Object> {
     private final PropertyTypeRegistry<T> propertyTypeRegistry;
     private final ConversionService conversionService;
-    private final Map source;
     private final Class sourceValueClass;
+
+    private final PropertiesSource source;
 
     /**
      * Construct a new TypedPropertyMap.
@@ -36,6 +38,23 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
      */
     public TypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry, ConversionService conversionService,
                              Map<T, ?> source, Class sourceValueClass ) {
+        this.propertyTypeRegistry = propertyTypeRegistry;
+        this.conversionService = conversionService;
+        this.source = new DirectPropertiesSource<T>( source );
+        this.sourceValueClass = sourceValueClass;
+    }
+
+    /**
+     * Construct a new TypedPropertyMap.
+     *
+     * @param propertyTypeRegistry Registry that contains the property keys with their corresponding type.
+     * @param conversionService    ConversionService implementation that will be used to convert types.
+     * @param source               Backing source proxy containing the stored values.
+     * @param sourceValueClass     Class to use when setting values on the source map.
+     * @see com.foreach.spring.util.PropertiesSource
+     */
+    public TypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry, ConversionService conversionService,
+                             PropertiesSource source, Class sourceValueClass ) {
         this.propertyTypeRegistry = propertyTypeRegistry;
         this.conversionService = conversionService;
         this.source = source;
@@ -51,7 +70,7 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
      * @param <O>      Strong type value to return, the must registered type for the property must be able to cast to this type!
      * @return Strong typed instance of the property.
      */
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public <O> O getValue( T property ) {
         Class actualType = propertyTypeRegistry.getClassForProperty( property );
 
@@ -67,14 +86,14 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
      * @param <O>          Strong type value to return.
      * @return Strong typed instance of the property.
      */
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public <O> O getValue( T property, Class<O> expectedType ) {
-        if( source.containsKey( property ) ) {
-            Object originalValue = source.get( property );
+        if( source.getProperties().containsKey( property ) ) {
+            Object originalValue = source.getProperties().get( property );
 
             return conversionService.convert( originalValue, expectedType );
         } else {
-            return (O) propertyTypeRegistry.getDefaultValueForProperty( property );
+            return ( O ) propertyTypeRegistry.getDefaultValueForProperty( property );
         }
     }
 
@@ -84,29 +103,30 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
      * @param property Key of the property.
      * @param value    Strong type value to set the property to.
      */
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public Object set( T property, Object value ) {
         Object convertedValue = conversionService.convert( value, sourceValueClass );
 
-        return source.put( property, convertedValue );
+        return source.getProperties().put( property, convertedValue );
     }
 
     public int size() {
-        return source.size();
+        return source.getProperties().size();
     }
 
     public boolean isEmpty() {
-        return source.isEmpty();
+        return source.getProperties().isEmpty();
     }
 
     public boolean containsKey( Object key ) {
-        return source.containsKey( key );
+        return source.getProperties().containsKey( key );
     }
 
     public boolean containsValue( Object value ) {
         return values().contains( value );
     }
 
+    @SuppressWarnings( "unchecked" )
     public Object get( Object key ) {
         return getValue( ( T ) key );
     }
@@ -116,7 +136,7 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
     }
 
     public Object remove( Object key ) {
-        return source.remove( key );
+        return source.getProperties().remove( key );
     }
 
     public void putAll( Map<? extends T, ?> m ) {
@@ -126,7 +146,7 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
     }
 
     public void clear() {
-        source.clear();
+        source.getProperties().clear();
     }
 
     public Set<T> keySet() {
@@ -156,7 +176,7 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
 
         final TypedPropertyMap<T> myself = this;
 
-        for( final Object key : source.keySet() ) {
+        for( final Object key : source.getProperties().keySet() ) {
             entries.add( new Entry<T, Object>() {
                 public T getKey() {
                     return ( T ) key;
