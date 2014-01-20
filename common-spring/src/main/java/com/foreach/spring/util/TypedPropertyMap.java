@@ -21,12 +21,12 @@ import java.util.*;
  * @see com.foreach.spring.util.PropertiesSource
  * @see org.springframework.core.convert.ConversionService
  */
-public class TypedPropertyMap<T> implements Map<T, Object> {
-    private final PropertyTypeRegistry<T> propertyTypeRegistry;
-    private final ConversionService conversionService;
-    private final Class sourceValueClass;
+public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable {
+    protected final PropertyTypeRegistry<T> propertyTypeRegistry;
+    protected final ConversionService conversionService;
+    protected final Class sourceValueClass;
 
-    private final PropertiesSource source;
+    protected final PropertiesSource source;
 
     /**
      * Construct a new TypedPropertyMap.
@@ -42,6 +42,13 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
         this.conversionService = conversionService;
         this.source = new DirectPropertiesSource<T>( source );
         this.sourceValueClass = sourceValueClass;
+    }
+
+    /**
+     * @return The source backing these typed property map.
+     */
+    public PropertiesSource getSource() {
+        return source;
     }
 
     /**
@@ -126,7 +133,7 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
         return values().contains( value );
     }
 
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public Object get( Object key ) {
         return getValue( ( T ) key );
     }
@@ -172,12 +179,12 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
     }
 
     public Set<Entry<T, Object>> entrySet() {
-        Set<Entry<T, Object>> entries = new TreeSet<Entry<T, Object>>();
+        Set<Entry<T, Object>> entries = new HashSet<Entry<T, Object>>();
 
         final TypedPropertyMap<T> myself = this;
 
         for( final Object key : source.getProperties().keySet() ) {
-            entries.add( new Entry<T, Object>() {
+            entries.add( new Entry<T, Object>()  {
                 public T getKey() {
                     return ( T ) key;
                 }
@@ -193,5 +200,20 @@ public class TypedPropertyMap<T> implements Map<T, Object> {
         }
 
         return entries;
+    }
+
+    /**
+     * Creates a duplicate of the TypedPropertyMap with its own property source, but the
+     * same registry and conversionService.
+     *
+     * @return Detached duplicate of the current map.
+     */
+    public TypedPropertyMap<T> detach() {
+        Map<T, Object> sourceCopy = new HashMap<T, Object>();
+        for( Entry<T, Object> entry : entrySet() ) {
+            sourceCopy.put( entry.getKey(), entry.getValue() );
+        }
+
+        return new TypedPropertyMap<T>( propertyTypeRegistry, conversionService, sourceCopy, sourceValueClass );
     }
 }

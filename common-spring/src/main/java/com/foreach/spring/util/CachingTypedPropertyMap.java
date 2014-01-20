@@ -57,4 +57,20 @@ public class CachingTypedPropertyMap<T> extends TypedPropertyMap<T> {
     public void refresh() {
         cachedValues.clear();
     }
+
+    /**
+     * Creates a duplicate of the TypedPropertyMap with its own property source, but the
+     * same registry and conversionService.
+     *
+     * @return Detached duplicate of the current map.
+     */
+    @Override
+    public TypedPropertyMap<T> detach() {
+        Map<T, Object> sourceCopy = new HashMap<T, Object>();
+        for( Entry<T, Object> entry : entrySet() ) {
+            sourceCopy.put( entry.getKey(), entry.getValue() );
+        }
+
+        return new CachingTypedPropertyMap<T>( propertyTypeRegistry, conversionService, sourceCopy, sourceValueClass );
+    }
 }

@@ -19,11 +19,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
-@RunWith( SpringJUnit4ClassRunner.class )
-@ContextConfiguration( classes = TestTypedPropertyMap.Config.class )
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = TestTypedPropertyMap.Config.class)
 @DirtiesContext
 public class TestTypedPropertyMap {
 
@@ -169,6 +168,18 @@ public class TestTypedPropertyMap {
         number = map.getValue( "number" );
         assertEquals( 100, number.intValue() );
         assertEquals( number, map.get( "number" ) );
+    }
+
+    @Test
+    public void detachedCopyHasAnotherSource() {
+        assertSame( source, map.getSource().getProperties() );
+
+        TypedPropertyMap<String> detached = map.detach();
+        assertSame( source, map.getSource().getProperties() );
+        assertNotSame( source, detached.getSource().getProperties() );
+
+        assertEquals( source, map.getSource().getProperties() );
+        assertEquals( source, detached.getSource().getProperties() );
     }
 
     @Configuration
