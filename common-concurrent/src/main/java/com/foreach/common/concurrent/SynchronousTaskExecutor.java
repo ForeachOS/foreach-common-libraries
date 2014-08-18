@@ -100,6 +100,7 @@ public class SynchronousTaskExecutor implements ExecutorService
 			return new PreComputedFuture<T>( task.call(), null );
 		}
 		catch ( Exception e ) {
+			e.printStackTrace();
 			return new PreComputedFuture<T>( null, e );
 		}
 	}
@@ -115,6 +116,7 @@ public class SynchronousTaskExecutor implements ExecutorService
 			return new PreComputedFuture<T>( result, null );
 		}
 		catch ( Exception e ) {
+			e.printStackTrace();
 			return new PreComputedFuture<T>( null, e );
 		}
 	}

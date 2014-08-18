@@ -48,6 +48,7 @@ public class TestSynchronousTaskExecutor
 				Thread.sleep( delay );
 			}
 			catch ( InterruptedException ie ) {
+				ie.printStackTrace();
 			}
 		}
 	}
@@ -66,6 +67,7 @@ public class TestSynchronousTaskExecutor
 				return new Integer( delay );
 			}
 			catch ( InterruptedException ie ) {
+				ie.printStackTrace();
 				return null;
 			}
 		}
