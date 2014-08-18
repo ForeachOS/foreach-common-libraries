@@ -3,7 +3,7 @@ package com.foreach.spring.util;
 import java.util.Map;
 
 /**
- * Simple PropertieSource that proxies acces to an underlying Map implementation.
+ * Simple PropertieSource that proxies access to an underlying Map implementation.
  *
  * @param <T> Type of the map keys.
  */
