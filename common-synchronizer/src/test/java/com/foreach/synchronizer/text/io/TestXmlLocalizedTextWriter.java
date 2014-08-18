@@ -1,6 +1,6 @@
 package com.foreach.synchronizer.text.io;
 
-import com.foreach.spring.localization.LanguageConfigurator;
+import com.foreach.common.spring.localization.LanguageConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 

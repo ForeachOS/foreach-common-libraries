@@ -9,6 +9,11 @@
 		<version>0.9-SNAPSHOT</version>
 	</parent>
 	<dependencies>
+		<dependency>
+			<groupId>com.foreach.libs</groupId>
+			<artifactId>common-concurrent</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>log4j</groupId>

@@ -22,6 +22,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="common-concurrent" />
         <module name="common-hibernate" />
         <module name="common-mybatis" />
         <module name="common-spring" />
@@ -31,6 +32,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="common-concurrent" target="1.5" />
       <module name="common-hibernate" target="1.5" />
       <module name="common-mybatis" target="1.5" />
       <module name="common-projects" target="1.5" />

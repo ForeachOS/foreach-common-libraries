@@ -2,7 +2,7 @@ package com.foreach.synchronizer.text;
 
 import com.foreach.synchronizer.text.actions.DownloadAction;
 import com.foreach.synchronizer.text.actions.SynchronizerAction;
-import com.foreach.test.MockedLoader;
+import com.foreach.common.test.MockedLoader;
 import org.apache.commons.cli.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;

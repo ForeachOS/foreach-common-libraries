@@ -1,7 +1,7 @@
 package com.foreach.synchronizer.text.actions;
 
-import com.foreach.spring.localization.text.LocalizedText;
-import com.foreach.spring.localization.text.LocalizedTextService;
+import com.foreach.common.spring.localization.text.LocalizedText;
+import com.foreach.common.spring.localization.text.LocalizedTextService;
 import com.foreach.synchronizer.text.io.LocalizedTextFileHandler;
 import com.foreach.synchronizer.text.io.LocalizedTextFormat;
 import com.foreach.synchronizer.text.io.LocalizedTextReader;

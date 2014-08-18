@@ -1,6 +1,6 @@
 package com.foreach.synchronizer.text.io;
 
-import com.foreach.test.MockedLoader;
+import com.foreach.common.test.MockedLoader;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;

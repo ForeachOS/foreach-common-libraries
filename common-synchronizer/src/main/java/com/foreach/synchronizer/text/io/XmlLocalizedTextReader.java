@@ -1,6 +1,6 @@
 package com.foreach.synchronizer.text.io;
 
-import com.foreach.spring.localization.text.LocalizedText;
+import com.foreach.common.spring.localization.text.LocalizedText;
 import com.foreach.synchronizer.text.PersistentLanguageText;
 import com.foreach.synchronizer.text.PersistentLocalizedText;
 import com.thoughtworks.xstream.XStream;
