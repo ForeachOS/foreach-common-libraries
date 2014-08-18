@@ -8,11 +8,11 @@
 	<changeSet id="201408131608" author="arne">
 		<preConditions onFail="MARK_RAN">
 			<not>
-				<tableExists tableName="across_locks"/>
+				<tableExists tableName="test_locks"/>
 			</not>
 		</preConditions>
-		<comment>Creates across_locks table</comment>
-		<createTable tableName="across_locks">
+		<comment>Creates test_locks table</comment>
+		<createTable tableName="test_locks">
 			<column name="lock_id" type="java.sql.Types.VARCHAR(120)">
 				<constraints nullable="false" primaryKey="true"/>
 			</column>
@@ -23,6 +23,9 @@
 				<constraints nullable="false"/>
 			</column>
 			<column name="updated" type="java.sql.Types.BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="holds" type="java.sql.Types.INTEGER" defaultValueNumeric="0">
 				<constraints nullable="false"/>
 			</column>
 		</createTable>

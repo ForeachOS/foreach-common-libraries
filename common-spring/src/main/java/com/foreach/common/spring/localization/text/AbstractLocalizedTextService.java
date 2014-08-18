@@ -1,5 +1,6 @@
 package com.foreach.common.spring.localization.text;
 
+import com.foreach.common.concurrent.locks.ObjectLock;
 import com.foreach.common.concurrent.locks.ObjectLockRepository;
 import com.foreach.common.concurrent.locks.ReentrantObjectLock;
 import com.foreach.common.concurrent.SynchronousTaskExecutor;
@@ -93,7 +94,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
         LocalizedTextSet textSet = textSetCache.getLocalizedTextSet( application, group );
 
         if( textSet == null ) {
-            ReentrantObjectLock<String> writeLock = textSetFetchLocks.getLock( application + group );
+            ObjectLock<String> writeLock = textSetFetchLocks.getLock( application + group );
             try {
                 writeLock.lock();
 
@@ -106,7 +107,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
                 }
 
             } finally {
-                writeLock.release();
+                writeLock.unlock();
             }
         }
 

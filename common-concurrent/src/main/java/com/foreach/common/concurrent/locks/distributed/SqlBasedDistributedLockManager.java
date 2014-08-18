@@ -28,89 +28,59 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 {
 	private static final Logger LOG = LoggerFactory.getLogger( SqlBasedDistributedLockManager.class );
 
-	/**
-	 * Number of milliseconds between tries for acquiring a lock.
-	 */
-	public static final long DEFAULT_RETRY_INTERVAL = 533;
-
-	/**
-	 * Number of milliseconds between monitor runs that will update all actively held locks.
-	 */
-	public static final long DEFAULT_VERIFY_INTERVAL = 3000;
-
-	/**
-	 * Number of milliseconds that a held lock can go without update before another owner can steal it.
-	 */
-	public static final long DEFAULT_MAX_IDLE_BEFORE_STEAL = 15000;
-
-	/**
-	 * Number of milliseconds a lock record should be unlocked before it gets actually deleted from the store.
-	 */
-	public static final long DEFAULT_MIN_AGE_BEFORE_DELETE = 3600000;
-
-	/**
-	 * Number of milliseconds between running the database cleanup.
-	 */
-	public static final long DEFAULT_CLEANUP_INTERVAL = 900000;
-
-	private static final String SQL_TAKE_LOCK = "UPDATE across_locks " +
+	private static final String SQL_TAKE_LOCK = "UPDATE %s " +
 			"SET owner_id = ?, created = ?, updated = ? " +
 			"WHERE lock_id = ? AND (owner_id IS NULL OR owner_id = ?)";
-	private static final String SQL_STEAL_LOCK = "UPDATE across_locks " +
+	private static final String SQL_STEAL_LOCK = "UPDATE %s " +
 			"SET owner_id = ?, created = ?, updated = ? " +
 			"WHERE lock_id = ? AND (owner_id IS NULL OR (owner_id = ? AND updated = ?))";
 
 	private static final String SQL_SELECT_LOCK = "SELECT lock_id, owner_id, created, updated " +
-			"FROM across_locks " +
+			"FROM %s " +
 			"WHERE lock_id = ?";
-	private static final String SQL_INSERT_LOCK = "INSERT INTO across_locks (lock_id, owner_id, created, updated) " +
+	private static final String SQL_INSERT_LOCK = "INSERT INTO %s (lock_id, owner_id, created, updated) " +
 			"VALUES (?,?,?,?)";
-	private static final String SQL_RELEASE_LOCK = "UPDATE across_locks " +
+	private static final String SQL_RELEASE_LOCK = "UPDATE %s " +
 			"SET owner_id = NULL " +
 			"WHERE lock_id = ? AND owner_id = ?";
-	private static final String SQL_VERIFY_LOCK = "UPDATE across_locks " +
+	private static final String SQL_VERIFY_LOCK = "UPDATE %s " +
 			"SET updated = ? " +
 			"WHERE lock_id = ? AND owner_id = ?";
-	private static final String SQL_CLEANUP = "DELETE FROM across_locks WHERE owner_id IS NULL AND updated < ?";
+	private static final String SQL_CLEANUP = "DELETE FROM %s WHERE owner_id IS NULL AND updated < ?";
+
+	private final String sqlTakeLock, sqlStealLock, sqlSelectLock, sqlInsertLock, sqlReleaseLock, sqlVerifyLock,
+			sqlCleanup;
 
 	private final ScheduledExecutorService monitorThread = Executors.newSingleThreadScheduledExecutor();
 
-	private final long retryInterval;
-	private final long verifyInterval;
-	private final long maxIdleBeforeSteal;
-	private final long cleanupInterval;
-	private final long cleanupAge;
-
+	private final SqlBasedDistributedLockConfiguration configuration;
 	private final JdbcTemplate jdbcTemplate;
 	private final SqlBasedDistributedLockMonitor lockMonitor;
 
 	private boolean destroyed = false;
 
-	public SqlBasedDistributedLockManager( DataSource dataSource ) {
-		this( dataSource, DEFAULT_RETRY_INTERVAL,
-		      DEFAULT_VERIFY_INTERVAL,
-		      DEFAULT_MAX_IDLE_BEFORE_STEAL,
-		      DEFAULT_CLEANUP_INTERVAL,
-		      DEFAULT_MIN_AGE_BEFORE_DELETE );
-	}
-
-	public SqlBasedDistributedLockManager( DataSource dataSource,
-	                                       long retryInterval,
-	                                       long verifyInterval,
-	                                       long maxIdleBeforeSteal,
-	                                       long cleanupInterval,
-	                                       long cleanupAge ) {
-		this.retryInterval = retryInterval;
-		this.verifyInterval = verifyInterval;
-		this.maxIdleBeforeSteal = maxIdleBeforeSteal;
-		this.cleanupInterval = cleanupInterval;
-		this.cleanupAge = cleanupAge;
+	public SqlBasedDistributedLockManager( DataSource dataSource, SqlBasedDistributedLockConfiguration configuration ) {
+		this.configuration = configuration;
 
 		jdbcTemplate = new JdbcTemplate( dataSource );
 		lockMonitor = new SqlBasedDistributedLockMonitor( this );
 
-		monitorThread.scheduleWithFixedDelay( lockMonitor, verifyInterval, verifyInterval, TimeUnit.MILLISECONDS );
-		monitorThread.scheduleWithFixedDelay( new CleanupMonitor(), 0, cleanupInterval, TimeUnit.MILLISECONDS );
+		monitorThread.scheduleWithFixedDelay( lockMonitor, configuration.getVerifyInterval(),
+		                                      configuration.getVerifyInterval(), TimeUnit.MILLISECONDS );
+		monitorThread.scheduleWithFixedDelay( new CleanupMonitor(), 0, configuration.getCleanupInterval(),
+		                                      TimeUnit.MILLISECONDS );
+
+		sqlTakeLock = sql( SQL_TAKE_LOCK );
+		sqlStealLock = sql(SQL_STEAL_LOCK );
+		sqlSelectLock = sql(SQL_SELECT_LOCK);
+		sqlInsertLock = sql(SQL_INSERT_LOCK);
+		sqlReleaseLock = sql(SQL_RELEASE_LOCK);
+		sqlVerifyLock = sql(SQL_VERIFY_LOCK);
+		sqlCleanup = sql(SQL_CLEANUP);
+	}
+
+	private String sql( String template ) {
+		return String.format( template, configuration.getTableName() );
 	}
 
 	class CleanupMonitor implements Runnable
@@ -119,13 +89,14 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		public void run() {
 			try {
 				long cleanupStart = System.currentTimeMillis();
-				long staleRecordsTimestamp = cleanupStart - cleanupAge;
-				int recordsDeleted = jdbcTemplate.update( SQL_CLEANUP, staleRecordsTimestamp );
+				long staleRecordsTimestamp = cleanupStart - configuration.getCleanupAge();
+				int recordsDeleted = jdbcTemplate.update( sqlCleanup, staleRecordsTimestamp );
 
 				LOG.info(
 						"Deleted {} locks that have been unused for {} ms - cleanup time was {} ms, next run in {} ms",
 						recordsDeleted,
-						cleanupAge, System.currentTimeMillis() - cleanupStart, cleanupInterval );
+						configuration.getCleanupAge(), System.currentTimeMillis() - cleanupStart,
+						configuration.getCleanupInterval() );
 			}
 			catch ( Exception e ) {
 				LOG.warn( "Exception trying to cleanup unused locks", e );
@@ -148,7 +119,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 			monitorThread.shutdown();
 
 			try {
-				monitorThread.awaitTermination( verifyInterval * 2, TimeUnit.MILLISECONDS );
+				monitorThread.awaitTermination( configuration.getVerifyInterval() * 2, TimeUnit.MILLISECONDS );
 			}
 			catch ( InterruptedException ie ) {
 				LOG.warn( "Failed to wait for clean shutdown of lock monitor" );
@@ -176,7 +147,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		boolean acquired = tryAcquire( lock );
 
 		while ( !acquired ) {
-			Thread.sleep( retryInterval );
+			Thread.sleep( configuration.getRetryInterval() );
 			acquired = tryAcquire( lock );
 		}
 	}
@@ -187,7 +158,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 
 		boolean acquired = tryAcquire( lock );
 
-		long delay = retryInterval;
+		long delay = configuration.getRetryInterval();
 		long timeRemaining = unit.toMillis( time );
 
 		try {
@@ -225,7 +196,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		LOG.trace( "Owner {} is trying to acquire lock {}", ownerId, lockId );
 
 		long timestamp = System.currentTimeMillis();
-		int updated = jdbcTemplate.update( SQL_TAKE_LOCK, ownerId, timestamp, timestamp, lockId, ownerId );
+		int updated = jdbcTemplate.update( sqlTakeLock, ownerId, timestamp, timestamp, lockId, ownerId );
 
 		if ( updated > 1 ) {
 			throw new DistributedLockException(
@@ -246,10 +217,10 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 				else {
 					timestamp = System.currentTimeMillis();
 					long lastUpdateAge = timestamp - lockInfo.getUpdated();
-					if ( lastUpdateAge > maxIdleBeforeSteal ) {
+					if ( lastUpdateAge > configuration.getMaxIdleBeforeSteal() ) {
 						LOG.trace( "Lock {} was last updated {} ms ago - attempting to steal the lock",
 						           lockId, lastUpdateAge );
-						updated = jdbcTemplate.update( SQL_STEAL_LOCK, ownerId, timestamp, timestamp, lockId,
+						updated = jdbcTemplate.update( sqlStealLock, ownerId, timestamp, timestamp, lockId,
 						                               lockInfo.getOwnerId(), lockInfo.getUpdated() );
 
 						acquired = updated == 1;
@@ -268,7 +239,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 
 				try {
 					timestamp = System.currentTimeMillis();
-					created = jdbcTemplate.update( SQL_INSERT_LOCK, lockId, ownerId, timestamp, timestamp );
+					created = jdbcTemplate.update( sqlInsertLock, lockId, ownerId, timestamp, timestamp );
 				}
 				catch ( DataAccessException dae ) {
 					created = 0;
@@ -327,7 +298,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 
 	private LockInfo getLockInfo( String lockId ) {
 		try {
-			return jdbcTemplate.queryForObject( SQL_SELECT_LOCK,
+			return jdbcTemplate.queryForObject( sqlSelectLock,
 			                                    new Object[] { lockId },
 			                                    new LockInfoMapper() );
 		}
@@ -339,7 +310,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 	@Override
 	public boolean verifyLockedByOwner( String ownerId, String lockId ) {
 		checkDestroyed();
-		return jdbcTemplate.update( SQL_VERIFY_LOCK, System.currentTimeMillis(), lockId, ownerId ) == 1;
+		return jdbcTemplate.update( sqlVerifyLock, System.currentTimeMillis(), lockId, ownerId ) == 1;
 	}
 
 	@Override
@@ -358,7 +329,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 	private void release( String ownerId, String lockId ) {
 		LOG.trace( "Owner {} is releasing lock {}", ownerId, lockId );
 		lockMonitor.removeLock( ownerId, lockId );
-		if ( jdbcTemplate.update( SQL_RELEASE_LOCK, lockId, ownerId ) != 1 ) {
+		if ( jdbcTemplate.update( sqlReleaseLock, lockId, ownerId ) != 1 ) {
 			LOG.trace( "Releasing lock {} failed - possibly it was forcibly taken already", lockId );
 		}
 	}

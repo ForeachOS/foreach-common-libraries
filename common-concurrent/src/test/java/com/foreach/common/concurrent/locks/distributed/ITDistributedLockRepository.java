@@ -260,27 +260,27 @@ public class ITDistributedLockRepository
 		lock.lock();
 
 		long creation = lastUpdated( lock );
-		Thread.sleep( SqlBasedDistributedLockManager.DEFAULT_VERIFY_INTERVAL + 500 );
+		Thread.sleep( SqlBasedDistributedLockConfiguration.DEFAULT_VERIFY_INTERVAL + 500 );
 
 		long updated = lastUpdated( lock );
 		assertTrue( updated > creation );
 
 		creation = updated;
-		Thread.sleep( SqlBasedDistributedLockManager.DEFAULT_VERIFY_INTERVAL + 500 );
+		Thread.sleep( SqlBasedDistributedLockConfiguration.DEFAULT_VERIFY_INTERVAL + 500 );
 
 		assertTrue( lastUpdated( lock ) > creation );
 	}
 
 	private void updateIdleTime( DistributedLock lock, long updated ) {
-		jdbcTemplate.update( "UPDATE across_locks SET updated = ? WHERE lock_id = ?", updated, lock.getKey() );
+		jdbcTemplate.update( "UPDATE test_locks SET updated = ? WHERE lock_id = ?", updated, lock.getKey() );
 	}
 
 	private int lockCount() {
-		return jdbcTemplate.queryForObject( "SELECT count(*) FROM across_locks", Integer.class );
+		return jdbcTemplate.queryForObject( "SELECT count(*) FROM test_locks", Integer.class );
 	}
 
 	private long lastUpdated( DistributedLock lock ) {
-		return jdbcTemplate.queryForObject( "SELECT updated FROM across_locks WHERE lock_id = ?", Long.class,
+		return jdbcTemplate.queryForObject( "SELECT updated FROM test_locks WHERE lock_id = ?", Long.class,
 		                                    lock.getKey() );
 	}
 
@@ -295,7 +295,8 @@ public class ITDistributedLockRepository
 		dataSource.setUsername( "sa" );
 		dataSource.setPassword( "" );
 
-		SqlBasedDistributedLockManager lockManager = new SqlBasedDistributedLockManager( dataSource );
+		SqlBasedDistributedLockConfiguration configuration = new SqlBasedDistributedLockConfiguration( "test_locks" );
+		SqlBasedDistributedLockManager lockManager = new SqlBasedDistributedLockManager( dataSource, configuration );
 		lockManagers.add( lockManager );
 
 		return new DistributedLockRepositoryImpl( lockManager,
