@@ -32,14 +32,14 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="common-concurrent" target="1.5" />
-      <module name="common-hibernate" target="1.5" />
-      <module name="common-mybatis" target="1.5" />
-      <module name="common-projects" target="1.5" />
-      <module name="common-spring" target="1.5" />
-      <module name="common-synchronizer" target="1.5" />
-      <module name="common-test" target="1.5" />
-      <module name="common-web" target="1.5" />
+      <module name="common-concurrent" target="1.7" />
+      <module name="common-hibernate" target="1.7" />
+      <module name="common-mybatis" target="1.7" />
+      <module name="common-projects" target="1.7" />
+      <module name="common-spring" target="1.7" />
+      <module name="common-synchronizer" target="1.7" />
+      <module name="common-test" target="1.7" />
+      <module name="common-web" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

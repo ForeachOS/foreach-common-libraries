@@ -1,8 +1,9 @@
 package com.foreach.common.spring.localization.text;
 
-import com.foreach.common.concurrent.ObjectLock;
-import com.foreach.common.concurrent.ObjectLockRepository;
+import com.foreach.common.concurrent.locks.ObjectLockRepository;
+import com.foreach.common.concurrent.locks.ReentrantObjectLock;
 import com.foreach.common.concurrent.SynchronousTaskExecutor;
+import com.foreach.common.concurrent.locks.ReentrantObjectLockRepository;
 import com.foreach.common.spring.localization.Language;
 import com.foreach.common.spring.localization.LanguageConfigurator;
 import org.apache.log4j.Logger;
@@ -41,7 +42,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
     @SuppressWarnings( "all" )
     protected final Logger LOG;
 
-    private final ObjectLockRepository<String> textSetFetchLocks = new ObjectLockRepository<String>();
+    private final ObjectLockRepository<String> textSetFetchLocks = new ReentrantObjectLockRepository<String>();
     private final LocalizedTextDataStore localizedTextDao;
 
     private ExecutorService executorService = new SynchronousTaskExecutor();
@@ -92,7 +93,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
         LocalizedTextSet textSet = textSetCache.getLocalizedTextSet( application, group );
 
         if( textSet == null ) {
-            ObjectLock<String> writeLock = textSetFetchLocks.getLock( application + group );
+            ReentrantObjectLock<String> writeLock = textSetFetchLocks.getLock( application + group );
             try {
                 writeLock.lock();
 
