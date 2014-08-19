@@ -131,14 +131,6 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 	public SqlBasedDistributedLockManager( DataSource dataSource, SqlBasedDistributedLockConfiguration configuration ) {
 		this.configuration = configuration;
 
-		jdbcTemplate = new JdbcTemplate( dataSource );
-		lockMonitor = new SqlBasedDistributedLockMonitor( this );
-
-		monitorThread.scheduleWithFixedDelay( lockMonitor, configuration.getVerifyInterval(),
-		                                      configuration.getVerifyInterval(), TimeUnit.MILLISECONDS );
-		monitorThread.scheduleWithFixedDelay( new CleanupMonitor(), 0, configuration.getCleanupInterval(),
-		                                      TimeUnit.MILLISECONDS );
-
 		sqlTakeLock = sql( SQL_TAKE_LOCK );
 		sqlStealLock = sql( SQL_STEAL_LOCK );
 		sqlSelectLock = sql( SQL_SELECT_LOCK );
@@ -147,6 +139,14 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		sqlDecreaseHold = sql( SQL_DECREASE_HOLD );
 		sqlVerifyLock = sql( SQL_VERIFY_LOCK );
 		sqlCleanup = sql( SQL_CLEANUP );
+
+		jdbcTemplate = new JdbcTemplate( dataSource );
+		lockMonitor = new SqlBasedDistributedLockMonitor( this );
+
+		monitorThread.scheduleWithFixedDelay( lockMonitor, configuration.getVerifyInterval(),
+		                                      configuration.getVerifyInterval(), TimeUnit.MILLISECONDS );
+		monitorThread.scheduleWithFixedDelay( new CleanupMonitor(), 0, configuration.getCleanupInterval(),
+		                                      TimeUnit.MILLISECONDS );
 	}
 
 	private String sql( String template ) {
