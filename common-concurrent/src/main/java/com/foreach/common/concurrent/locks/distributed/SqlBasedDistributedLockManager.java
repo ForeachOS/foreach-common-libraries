@@ -17,38 +17,107 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Implementation of a {@link DistributedLockManager}
- * that uses a relational dbms as backend for synchronizing the lock access.
- * <p/>
+ * <p>
+ * Implementation of a {@link DistributedLockManager} that uses a relational dbms
+ * as backend for synchronizing the lock access.  This implementation requires a single
+ * database table to be present and has several parameters that can be customized (eg. the retry interval when
+ * waiting to obtain a lock).  Configuration of all parameters is done through the
+ * {@link com.foreach.common.concurrent.locks.distributed.SqlBasedDistributedLockConfiguration}.
+ * </p>
+ * <p>
+ * The database table should have the following structure:
+ * <ul>
+ * <li>lock_id: string, represents the lock key</li>
+ * <li>owner_id: string, represents the owner holding the lock (null if none)</li>
+ * <li>created: long, has the timestamp the lock was acquired</li>
+ * <li>updated: long, has the timestamp the lock was last updated (keepalive monitor)</li>
+ * <li>holds: integer, number of holds on the lock by the owner</li>
+ * </ul>
+ * Example liquibase script for creating the table:
+ * <pre>
+ *         <createTable tableName="distributed_locks">
+ * 	        <column name="lock_id" type="java.sql.Types.VARCHAR(150)">
+ * 		        <constraints nullable="false" primaryKey="true"/>
+ * 	        </column>
+ * 	        <column name="owner_id" type="java.sql.Types.VARCHAR(150)">
+ * 		        <constraints nullable="true"/>
+ * 	        </column>
+ * 	        <column name="created" type="java.sql.Types.BIGINT">
+ * 		        <constraints nullable="false"/>
+ * 	        </column>
+ * 	        <column name="updated" type="java.sql.Types.BIGINT">
+ * 		        <constraints nullable="false"/>
+ * 	        </column>
+ * 	        <column name="holds" type="java.sql.Types.INTEGER" defaultValueNumeric="0">
+ * 		        <constraints nullable="false"/>
+ * 	        </column>
+ *         </createTable>
+ * </pre>
+ * </p>
+ * <p>
+ * <strong>Important notes:</strong>
+ * <ul>
+ * <li>It is absolutely critical that all application servers using the same distributed locks are time synchronized.
+ * A time drift that is larger than the configured verify interval can already cause problems and a drift larger than the
+ * maximum idle time before lock steals will render the entire lock repository useless.  If time synchronization is not
+ * possible, the stealing of locks should be disabled (by setting an insanely high max idle time).  This means in case of
+ * application crash a manual release should be done of all unreleased locks.
+ * </li>
+ * <li>This DistributedLock implementation has no concept of fairness.  In environments with high
+ * contention, it is possible lock starvation occurs.</li>
+ * <li>The DistributedLocks are reentrant: the same owner can enter the lock multiple times and have
+ * multiple holds on the same lock. For every lock() there must be an unlock() call to release the lock again!
+ * A lock will only be released once all holds have been released.</li>
+ * <li>The maximum length of the lock key and owner id is determined by the database table and should be set
+ * correctly in the configuration.  For this reason verification of lock key and owner length is not done
+ * by the lock implementation itself but by the manager when trying to acquire the lock.  Earlier assertions
+ * on valid key and owner id should be done by the application. Also note that certain implementations like
+ * {@link com.foreach.common.concurrent.locks.distributed.ThreadBasedDistributedLock} generate the actual owner
+ * id based on the running thread, meaning the exact length is known late.</li>
+ * <li>Once the manager has been closed {@link #close()}, it is no longer usable.</li>
+ * </ul>
+ * </p>
+ * <p>
  * Includes the monitor implementation that notifies the central lock repository on
  * which locks are still being used, as well as the cleanup thread that deletes old
  * unused locks from the database.
+ * </p>
+ *
+ * @see com.foreach.common.concurrent.locks.distributed.DistributedLock
+ * @see com.foreach.common.concurrent.locks.distributed.ThreadBasedDistributedLock
+ * @see com.foreach.common.concurrent.locks.distributed.SharedDistributedLock
+ * @see com.foreach.common.concurrent.locks.distributed.SqlBasedDistributedLockConfiguration
+ * @see com.foreach.common.concurrent.locks.distributed.DistributedLockRepository
  */
 public class SqlBasedDistributedLockManager implements DistributedLockManager
 {
 	private static final Logger LOG = LoggerFactory.getLogger( SqlBasedDistributedLockManager.class );
 
 	private static final String SQL_TAKE_LOCK = "UPDATE %s " +
-			"SET owner_id = ?, created = ?, updated = ? " +
+			"SET owner_id = ?, created = ?, updated = ?, holds = holds + 1 " +
 			"WHERE lock_id = ? AND (owner_id IS NULL OR owner_id = ?)";
 	private static final String SQL_STEAL_LOCK = "UPDATE %s " +
-			"SET owner_id = ?, created = ?, updated = ? " +
+			"SET owner_id = ?, created = ?, updated = ?, holds = 1 " +
 			"WHERE lock_id = ? AND (owner_id IS NULL OR (owner_id = ? AND updated = ?))";
 
-	private static final String SQL_SELECT_LOCK = "SELECT lock_id, owner_id, created, updated " +
+	private static final String SQL_SELECT_LOCK = "SELECT lock_id, owner_id, created, updated, holds " +
 			"FROM %s " +
 			"WHERE lock_id = ?";
-	private static final String SQL_INSERT_LOCK = "INSERT INTO %s (lock_id, owner_id, created, updated) " +
-			"VALUES (?,?,?,?)";
+	private static final String SQL_INSERT_LOCK = "INSERT INTO %s (lock_id, owner_id, created, updated, holds) " +
+			"VALUES (?,?,?,?,1)";
 	private static final String SQL_RELEASE_LOCK = "UPDATE %s " +
-			"SET owner_id = NULL " +
-			"WHERE lock_id = ? AND owner_id = ?";
+			"SET owner_id = NULL, holds = 0 " +
+			"WHERE lock_id = ? AND owner_id = ? AND holds = 1";
+	private static final String SQL_DECREASE_HOLD = "UPDATE %s " +
+			"SET holds = holds - 1 " +
+			"WHERE lock_id = ? AND owner_id = ? AND holds > 1";
 	private static final String SQL_VERIFY_LOCK = "UPDATE %s " +
 			"SET updated = ? " +
 			"WHERE lock_id = ? AND owner_id = ?";
 	private static final String SQL_CLEANUP = "DELETE FROM %s WHERE owner_id IS NULL AND updated < ?";
 
-	private final String sqlTakeLock, sqlStealLock, sqlSelectLock, sqlInsertLock, sqlReleaseLock, sqlVerifyLock,
+	private final String sqlTakeLock, sqlStealLock, sqlSelectLock, sqlInsertLock, sqlReleaseLock, sqlDecreaseHold,
+			sqlVerifyLock,
 			sqlCleanup;
 
 	private final ScheduledExecutorService monitorThread = Executors.newSingleThreadScheduledExecutor();
@@ -71,12 +140,13 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		                                      TimeUnit.MILLISECONDS );
 
 		sqlTakeLock = sql( SQL_TAKE_LOCK );
-		sqlStealLock = sql(SQL_STEAL_LOCK );
-		sqlSelectLock = sql(SQL_SELECT_LOCK);
-		sqlInsertLock = sql(SQL_INSERT_LOCK);
-		sqlReleaseLock = sql(SQL_RELEASE_LOCK);
-		sqlVerifyLock = sql(SQL_VERIFY_LOCK);
-		sqlCleanup = sql(SQL_CLEANUP);
+		sqlStealLock = sql( SQL_STEAL_LOCK );
+		sqlSelectLock = sql( SQL_SELECT_LOCK );
+		sqlInsertLock = sql( SQL_INSERT_LOCK );
+		sqlReleaseLock = sql( SQL_RELEASE_LOCK );
+		sqlDecreaseHold = sql( SQL_DECREASE_HOLD );
+		sqlVerifyLock = sql( SQL_VERIFY_LOCK );
+		sqlCleanup = sql( SQL_CLEANUP );
 	}
 
 	private String sql( String template ) {
@@ -187,7 +257,18 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		String lockId = lock.getKey();
 		String ownerId = lock.getOwnerId();
 
+		verify( lockId, ownerId );
+
 		return tryAcquire( lockId, ownerId, lock );
+	}
+
+	private void verify( String lockId, String ownerId ) {
+		Assert.hasText( lockId, "lock key must not be empty" );
+		Assert.hasText( ownerId, "owner id must not be empty" );
+		Assert.isTrue( lockId.length() <= configuration.getMaxKeyLength(),
+		               "lock key cannot be longer than " + configuration.getMaxKeyLength() + " characters" );
+		Assert.isTrue( ownerId.length() <= configuration.getMaxOwnerIdLength(),
+		               "owner id cannot be longer than " + configuration.getMaxOwnerIdLength() + " characters" );
 	}
 
 	private boolean tryAcquire( String lockId, String ownerId, DistributedLock lock ) {
@@ -330,13 +411,17 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		LOG.trace( "Owner {} is releasing lock {}", ownerId, lockId );
 		lockMonitor.removeLock( ownerId, lockId );
 		if ( jdbcTemplate.update( sqlReleaseLock, lockId, ownerId ) != 1 ) {
-			LOG.trace( "Releasing lock {} failed - possibly it was forcibly taken already", lockId );
+			LOG.trace( "Releasing lock {} failed - trying decreasing the holds", lockId );
+			if ( jdbcTemplate.update( sqlDecreaseHold, lockId, ownerId ) != 1 ) {
+				LOG.trace( "Releasing lock {} failed - possibly it was forcibly taken already", lockId );
+			}
 		}
 	}
 
 	private static final class LockInfo
 	{
 		private String lockId, ownerId;
+		private int holdCount;
 		private long created, updated;
 
 		public String getLockId() {
@@ -370,6 +455,14 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		public void setUpdated( long updated ) {
 			this.updated = updated;
 		}
+
+		public int getHoldCount() {
+			return holdCount;
+		}
+
+		public void setHoldCount( int holdCount ) {
+			this.holdCount = holdCount;
+		}
 	}
 
 	private static final class LockInfoMapper implements RowMapper<LockInfo>
@@ -381,6 +474,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 			lockInfo.setOwnerId( rs.getString( "owner_id" ) );
 			lockInfo.setCreated( rs.getLong( "created" ) );
 			lockInfo.setUpdated( rs.getLong( "updated" ) );
+			lockInfo.setHoldCount( rs.getInt( "holds" ) );
 
 			return lockInfo;
 		}

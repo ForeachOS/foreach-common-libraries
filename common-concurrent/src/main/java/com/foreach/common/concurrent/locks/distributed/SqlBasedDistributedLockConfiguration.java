@@ -37,12 +37,12 @@ public class SqlBasedDistributedLockConfiguration
 	/**
 	 * Maximum length for a valid lock key.
 	 */
-	public static final int MAX_LOCK_KEY_LENGTH = 120;
+	public static final int DEFAULT_MAX_LOCK_KEY_LENGTH = 150;
 
 	/**
 	 * Maximum length for a valid owner id.
 	 */
-	public static final int MAX_OWNER_ID_LENGTH = 120;
+	public static final int DEFAULT_MAX_OWNER_ID_LENGTH = 150;
 
 	private final String tableName;
 
@@ -51,6 +51,8 @@ public class SqlBasedDistributedLockConfiguration
 	private long maxIdleBeforeSteal = DEFAULT_MAX_IDLE_BEFORE_STEAL;
 	private long cleanupInterval = DEFAULT_CLEANUP_INTERVAL;
 	private long cleanupAge = DEFAULT_MIN_AGE_BEFORE_DELETE;
+	private long maxKeyLength = DEFAULT_MAX_LOCK_KEY_LENGTH;
+	private long maxOwnerIdLength = DEFAULT_MAX_OWNER_ID_LENGTH;
 
 	public SqlBasedDistributedLockConfiguration( String tableName ) {
 		Assert.notNull( tableName );
@@ -101,5 +103,21 @@ public class SqlBasedDistributedLockConfiguration
 
 	public void setCleanupAge( long cleanupAge ) {
 		this.cleanupAge = cleanupAge;
+	}
+
+	public long getMaxKeyLength() {
+		return maxKeyLength;
+	}
+
+	public void setMaxKeyLength( long maxKeyLength ) {
+		this.maxKeyLength = maxKeyLength;
+	}
+
+	public long getMaxOwnerIdLength() {
+		return maxOwnerIdLength;
+	}
+
+	public void setMaxOwnerIdLength( long maxOwnerIdLength ) {
+		this.maxOwnerIdLength = maxOwnerIdLength;
 	}
 }

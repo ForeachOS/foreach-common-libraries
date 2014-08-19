@@ -1,5 +1,6 @@
 package com.foreach.common.concurrent.locks.distributed;
 
+import com.foreach.common.concurrent.locks.CloseableObjectLock;
 import com.foreach.common.concurrent.locks.ObjectLockRepository;
 import liquibase.integration.spring.SpringLiquibase;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -69,7 +70,6 @@ public class ITDistributedLockRepository
 	@Test
 	public void testSynchronization() throws Exception {
 		int batchSize = BATCHES;
-		int totalResults = BATCHES * LOCKS_PER_BATCH * EXECUTORS_PER_LOCK;
 		int totalLocks = LOCKS_PER_BATCH;
 		int resultsPerLock = EXECUTORS_PER_LOCK * BATCHES;
 
@@ -269,6 +269,39 @@ public class ITDistributedLockRepository
 		Thread.sleep( SqlBasedDistributedLockConfiguration.DEFAULT_VERIFY_INTERVAL + 500 );
 
 		assertTrue( lastUpdated( lock ) > creation );
+	}
+
+	@Test
+	public void distributedLockIsReentrant() {
+		DistributedLockRepository lockRepository = createRepository();
+		DistributedLock lock = lockRepository.getLock( "somelock" );
+
+		lock.lock();
+
+		assertTrue( lock.isHeldByCurrentThread() );
+
+		try (CloseableObjectLock sameLock = lockRepository.lock( "somelock" )) {
+			assertTrue( sameLock.isHeldByCurrentThread() );
+			assertTrue( lock.isHeldByCurrentThread() );
+		}
+
+		assertTrue( lock.isHeldByCurrentThread() );
+
+		try {
+			lock.lock();
+
+			assertTrue( lock.isHeldByCurrentThread() );
+		}
+		finally {
+			lock.unlock();
+		}
+
+		assertTrue( lock.isHeldByCurrentThread() );
+
+		lock.unlock();
+
+		assertFalse( lock.isLocked() );
+		assertFalse( lock.isHeldByCurrentThread() );
 	}
 
 	private void updateIdleTime( DistributedLock lock, long updated ) {
