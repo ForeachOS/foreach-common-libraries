@@ -56,7 +56,20 @@ public interface LocalizedTextSet
 	 */
 	String getText( String label, Language language, String defaultValue );
 
-	/**
+    /**
+     * Returns the value for a specific language of a text item.  If the text item is found and it is the first time
+     * it has been requested (based on the Used property of {@link LocalizedText}), this method will trigger a
+     * flagAsUsed call on the {@link LocalizedTextService} provided.
+     *
+     * @param label        Label of the text item.
+     * @param language     Language for which we want the value.
+     * @param defaultValue Value to return in case the text item does not yet exist.
+     * @param storeDefault Whether the default value should be stored when not found
+     * @return Value as a string.
+     */
+    String getText( String label, Language language, String defaultValue, boolean storeDefault );
+
+    /**
 	 * @param label Label of the item to search for.
 	 * @return True if the item exists in this set, false if not.
 	 */

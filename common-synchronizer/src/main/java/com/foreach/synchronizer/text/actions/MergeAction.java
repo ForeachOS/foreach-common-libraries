@@ -6,6 +6,7 @@ import com.foreach.synchronizer.text.io.*;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -105,7 +106,7 @@ public class MergeAction implements SynchronizerAction {
     }
 
     private String getUniqueName( LocalizedText text ) {
-        return text.getApplication() + "." + text.getGroup();
+        return text.getApplication() + "." + StringUtils.lowerCase( text.getGroup() );
     }
 
     private HashMap<LocalizedTextWrapper, LocalizedTextWrapper> getMergedTextsCollection(
