@@ -3,6 +3,7 @@ package com.foreach.common.web.logging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,7 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * </pre>
  * <p/>
  * <p>You need to define a logger with appender in your log properties/xml file or set your own custom logger using method setLogger.
- *  * See below for defining new logger in your log4j properties file</p>
+ * * See below for defining new logger in your log4j properties file</p>
  * <pre>
  *
  *  Logger definition
@@ -117,7 +118,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 		long startTime = (Long) request.getAttribute( ATTRIBUTE_START_TIME );
 		long duration = System.currentTimeMillis() - startTime;
 
-		String handlerName = handler != null ? handler.getClass().toString() : "no-handler";
+		String handlerName = handlerName( handler );
 
 		StringBuilder buf = new StringBuilder();
 		buf.append( '[' ).append( request.getAttribute( ATTRIBUTE_UNIQUE_ID ) ).append( ']' ).append( '\t' ).append(
@@ -130,6 +131,18 @@ public class RequestLogInterceptor implements HandlerInterceptor
 
 		// Remove the MDC
 		MDC.clear();
+	}
+
+	private String handlerName( Object handler ) {
+		if ( handler == null ) {
+			return "no-handler";
+		}
+
+		if ( handler instanceof HandlerMethod ) {
+			return ( (HandlerMethod) handler ).getMethod().toString();
+		}
+
+		return handler.toString();
 	}
 
 	private String createUrlFromRequest( HttpServletRequest request ) {
