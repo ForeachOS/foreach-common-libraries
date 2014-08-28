@@ -1,8 +1,8 @@
 package com.foreach.synchronizer.text.io;
 
-import com.foreach.spring.localization.Language;
-import com.foreach.spring.localization.LanguageConfigurator;
-import com.foreach.spring.localization.text.LocalizedText;
+import com.foreach.common.spring.localization.Language;
+import com.foreach.common.spring.localization.LanguageConfigurator;
+import com.foreach.common.spring.localization.text.LocalizedText;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 

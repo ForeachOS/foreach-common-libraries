@@ -1,6 +1,6 @@
 package com.foreach.synchronizer.text.actions;
 
-import com.foreach.spring.localization.text.LocalizedText;
+import com.foreach.common.spring.localization.text.LocalizedText;
 import com.foreach.synchronizer.text.LocalizedTextWrapper;
 import com.foreach.synchronizer.text.io.*;
 import org.apache.commons.cli.CommandLine;

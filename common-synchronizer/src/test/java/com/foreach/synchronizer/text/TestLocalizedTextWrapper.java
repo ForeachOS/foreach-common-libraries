@@ -1,9 +1,9 @@
 package com.foreach.synchronizer.text;
 
-import com.foreach.spring.localization.Language;
-import com.foreach.spring.localization.LanguageConfigurator;
-import com.foreach.spring.localization.text.LocalizedText;
-import com.foreach.spring.localization.text.LocalizedTextFields;
+import com.foreach.common.spring.localization.Language;
+import com.foreach.common.spring.localization.LanguageConfigurator;
+import com.foreach.common.spring.localization.text.LocalizedText;
+import com.foreach.common.spring.localization.text.LocalizedTextFields;
 import com.foreach.synchronizer.text.io.TestLanguage;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;

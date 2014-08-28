@@ -1,10 +1,10 @@
 package com.foreach.synchronizer.text.actions;
 
-import com.foreach.spring.localization.LanguageConfigurator;
-import com.foreach.spring.localization.text.LocalizedText;
-import com.foreach.spring.localization.text.LocalizedTextService;
+import com.foreach.common.spring.localization.LanguageConfigurator;
+import com.foreach.common.spring.localization.text.LocalizedText;
+import com.foreach.common.spring.localization.text.LocalizedTextService;
 import com.foreach.synchronizer.text.io.*;
-import com.foreach.test.MockedLoader;
+import com.foreach.common.test.MockedLoader;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.ParseException;

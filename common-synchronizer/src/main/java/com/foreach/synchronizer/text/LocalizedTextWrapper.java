@@ -1,7 +1,7 @@
 package com.foreach.synchronizer.text;
 
-import com.foreach.spring.localization.text.LocalizedText;
-import com.foreach.spring.localization.text.LocalizedTextFields;
+import com.foreach.common.spring.localization.text.LocalizedText;
+import com.foreach.common.spring.localization.text.LocalizedTextFields;
 
 import java.util.Map;
 
