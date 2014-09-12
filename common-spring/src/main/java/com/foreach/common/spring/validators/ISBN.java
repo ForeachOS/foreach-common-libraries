@@ -7,32 +7,34 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
 
 /**
- * An annotation that validates using the MultipleEmailsValidator class.
+ * An annotation that validates ISBN numbers using the ISBNValidator class.
  * <p/>
  * Example use:
  * <pre>
- * import com.foreach.spring.validators.MultipleEmails;
+ * import com.foreach.spring.validators.ISBN;
  *
  * public class Bar
  * {
  *
  * ...
  *
- *  &#64;NotBlank &#64;Length(max = 200) &#64;MultipleEmails
- *  private String email;
+ *  &#64;NotBlank &#64;Length(max = 13, min = 10) &#64;ISBN
+ *  private String isbn;
  *
  * </pre>
  */
 @Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = MultipleEmailsValidator.class)
+@Constraint(validatedBy = ISBNValidator.class)
 @Documented
-public @interface MultipleEmails
+public @interface ISBN
 {
-	String message() default "{MultipleEmails}";
+	String message() default "{ISBN}";
 
 	Class<?>[] groups() default { };
 
