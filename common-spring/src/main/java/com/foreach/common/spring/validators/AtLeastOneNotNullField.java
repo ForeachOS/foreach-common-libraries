@@ -34,7 +34,7 @@ public @interface AtLeastOneNotNullField
 {
 	String[] fields() default { };
 
-	String message() default "{AtLeastOneNotEmptyField.message}";
+	String message() default "{AtLeastOneNotNullField}";
 
 	Class<?>[] groups() default { };
 
