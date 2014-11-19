@@ -34,7 +34,7 @@ public @interface AtLeastOneNotNullField
 {
 	String[] fields() default { };
 
-	String message() default "{AtLeastOneNotNullField}";
+	String message() default "{com.foreach.common.spring.validators.AtLeastOneNotNullField.message}";
 
 	Class<?>[] groups() default { };
 
