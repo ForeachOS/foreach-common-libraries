@@ -34,7 +34,7 @@ import static java.lang.annotation.ElementType.METHOD;
 @Documented
 public @interface ISBN
 {
-	String message() default "{ISBN}";
+	String message() default "{com.foreach.common.spring.validators.ISBN.message}";
 
 	Class<?>[] groups() default { };
 
