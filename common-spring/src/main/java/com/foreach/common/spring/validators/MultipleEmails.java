@@ -32,7 +32,7 @@ import static java.lang.annotation.ElementType.*;
 @Documented
 public @interface MultipleEmails
 {
-	String message() default "{MultipleEmails}";
+	String message() default "{com.foreach.common.spring.validators.MultipleEmails.message}";
 
 	Class<?>[] groups() default { };
 
