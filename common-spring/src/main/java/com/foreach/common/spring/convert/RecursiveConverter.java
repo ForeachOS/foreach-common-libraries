@@ -1,4 +1,4 @@
-package com.foreach.common.web.converter;
+package com.foreach.common.spring.convert;
 
 import org.springframework.core.convert.ConversionService;
 

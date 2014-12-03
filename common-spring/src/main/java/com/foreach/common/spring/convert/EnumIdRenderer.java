@@ -1,4 +1,4 @@
-package com.foreach.common.web.converter;
+package com.foreach.common.spring.convert;
 
 import com.foreach.common.spring.enums.IdLookup;
 import org.springframework.core.convert.converter.Converter;

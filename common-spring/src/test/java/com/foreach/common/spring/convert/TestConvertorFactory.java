@@ -1,8 +1,8 @@
-package com.foreach.common.test.web.converter;
+package com.foreach.common.spring.convert;
 
 import com.foreach.common.spring.enums.CodeLookup;
 import com.foreach.common.spring.enums.IdLookup;
-import com.foreach.common.web.converter.EnumConverterFactory;
+import com.foreach.common.spring.convert.EnumConverterFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

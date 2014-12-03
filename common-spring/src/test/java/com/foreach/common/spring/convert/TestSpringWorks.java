@@ -1,4 +1,4 @@
-package com.foreach.common.test.web.converter;
+package com.foreach.common.spring.convert;
 
 import org.junit.Assert;
 import org.junit.Test;

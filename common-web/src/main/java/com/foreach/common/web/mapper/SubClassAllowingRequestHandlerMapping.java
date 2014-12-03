@@ -1,4 +1,4 @@
-package com.foreach.web.mapper;
+package com.foreach.common.web.mapper;
 
 import org.springframework.beans.BeansException;
 import org.springframework.util.Assert;

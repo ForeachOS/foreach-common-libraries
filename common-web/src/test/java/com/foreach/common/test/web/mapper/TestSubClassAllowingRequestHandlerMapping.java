@@ -1,6 +1,6 @@
-package com.foreach.test.web.mapper;
+package com.foreach.common.test.web.mapper;
 
-import com.foreach.web.mapper.SubClassAllowingRequestHandlerMapping;
+import com.foreach.common.web.mapper.SubClassAllowingRequestHandlerMapping;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.BeansException;
