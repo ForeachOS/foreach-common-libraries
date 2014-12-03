@@ -7,7 +7,6 @@ import org.junit.Test;
 
 public class TestDualInterface extends BaseConversionServiceTest
 {
-
 	@Test
 	public void useCodeLookup() {
 		Assert.assertEquals( Foo.FOO, conversionService.convert( "foo", Foo.class ) );
