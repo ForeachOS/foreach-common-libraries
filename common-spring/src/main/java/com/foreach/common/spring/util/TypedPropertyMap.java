@@ -1,6 +1,7 @@
 package com.foreach.common.spring.util;
 
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
 
 import java.util.*;
 
@@ -21,10 +22,10 @@ import java.util.*;
  * @see com.foreach.common.spring.util.PropertiesSource
  * @see org.springframework.core.convert.ConversionService
  */
+@SuppressWarnings("unchecked")
 public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 {
 	protected final PropertyTypeRegistry<T> propertyTypeRegistry;
-	protected final ConversionService conversionService;
 	protected final Class sourceValueClass;
 
 	protected final PropertiesSource source;
@@ -32,21 +33,19 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 	/**
 	 * Construct a new TypedPropertyMap.
 	 *
-	 * @param propertyTypeRegistry Registry that contains the property keys with their corresponding type.
-	 * @param conversionService    ConversionService implementation that will be used to convert types.
+	 * @param propertyTypeRegistry Registry that contains the property keys with their corresponding type
+	 *                             and conversion information.
 	 * @param source               Backing source map containing the stored values.
 	 * @param sourceValueClass     Class to use when setting values on the source map.
 	 */
-	public TypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry, ConversionService conversionService,
-	                         Map<T, ?> source, Class sourceValueClass ) {
+	public TypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry, Map<T, ?> source, Class sourceValueClass ) {
 		this.propertyTypeRegistry = propertyTypeRegistry;
-		this.conversionService = conversionService;
 		this.source = new DirectPropertiesSource<T>( source );
 		this.sourceValueClass = sourceValueClass;
 	}
 
 	/**
-	 * @return The source backing these typed property map.
+	 * @return The source backing this typed property map.
 	 */
 	public PropertiesSource getSource() {
 		return source;
@@ -56,7 +55,6 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 	 * Construct a new TypedPropertyMap.
 	 *
 	 * @param propertyTypeRegistry Registry that contains the property keys with their corresponding type.
-	 * @param conversionService    ConversionService implementation that will be used to convert types.
 	 * @param source               Backing source proxy containing the stored values.
 	 * @param sourceValueClass     Class to use when setting values on the source map.
 	 * @see com.foreach.common.spring.util.PropertiesSource
@@ -64,7 +62,6 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 	public TypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry, ConversionService conversionService,
 	                         PropertiesSource source, Class sourceValueClass ) {
 		this.propertyTypeRegistry = propertyTypeRegistry;
-		this.conversionService = conversionService;
 		this.source = source;
 		this.sourceValueClass = sourceValueClass;
 	}
@@ -78,9 +75,8 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 	 * @param <O>      Strong type value to return, the must registered type for the property must be able to cast to this type!
 	 * @return Strong typed instance of the property.
 	 */
-	@SuppressWarnings("unchecked")
 	public <O> O getValue( T property ) {
-		Class actualType = propertyTypeRegistry.getClassForProperty( property );
+		TypeDescriptor actualType = propertyTypeRegistry.getTypeForProperty( property );
 
 		return (O) getValue( property, actualType );
 	}
@@ -94,8 +90,20 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 	 * @param <O>          Strong type value to return.
 	 * @return Strong typed instance of the property.
 	 */
-	@SuppressWarnings("unchecked")
 	public <O> O getValue( T property, Class<O> expectedType ) {
+		return getValue( property, TypeDescriptor.valueOf( expectedType ) );
+	}
+
+	/**
+	 * Fetches a property from the source map and converts it to the type expected.  This circumvents the registry but
+	 * forces a conversion to the requested target type.
+	 *
+	 * @param property     Key of the property.
+	 * @param expectedType Type the value should be converted to and will be returned.
+	 * @param <O>          Strong type value to return, converted value will be cast to the return type.
+	 * @return Strong typed instance of the property.
+	 */
+	public <O> O getValue( T property, TypeDescriptor expectedType ) {
 		Object originalValue;
 
 		if ( source.getProperties().containsKey( property ) ) {
@@ -105,7 +113,9 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 			originalValue = propertyTypeRegistry.getDefaultValueForProperty( property );
 		}
 
-		return conversionService.convert( originalValue, expectedType );
+		return (O) propertyTypeRegistry
+				.getConversionServiceForProperty( property )
+				.convert( originalValue, TypeDescriptor.forObject( originalValue ), expectedType );
 	}
 
 	/**
@@ -114,9 +124,10 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 	 * @param property Key of the property.
 	 * @param value    Strong type value to set the property to.
 	 */
-	@SuppressWarnings("unchecked")
 	public Object set( T property, Object value ) {
-		Object convertedValue = conversionService.convert( value, sourceValueClass );
+		Object convertedValue = propertyTypeRegistry
+				.getConversionServiceForProperty( property )
+				.convert( value, sourceValueClass );
 
 		return source.getProperties().put( property, convertedValue );
 	}
@@ -173,7 +184,7 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 
 	public Collection<Object> values() {
 		Set<Entry<T, Object>> entries = entrySet();
-		Collection<Object> list = new ArrayList<Object>( entries.size() );
+		Collection<Object> list = new ArrayList<>( entries.size() );
 
 		for ( Entry<T, Object> entry : entries ) {
 			list.add( entry.getValue() );
@@ -183,7 +194,7 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 	}
 
 	public Set<Entry<T, Object>> entrySet() {
-		Set<Entry<T, Object>> entries = new HashSet<Entry<T, Object>>();
+		Set<Entry<T, Object>> entries = new HashSet<>();
 
 		final TypedPropertyMap<T> myself = this;
 
@@ -214,11 +225,11 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 	 * @return Detached duplicate of the current map.
 	 */
 	public TypedPropertyMap<T> detach() {
-		Map<T, Object> sourceCopy = new HashMap<T, Object>();
+		Map<T, Object> sourceCopy = new HashMap<>();
 		for ( Entry<T, Object> entry : entrySet() ) {
 			sourceCopy.put( entry.getKey(), entry.getValue() );
 		}
 
-		return new TypedPropertyMap<T>( propertyTypeRegistry, conversionService, sourceCopy, sourceValueClass );
+		return new TypedPropertyMap<>( propertyTypeRegistry, sourceCopy, sourceValueClass );
 	}
 }
