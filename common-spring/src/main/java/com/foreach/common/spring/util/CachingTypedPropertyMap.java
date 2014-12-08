@@ -1,7 +1,5 @@
 package com.foreach.common.spring.util;
 
-import org.springframework.core.convert.ConversionService;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,62 +13,66 @@ import java.util.Map;
  *
  * @see com.foreach.common.spring.util.TypedPropertyMap
  */
-public class CachingTypedPropertyMap<T> extends TypedPropertyMap<T> {
+@SuppressWarnings("unchecked")
+public class CachingTypedPropertyMap<T> extends TypedPropertyMap<T>
+{
 
-    private Map<T, Object> cachedValues = new HashMap<T, Object>();
+	private Map<T, Object> cachedValues = new HashMap<T, Object>();
 
-    public CachingTypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry, ConversionService conversionService, Map<T, ?> source, Class sourceValueClass ) {
-        super( propertyTypeRegistry, conversionService, source, sourceValueClass );
-    }
+	public CachingTypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry,
+	                                Map<T, ?> source,
+	                                Class sourceValueClass ) {
+		super( propertyTypeRegistry, source, sourceValueClass );
+	}
 
-    @Override
-    public <O> O getValue( T property ) {
-        if( !cachedValues.containsKey( property ) ) {
-            Object value = super.getValue( property );
-            cachedValues.put( property, value );
-        }
+	@Override
+	public <O> O getValue( T property ) {
+		if ( !cachedValues.containsKey( property ) ) {
+			Object value = super.getValue( property );
+			cachedValues.put( property, value );
+		}
 
-        return ( O ) cachedValues.get( property );
-    }
+		return (O) cachedValues.get( property );
+	}
 
-    @Override
-    public Object set( T property, Object value ) {
-        cachedValues.remove( property );
-        return super.set( property, value );
-    }
+	@Override
+	public Object set( T property, Object value ) {
+		cachedValues.remove( property );
+		return super.set( property, value );
+	}
 
-    @Override
-    public void clear() {
-        cachedValues.clear();
-        super.clear();
-    }
+	@Override
+	public void clear() {
+		cachedValues.clear();
+		super.clear();
+	}
 
-    @Override
-    public Object remove( Object key ) {
-        cachedValues.remove( key );
-        return super.remove( key );
-    }
+	@Override
+	public Object remove( Object key ) {
+		cachedValues.remove( key );
+		return super.remove( key );
+	}
 
-    /**
-     * Clears all cached values, ensuring that on the next request the properties will be converted again.
-     */
-    public void refresh() {
-        cachedValues.clear();
-    }
+	/**
+	 * Clears all cached values, ensuring that on the next request the properties will be converted again.
+	 */
+	public void refresh() {
+		cachedValues.clear();
+	}
 
-    /**
-     * Creates a duplicate of the TypedPropertyMap with its own property source, but the
-     * same registry and conversionService.
-     *
-     * @return Detached duplicate of the current map.
-     */
-    @Override
-    public TypedPropertyMap<T> detach() {
-        Map<T, Object> sourceCopy = new HashMap<T, Object>();
-        for( Entry<T, Object> entry : entrySet() ) {
-            sourceCopy.put( entry.getKey(), entry.getValue() );
-        }
+	/**
+	 * Creates a duplicate of the TypedPropertyMap with its own property source, but the
+	 * same registry and conversionService.
+	 *
+	 * @return Detached duplicate of the current map.
+	 */
+	@Override
+	public TypedPropertyMap<T> detach() {
+		Map<T, Object> sourceCopy = new HashMap<>();
+		for ( Entry<T, Object> entry : entrySet() ) {
+			sourceCopy.put( entry.getKey(), entry.getValue() );
+		}
 
-        return new CachingTypedPropertyMap<T>( propertyTypeRegistry, conversionService, sourceCopy, sourceValueClass );
-    }
+		return new CachingTypedPropertyMap<T>( propertyTypeRegistry, sourceCopy, sourceValueClass );
+	}
 }
