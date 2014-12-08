@@ -5,8 +5,8 @@ import com.foreach.common.spring.localization.LanguageConfigurator;
 import com.foreach.common.spring.localization.text.LocalizedText;
 import com.foreach.common.spring.localization.text.LocalizedTextFields;
 import com.foreach.common.spring.localization.text.LocalizedTextService;
-import com.foreach.synchronizer.text.io.*;
 import com.foreach.common.test.MockedLoader;
+import com.foreach.synchronizer.text.io.*;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.ParseException;
@@ -33,110 +33,117 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ContextConfiguration(classes = TestUploadAction.TestConfig.class, loader = MockedLoader.class)
-public class TestUploadAction {
+public class TestUploadAction
+{
 
-    @Autowired
-    private UploadAction uploadAction;
+	@Autowired
+	private UploadAction uploadAction;
 
-    @Autowired
-    private LocalizedTextReaderFactory localizedTextReaderFactory;
+	@Autowired
+	private LocalizedTextReaderFactory localizedTextReaderFactory;
 
-    @Autowired
-    private LocalizedTextService localizedTextService;
+	@Autowired
+	private LocalizedTextService localizedTextService;
 
-    @Autowired
-    private LocalizedTextFileHandler localizedTextFileHandler;
+	@Autowired
+	private LocalizedTextFileHandler localizedTextFileHandler;
 
-    @Before
-    public void setup() {
-        LanguageConfigurator languageConfigurator = new LanguageConfigurator( TestLanguage.class );
-    }
+	@Before
+	public void setup() {
+		LanguageConfigurator languageConfigurator = new LanguageConfigurator( TestLanguage.class );
+	}
 
-    @Test
-    public void testUpload() throws Exception {
-        String inputDirectory = "/some/dir";
-        InputStream inputStream = mock( InputStream.class );
-        List<InputStream> inputStreams = new ArrayList<InputStream>();
-        inputStreams.add( inputStream );
-        LocalizedTextReader localizedTextReader = mock( LocalizedTextReader.class );
-        when( localizedTextFileHandler
-                .getInputStreams( inputDirectory ) ).thenReturn( inputStreams );
-        when( localizedTextReaderFactory.createLocalizedTextReader(
-                eq( LocalizedTextFormat.XML ), any( InputStream.class ) ) )
-                .thenReturn( localizedTextReader );
+	@Test
+	public void testUpload() throws Exception {
+		String inputDirectory = "/some/dir";
+		InputStream inputStream = mock( InputStream.class );
+		List<InputStream> inputStreams = new ArrayList<InputStream>();
+		inputStreams.add( inputStream );
+		LocalizedTextReader localizedTextReader = mock( LocalizedTextReader.class );
+		when( localizedTextFileHandler
+				      .getInputStreams( inputDirectory ) ).thenReturn( inputStreams );
+		when( localizedTextReaderFactory.createLocalizedTextReader(
+				eq( LocalizedTextFormat.XML ), any( InputStream.class ) ) )
+				.thenReturn( localizedTextReader );
 
-        Collection<LocalizedText> localizedTexts = new ArrayList<LocalizedText>();
-        LocalizedText localizedText = getLocalizedText();
-        localizedTexts.add( localizedText );
-        when( localizedTextReader.read() ).thenReturn( localizedTexts );
+		Collection<LocalizedText> localizedTexts = new ArrayList<LocalizedText>();
+		LocalizedText localizedText = getLocalizedText();
+		localizedTexts.add( localizedText );
+		when( localizedTextReader.read() ).thenReturn( localizedTexts );
 
-        uploadAction.upload( inputDirectory, LocalizedTextFormat.XML );
+		uploadAction.upload( inputDirectory, LocalizedTextFormat.XML );
 
-        verify( localizedTextService, times( 1 ) ).saveLocalizedText( localizedText );
-    }
+		verify( localizedTextService, times( 1 ) ).saveLocalizedText( localizedText );
+	}
 
-    @Test
-    public void testExcelFormat() throws ParseException {
-        verifyExpectedFormatUsed( new String[]{"-i", "/some/dir/", "-f", "EXCEL"}, LocalizedTextFormat.EXCEL );
-    }
+	@Test
+	public void testExcelFormat() throws ParseException {
+		verifyExpectedFormatUsed( new String[] { "-i", "/some/dir/", "-f", "EXCEL" }, LocalizedTextFormat.EXCEL );
+	}
 
-    @Test
-    public void testExcelFormatLowerCase() throws ParseException {
-        verifyExpectedFormatUsed( new String[]{"-i", "/some/dir/", "-f", "excel"}, LocalizedTextFormat.EXCEL );
-    }
+	@Test
+	public void testExcelFormatLowerCase() throws ParseException {
+		verifyExpectedFormatUsed( new String[] { "-i", "/some/dir/", "-f", "excel" }, LocalizedTextFormat.EXCEL );
+	}
 
-    @Test
-    public void testXMLFormat() throws ParseException {
-        verifyExpectedFormatUsed( new String[]{"-i", "/some/dir/", "-f", "XML"}, LocalizedTextFormat.XML );
-    }
+	@Test
+	public void testXMLFormat() throws ParseException {
+		verifyExpectedFormatUsed( new String[] { "-i", "/some/dir/", "-f", "XML" }, LocalizedTextFormat.XML );
+	}
 
-    @Test
-    public void testDefaultFormat() throws ParseException {
-        verifyExpectedFormatUsed( new String[]{"-i", "/some/dir/"}, LocalizedTextFormat.XML );
-    }
+	@Test
+	public void testDefaultFormat() throws ParseException {
+		verifyExpectedFormatUsed( new String[] { "-i", "/some/dir/" }, LocalizedTextFormat.XML );
+	}
 
-    private void verifyExpectedFormatUsed( String[] args, LocalizedTextFormat expectedOutputFormat ) throws ParseException {
-        CommandLineParser parser = new PosixParser();
-        CommandLine commandLine = parser.parse( uploadAction.getCliOptions(), args );
+	private void verifyExpectedFormatUsed( String[] args,
+	                                       LocalizedTextFormat expectedOutputFormat ) throws ParseException {
+		CommandLineParser parser = new PosixParser();
+		CommandLine commandLine = parser.parse( uploadAction.getCliOptions(), args );
 
-        List<InputStream> inputStreams = new ArrayList<InputStream>();
-        InputStream inputStream = mock( InputStream.class );
-        inputStreams.add( inputStream );
+		List<InputStream> inputStreams = new ArrayList<InputStream>();
+		InputStream inputStream = mock( InputStream.class );
+		inputStreams.add( inputStream );
 
-        when( localizedTextFileHandler.getInputStreams( "/some/dir/" ) ).thenReturn( inputStreams );
+		when( localizedTextFileHandler.getInputStreams( "/some/dir/" ) ).thenReturn( inputStreams );
 
-        LocalizedTextReader localizedTextReader = mock( LocalizedTextReader.class );
-        when( localizedTextReaderFactory.createLocalizedTextReader( any( LocalizedTextFormat.class ), any( InputStream.class ) ) ).thenReturn( localizedTextReader );
-        try {
-            uploadAction.execute( commandLine );
-        } catch ( Exception e ) {
-            assertTrue( "Unexpected exception thrown" + e.getMessage(), false );
-        }
+		LocalizedTextReader localizedTextReader = mock( LocalizedTextReader.class );
+		when( localizedTextReaderFactory.createLocalizedTextReader( any( LocalizedTextFormat.class ),
+		                                                            any( InputStream.class ) ) ).thenReturn(
+				localizedTextReader );
+		try {
+			uploadAction.execute( commandLine );
+		}
+		catch ( Exception e ) {
+			assertTrue( "Unexpected exception thrown" + e.getMessage(), false );
+		}
 
-        verify( localizedTextReaderFactory ).createLocalizedTextReader( eq( expectedOutputFormat ), any( InputStream.class ) );
-    }
+		verify( localizedTextReaderFactory ).createLocalizedTextReader( eq( expectedOutputFormat ),
+		                                                                any( InputStream.class ) );
+	}
 
-    public static class TestConfig {
-        @Bean
-        public UploadAction uploadAction() {
-            return new UploadAction();
-        }
-    }
+	public static class TestConfig
+	{
+		@Bean
+		public UploadAction uploadAction() {
+			return new UploadAction();
+		}
+	}
 
-    private LocalizedText getLocalizedText() {
-        LocalizedText localizedText = new LocalizedText();
-        localizedText.setApplication( "application1" );
-        localizedText.setGroup( "group1" );
-        localizedText.setLabel( "label1" );
-        localizedText.setUpdated( new Date() );
-        Language nl = TestLanguage.NL;
-        LocalizedTextFields localizedTextFieldsNl = new LocalizedTextFields( nl );
-        localizedTextFieldsNl.setText( "NL text1" );
-        localizedText.addFields( localizedTextFieldsNl );
-        Language fr = TestLanguage.FR;
-        LocalizedTextFields localizedTextFieldsFr = new LocalizedTextFields( fr );
-        localizedTextFieldsFr.setText( "FR text1" );
-        localizedText.addFields( localizedTextFieldsFr );
-        return localizedText;
-    }
+	private LocalizedText getLocalizedText() {
+		LocalizedText localizedText = new LocalizedText();
+		localizedText.setApplication( "application1" );
+		localizedText.setGroup( "group1" );
+		localizedText.setLabel( "label1" );
+		localizedText.setUpdated( new Date() );
+		Language nl = TestLanguage.NL;
+		LocalizedTextFields localizedTextFieldsNl = new LocalizedTextFields( nl );
+		localizedTextFieldsNl.setText( "NL text1" );
+		localizedText.addFields( localizedTextFieldsNl );
+		Language fr = TestLanguage.FR;
+		LocalizedTextFields localizedTextFieldsFr = new LocalizedTextFields( fr );
+		localizedTextFieldsFr.setText( "FR text1" );
+		localizedText.addFields( localizedTextFieldsFr );
+		return localizedText;
+	}
 }

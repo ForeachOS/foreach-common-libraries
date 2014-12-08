@@ -1,6 +1,6 @@
-package com.foreach.common.spring.util;
+package com.foreach.common.spring.properties;
 
-import org.springframework.core.convert.ConversionService;
+import com.foreach.common.spring.properties.support.DirectPropertiesSource;
 import org.springframework.core.convert.TypeDescriptor;
 
 import java.util.*;
@@ -12,14 +12,14 @@ import java.util.*;
  * have an associated strong typed to map to.</p>
  * <p>Additionally a ConversionService must be present that can perform the type conversion for every property.</p>
  * <p><strong>Note:</strong> the standard implementation does not cache the fetched values and will always read from
- * the backing source directly.  See also {@link com.foreach.common.spring.util.CachingTypedPropertyMap}.</p>
+ * the backing source directly.  See also {@link com.foreach.common.spring.properties.CachingTypedPropertyMap}.</p>
  * <p>This class also implements the Map interface to facilitate use in JSP/JSTL.  Note that the semantics for the
  * general Map interface might be somewhat dodgy and slower than a regular map.</p>
  *
  * @param <T> The type of the property key (most often String).
- * @see com.foreach.common.spring.util.CachingTypedPropertyMap
- * @see com.foreach.common.spring.util.PropertyTypeRegistry
- * @see com.foreach.common.spring.util.PropertiesSource
+ * @see com.foreach.common.spring.properties.CachingTypedPropertyMap
+ * @see com.foreach.common.spring.properties.PropertyTypeRegistry
+ * @see com.foreach.common.spring.properties.PropertiesSource
  * @see org.springframework.core.convert.ConversionService
  */
 @SuppressWarnings("unchecked")
@@ -57,9 +57,9 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 	 * @param propertyTypeRegistry Registry that contains the property keys with their corresponding type.
 	 * @param source               Backing source proxy containing the stored values.
 	 * @param sourceValueClass     Class to use when setting values on the source map.
-	 * @see com.foreach.common.spring.util.PropertiesSource
+	 * @see com.foreach.common.spring.properties.PropertiesSource
 	 */
-	public TypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry, ConversionService conversionService,
+	public TypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry,
 	                         PropertiesSource source, Class sourceValueClass ) {
 		this.propertyTypeRegistry = propertyTypeRegistry;
 		this.source = source;
@@ -111,6 +111,7 @@ public class TypedPropertyMap<T> implements Map<T, Object>, Cloneable
 		}
 		else {
 			originalValue = propertyTypeRegistry.getDefaultValueForProperty( property );
+			set( property, originalValue );
 		}
 
 		return (O) propertyTypeRegistry

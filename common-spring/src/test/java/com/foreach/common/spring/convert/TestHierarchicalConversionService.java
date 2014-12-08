@@ -1,6 +1,5 @@
-package com.foreach.common.spring.util;
+package com.foreach.common.spring.convert;
 
-import com.foreach.common.spring.convert.HierarchicalConversionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.convert.ConversionService;

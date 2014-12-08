@@ -1,4 +1,6 @@
-package com.foreach.common.spring.util;
+package com.foreach.common.spring.properties.support;
+
+import com.foreach.common.spring.properties.PropertiesSource;
 
 import java.util.Map;
 
@@ -7,7 +9,8 @@ import java.util.Map;
  *
  * @param <T> Type of the map keys.
  */
-public class DirectPropertiesSource<T> implements PropertiesSource<T> {
+public class DirectPropertiesSource<T> implements PropertiesSource<T>
+{
     private final Map<T, ?> map;
 
     public DirectPropertiesSource( Map<T, ?> map ) {

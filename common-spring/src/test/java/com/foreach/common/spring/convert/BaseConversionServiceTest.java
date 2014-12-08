@@ -1,9 +1,5 @@
 package com.foreach.common.spring.convert;
 
-import com.foreach.common.spring.convert.CustomConversionServiceFactoryBean;
-import com.foreach.common.spring.convert.EnumCodeRenderer;
-import com.foreach.common.spring.convert.EnumConverterFactory;
-import com.foreach.common.spring.convert.EnumIdRenderer;
 import org.junit.Before;
 import org.springframework.core.convert.ConversionService;
 
