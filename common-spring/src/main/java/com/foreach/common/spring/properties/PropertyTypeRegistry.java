@@ -1,4 +1,4 @@
-package com.foreach.common.spring.util;
+package com.foreach.common.spring.properties;
 
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
@@ -18,14 +18,14 @@ public class PropertyTypeRegistry<T>
 	private static class PropertyTypeRecord
 	{
 		private final TypeDescriptor propertyType;
-		private final Object defaultValue;
+		private final PropertyFactory defaultValueFactory;
 		private final ConversionService conversionService;
 
 		private PropertyTypeRecord( TypeDescriptor propertyType,
-		                            Object defaultValue,
+		                            PropertyFactory defaultValueFactory,
 		                            ConversionService conversionService ) {
 			this.propertyType = propertyType;
-			this.defaultValue = defaultValue;
+			this.defaultValueFactory = defaultValueFactory;
 			this.conversionService = conversionService;
 		}
 
@@ -33,8 +33,8 @@ public class PropertyTypeRegistry<T>
 			return propertyType;
 		}
 
-		public Object getDefaultValue() {
-			return defaultValue;
+		public PropertyFactory getDefaultValueFactory() {
+			return defaultValueFactory;
 		}
 
 		public ConversionService getConversionService() {
@@ -80,26 +80,26 @@ public class PropertyTypeRegistry<T>
 		register( propertyKey, propertyType, null );
 	}
 
-	public <A> void register( T propertyKey, Class<A> propertyClass, A propertyValue ) {
-		register( propertyKey, TypeDescriptor.valueOf( propertyClass ), propertyValue, null );
+	public <A> void register( T propertyKey, Class<A> propertyClass, PropertyFactory<T, A> defaultValueFactory ) {
+		register( propertyKey, TypeDescriptor.valueOf( propertyClass ), defaultValueFactory, null );
 	}
 
-	public void register( T propertyKey, TypeDescriptor propertyType, Object propertyValue ) {
-		definitions.put( propertyKey, new PropertyTypeRecord( propertyType, propertyValue, null ) );
+	public void register( T propertyKey, TypeDescriptor propertyType, PropertyFactory<T, ?> defaultValueFactory ) {
+		definitions.put( propertyKey, new PropertyTypeRecord( propertyType, defaultValueFactory, null ) );
 	}
 
 	public <A> void register( T propertyKey,
 	                          Class<A> propertyClass,
-	                          A propertyValue,
+	                          PropertyFactory<T, A> defaultValueFactory,
 	                          ConversionService conversionService ) {
-		register( propertyKey, TypeDescriptor.valueOf( propertyClass ), propertyValue, conversionService );
+		register( propertyKey, TypeDescriptor.valueOf( propertyClass ), defaultValueFactory, conversionService );
 	}
 
 	public void register( T propertyKey,
 	                      TypeDescriptor propertyType,
-	                      Object propertyValue,
+	                      PropertyFactory<T, ?> defaultValueFactory,
 	                      ConversionService conversionService ) {
-		definitions.put( propertyKey, new PropertyTypeRecord( propertyType, propertyValue, conversionService ) );
+		definitions.put( propertyKey, new PropertyTypeRecord( propertyType, defaultValueFactory, conversionService ) );
 	}
 
 	public void unregister( T propertyKey ) {
@@ -126,11 +126,16 @@ public class PropertyTypeRegistry<T>
 		return getClassForUnknownProperties();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object getDefaultValueForProperty( T propertyKey ) {
 		PropertyTypeRecord actual = definitions.get( propertyKey );
 
 		if ( actual != null ) {
-			return actual.getDefaultValue();
+			PropertyFactory factory = actual.getDefaultValueFactory();
+
+			if ( factory != null ) {
+				return factory.create( this, propertyKey );
+			}
 		}
 
 		return null;

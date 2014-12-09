@@ -1,4 +1,4 @@
-package com.foreach.common.spring.util;
+package com.foreach.common.spring.properties;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

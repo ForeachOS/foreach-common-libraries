@@ -1,5 +1,6 @@
-package com.foreach.common.spring.util;
+package com.foreach.common.spring.properties;
 
+import com.foreach.common.spring.properties.support.SingletonPropertyFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.core.convert.TypeDescriptor;
@@ -70,7 +71,7 @@ public class TestCachingTypedPropertyMap extends TestTypedPropertyMap
 	public void genericLists() {
 		registry.register( "dates",
 		                   TypeDescriptor.collection( List.class, TypeDescriptor.valueOf( Date.class ) ),
-		                   Collections.<Date>emptyList()
+		                   SingletonPropertyFactory.<String, List>forValue( Collections.<Date>emptyList() )
 		);
 
 		assertEquals( Collections.<Date>emptyList(), map.get( "dates" ) );
@@ -96,4 +97,32 @@ public class TestCachingTypedPropertyMap extends TestTypedPropertyMap
 		assertTrue( dateSet.containsAll( Arrays.asList( dateOne, dateTwo ) ) );
 	}
 
+	@Override
+	public void defaultValueIsSetButDetachedAfterGet() {
+		registry.register( "myprop", Set.class, new PropertyFactory<String, Set>()
+		{
+			@Override
+			public Set create( PropertyTypeRegistry registry, String propertyKey ) {
+				return new HashSet();
+			}
+		} );
+
+		TypedPropertyMap<String> detached = map.detach();
+
+		Set<String> one = map.getValue( "myprop" );
+		assertNotNull( one );
+
+		one.add( "somestring" );
+
+		assertTrue( source.containsKey( "myprop" ) );
+
+		// Because caching map is used, same instance of the set will be fetched
+		Set<String> oneAgain = map.getValue( "myprop" );
+		assertSame( one, oneAgain );
+
+		Set<String> two = detached.getValue( "myprop" );
+		assertNotNull( two );
+		assertNotSame( one, two );
+		assertTrue( two.isEmpty() );
+	}
 }

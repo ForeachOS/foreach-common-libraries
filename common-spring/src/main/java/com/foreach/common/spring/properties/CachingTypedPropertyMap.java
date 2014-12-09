@@ -1,4 +1,4 @@
-package com.foreach.common.spring.util;
+package com.foreach.common.spring.properties;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,12 +11,11 @@ import java.util.Map;
  * <p><strong>Note:</strong> Only call for the registered type will be cached, that means that direct
  * calls to {@link #getValue(Object, Class)} will always use the conversionService.</p>
  *
- * @see com.foreach.common.spring.util.TypedPropertyMap
+ * @see com.foreach.common.spring.properties.TypedPropertyMap
  */
 @SuppressWarnings("unchecked")
 public class CachingTypedPropertyMap<T> extends TypedPropertyMap<T>
 {
-
 	private Map<T, Object> cachedValues = new HashMap<T, Object>();
 
 	public CachingTypedPropertyMap( PropertyTypeRegistry<T> propertyTypeRegistry,

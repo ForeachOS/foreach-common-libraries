@@ -1,6 +1,7 @@
-package com.foreach.common.spring.util;
+package com.foreach.common.spring.properties;
 
 import com.foreach.common.spring.convert.HierarchicalConversionService;
+import com.foreach.common.spring.properties.support.SingletonPropertyFactory;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,10 +75,14 @@ public class TestTypedPropertyMap
 	public void defaultValueAreReturnedIfValueNotSet() {
 		map.clear();
 
-		registry.register( "date", Date.class, new Date( 0 ) );
-		registry.register( "decimal", BigDecimal.class, new BigDecimal( 10 ) );
-		registry.register( "number", Integer.class, -1 );
-		registry.register( "text", String.class, "" );
+		registry.register( "date", Date.class, SingletonPropertyFactory.<String, Date>forValue( new Date( 0 ) ) );
+		registry.register( "decimal", BigDecimal.class,
+		                   SingletonPropertyFactory.<String, BigDecimal>forValue( new BigDecimal( 10 ) )
+		);
+		registry.register( "number", Integer.class,
+		                   SingletonPropertyFactory.<String, Integer>forValue( -1 )
+		);
+		registry.register( "text", String.class, SingletonPropertyFactory.<String, String>forValue( "" ) );
 
 		assertEquals( new Date( 0 ), map.getValue( "date" ) );
 		assertEquals( new BigDecimal( 10 ), map.getValue( "decimal" ) );
@@ -158,7 +163,7 @@ public class TestTypedPropertyMap
 	public void genericLists() {
 		registry.register( "dates",
 		                   TypeDescriptor.collection( List.class, TypeDescriptor.valueOf( Date.class ) ),
-		                   Collections.<Date>emptyList()
+		                   SingletonPropertyFactory.<String, List>forValue( Collections.<Date>emptyList() )
 		);
 
 		assertEquals( Collections.<Date>emptyList(), map.get( "dates" ) );
@@ -260,6 +265,36 @@ public class TestTypedPropertyMap
 
 		assertEquals( source, map.getSource().getProperties() );
 		assertEquals( source, detached.getSource().getProperties() );
+	}
+
+	@Test
+	public void defaultValueIsSetButDetachedAfterGet() {
+		registry.register( "myprop", Set.class, new PropertyFactory<String, Set>()
+		{
+			@Override
+			public Set create( PropertyTypeRegistry registry, String propertyKey ) {
+				return new HashSet();
+			}
+		} );
+
+		TypedPropertyMap<String> detached = map.detach();
+
+		Set<String> one = map.getValue( "myprop" );
+		assertNotNull( one );
+
+		one.add( "somestring" );
+
+		assertTrue( source.containsKey( "myprop" ) );
+
+		// Even though the same map, no set() has been called so value from source is used
+		Set<String> oneAgain = map.getValue( "myprop" );
+		assertNotSame( one, oneAgain );
+		assertTrue( oneAgain.isEmpty() );
+
+		Set<String> two = detached.getValue( "myprop" );
+		assertNotNull( two );
+		assertNotSame( one, two );
+		assertTrue( two.isEmpty() );
 	}
 
 	@Configuration
