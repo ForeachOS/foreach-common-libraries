@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.foreach.libs:common-spring:0.11-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/common-spring/pom.xml!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/common-spring/common-spring-0.11-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/common-spring/common-spring-0.11-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
