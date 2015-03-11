@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.foreach.libs</groupId>
 	<artifactId>common-projects</artifactId>
-	<version>0.12-SNAPSHOT</version>
+	<version>0.11-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>common-spring</module>
@@ -66,18 +67,20 @@
 						<phase>deploy</phase>
 						<configuration>
 							<target>
-								<property name="deploy.site.location" value="foreach@192.168.2.91:/var/www2/java.libs.foreach.com/sites/common-projects/" />
-								<loadproperties srcfile="${user.home}/.foreach/foreach-buildserver.properties" />
+								<property name="deploy.site.location"
+								          value="foreach@192.168.2.91:/var/www2/java.libs.foreach.com/sites/common-projects/"/>
+								<loadproperties srcfile="${user.home}/.foreach/foreach-buildserver.properties"/>
 
-								<delete dir="target/javadoc-deploy/${project.version}" failonerror="false" />
+								<delete dir="target/javadoc-deploy/${project.version}" failonerror="false"/>
 
 								<copy todir="target/javadoc-deploy/${project.version}">
-									<fileset dir="target/site/apidocs" />
+									<fileset dir="target/site/apidocs"/>
 								</copy>
 
-								<scp todir="${deploy.site.location}" keyfile="${keyfile}" passphrase="${passphrase}" trust="yes">
+								<scp todir="${deploy.site.location}" keyfile="${keyfile}" passphrase="${passphrase}"
+								     trust="yes">
 									<fileset dir="target/javadoc-deploy">
-										<include name="**/*" />
+										<include name="**/*"/>
 									</fileset>
 								</scp>
 							</target>
