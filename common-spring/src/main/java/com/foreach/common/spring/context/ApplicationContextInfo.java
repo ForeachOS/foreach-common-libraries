@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Date;
 
 /**
+ * <strong>This class is deprecated, favour the more simple {@link com.foreach.common.spring.context.ApplicationInfo}
+ * interface.</strong>
  * This class groups application metadata.
  * <p/>
  * Because some of the metadata may only be available at build time,
@@ -25,24 +27,61 @@ import java.util.Date;
  *      &lt;property name="buildDate" value="${build.date}"/&gt;
  *  &lt;/bean&gt;
  * </pre>
+ *
+ * @see com.foreach.common.spring.context.ApplicationInfo
+ * @see com.foreach.common.spring.context.MutableApplicationInfo
  */
-public class ApplicationContextInfo
+public class ApplicationContextInfo implements ApplicationInfo
 {
-	private ApplicationEnvironment environment;
+	private String environmentId;
 
 	private String applicationName;
 	private String label;
+	private String hostName;
 
 	private long buildNumber;
 	private Date buildDate, startupDate = new Date();
+
+	/**
+	 * Application instance is usually a combination of the application, environment
+	 * and hostname.
+	 * <p/>
+	 * Example: myapp-test-localhost
+	 *
+	 * @return The unique id of the application instance.
+	 */
+	@Override
+	public String getInstanceId() {
+		return getApplicationId() + "-" + getEnvironmentId() + "-" + getHostName();
+	}
+
+	/**
+	 * Example: myapp
+	 *
+	 * @return The id of the application.
+	 */
+	@Override
+	public String getApplicationId() {
+		return getApplicationName();
+	}
+
+	@Override
+	public String getHostName() {
+		return hostName;
+	}
+
+	public void setHostName( String hostName ) {
+		this.hostName = hostName;
+	}
 
 	/**
 	 * Specify {@link ApplicationEnvironment} label for the current environment, the specified label should be one of {@link ApplicationEnvironment}
 	 *
 	 * @param environmentLabel
 	 */
+	@Deprecated
 	public final void setEnvironmentLabel( String environmentLabel ) {
-		environment = ApplicationEnvironment.valueOf( StringUtils.upperCase( environmentLabel ) );
+		setEnvironmentId( StringUtils.upperCase( environmentLabel ) );
 	}
 
 	/**
@@ -51,14 +90,39 @@ public class ApplicationContextInfo
 	 * @param environment
 	 */
 	public final void setEnvironment( ApplicationEnvironment environment ) {
-		this.environment = environment;
+		setEnvironmentId( environment.name() );
+	}
+
+	public void setEnvironmentId( String environmentId ) {
+		this.environmentId = environmentId;
+	}
+
+	/**
+	 * Example: test
+	 *
+	 * @return The id of the environment this application is running in.
+	 */
+	@Override
+	public String getEnvironmentId() {
+		return environmentId;
+	}
+
+	/**
+	 * Example: Test environment
+	 *
+	 * @return The descriptive name of the environment.
+	 */
+	@Override
+	public String getEnvironmentName() {
+		return getEnvironmentId();
 	}
 
 	/**
 	 * Returns the current application environment
 	 */
+	@Deprecated
 	public final ApplicationEnvironment getEnvironment() {
-		return environment;
+		return ApplicationEnvironment.valueOf( getEnvironmentId() );
 	}
 
 	/**
@@ -69,7 +133,16 @@ public class ApplicationContextInfo
 	 * @return true if environment is not null and equal to environmentToCheck, false otherwise.
 	 */
 	public final boolean isRunningIn( ApplicationEnvironment environmentToCheck ) {
-		return environment != null && environment.equals( environmentToCheck );
+		return isRunningIn( environmentToCheck.name() );
+	}
+
+	/**
+	 * @param environmentId Id of the environment to check against.
+	 * @return True if the application is running in that environment.
+	 */
+	@Override
+	public boolean isRunningIn( String environmentId ) {
+		return StringUtils.equalsIgnoreCase( environmentId, this.environmentId );
 	}
 
 	/**
@@ -122,6 +195,16 @@ public class ApplicationContextInfo
 	}
 
 	/**
+	 * Could be a build number from the build server, revision number from source control etc.
+	 *
+	 * @return The id of the build
+	 */
+	@Override
+	public String getBuildId() {
+		return "" + getBuildNumber();
+	}
+
+	/**
 	 * Specify the build date of current application
 	 *
 	 * @param buildDate the date the application was built.
@@ -147,7 +230,7 @@ public class ApplicationContextInfo
 
 	@Override
 	public final String toString() {
-		return "ApplicationContextInfo{" + "environment=" + environment + ", label='" + label + '\'' + ", applicationName='" + applicationName + '\'' + ", buildNumber=" + buildNumber + ", buildDate=" + buildDate + ", startupDate=" + startupDate + '}';
+		return "ApplicationContextInfo{" + "environment=" + getEnvironmentId() + ", label='" + label + '\'' + ", applicationName='" + applicationName + '\'' + ", buildNumber=" + buildNumber + ", buildDate=" + buildDate + ", startupDate=" + startupDate + '}';
 	}
 
 }

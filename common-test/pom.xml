@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>common-projects</artifactId>
 		<groupId>com.foreach.libs</groupId>
-		<version>0.10</version>
+		<version>0.11</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -12,13 +12,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${springVersion}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${springVersion}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -31,15 +29,8 @@
 			<version>1.9.5</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
