@@ -1,6 +1,9 @@
 package com.foreach.common.spring.localization.text;
 
+import com.foreach.common.spring.localization.Language;
+
 import java.util.List;
+import java.util.Map;
 
 public interface LocalizedTextService
 {
@@ -85,4 +88,15 @@ public interface LocalizedTextService
 	 * @return List of text item groups for this application.
 	 */
 	List<String> getGroups( String application );
+
+	/**
+	 * <p>Converts all LocalizedTexts in the provided language to a Map.  The LocalizedTexts to be converted can be
+	 * found in the given LocalizedTextSet.</p>
+	 *
+	 * @param localizedTextSet The LocalizedTextSet to convert.
+	 * @param language         The language specifying which LocalizedTexts should be converted.
+	 * @return The Map with the LocalizedTexts.  The keys of the map are the labels of the LocalizedText and the value is
+	 * the translation of that label in the given Language.
+	 */
+	Map<String, String> getLanguageMap( LocalizedTextSet localizedTextSet, Language language );
 }

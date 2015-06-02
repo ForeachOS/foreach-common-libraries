@@ -8,10 +8,7 @@ import com.foreach.common.spring.localization.Language;
 import com.foreach.common.spring.localization.LanguageConfigurator;
 import org.apache.log4j.Logger;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -293,6 +290,25 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 				}
 			} );
 		}
+	}
+
+	/**
+	 * <p>Converts all LocalizedTexts in the provided language to a Map.  The LocalizedTexts to be converted can be
+	 * found in the given LocalizedTextSet.</p>
+	 *
+	 * @param localizedTextSet The LocalizedTextSet to convert.
+	 * @param language         The language specifying which LocalizedTexts should be converted.
+	 * @return The Map with the LocalizedTexts.  The keys of the map are the labels of the LocalizedText and the value is
+	 * the translation of that label in the given Language.
+	 */
+	@Override
+	public final Map<String, String> getLanguageMap( LocalizedTextSet localizedTextSet, Language language ) {
+		Map<String, String> result = new HashMap<>();
+		for ( LocalizedText localizedText : localizedTextSet.getItems() ) {
+			String value = localizedText.getFieldsForLanguage( language ).getText();
+			result.put( localizedText.getLabel(), value );
+		}
+		return result;
 	}
 
 	private static final class NoCachingLocalizedTextSetCache implements LocalizedTextSetCache
