@@ -16,7 +16,11 @@ import java.util.*;
  * 	<bean class="com.foreach.web.mapper.SubClassAllowingRequestHandlerMapping"/>
  *
  * Note: the overwriting controller method must have the same signature as the parent!
+ *
+ * @deprecated because using this mapping would encourage having multiple singleton beans whereas only
+ * one would be used.  Better solution is to ensure only one controller exists.
  */
+@Deprecated
 public class SubClassAllowingRequestHandlerMapping extends DefaultAnnotationHandlerMapping {
     private boolean lazyInitHandlers = false;
 
