@@ -26,7 +26,6 @@
         <module name="common-hibernate" />
         <module name="common-mybatis" />
         <module name="common-spring" />
-        <module name="common-synchronizer" />
         <module name="common-test" />
         <module name="common-web" />
       </profile>
@@ -43,4 +42,3 @@
     </bytecodeTargetLevel>
   </component>
 </project>
-
