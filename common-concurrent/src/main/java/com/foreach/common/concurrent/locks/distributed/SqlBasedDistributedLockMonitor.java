@@ -43,13 +43,21 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 
 			// Before checking, ensure that it is still supposed to be active
 			if ( activeLocks.containsKey( key ) ) {
-				LOG.trace( "Verifying lock {} is still owned by {}", key.getLockId(), key.getOwnerId() );
-
-				// If not active, report stolen
-				if ( !lockManager.verifyLockedByOwner( key.getOwnerId(), key.getLockId() ) ) {
-					reportStolen( key.getOwnerId(), key.getLockId() );
-				}
+				reportLockStolenIfNoLongerActive( key );
 			}
+		}
+	}
+
+	private void reportLockStolenIfNoLongerActive( ActiveLock key ) {
+		LOG.trace( "Verifying lock {} is still owned by {}", key.getLockId(), key.getOwnerId() );
+
+		try {
+			// If not active, report stolen
+			if ( !lockManager.verifyLockedByOwner( key.getOwnerId(), key.getLockId() ) ) {
+				reportStolen( key.getOwnerId(), key.getLockId() );
+			}
+		} catch ( Exception e ) {
+			LOG.error( String.format( "Error handling lock {} is still owned by {}, ignoring...", key.getLockId(), key.getOwnerId() ), e );
 		}
 	}
 
