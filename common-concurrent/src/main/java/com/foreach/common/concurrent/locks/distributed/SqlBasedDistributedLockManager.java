@@ -129,6 +129,10 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 	private boolean destroyed = false;
 
 	public SqlBasedDistributedLockManager( DataSource dataSource, SqlBasedDistributedLockConfiguration configuration ) {
+		this( new JdbcTemplate( dataSource ), configuration );
+	}
+
+	public SqlBasedDistributedLockManager( JdbcTemplate jdbcTemplate, SqlBasedDistributedLockConfiguration configuration ) {
 		this.configuration = configuration;
 
 		sqlTakeLock = sql( SQL_TAKE_LOCK );
@@ -140,7 +144,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		sqlVerifyLock = sql( SQL_VERIFY_LOCK );
 		sqlCleanup = sql( SQL_CLEANUP );
 
-		jdbcTemplate = new JdbcTemplate( dataSource );
+		this.jdbcTemplate = jdbcTemplate;
 		lockMonitor = new SqlBasedDistributedLockMonitor( this );
 
 		//NOTE: Scheduled tasks should NEVER throw exceptions!  The pool would live on, but the task would not...
