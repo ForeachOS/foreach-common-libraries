@@ -143,6 +143,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		jdbcTemplate = new JdbcTemplate( dataSource );
 		lockMonitor = new SqlBasedDistributedLockMonitor( this );
 
+		//NOTE: Scheduled tasks should NEVER throw exceptions!  The pool would live on, but the task would not...
 		monitorThread.scheduleWithFixedDelay( lockMonitor, configuration.getVerifyInterval(),
 		                                      configuration.getVerifyInterval(), TimeUnit.MILLISECONDS );
 		monitorThread.scheduleWithFixedDelay( new CleanupMonitor(), 0, configuration.getCleanupInterval(),
@@ -169,7 +170,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 						configuration.getCleanupInterval() );
 			}
 			catch ( Exception e ) {
-				LOG.warn( "Exception trying to cleanup unused locks", e );
+				LOG.error( "Exception trying to cleanup unused locks", e );
 			}
 		}
 	}
