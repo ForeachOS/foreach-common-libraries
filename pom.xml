@@ -57,6 +57,11 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-maven-plugin.version}</version>
+			</plugin>
 			<!--<plugin>-->
 			<!--<artifactId>maven-antrun-plugin</artifactId>-->
 			<!--<version>1.7</version>-->
@@ -105,6 +110,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<springVersion>4.0.8.RELEASE</springVersion>
+		<jacoco-maven-plugin.version>0.7.4.201502262128</jacoco-maven-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
