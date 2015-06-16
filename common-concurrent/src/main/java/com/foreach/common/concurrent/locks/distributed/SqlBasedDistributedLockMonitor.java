@@ -38,28 +38,22 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 
 	@Override
 	public void run() {
-		for ( Map.Entry<ActiveLock, DistributedLock> activeLock : getActiveLocks().entrySet() ) {
-			ActiveLock key = activeLock.getKey();
-
-			// Before checking, ensure that it is still supposed to be active
-			if ( activeLocks.containsKey( key ) ) {
-				reportLockStolenIfNeeded( key );
-			}
-		}
-	}
-
-	private void reportLockStolenIfNeeded( ActiveLock key ) {
-		LOG.trace( "Verifying lock {} is still owned by {}", key.getLockId(), key.getOwnerId() );
-
-		boolean reportStolen = false;
 		try {
-			reportStolen = !lockManager.verifyLockedByOwner( key.getOwnerId(), key.getLockId() );
-		} catch ( Exception e ) {
-			LOG.error( String.format( "Error handling lock {}, ignoring...", key.getLockId(), key.getOwnerId() ), e );
-		}
+			for ( Map.Entry<ActiveLock, DistributedLock> activeLock : getActiveLocks().entrySet() ) {
+				ActiveLock key = activeLock.getKey();
 
-		if( reportStolen ) {
-			reportStolen( key.getOwnerId(), key.getLockId() );
+				// Before checking, ensure that it is still supposed to be active
+				if ( activeLocks.containsKey( key ) ) {
+					LOG.trace( "Verifying lock {} is still owned by {}", key.getLockId(), key.getOwnerId() );
+
+					// If not active, report stolen
+					if ( !lockManager.verifyLockedByOwner( key.getOwnerId(), key.getLockId() ) ) {
+						reportStolen( key.getOwnerId(), key.getLockId() );
+					}
+				}
+			}
+		} catch ( Exception e ) {
+			LOG.error( "Exception trying to monitor locks", e );
 		}
 	}
 
