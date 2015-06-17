@@ -22,12 +22,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="common-concurrent" />
-        <module name="common-hibernate" />
-        <module name="common-mybatis" />
-        <module name="common-spring" />
-        <module name="common-test" />
-        <module name="common-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
