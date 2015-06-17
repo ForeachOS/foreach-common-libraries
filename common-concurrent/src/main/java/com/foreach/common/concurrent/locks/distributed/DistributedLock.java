@@ -90,6 +90,20 @@ public interface DistributedLock extends ObjectLock<String>
 	LockStolenCallback getStolenCallback();
 
 	/**
+	 * Set the callback to be executed in case this lock becomes unstable:
+	 * the backend can no longer reliably determine if the lock is held by the expected owner.
+	 *
+	 * @param callback Callback instance for this lock.
+	 * @see LockUnstableCallback
+	 */
+	void setUnstableCallback( LockUnstableCallback callback );
+
+	/**
+	 * @return The callback attached to this lock.
+	 */
+	LockUnstableCallback getUnstableCallback();
+
+	/**
 	 * A simple callback interface that will be executed when a DistributedLock is reported stolen.
 	 */
 	interface LockStolenCallback
@@ -100,8 +114,31 @@ public interface DistributedLock extends ObjectLock<String>
 		 *
 		 * @param lockKey Key of the lock that has been stolen.
 		 * @param ownerId Id of the owner the lock has been stolen from.
-		 * @param lock Instance of the lock that has been stolen.
+		 * @param lock    Instance of the lock that has been stolen.
 		 */
 		void stolen( String lockKey, String ownerId, DistributedLock lock );
+	}
+
+	/**
+	 * A simple callback interface that will be executed when a {@link DistributedLock} is considered
+	 * to be unstable.  This means the backend monitor in charge of verifying the lock state no longer
+	 * can determine what the state of the lock is.  The callback will be executed once the lock is considered
+	 * unstable (possibly after an initial interval) and every subsequent time where the backend tries to verify
+	 * the state and is unable to.  This only occurs if the lock is supposed to be held.
+	 */
+	interface LockUnstableCallback
+	{
+		/**
+		 * The callback provides the original {@link DistributedLock} along with information of how long
+		 * the lock has been unstable and (optionally) the exception that occurred when trying to verify
+		 * the state.
+		 *
+		 * @param lockKey      Key of the lock.
+		 * @param ownerId      Id of the owner of the lock.
+		 * @param lock         Instance of the lock that is to be considered unstable.
+		 * @param lastVerified Timestamp (ms) when the lock state was last successfully verified.
+		 * @param t            Exception that occurred when verifying the lock state (can be null).
+		 */
+		void unstable( String lockKey, String ownerId, DistributedLock lock, long lastVerified, Throwable t );
 	}
 }

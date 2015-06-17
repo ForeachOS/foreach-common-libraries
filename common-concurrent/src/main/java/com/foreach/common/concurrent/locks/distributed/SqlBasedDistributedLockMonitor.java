@@ -19,9 +19,15 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 
 	private final SqlBasedDistributedLockManager lockManager;
 	private final Map<ActiveLock, DistributedLock> activeLocks = new HashMap<>();
+	private final long maxTimeBeforeUnstable;
+	private final long maxCacheTime;
 
-	SqlBasedDistributedLockMonitor( SqlBasedDistributedLockManager lockManager ) {
+	public SqlBasedDistributedLockMonitor( SqlBasedDistributedLockManager lockManager,
+	                                       long maxTimeBeforeUnstable,
+	                                       long maxCacheTime ) {
 		this.lockManager = lockManager;
+		this.maxTimeBeforeUnstable = maxTimeBeforeUnstable;
+		this.maxCacheTime = maxCacheTime;
 	}
 
 	public synchronized void addLock( String ownerId, DistributedLock lock ) {
@@ -47,13 +53,48 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 					LOG.trace( "Verifying lock {} is still owned by {}", key.getLockId(), key.getOwnerId() );
 
 					// If not active, report stolen
-					if ( !lockManager.verifyLockedByOwner( key.getOwnerId(), key.getLockId() ) ) {
+					if ( !verifyStillLocked( key, activeLock.getValue() ) ) {
 						reportStolen( key.getOwnerId(), key.getLockId() );
 					}
 				}
 			}
-		} catch ( Exception e ) {
+		}
+		catch ( Exception e ) {
 			LOG.error( "Exception trying to monitor locks", e );
+		}
+	}
+
+	/**
+	 * In case something goes wrong, the monitor assumes the state is unchanged but sends an unstable
+	 * callback if the lock state cannot be verified for too long
+	 */
+	private boolean verifyStillLocked( ActiveLock monitorInfo, DistributedLock original ) {
+		boolean lockedByOwner = true;
+
+		try {
+			lockedByOwner = lockManager.verifyLockedByOwner( monitorInfo.getOwnerId(), monitorInfo.getLockId() );
+			monitorInfo.setLastVerified( System.currentTimeMillis() );
+		}
+		catch ( DistributedLockException dle ) {
+			LOG.warn( "Unable to update lock {} - lock might be unstable", monitorInfo.getLockId() );
+			if ( isUnstable( monitorInfo ) ) {
+				LOG.error( "Lock verification failed too many times - triggering lock unstable callback" );
+				reportUnstable( monitorInfo.getLastVerified(), original, dle );
+			}
+		}
+
+		return lockedByOwner;
+	}
+
+	private void reportUnstable( long lastVerified, DistributedLock lock, DistributedLockException dle ) {
+		DistributedLock.LockUnstableCallback callback = lock.getUnstableCallback();
+
+		if ( callback == null ) {
+			callback = lockManager.getDefaultLockUnstableCallback();
+		}
+
+		if ( callback != null ) {
+			callback.unstable( lock.getKey(), lock.getOwnerId(), lock, lastVerified, dle );
 		}
 	}
 
@@ -67,6 +108,10 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 
 			// Execute the stolen callback if there is one
 			DistributedLock.LockStolenCallback callback = removedLock.getStolenCallback();
+
+			if ( callback == null ) {
+				callback = lockManager.getDefaultLockStolenCallback();
+			}
 
 			if ( callback != null ) {
 				callback.stolen( lockId, ownerId, removedLock );
@@ -82,9 +127,13 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 		return new HashMap<>( activeLocks );
 	}
 
+	/**
+	 * Get the lock owner according to the monitor thread.  The monitor caches the active locks for
+	 * performance.  If this method returns null, it simply means the monitor cannot reliably tell who the owner is.
+	 */
 	public synchronized String getOwnerForLock( String lockId ) {
 		for ( ActiveLock activeLock : activeLocks.keySet() ) {
-			if ( activeLock.getLockId().equals( lockId ) ) {
+			if ( activeLock.getLockId().equals( lockId ) && isReliable( activeLock ) ) {
 				return activeLock.getOwnerId();
 			}
 		}
@@ -92,13 +141,23 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 		return null;
 	}
 
+	private boolean isUnstable( ActiveLock activeLock ) {
+		return System.currentTimeMillis() - activeLock.getLastVerified() > maxTimeBeforeUnstable;
+	}
+
+	private boolean isReliable( ActiveLock activeLock ) {
+		return System.currentTimeMillis() - activeLock.getLastVerified() <= maxCacheTime;
+	}
+
 	public static class ActiveLock
 	{
 		private String ownerId, lockId;
+		private long lastVerified;
 
 		ActiveLock( String ownerId, String lockId ) {
 			this.ownerId = ownerId;
 			this.lockId = lockId;
+			lastVerified = System.currentTimeMillis();
 		}
 
 		public String getOwnerId() {
@@ -107,6 +166,14 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 
 		public String getLockId() {
 			return lockId;
+		}
+
+		long getLastVerified() {
+			return lastVerified;
+		}
+
+		void setLastVerified( long lastVerified ) {
+			this.lastVerified = lastVerified;
 		}
 
 		@Override

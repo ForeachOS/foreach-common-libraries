@@ -10,8 +10,7 @@ import java.util.concurrent.locks.Condition;
  * The owner id of this lock is dynamic, based on the thread that it is operating on.
  * In most scenarios this is probably the implementation you want to use.
  * <p/>
- * For an alternative implementation and use case see the
- * {@link SharedDistributedLock}.
+ * For an alternative implementation and use case see the {@link SharedDistributedLock}.
  *
  * @author Arne Vandamme
  * @see SharedDistributedLock
@@ -22,6 +21,7 @@ public class ThreadBasedDistributedLock implements DistributedLock
 	private final DistributedLockManager lockManager;
 
 	private LockStolenCallback stolenCallback;
+	private LockUnstableCallback unstableCallback;
 
 	ThreadBasedDistributedLock( DistributedLockManager lockManager, String owner, String key ) {
 		this.ownerId = owner;
@@ -89,5 +89,15 @@ public class ThreadBasedDistributedLock implements DistributedLock
 	@Override
 	public void setStolenCallback( LockStolenCallback stolenCallback ) {
 		this.stolenCallback = stolenCallback;
+	}
+
+	@Override
+	public LockUnstableCallback getUnstableCallback() {
+		return unstableCallback;
+	}
+
+	@Override
+	public void setUnstableCallback( LockUnstableCallback unstableCallback ) {
+		this.unstableCallback = unstableCallback;
 	}
 }
