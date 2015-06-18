@@ -6,7 +6,6 @@
     <file url="file://$PROJECT_DIR$/common-hibernate" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-mybatis" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-spring" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/common-synchronizer" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-test" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-web" charset="UTF-8" />
   </component>
