@@ -32,14 +32,18 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 
 	public synchronized void addLock( String ownerId, DistributedLock lock ) {
 		String lockId = lock.getKey();
-		String existingOwnerId = getOwnerForLock( lockId );
+		ActiveLock activeLock = findActiveLock( lockId );
 
-		if ( existingOwnerId != null ) {
+		if ( activeLock != null && !activeLock.getOwnerId().equals( ownerId ) ) {
 			// This guy just had his lock stolen
-			reportStolen( existingOwnerId, lockId );
+			reportStolen( activeLock.getOwnerId(), lockId );
 		}
-
-		activeLocks.put( new ActiveLock( ownerId, lockId ), lock );
+		else if ( activeLock != null ) {
+			activeLock.addLocalHold();
+		}
+		else {
+			activeLocks.put( new ActiveLock( ownerId, lockId ), lock );
+		}
 	}
 
 	@Override
@@ -119,12 +123,18 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 		}
 	}
 
+	/**
+	 * @return instance only if it was the final remove (not a hold decrease)
+	 */
 	public synchronized DistributedLock removeLock( String ownerId, String lockId ) {
-		return activeLocks.remove( new ActiveLock( ownerId, lockId ) );
-	}
+		ActiveLock activeLock = findActiveLock( lockId );
 
-	public synchronized Map<ActiveLock, DistributedLock> getActiveLocks() {
-		return new HashMap<>( activeLocks );
+		if ( activeLock != null && activeLock.getOwnerId().equals( ownerId ) && activeLock.removeLocalHold() ) {
+			return activeLocks.remove( activeLock );
+
+		}
+
+		return null;
 	}
 
 	/**
@@ -132,13 +142,27 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 	 * performance.  If this method returns null, it simply means the monitor cannot reliably tell who the owner is.
 	 */
 	public synchronized String getOwnerForLock( String lockId ) {
+		ActiveLock activeLock = findActiveLock( lockId );
+
+		if ( activeLock != null && isReliable( activeLock ) ) {
+			return activeLock.getOwnerId();
+		}
+
+		return null;
+	}
+
+	private synchronized ActiveLock findActiveLock( String lockId ) {
 		for ( ActiveLock activeLock : activeLocks.keySet() ) {
-			if ( activeLock.getLockId().equals( lockId ) && isReliable( activeLock ) ) {
-				return activeLock.getOwnerId();
+			if ( activeLock.getLockId().equals( lockId ) ) {
+				return activeLock;
 			}
 		}
 
 		return null;
+	}
+
+	public synchronized Map<ActiveLock, DistributedLock> getActiveLocks() {
+		return new HashMap<>( activeLocks );
 	}
 
 	private boolean isUnstable( ActiveLock activeLock ) {
@@ -153,10 +177,13 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 	{
 		private String ownerId, lockId;
 		private long lastVerified;
+		private int localHolds;
 
 		ActiveLock( String ownerId, String lockId ) {
 			this.ownerId = ownerId;
 			this.lockId = lockId;
+
+			localHolds = 1;
 			lastVerified = System.currentTimeMillis();
 		}
 
@@ -174,6 +201,17 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 
 		void setLastVerified( long lastVerified ) {
 			this.lastVerified = lastVerified;
+		}
+
+		void addLocalHold() {
+			localHolds++;
+		}
+
+		/**
+		 * @return true if the last hold has been removed
+		 */
+		boolean removeLocalHold() {
+			return --localHolds <= 1;
 		}
 
 		@Override
