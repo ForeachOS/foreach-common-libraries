@@ -11,7 +11,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: com.foreach.libs:common-spring:0.10-SNAPSHOT" level="project" />
-    <orderEntry type="module" module-name="common-spring" />
+    <orderEntry type="library" name="Maven: com.foreach.libs:common-spring:0.11" level="project" />
     <orderEntry type="module" module-name="common-concurrent" />
     <orderEntry type="library" name="Maven: javax.mail:mail:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
