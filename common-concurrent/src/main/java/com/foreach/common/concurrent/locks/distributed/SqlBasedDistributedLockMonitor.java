@@ -98,7 +98,12 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 		}
 
 		if ( callback != null ) {
-			callback.unstable( lock.getKey(), lock.getOwnerId(), lock, lastVerified, dle );
+			try {
+				callback.unstable( lock.getKey(), lock.getOwnerId(), lock, lastVerified, dle );
+			}
+			catch ( Exception e ) {
+				LOG.error( "Exception executing unstable callback for lock {}", lock.getKey(), e );
+			}
 		}
 	}
 
@@ -118,7 +123,12 @@ public class SqlBasedDistributedLockMonitor implements Runnable
 			}
 
 			if ( callback != null ) {
-				callback.stolen( lockId, ownerId, removedLock );
+				try {
+					callback.stolen( lockId, ownerId, removedLock );
+				}
+				catch ( Exception e ) {
+					LOG.error( "Exception executing stolen callback for lock {}", lockId, e );
+				}
 			}
 		}
 	}
