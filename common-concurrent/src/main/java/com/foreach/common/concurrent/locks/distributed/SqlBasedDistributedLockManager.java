@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.util.Assert;
@@ -80,7 +81,11 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Includes the monitor implementation that notifies the central lock repository on
  * which locks are still being used, as well as the cleanup thread that deletes old
- * unused locks from the database.
+ * unused locks from the database.</p>
+ * <p>This distributed lock manager supports stealing of locks and the concept of an unstable lock that can no
+ * longer be verified against the backing database.  Usually a lock would only go unstable if database exceptions
+ * occur.  See {@link DistributedLock.LockStolenCallback} and {@link DistributedLock.LockUnstableCallback} for
+ * more information.  Callbacks can be set on the lock instance level but defaults can be configured on the manager.
  * </p>
  *
  * @see com.foreach.common.concurrent.locks.distributed.DistributedLock
@@ -123,12 +128,20 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 	private final ScheduledExecutorService monitorThread = Executors.newSingleThreadScheduledExecutor();
 
 	private final SqlBasedDistributedLockConfiguration configuration;
-	private final JdbcTemplate jdbcTemplate;
+	private final JdbcOperations jdbcTemplate;
 	private final SqlBasedDistributedLockMonitor lockMonitor;
 
 	private boolean destroyed = false;
 
+	private DistributedLock.LockStolenCallback defaultLockStolenCallback;
+	private DistributedLock.LockUnstableCallback defaultLockUnstableCallback;
+
 	public SqlBasedDistributedLockManager( DataSource dataSource, SqlBasedDistributedLockConfiguration configuration ) {
+		this( new JdbcTemplate( dataSource ), configuration );
+	}
+
+	public SqlBasedDistributedLockManager( JdbcOperations jdbcTemplate,
+	                                       SqlBasedDistributedLockConfiguration configuration ) {
 		this.configuration = configuration;
 
 		sqlTakeLock = sql( SQL_TAKE_LOCK );
@@ -140,9 +153,12 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		sqlVerifyLock = sql( SQL_VERIFY_LOCK );
 		sqlCleanup = sql( SQL_CLEANUP );
 
-		jdbcTemplate = new JdbcTemplate( dataSource );
-		lockMonitor = new SqlBasedDistributedLockMonitor( this );
+		this.jdbcTemplate = jdbcTemplate;
+		lockMonitor = new SqlBasedDistributedLockMonitor( this,
+		                                                  configuration.getVerifyInterval() * 2,
+		                                                  configuration.getMaxIdleBeforeSteal() );
 
+		//NOTE: Scheduled tasks should NEVER throw exceptions!  The pool would live on, but the task would not...
 		monitorThread.scheduleWithFixedDelay( lockMonitor, configuration.getVerifyInterval(),
 		                                      configuration.getVerifyInterval(), TimeUnit.MILLISECONDS );
 		monitorThread.scheduleWithFixedDelay( new CleanupMonitor(), 0, configuration.getCleanupInterval(),
@@ -169,9 +185,43 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 						configuration.getCleanupInterval() );
 			}
 			catch ( Exception e ) {
-				LOG.warn( "Exception trying to cleanup unused locks", e );
+				LOG.error( "Exception trying to cleanup unused locks", e );
 			}
 		}
+	}
+
+	/**
+	 * @return Callback instance that will be executed if no specific instance configured on a lock.
+	 */
+	public DistributedLock.LockStolenCallback getDefaultLockStolenCallback() {
+		return defaultLockStolenCallback;
+	}
+
+	/**
+	 * Set the default callback instance to be executed if a lock is stolen but no callback instance
+	 * has been configured directly on the {@link DistributedLock}.
+	 *
+	 * @param defaultLockStolenCallback instance
+	 */
+	public void setDefaultLockStolenCallback( DistributedLock.LockStolenCallback defaultLockStolenCallback ) {
+		this.defaultLockStolenCallback = defaultLockStolenCallback;
+	}
+
+	/**
+	 * @return Callback instance that will be executed if no specific instance configured on a lock.
+	 */
+	public DistributedLock.LockUnstableCallback getDefaultLockUnstableCallback() {
+		return defaultLockUnstableCallback;
+	}
+
+	/**
+	 * Set the default callback instance to be executed if a lock goes unstable but no callback instance
+	 * has been configured directly on the {@link DistributedLock}.
+	 *
+	 * @param defaultLockUnstableCallback instance
+	 */
+	public void setDefaultLockUnstableCallback( DistributedLock.LockUnstableCallback defaultLockUnstableCallback ) {
+		this.defaultLockUnstableCallback = defaultLockUnstableCallback;
 	}
 
 	public void close() {
@@ -259,7 +309,15 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 
 		verify( lockId, ownerId );
 
-		return tryAcquire( lockId, ownerId, lock );
+		try {
+			return tryAcquire( lockId, ownerId, lock );
+		}
+		catch ( DistributedLockException dle ) {
+			throw dle;
+		}
+		catch ( Exception e ) {
+			throw new DistributedLockException( "Exception when trying to acquire lock " + lockId, e );
+		}
 	}
 
 	private void verify( String lockId, String ownerId ) {
@@ -386,12 +444,20 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		catch ( EmptyResultDataAccessException erdae ) {
 			return null;
 		}
+		catch ( Exception e ) {
+			throw new DistributedLockException( "Unable to fetch lock info for lock " + lockId, e );
+		}
 	}
 
 	@Override
 	public boolean verifyLockedByOwner( String ownerId, String lockId ) {
 		checkDestroyed();
-		return jdbcTemplate.update( sqlVerifyLock, System.currentTimeMillis(), lockId, ownerId ) == 1;
+		try {
+			return jdbcTemplate.update( sqlVerifyLock, System.currentTimeMillis(), lockId, ownerId ) == 1;
+		}
+		catch ( Exception e ) {
+			throw new DistributedLockException( "Exception trying to update lock " + lockId, e );
+		}
 	}
 
 	@Override
@@ -410,11 +476,18 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 	private void release( String ownerId, String lockId ) {
 		LOG.trace( "Owner {} is releasing lock {}", ownerId, lockId );
 		lockMonitor.removeLock( ownerId, lockId );
-		if ( jdbcTemplate.update( sqlReleaseLock, lockId, ownerId ) != 1 ) {
-			LOG.trace( "Releasing lock {} failed - trying decreasing the holds", lockId );
-			if ( jdbcTemplate.update( sqlDecreaseHold, lockId, ownerId ) != 1 ) {
-				LOG.trace( "Releasing lock {} failed - possibly it was forcibly taken already", lockId );
+		try {
+			if ( jdbcTemplate.update( sqlReleaseLock, lockId, ownerId ) != 1 ) {
+				LOG.trace( "Releasing lock {} failed - trying decreasing the holds", lockId );
+				if ( jdbcTemplate.update( sqlDecreaseHold, lockId, ownerId ) != 1 ) {
+					LOG.trace( "Releasing lock {} failed - possibly it was forcibly taken already", lockId );
+				}
 			}
+		}
+		catch ( DataAccessException dae ) {
+			LOG.warn(
+					"Clean release of lock {} in database failed - lock appears still taken but can be stolen after the idle time.",
+					lockId );
 		}
 	}
 
