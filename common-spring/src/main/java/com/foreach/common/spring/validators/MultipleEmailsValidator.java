@@ -1,7 +1,7 @@
 package com.foreach.common.spring.validators;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.constraints.impl.EmailValidator;
+import org.hibernate.validator.internal.constraintvalidators.EmailValidator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,6 +17,24 @@ import java.util.List;
  */
 public class MultipleEmailsValidator implements ConstraintValidator<MultipleEmails, String>
 {
+	/**
+	 * @param emailString a string of comma or semicolon separated emailadresses.
+	 * @return a list of the individual emailadresses in the argument passed.
+	 */
+	public static List<String> separateEmailAddresses( String emailString ) {
+		String[] notCleaned = StringUtils.split( emailString, ";," );
+
+		List<String> cleaned = new ArrayList<String>();
+
+		for ( String s : notCleaned ) {
+			if ( !StringUtils.isBlank( s ) ) {
+				cleaned.add( StringUtils.trim( s ) );
+			}
+		}
+
+		return cleaned;
+	}
+
 	public void initialize( MultipleEmails multipleEmails ) {
 	}
 
@@ -36,23 +54,5 @@ public class MultipleEmailsValidator implements ConstraintValidator<MultipleEmai
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * @param emailString a string of comma or semicolon separated emailadresses.
-	 * @return a list of the individual emailadresses in the argument passed.
-	 */
-	public static List<String> separateEmailAddresses( String emailString ) {
-		String[] notCleaned = StringUtils.split( emailString, ";," );
-
-		List<String> cleaned = new ArrayList<String>();
-
-		for ( String s : notCleaned ) {
-			if ( !StringUtils.isBlank( s ) ) {
-				cleaned.add( StringUtils.trim( s ) );
-			}
-		}
-
-		return cleaned;
 	}
 }
