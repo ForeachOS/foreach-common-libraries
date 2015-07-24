@@ -78,7 +78,12 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 			logger.error( "conversionService not set for EnumConverterFactory instance" );
 		}
 
-		return new EnumConverter( targetType );
+		if ( IdLookup.class.isAssignableFrom( targetType ) || CodeLookup.class.isAssignableFrom( targetType ))
+		{
+			return new EnumConverter( targetType );
+		}
+
+		return null;
 	}
 
 	private final class EnumConverter<E extends Enum> implements Converter<String, E>
