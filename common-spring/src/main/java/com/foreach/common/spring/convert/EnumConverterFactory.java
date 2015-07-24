@@ -74,7 +74,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>, Rec
 	public final <E extends Enum> Converter<String, E> getConverter( Class<E> targetType ) {
 		logger.debug( "converter requested for type " + targetType.getName() );
 
-		if ( !IdLookup.class.isAssignableFrom( targetType ) || !CodeLookup.class.isAssignableFrom( targetType )  ) {
+		if ( !IdLookup.class.isAssignableFrom( targetType ) && !CodeLookup.class.isAssignableFrom( targetType )  ) {
 			return null;
 		}
 		if ( conversionService == null ) {
