@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2014 the original author or authors
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -29,6 +44,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
+				<configuration>
+					<failOnError>false</failOnError>
+				</configuration>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -41,7 +59,11 @@
 						<goals>
 							<goal>aggregate</goal>
 						</goals>
-						<phase>package</phase>
+						<phase>prepare-package</phase>
+						<configuration>
+							<reportOutputDirectory>${project.reporting.outputDirectory}</reportOutputDirectory>
+							<destDir>${project.version}/javadoc</destDir>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -62,49 +84,6 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco-maven-plugin.version}</version>
 			</plugin>
-			<!--<plugin>-->
-			<!--<artifactId>maven-antrun-plugin</artifactId>-->
-			<!--<version>1.7</version>-->
-			<!--<inherited>false</inherited>-->
-			<!--<executions>-->
-			<!--<execution>-->
-			<!--<phase>deploy</phase>-->
-			<!--<configuration>-->
-			<!--<target>-->
-			<!--<property name="deploy.site.location" value="buildserver@192.168.2.42:/var/www/repository.foreach.be/sites/common-projects/" />-->
-			<!--<loadproperties srcfile="${user.home}/.foreach/foreach-buildserver.properties" />-->
-
-			<!--<delete dir="target/javadoc-deploy/${project.version}" failonerror="false" />-->
-
-			<!--<copy todir="target/javadoc-deploy/${project.version}">-->
-			<!--<fileset dir="target/site/apidocs" />-->
-			<!--</copy>-->
-
-			<!--<scp todir="${deploy.site.location}" keyfile="${keyfile}" passphrase="${passphrase}" trust="yes">-->
-			<!--<fileset dir="target/javadoc-deploy">-->
-			<!--<include name="**/*" />-->
-			<!--</fileset>-->
-			<!--</scp>-->
-			<!--</target>-->
-			<!--</configuration>-->
-			<!--<goals>-->
-			<!--<goal>run</goal>-->
-			<!--</goals>-->
-			<!--</execution>-->
-			<!--</executions>-->
-			<!--<dependencies>-->
-			<!--<dependency>-->
-			<!--<groupId>com.jcraft</groupId>-->
-			<!--<artifactId>jsch</artifactId>-->
-			<!--<version>0.1.50</version>-->
-			<!--</dependency>-->
-			<!--<dependency>-->
-			<!--<groupId>org.apache.ant</groupId>-->
-			<!--<artifactId>ant-jsch</artifactId>-->
-			<!--<version>1.8.1</version>-->
-			<!--</dependency>-->
-			<!--</dependencies>-->
-			<!--</plugin>-->
 		</plugins>
 	</build>
 	<properties>
@@ -198,7 +177,7 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<scm>
-		<connection>scm:git:http://stash.foreach.be/scm/fe/java-common-libraries.git</connection>
-		<developerConnection>scm:git:http://stash.foreach.be/scm/fe/java-common-libraries.git</developerConnection>
+		<connection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</connection>
+		<developerConnection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</developerConnection>
 	</scm>
 </project>

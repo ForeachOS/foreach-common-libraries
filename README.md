@@ -1,14 +1,17 @@
-Foreach Java Common Libraries
+Foreach Common Java libraries
 =============================
 
-About
------
-
 The Foreach Java Common Libraries is a set of different Java libraries (JAR) files that contain
-a number of useful, reusable classes (like utilities or base classes).  They are not tied into any
-business libraries but are meant to be more generic for Java based projects.
+a number of useful, reusable classes (like utilities or base classes).  These are used in different projects
+and are considered production ready.
 
-Vaguely inspired by Apache Commons.
+Different modules include utilities for testing, object locking, distributed locking and type conversion.
 
-More information: http://confluence.projects.foreach.be/display/FJCL
-If you want to modify or extend these libraries, please see: http://confluence.projects.foreach.be/display/FJCL/02+-+Development
+More information:
+
+* Documentation and release notes: [https://foreach.atlassian.net/wiki/display/FJCL/Common+Java+libraries+Home]()
+* Issue tracker: [https://foreach.atlassian.net/projects/FJCL]()
+* Source code: [https://bitbucket.org/beforeach/common-java-libraries]()
+
+Developed and maintained by [Foreach.be](http://www.foreach.be) 
+
