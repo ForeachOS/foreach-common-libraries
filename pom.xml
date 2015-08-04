@@ -21,6 +21,18 @@
 	<artifactId>common-projects</artifactId>
 	<version>0.12-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>
+		A number of general purpose libraries for Java. Dependencies are kept minimal but Spring framework 3.x
+		is considered a base requirement for most libaries.
+	</description>
+	<url>https://foreach.atlassian.net/wiki/display/FJCL</url>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
 	<modules>
 		<module>common-spring</module>
 		<module>common-hibernate</module>
@@ -179,5 +191,38 @@
 	<scm>
 		<connection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</connection>
 		<developerConnection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</developerConnection>
+		<url>https://bitbucket.org/beforeach/common-java-libraries</url>
 	</scm>
+	<developers>
+		<developer>
+			<name>Arne Vandamme</name>
+			<email>arne@foreach.be</email>
+			<organization>Foreach</organization>
+			<organizationUrl>http://www.foreach.be</organizationUrl>
+		</developer>
+	</developers>
+
+	<profiles>
+		<profile>
+			<id>ossrh</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
