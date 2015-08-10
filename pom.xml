@@ -176,18 +176,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<distributionManagement>
-		<repository>
-			<id>foreach-nexus</id>
-			<name>Foreach nexus</name>
-			<url>http://repository.foreach.be/nexus/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>foreach-nexus</id>
-			<name>Foreach nexus</name>
-			<url>http://repository.foreach.be/nexus/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
 	<scm>
 		<connection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</connection>
 		<developerConnection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</developerConnection>
@@ -204,7 +192,7 @@
 
 	<profiles>
 		<profile>
-			<id>ossrh</id>
+			<id>sonatype</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -223,6 +211,33 @@
 					</plugin>
 				</plugins>
 			</build>
+			<distributionManagement>
+				<snapshotRepository>
+					<id>sonatype</id>
+					<name>Sonatype snapshots</name>
+					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+				</snapshotRepository>
+				<repository>
+					<id>sonatype</id>
+					<name>Sonatype release staging</name>
+					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+		<profile>
+			<id>foreach</id>
+			<distributionManagement>
+				<repository>
+					<id>foreach-nexus</id>
+					<name>Foreach nexus</name>
+					<url>http://repository.foreach.be/nexus/content/repositories/releases</url>
+				</repository>
+				<snapshotRepository>
+					<id>foreach-nexus</id>
+					<name>Foreach nexus</name>
+					<url>http://repository.foreach.be/nexus/content/repositories/snapshots</url>
+				</snapshotRepository>
+			</distributionManagement>
 		</profile>
 	</profiles>
 </project>
