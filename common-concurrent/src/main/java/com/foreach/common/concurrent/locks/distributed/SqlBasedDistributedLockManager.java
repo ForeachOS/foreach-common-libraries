@@ -18,6 +18,7 @@ package com.foreach.common.concurrent.locks.distributed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -350,73 +351,85 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 		LOG.trace( "Owner {} is trying to acquire lock {}", ownerId, lockId );
 
 		long timestamp = System.currentTimeMillis();
-		int updated = jdbcTemplate.update( sqlTakeLock, ownerId, timestamp, timestamp, lockId, ownerId );
+		try {
+			int updated;
 
-		if ( updated > 1 ) {
-			throw new DistributedLockException(
-					"DistributedLockRepository table corrupt, more than one lock with id " + lockId );
-		}
+			try {
+				updated = jdbcTemplate.update( sqlTakeLock, ownerId, timestamp, timestamp, lockId, ownerId );
+			}
+			catch ( DeadlockLoserDataAccessException dle ) {
+				LOG.trace( "Deadlock loser for lock  {} - retrying once immediately", lockId );
+				updated = jdbcTemplate.update( sqlTakeLock, ownerId, timestamp, timestamp, lockId, ownerId );
+			}
 
-		if ( updated == 1 ) {
-			LOG.trace( "Owner {} directly acquired lock {}", ownerId, lockId );
-			acquired = true;
-		}
-		else {
-			LockInfo lockInfo = getLockInfo( lockId );
+			if ( updated > 1 ) {
+				throw new DistributedLockException(
+						"DistributedLockRepository table corrupt, more than one lock with id " + lockId );
+			}
 
-			if ( lockInfo != null ) {
-				if ( ownerId.equals( lockInfo.getOwnerId() ) ) {
-					acquired = true;
-				}
-				else {
-					timestamp = System.currentTimeMillis();
-					long lastUpdateAge = timestamp - lockInfo.getUpdated();
-					if ( lastUpdateAge > configuration.getMaxIdleBeforeSteal() ) {
-						LOG.trace( "Lock {} was last updated {} ms ago - attempting to steal the lock",
-						           lockId, lastUpdateAge );
-						updated = jdbcTemplate.update( sqlStealLock, ownerId, timestamp, timestamp, lockId,
-						                               lockInfo.getOwnerId(), lockInfo.getUpdated() );
-
-						acquired = updated == 1;
-					}
-					else if ( LOG.isTraceEnabled() ) {
-						long duration = System.currentTimeMillis() - lockInfo.getCreated();
-						LOG.trace( "Lock {} is held by {} since {} ms", lockId, lockInfo.getOwnerId(),
-						           duration );
-					}
-				}
+			if ( updated == 1 ) {
+				LOG.trace( "Owner {} directly acquired lock {}", ownerId, lockId );
+				acquired = true;
 			}
 			else {
-				LOG.trace( "Lock {} currently does not exist, creating", lockId );
+				LockInfo lockInfo = getLockInfo( lockId );
 
-				int created;
+				if ( lockInfo != null ) {
+					if ( ownerId.equals( lockInfo.getOwnerId() ) ) {
+						acquired = true;
+					}
+					else {
+						timestamp = System.currentTimeMillis();
+						long lastUpdateAge = timestamp - lockInfo.getUpdated();
+						if ( lastUpdateAge > configuration.getMaxIdleBeforeSteal() ) {
+							LOG.trace( "Lock {} was last updated {} ms ago - attempting to steal the lock",
+							           lockId, lastUpdateAge );
+							updated = jdbcTemplate.update( sqlStealLock, ownerId, timestamp, timestamp, lockId,
+							                               lockInfo.getOwnerId(), lockInfo.getUpdated() );
 
-				try {
-					timestamp = System.currentTimeMillis();
-					created = jdbcTemplate.update( sqlInsertLock, lockId, ownerId, timestamp, timestamp );
-				}
-				catch ( DataAccessException dae ) {
-					created = 0;
-				}
-
-				if ( created != 1 ) {
-					LOG.trace( "Failed to create lock record {} - was possibly created in the meantime",
-					           lockId );
+							acquired = updated == 1;
+						}
+						else if ( LOG.isTraceEnabled() ) {
+							long duration = System.currentTimeMillis() - lockInfo.getCreated();
+							LOG.trace( "Lock {} is held by {} since {} ms", lockId, lockInfo.getOwnerId(),
+							           duration );
+						}
+					}
 				}
 				else {
-					LOG.trace( "Lock {} created by {}", lockId, ownerId );
-					acquired = true;
+					LOG.trace( "Lock {} currently does not exist, creating", lockId );
+
+					int created;
+
+					try {
+						timestamp = System.currentTimeMillis();
+						created = jdbcTemplate.update( sqlInsertLock, lockId, ownerId, timestamp, timestamp );
+					}
+					catch ( DataAccessException dae ) {
+						created = 0;
+					}
+
+					if ( created != 1 ) {
+						LOG.trace( "Failed to create lock record {} - was possibly created in the meantime",
+						           lockId );
+					}
+					else {
+						LOG.trace( "Lock {} created by {}", lockId, ownerId );
+						acquired = true;
+					}
 				}
 			}
 
+			if ( acquired ) {
+				lockMonitor.addLock( ownerId, lock );
+			}
+			else {
+				// Cleanup any stale record already, we're sure we no longer have the lock
+				lockMonitor.removeLock( ownerId, lockId );
+			}
 		}
-
-		if ( acquired ) {
-			lockMonitor.addLock( ownerId, lock );
-		}
-		else {
-			// Cleanup any stale record already, we're sure we no longer have the lock
-			lockMonitor.removeLock( ownerId, lockId );
+		catch ( DeadlockLoserDataAccessException dle ) {
+			LOG.debug( "Deadlock loser for lock {}", lockId, dle );
 		}
 
 		return acquired;
