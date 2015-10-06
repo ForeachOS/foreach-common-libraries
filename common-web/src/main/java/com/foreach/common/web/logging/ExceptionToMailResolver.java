@@ -35,6 +35,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * ExceptionToMailResolver sends a mail for every java exception
@@ -85,6 +86,8 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	private MailService mailService;
 
 	private ApplicationContextInfo applicationContextInfo;
+
+	private List<Class<?>> exceptionsToIgnoreForMail;
 
 	/**
 	 * Specify your own custom logger
@@ -141,6 +144,15 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	}
 
 	/**
+	 * set the Exception classes/interfaces for which sending mail should be ignored
+	 *
+	 * @param exceptionsToIgnoreForMail
+	 */
+	public final void setExceptionsToIgnoreForMail( List<Class<?>> exceptionsToIgnoreForMail ) {
+		this.exceptionsToIgnoreForMail = exceptionsToIgnoreForMail;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -151,7 +163,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		logger.error( "Exception has occured ", ex );
 
 		try {
-			if ( ex != null ) {
+			if ( ex != null && isEligibleForMail( ex )) {
 				String mailBody = createExceptionMailBody( request, handler, ex );
 				String mailSubject = createExceptionMailSubject( ex );
 
@@ -353,5 +365,17 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		}
 
 		return buf.toString();
+	}
+
+	private boolean isEligibleForMail( Exception exception )
+	{
+		if (exceptionsToIgnoreForMail != null){
+			for (Class<?> exceptionToIgnore : this.exceptionsToIgnoreForMail) {
+				if (exceptionToIgnore.isAssignableFrom( exception.getClass()) ) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
