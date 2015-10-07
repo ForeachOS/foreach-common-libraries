@@ -87,7 +87,9 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private ApplicationContextInfo applicationContextInfo;
 
-	private List<Class<?>> exceptionsToIgnoreForMail;
+	private List<Class<?>> excludeExceptionsForMail;
+
+	private MailPredicate mailPredicate;
 
 	/**
 	 * Specify your own custom logger
@@ -143,13 +145,24 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		this.applicationContextInfo = context;
 	}
 
+
 	/**
-	 * set the Exception classes/interfaces for which sending mail should be ignored
+	 * set the Exception classes/interfaces for which sending mail should be excluded
 	 *
-	 * @param exceptionsToIgnoreForMail
+	 * @param excludeExceptionsForMail
 	 */
-	public final void setExceptionsToIgnoreForMail( List<Class<?>> exceptionsToIgnoreForMail ) {
-		this.exceptionsToIgnoreForMail = exceptionsToIgnoreForMail;
+	public void setExcludeExceptionsForMail( List<Class<?>> excludeExceptionsForMail ) {
+		this.excludeExceptionsForMail = excludeExceptionsForMail;
+	}
+
+	/**
+	 * set the MailPredicate which is used to determine whether to send mail for current exception.
+	 * default null, mails will be sent for all types of exception
+	 *
+	 * @param mailPredicate
+	 */
+	public void setMailPredicate( MailPredicate mailPredicate ) {
+		this.mailPredicate = mailPredicate;
 	}
 
 	/**
@@ -163,7 +176,9 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		logger.error( "Exception has occured ", ex );
 
 		try {
-			if ( ex != null && isEligibleForMail( ex )) {
+			boolean sendMail = (mailPredicate == null || mailPredicate.evaluate( ex )) && isEligibleForMail( ex );
+
+			if ( ex != null && sendMail ) {
 				String mailBody = createExceptionMailBody( request, handler, ex );
 				String mailSubject = createExceptionMailSubject( ex );
 
@@ -369,8 +384,8 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private boolean isEligibleForMail( Exception exception )
 	{
-		if (exceptionsToIgnoreForMail != null){
-			for (Class<?> exceptionToIgnore : this.exceptionsToIgnoreForMail) {
+		if ( excludeExceptionsForMail != null){
+			for (Class<?> exceptionToIgnore : this.excludeExceptionsForMail ) {
 				if (exceptionToIgnore.isAssignableFrom( exception.getClass()) ) {
 					return false;
 				}
@@ -378,4 +393,5 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		}
 		return true;
 	}
+
 }

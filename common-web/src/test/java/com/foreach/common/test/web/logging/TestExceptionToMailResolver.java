@@ -19,6 +19,7 @@ import com.foreach.common.spring.context.ApplicationContextInfo;
 import com.foreach.common.spring.context.ApplicationEnvironment;
 import com.foreach.common.spring.mail.MailService;
 import com.foreach.common.web.logging.ExceptionToMailResolver;
+import com.foreach.common.web.logging.MailPredicate;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -29,6 +30,7 @@ import org.springframework.mock.web.MockHttpSession;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -118,6 +120,69 @@ public class TestExceptionToMailResolver
 
 		verify( mailService ).sendMimeMail( eq( fromAddress ), eq( toAddress ), anyString(), anyString(), anyString(),
 		                                    Matchers.<Map<String, File>>anyObject() );
+	}
+
+	@Test
+	public void resolverDoesNotSendMailForSpecifiedPredicate()
+	{
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+
+		resolver.setMailPredicate( createMailPredicate() );
+		resolver.doResolveException( request, response, null, new RuntimeException() );
+
+		verify( mailService, never() ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
+		                                             Matchers.<Map<String, File>>anyObject() );
+	}
+
+	@Test
+	public void resolverDoesSendMailForSpecifiedPredicate()
+	{
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+
+		resolver.setMailPredicate( createMailPredicate() );
+		resolver.doResolveException( request, response, null, new Exception() );
+
+		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
+		                                    Matchers.<Map<String, File>>anyObject() );
+	}
+
+	@Test
+	public void resolverDoesNotSendMailForSpecifiedException()
+	{
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+
+		resolver.setExcludeExceptionsForMail( Arrays.<Class<?>>asList( RuntimeException.class ) );
+		resolver.doResolveException( request, response, null, new RuntimeException() );
+
+		verify( mailService, never() ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
+		                                             Matchers.<Map<String, File>>anyObject() );
+	}
+
+	@Test
+	public void resolverDoesSendMailForSpecifiedException()
+	{
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+
+		resolver.setExcludeExceptionsForMail( Arrays.<Class<?>>asList( RuntimeException.class ) );
+		resolver.doResolveException( request, response, null, new Exception() );
+
+		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
+		                                             Matchers.<Map<String, File>>anyObject() );
+	}
+
+	private MailPredicate createMailPredicate()
+	{
+		return new MailPredicate()
+		{
+			@Override
+			public boolean evaluate( Object object ) {
+				return !RuntimeException.class.isAssignableFrom( object.getClass() );
+			}
+		};
 	}
 
 }
