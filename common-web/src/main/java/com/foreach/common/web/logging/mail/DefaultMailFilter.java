@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.foreach.common.web.logging;
+package com.foreach.common.web.logging.mail;
 
 /**
+ * The filter will always send mail
  * @author pavan
  */
-public interface MailPredicate<T>
+public class DefaultMailFilter implements MailFilter
 {
-	boolean evaluate (T object);
+	@Override
+	public boolean evaluate() {
+		return true;
+	}
 }

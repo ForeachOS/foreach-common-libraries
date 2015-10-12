@@ -17,6 +17,8 @@ package com.foreach.common.web.logging;
 
 import com.foreach.common.spring.context.ApplicationContextInfo;
 import com.foreach.common.spring.mail.MailService;
+import com.foreach.common.web.logging.mail.MailFilter;
+import com.foreach.common.web.logging.mail.NoMailFilter;
 import com.foreach.common.web.util.WebUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -33,9 +35,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 /**
  * ExceptionToMailResolver sends a mail for every java exception
@@ -87,9 +87,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private ApplicationContextInfo applicationContextInfo;
 
-	private List<Class<?>> excludeExceptionsForMail;
-
-	private MailPredicate mailPredicate;
+	private Map<Class<?>, MailFilter> mailFilterMap = new HashMap<Class<?>, MailFilter>();
 
 	/**
 	 * Specify your own custom logger
@@ -147,22 +145,26 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 
 	/**
-	 * set the Exception classes/interfaces for which sending mail should be excluded
+	 * set the Exception classes/interfaces for which sending mail should be ignored
 	 *
-	 * @param excludeExceptionsForMail
+	 * @param excludeMailForExceptions
 	 */
-	public void setExcludeExceptionsForMail( List<Class<?>> excludeExceptionsForMail ) {
-		this.excludeExceptionsForMail = excludeExceptionsForMail;
+	public void setExcludeMailForExceptions( List<Class<?>> excludeMailForExceptions ) {
+		if (excludeMailForExceptions != null){
+			NoMailFilter noMailFilter = new NoMailFilter();
+			for (Class classType : excludeMailForExceptions){
+				mailFilterMap.put( classType, noMailFilter );
+			}
+		}
 	}
 
 	/**
-	 * set the MailPredicate which is used to determine whether to send mail for current exception.
-	 * default null, mails will be sent for all types of exception
-	 *
-	 * @param mailPredicate
+	 * Specify a mail filter for certain type of Exception.
+	 * @param classType
+	 * @param mailFilter
 	 */
-	public void setMailPredicate( MailPredicate mailPredicate ) {
-		this.mailPredicate = mailPredicate;
+	public void addMailFilterForException( Class classType, MailFilter mailFilter ) {
+		this.mailFilterMap.put( classType, mailFilter );
 	}
 
 	/**
@@ -176,8 +178,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		logger.error( "Exception has occured ", ex );
 
 		try {
-			boolean sendMail = (mailPredicate == null || mailPredicate.evaluate( ex )) && isEligibleForMail( ex );
-
+			boolean sendMail = isEligibleForMail( ex );
 			if ( ex != null && sendMail ) {
 				String mailBody = createExceptionMailBody( request, handler, ex );
 				String mailSubject = createExceptionMailSubject( ex );
@@ -384,11 +385,9 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private boolean isEligibleForMail( Exception exception )
 	{
-		if ( excludeExceptionsForMail != null){
-			for (Class<?> exceptionToIgnore : this.excludeExceptionsForMail ) {
-				if (exceptionToIgnore.isAssignableFrom( exception.getClass()) ) {
-					return false;
-				}
+		for (Map.Entry<Class<?>, MailFilter> entry : mailFilterMap.entrySet() ) {
+			if (entry.getKey().isAssignableFrom( exception.getClass()) ) {
+				return entry.getValue().evaluate();
 			}
 		}
 		return true;
