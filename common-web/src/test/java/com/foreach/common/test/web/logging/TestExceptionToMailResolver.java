@@ -18,10 +18,8 @@ package com.foreach.common.test.web.logging;
 import com.foreach.common.spring.context.ApplicationContextInfo;
 import com.foreach.common.spring.context.ApplicationEnvironment;
 import com.foreach.common.spring.mail.MailService;
+import com.foreach.common.web.logging.ExceptionPredicate;
 import com.foreach.common.web.logging.ExceptionToMailResolver;
-import com.foreach.common.web.logging.mail.DefaultMailFilter;
-import com.foreach.common.web.logging.mail.IntervalMailFilter;
-import com.foreach.common.web.logging.mail.NoMailFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -32,7 +30,6 @@ import org.springframework.mock.web.MockHttpSession;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -130,8 +127,14 @@ public class TestExceptionToMailResolver
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		NoMailFilter mailFilter = new NoMailFilter();
-		resolver.addMailFilterForException( RuntimeException.class, mailFilter );
+		resolver.setExceptionPredicate( new ExceptionPredicate()
+		{
+			@Override
+			public boolean evaluate( Exception exception ) {
+				return !(exception instanceof RuntimeException);
+			}
+		} );
+
 		resolver.doResolveException( request, response, null, new RuntimeException() );
 
 		verify( mailService, never() ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
@@ -144,69 +147,17 @@ public class TestExceptionToMailResolver
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		DefaultMailFilter mailFilter = new DefaultMailFilter();
-		resolver.addMailFilterForException( Exception.class, mailFilter );
+		resolver.setExceptionPredicate( new ExceptionPredicate()
+		{
+			@Override
+			public boolean evaluate( Exception exception ) {
+				return true;
+			}
+		} );
 		resolver.doResolveException( request, response, null, new Exception() );
 
 		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
 		                                    Matchers.<Map<String, File>>anyObject() );
-	}
-
-	@Test
-	public void resolverDoesSendMailAtSpecifiedInterval() throws Exception
-	{
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		MockHttpServletResponse response = new MockHttpServletResponse();
-
-		long interval = 3;
-		IntervalMailFilter mailFilter = new IntervalMailFilter( interval );
-		resolver.addMailFilterForException( Exception.class, mailFilter );
-		resolver.doResolveException( request, response, null, new Exception() );
-
-		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
-		                                    Matchers.<Map<String, File>>anyObject() );
-
-		// create new mock for MailService as we already verified the sendMimeMail method call
-		mailService = mock( MailService.class );
-		resolver.setMailService( mailService );
-		resolver.doResolveException( request, response, null, new Exception() );
-		verify( mailService, never() ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
-		                                    Matchers.<Map<String, File>>anyObject() );
-
-		Thread.sleep( (interval + 1) * 1000 );
-
-		// create new mock for MailService as we already verified the sendMimeMail method call
-		mailService = mock( MailService.class );
-		resolver.setMailService( mailService );
-		resolver.doResolveException( request, response, null, new Exception() );
-		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
-		                                    Matchers.<Map<String, File>>anyObject() );
-	}
-
-	@Test
-	public void resolverDoesNotSendMailForSpecifiedException()
-	{
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		MockHttpServletResponse response = new MockHttpServletResponse();
-
-		resolver.setExcludeMailForExceptions( Arrays.<Class<?>>asList( RuntimeException.class ) );
-		resolver.doResolveException( request, response, null, new RuntimeException() );
-
-		verify( mailService, never() ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
-		                                             Matchers.<Map<String, File>>anyObject() );
-	}
-
-	@Test
-	public void resolverDoesSendMailForSpecifiedException()
-	{
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		MockHttpServletResponse response = new MockHttpServletResponse();
-
-		resolver.setExcludeMailForExceptions( Arrays.<Class<?>>asList( RuntimeException.class ) );
-		resolver.doResolveException( request, response, null, new Exception() );
-
-		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
-		                                             Matchers.<Map<String, File>>anyObject() );
 	}
 
 }

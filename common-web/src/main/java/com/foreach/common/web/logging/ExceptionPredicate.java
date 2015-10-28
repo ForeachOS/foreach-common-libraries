@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.foreach.common.web.logging.mail;
+package com.foreach.common.web.logging;
 
 /**
- * The filter will always send mail
+ * Basic interface to create custom ExceptionPredicate object which is used to determine sending of mail for encountered exception object
  * @author pavan
  */
-public class DefaultMailFilter implements MailFilter
+public interface ExceptionPredicate
 {
-	@Override
-	public boolean evaluate() {
-		return true;
-	}
+	/**
+	 * evaluate to true to send mail for given exception
+	 * @param exception
+	 * @return
+	 */
+	boolean evaluate (Exception exception);
 }
