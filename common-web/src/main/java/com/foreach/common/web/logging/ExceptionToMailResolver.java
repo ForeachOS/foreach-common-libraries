@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
@@ -85,7 +86,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 
 	private ApplicationContextInfo applicationContextInfo;
 
-	private ExceptionPredicate exceptionPredicate;
+	private ExceptionPredicate exceptionPredicate = new DefaultExceptionPredicate();
 
 	/**
 	 * Specify your own custom logger
@@ -147,6 +148,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 * @param exceptionPredicate
 	 */
 	public void setExceptionPredicate( ExceptionPredicate exceptionPredicate ) {
+		Assert.notNull( exceptionPredicate );
 		this.exceptionPredicate = exceptionPredicate;
 	}
 
@@ -161,7 +163,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		logger.error( "Exception has occured ", ex );
 
 		try {
-			boolean sendMail = ( (ex != null) && ((exceptionPredicate == null) || exceptionPredicate.evaluate( ex ) ));
+			boolean sendMail = ( ex != null && exceptionPredicate.evaluate( ex ));
 			if ( sendMail ) {
 				String mailBody = createExceptionMailBody( request, handler, ex );
 				String mailSubject = createExceptionMailSubject( ex );
@@ -364,5 +366,13 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		}
 
 		return buf.toString();
+	}
+
+	private class DefaultExceptionPredicate implements ExceptionPredicate{
+
+		@Override
+		public boolean evaluate( Exception exception ) {
+			return true;
+		}
 	}
 }

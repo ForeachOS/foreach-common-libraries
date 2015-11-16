@@ -18,8 +18,9 @@ package com.foreach.common.test.web.logging;
 import com.foreach.common.spring.context.ApplicationContextInfo;
 import com.foreach.common.spring.context.ApplicationEnvironment;
 import com.foreach.common.spring.mail.MailService;
-import com.foreach.common.web.logging.ExceptionPredicate;
 import com.foreach.common.web.logging.ExceptionToMailResolver;
+import com.foreach.common.web.logging.ExcludedExceptionPredicate;
+import com.foreach.common.web.logging.IncludedExceptionPredicate;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -127,13 +128,7 @@ public class TestExceptionToMailResolver
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		resolver.setExceptionPredicate( new ExceptionPredicate()
-		{
-			@Override
-			public boolean evaluate( Exception exception ) {
-				return !(exception instanceof RuntimeException);
-			}
-		} );
+		resolver.setExceptionPredicate( new ExcludedExceptionPredicate( RuntimeException.class ));
 
 		resolver.doResolveException( request, response, null, new RuntimeException() );
 
@@ -147,14 +142,8 @@ public class TestExceptionToMailResolver
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		resolver.setExceptionPredicate( new ExceptionPredicate()
-		{
-			@Override
-			public boolean evaluate( Exception exception ) {
-				return true;
-			}
-		} );
-		resolver.doResolveException( request, response, null, new Exception() );
+		resolver.setExceptionPredicate( new IncludedExceptionPredicate( Exception.class ));
+		resolver.doResolveException( request, response, null, new RuntimeException() );
 
 		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
 		                                    Matchers.<Map<String, File>>anyObject() );

@@ -16,15 +16,17 @@
 package com.foreach.common.web.logging;
 
 /**
- * Basic interface to create custom ExceptionPredicate object which is used to determine sending of mail for encountered exception object
+ * Basic interface to create custom ExceptionPredicate object which is used to determine sending of mail for encountered exception
+ *
  * @author pavan
  */
-public interface ExceptionPredicate
-{
+public interface ExceptionPredicate {
+
 	/**
-	 * evaluate to true to send mail for given exception
+	 * Evaluate to true to send mail for given exception
+	 *
 	 * @param exception
 	 * @return
 	 */
-	boolean evaluate (Exception exception);
+	boolean evaluate( Exception exception );
 }
