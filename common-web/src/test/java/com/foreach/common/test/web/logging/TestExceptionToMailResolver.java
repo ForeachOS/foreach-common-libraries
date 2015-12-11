@@ -21,8 +21,10 @@ import com.foreach.common.spring.mail.MailService;
 import com.foreach.common.web.logging.ExceptionToMailResolver;
 import com.foreach.common.web.logging.ExcludedExceptionPredicate;
 import com.foreach.common.web.logging.IncludedExceptionPredicate;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Matchers;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -40,6 +42,8 @@ public class TestExceptionToMailResolver
 {
 
 	private ExceptionToMailResolver resolver;
+	private IncludedExceptionPredicate includedExceptionPredicate;
+	private ExcludedExceptionPredicate excludedExceptionPredicate;
 
 	private MailService mailService;
 	private ApplicationContextInfo applicationContextInfo;
@@ -51,6 +55,8 @@ public class TestExceptionToMailResolver
 		resolver = new ExceptionToMailResolver();
 
 		mailService = mock( MailService.class );
+		includedExceptionPredicate = mock( IncludedExceptionPredicate.class );
+		excludedExceptionPredicate = mock( ExcludedExceptionPredicate.class );
 
 		applicationContextInfo = new ApplicationContextInfo();
 		applicationContextInfo.setApplicationName( "TestExceptionToMailResolver" );
@@ -123,27 +129,38 @@ public class TestExceptionToMailResolver
 	}
 
 	@Test
-	public void resolverDoesNotSendMail()
-	{
+	public void resolverDoesNotSendMail() {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
+		Exception exception = new RuntimeException();
 
-		resolver.setExceptionPredicate( new ExcludedExceptionPredicate( RuntimeException.class ));
+		resolver.setExceptionPredicate( excludedExceptionPredicate );
+		when( excludedExceptionPredicate.evaluate( exception ) ).thenReturn( false );
 
-		resolver.doResolveException( request, response, null, new RuntimeException() );
+		resolver.doResolveException( request, response, null, exception );
+
+		ArgumentCaptor<Exception> argumentCaptor = ArgumentCaptor.forClass( Exception.class );
+		verify( excludedExceptionPredicate ).evaluate( argumentCaptor.capture() );
+		Assert.assertEquals( exception, argumentCaptor.getValue() );
 
 		verify( mailService, never() ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
 		                                             Matchers.<Map<String, File>>anyObject() );
 	}
 
 	@Test
-	public void resolverDoesSendMail()
-	{
+	public void resolverDoesSendMail() {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
+		Exception exception = new RuntimeException();
 
-		resolver.setExceptionPredicate( new IncludedExceptionPredicate( Exception.class ));
-		resolver.doResolveException( request, response, null, new RuntimeException() );
+		resolver.setExceptionPredicate( includedExceptionPredicate );
+		when( includedExceptionPredicate.evaluate( exception ) ).thenReturn( true );
+
+		resolver.doResolveException( request, response, null, exception );
+
+		ArgumentCaptor<Exception> argumentCaptor = ArgumentCaptor.forClass( Exception.class );
+		verify( includedExceptionPredicate ).evaluate( argumentCaptor.capture() );
+		Assert.assertEquals( exception, argumentCaptor.getValue() );
 
 		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
 		                                    Matchers.<Map<String, File>>anyObject() );

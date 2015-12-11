@@ -20,26 +20,27 @@ import org.springframework.util.Assert;
 import java.util.Arrays;
 
 /**
- * Use this exception predicate if you want to exclude resolving certain collection of Exceptions to mail
+ * Predicate that evaluates to true only if the argument is not assignable to any of the configured exceptions.
+ *
  * @author pavan
  */
-public class ExcludedExceptionPredicate implements ExceptionPredicate {
+public class ExcludedExceptionPredicate implements ExceptionPredicate
+{
 	private Iterable<Class<? extends Exception>> exceptionClasses;
 
-	public ExcludedExceptionPredicate( Iterable<Class<? extends Exception>> exceptionClasses ){
+	public ExcludedExceptionPredicate( Iterable<Class<? extends Exception>> exceptionClasses ) {
 		Assert.notNull( exceptionClasses );
 		this.exceptionClasses = exceptionClasses;
 	}
 
-	public ExcludedExceptionPredicate( Class<? extends Exception>... exceptionClass ){
-		Assert.notNull( exceptionClass );
+	public ExcludedExceptionPredicate( Class<? extends Exception>... exceptionClass ) {
 		this.exceptionClasses = Arrays.asList( exceptionClass );
 	}
 
 	@Override
 	public boolean evaluate( Exception exception ) {
 		boolean result = true;
-		for (Class exceptionClass : this.exceptionClasses) {
+		for ( Class exceptionClass : this.exceptionClasses ) {
 			if ( exceptionClass.isAssignableFrom( exception.getClass() ) ) {
 				result = false;
 			}

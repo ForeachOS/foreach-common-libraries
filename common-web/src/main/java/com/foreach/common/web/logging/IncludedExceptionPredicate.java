@@ -15,32 +15,33 @@
  */
 package com.foreach.common.web.logging;
 
-
 import org.springframework.util.Assert;
 
 import java.util.Arrays;
 
 /**
- * Use this exception predicate if you want to include resolving certain collection of Exceptions to mail
+ * Predicate that evaluates to true only if the argument is assignable to any of the configured exceptions.
+ *
  * @author pavan
  */
-public class IncludedExceptionPredicate implements ExceptionPredicate {
+public class IncludedExceptionPredicate implements ExceptionPredicate
+{
 
 	private Iterable<Class<? extends Exception>> exceptionClasses;
 
-	public IncludedExceptionPredicate( Iterable<Class<? extends Exception>> exceptionClasses ){
+	public IncludedExceptionPredicate( Iterable<Class<? extends Exception>> exceptionClasses ) {
 		Assert.notNull( exceptionClasses );
 		this.exceptionClasses = exceptionClasses;
 	}
 
-	public IncludedExceptionPredicate( Class<? extends Exception>... exceptionClass ){
+	public IncludedExceptionPredicate( Class<? extends Exception>... exceptionClass ) {
 		Assert.notNull( exceptionClass );
 		this.exceptionClasses = Arrays.asList( exceptionClass );
 	}
 
 	@Override
 	public boolean evaluate( Exception exception ) {
-		for (Class exceptionClass : this.exceptionClasses) {
+		for ( Class exceptionClass : this.exceptionClasses ) {
 			if ( exceptionClass.isAssignableFrom( exception.getClass() ) ) {
 				return true;
 			}

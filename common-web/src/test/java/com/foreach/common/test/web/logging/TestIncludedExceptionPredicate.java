@@ -28,21 +28,21 @@ import java.util.List;
 public class TestIncludedExceptionPredicate
 {
 	@Test
-	public void predicateEvaluateToTrueWithVarArgsConstructor(){
+	public void predicateEvaluateToTrueWithVarArgsConstructor() {
 		IncludedExceptionPredicate predicate = new IncludedExceptionPredicate( RuntimeException.class );
 		boolean result = predicate.evaluate( new ArrayIndexOutOfBoundsException() );
 		Assert.assertEquals( true, result );
 	}
 
 	@Test
-	public void predicateEvaluateToFalseWithVarArgsConstructor(){
+	public void predicateEvaluateToFalseWithVarArgsConstructor() {
 		IncludedExceptionPredicate predicate = new IncludedExceptionPredicate( ArrayIndexOutOfBoundsException.class );
 		boolean result = predicate.evaluate( new RuntimeException() );
 		Assert.assertEquals( false, result );
 	}
 
 	@Test
-	public void predicateEvaluateToTrueWithIterableConstructor(){
+	public void predicateEvaluateToTrueWithIterableConstructor() {
 		List<Class<? extends Exception>> exceptions = new ArrayList<>();
 		exceptions.add( RuntimeException.class );
 
@@ -53,7 +53,7 @@ public class TestIncludedExceptionPredicate
 	}
 
 	@Test
-	public void predicateEvaluateToFalseWithIterableConstructor(){
+	public void predicateEvaluateToFalseWithIterableConstructor() {
 		List<Class<? extends Exception>> exceptions = new ArrayList<>();
 		exceptions.add( ArrayIndexOutOfBoundsException.class );
 

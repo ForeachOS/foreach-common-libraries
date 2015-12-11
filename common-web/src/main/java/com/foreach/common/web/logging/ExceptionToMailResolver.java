@@ -143,7 +143,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	}
 
 	/**
-	 * sending mail for exception is determined by evaluating the specified ExceptionPredicate
+	 * sending mail for certain exception is determined by evaluating the specified predicate
 	 *
 	 * @param exceptionPredicate
 	 */
@@ -163,7 +163,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		logger.error( "Exception has occured ", ex );
 
 		try {
-			boolean sendMail = ( ex != null && exceptionPredicate.evaluate( ex ));
+			boolean sendMail = ( ex != null && exceptionPredicate.evaluate( ex ) );
 			if ( sendMail ) {
 				String mailBody = createExceptionMailBody( request, handler, ex );
 				String mailSubject = createExceptionMailSubject( ex );
@@ -368,8 +368,8 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		return buf.toString();
 	}
 
-	private class DefaultExceptionPredicate implements ExceptionPredicate{
-
+	private static class DefaultExceptionPredicate implements ExceptionPredicate
+	{
 		@Override
 		public boolean evaluate( Exception exception ) {
 			return true;
