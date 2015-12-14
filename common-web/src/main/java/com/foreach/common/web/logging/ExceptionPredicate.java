@@ -16,7 +16,7 @@
 package com.foreach.common.web.logging;
 
 /**
- * Basic interface for evaluating a {@link Throwable} instance.
+ * Basic interface for evaluating a {@link Exception} instance.
  *
  * @author pavan
  * @see ExceptionToMailResolver
