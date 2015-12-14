@@ -26,7 +26,6 @@ import java.util.Arrays;
  */
 public class IncludedExceptionPredicate implements ExceptionPredicate
 {
-
 	private Iterable<Class<? extends Exception>> exceptionClasses;
 
 	public IncludedExceptionPredicate( Iterable<Class<? extends Exception>> exceptionClasses ) {
@@ -34,6 +33,7 @@ public class IncludedExceptionPredicate implements ExceptionPredicate
 		this.exceptionClasses = exceptionClasses;
 	}
 
+	@SafeVarargs
 	public IncludedExceptionPredicate( Class<? extends Exception>... exceptionClass ) {
 		Assert.notNull( exceptionClass );
 		this.exceptionClasses = Arrays.asList( exceptionClass );
@@ -41,7 +41,7 @@ public class IncludedExceptionPredicate implements ExceptionPredicate
 
 	@Override
 	public boolean evaluate( Exception exception ) {
-		for ( Class exceptionClass : this.exceptionClasses ) {
+		for ( Class<?> exceptionClass : this.exceptionClasses ) {
 			if ( exceptionClass.isAssignableFrom( exception.getClass() ) ) {
 				return true;
 			}

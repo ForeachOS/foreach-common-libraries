@@ -21,7 +21,6 @@ import com.foreach.common.spring.mail.MailService;
 import com.foreach.common.web.logging.ExceptionToMailResolver;
 import com.foreach.common.web.logging.ExcludedExceptionPredicate;
 import com.foreach.common.web.logging.IncludedExceptionPredicate;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -36,6 +35,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class TestExceptionToMailResolver
@@ -141,7 +141,7 @@ public class TestExceptionToMailResolver
 
 		ArgumentCaptor<Exception> argumentCaptor = ArgumentCaptor.forClass( Exception.class );
 		verify( excludedExceptionPredicate ).evaluate( argumentCaptor.capture() );
-		Assert.assertEquals( exception, argumentCaptor.getValue() );
+		assertEquals( exception, argumentCaptor.getValue() );
 
 		verify( mailService, never() ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
 		                                             Matchers.<Map<String, File>>anyObject() );
@@ -160,7 +160,7 @@ public class TestExceptionToMailResolver
 
 		ArgumentCaptor<Exception> argumentCaptor = ArgumentCaptor.forClass( Exception.class );
 		verify( includedExceptionPredicate ).evaluate( argumentCaptor.capture() );
-		Assert.assertEquals( exception, argumentCaptor.getValue() );
+		assertEquals( exception, argumentCaptor.getValue() );
 
 		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
 		                                    Matchers.<Map<String, File>>anyObject() );

@@ -16,17 +16,18 @@
 package com.foreach.common.web.logging;
 
 /**
- * Basic interface to create custom ExceptionPredicate object which is used to determine sending of mail for encountered exception
+ * Basic interface for evaluating a {@link Throwable} instance.
  *
  * @author pavan
+ * @see ExceptionToMailResolver
  */
 public interface ExceptionPredicate {
 
 	/**
 	 * Evaluate to true to send mail for given exception
 	 *
-	 * @param exception
-	 * @return
+	 * @param exception instance
+	 * @return true if exception matches the predicate
 	 */
 	boolean evaluate( Exception exception );
 }

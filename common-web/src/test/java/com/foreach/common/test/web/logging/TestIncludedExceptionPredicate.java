@@ -16,11 +16,13 @@
 package com.foreach.common.test.web.logging;
 
 import com.foreach.common.web.logging.IncludedExceptionPredicate;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author pavan
@@ -31,14 +33,14 @@ public class TestIncludedExceptionPredicate
 	public void predicateEvaluateToTrueWithVarArgsConstructor() {
 		IncludedExceptionPredicate predicate = new IncludedExceptionPredicate( RuntimeException.class );
 		boolean result = predicate.evaluate( new ArrayIndexOutOfBoundsException() );
-		Assert.assertEquals( true, result );
+		assertTrue( result );
 	}
 
 	@Test
 	public void predicateEvaluateToFalseWithVarArgsConstructor() {
 		IncludedExceptionPredicate predicate = new IncludedExceptionPredicate( ArrayIndexOutOfBoundsException.class );
 		boolean result = predicate.evaluate( new RuntimeException() );
-		Assert.assertEquals( false, result );
+		assertFalse( result );
 	}
 
 	@Test
@@ -49,7 +51,7 @@ public class TestIncludedExceptionPredicate
 		IncludedExceptionPredicate predicate = new IncludedExceptionPredicate( exceptions );
 		boolean result = predicate.evaluate( new ArrayIndexOutOfBoundsException() );
 
-		Assert.assertEquals( true, result );
+		assertTrue( result );
 	}
 
 	@Test
@@ -60,6 +62,6 @@ public class TestIncludedExceptionPredicate
 		IncludedExceptionPredicate predicate = new IncludedExceptionPredicate( exceptions );
 		boolean result = predicate.evaluate( new RuntimeException() );
 
-		Assert.assertEquals( false, result );
+		assertFalse( result );
 	}
 }

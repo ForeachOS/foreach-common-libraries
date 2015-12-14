@@ -33,6 +33,7 @@ public class ExcludedExceptionPredicate implements ExceptionPredicate
 		this.exceptionClasses = exceptionClasses;
 	}
 
+	@SafeVarargs
 	public ExcludedExceptionPredicate( Class<? extends Exception>... exceptionClass ) {
 		this.exceptionClasses = Arrays.asList( exceptionClass );
 	}
@@ -40,12 +41,11 @@ public class ExcludedExceptionPredicate implements ExceptionPredicate
 	@Override
 	public boolean evaluate( Exception exception ) {
 		boolean result = true;
-		for ( Class exceptionClass : this.exceptionClasses ) {
+		for ( Class<?> exceptionClass : this.exceptionClasses ) {
 			if ( exceptionClass.isAssignableFrom( exception.getClass() ) ) {
 				result = false;
 			}
 		}
 		return result;
 	}
-
 }
