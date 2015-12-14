@@ -19,8 +19,11 @@ import com.foreach.common.spring.context.ApplicationContextInfo;
 import com.foreach.common.spring.context.ApplicationEnvironment;
 import com.foreach.common.spring.mail.MailService;
 import com.foreach.common.web.logging.ExceptionToMailResolver;
+import com.foreach.common.web.logging.ExcludedExceptionPredicate;
+import com.foreach.common.web.logging.IncludedExceptionPredicate;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Matchers;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -32,12 +35,15 @@ import java.io.File;
 import java.util.Date;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class TestExceptionToMailResolver
 {
 
 	private ExceptionToMailResolver resolver;
+	private IncludedExceptionPredicate includedExceptionPredicate;
+	private ExcludedExceptionPredicate excludedExceptionPredicate;
 
 	private MailService mailService;
 	private ApplicationContextInfo applicationContextInfo;
@@ -49,6 +55,8 @@ public class TestExceptionToMailResolver
 		resolver = new ExceptionToMailResolver();
 
 		mailService = mock( MailService.class );
+		includedExceptionPredicate = mock( IncludedExceptionPredicate.class );
+		excludedExceptionPredicate = mock( ExcludedExceptionPredicate.class );
 
 		applicationContextInfo = new ApplicationContextInfo();
 		applicationContextInfo.setApplicationName( "TestExceptionToMailResolver" );
@@ -117,6 +125,44 @@ public class TestExceptionToMailResolver
 		resolver.doResolveException( request, response, null, new Exception() );
 
 		verify( mailService ).sendMimeMail( eq( fromAddress ), eq( toAddress ), anyString(), anyString(), anyString(),
+		                                    Matchers.<Map<String, File>>anyObject() );
+	}
+
+	@Test
+	public void resolverDoesNotSendMail() {
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		Exception exception = new RuntimeException();
+
+		resolver.setExceptionPredicate( excludedExceptionPredicate );
+		when( excludedExceptionPredicate.evaluate( exception ) ).thenReturn( false );
+
+		resolver.doResolveException( request, response, null, exception );
+
+		ArgumentCaptor<Exception> argumentCaptor = ArgumentCaptor.forClass( Exception.class );
+		verify( excludedExceptionPredicate ).evaluate( argumentCaptor.capture() );
+		assertEquals( exception, argumentCaptor.getValue() );
+
+		verify( mailService, never() ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
+		                                             Matchers.<Map<String, File>>anyObject() );
+	}
+
+	@Test
+	public void resolverDoesSendMail() {
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		Exception exception = new RuntimeException();
+
+		resolver.setExceptionPredicate( includedExceptionPredicate );
+		when( includedExceptionPredicate.evaluate( exception ) ).thenReturn( true );
+
+		resolver.doResolveException( request, response, null, exception );
+
+		ArgumentCaptor<Exception> argumentCaptor = ArgumentCaptor.forClass( Exception.class );
+		verify( includedExceptionPredicate ).evaluate( argumentCaptor.capture() );
+		assertEquals( exception, argumentCaptor.getValue() );
+
+		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
 		                                    Matchers.<Map<String, File>>anyObject() );
 	}
 

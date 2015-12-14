@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
@@ -33,8 +34,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
+import java.util.*;
 
 /**
  * ExceptionToMailResolver sends a mail for every java exception
@@ -85,6 +85,8 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	private MailService mailService;
 
 	private ApplicationContextInfo applicationContextInfo;
+
+	private ExceptionPredicate exceptionPredicate = new DefaultExceptionPredicate();
 
 	/**
 	 * Specify your own custom logger
@@ -141,6 +143,16 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	}
 
 	/**
+	 * sending mail for certain exception is determined by evaluating the specified predicate
+	 *
+	 * @param exceptionPredicate
+	 */
+	public void setExceptionPredicate( ExceptionPredicate exceptionPredicate ) {
+		Assert.notNull( exceptionPredicate );
+		this.exceptionPredicate = exceptionPredicate;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -151,7 +163,8 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		logger.error( "Exception has occured ", ex );
 
 		try {
-			if ( ex != null ) {
+			boolean sendMail = ( ex != null && exceptionPredicate.evaluate( ex ) );
+			if ( sendMail ) {
 				String mailBody = createExceptionMailBody( request, handler, ex );
 				String mailSubject = createExceptionMailSubject( ex );
 
@@ -353,5 +366,13 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 		}
 
 		return buf.toString();
+	}
+
+	private static class DefaultExceptionPredicate implements ExceptionPredicate
+	{
+		@Override
+		public boolean evaluate( Exception exception ) {
+			return true;
+		}
 	}
 }
