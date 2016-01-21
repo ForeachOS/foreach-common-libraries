@@ -9,9 +9,8 @@ Different modules include utilities for testing, object locking, distributed loc
 
 More information:
 
-* Documentation and release notes: [https://foreach.atlassian.net/wiki/display/FJCL/Common+Java+libraries+Home]()
-* Issue tracker: [https://foreach.atlassian.net/projects/FJCL]()
-* Source code: [https://bitbucket.org/beforeach/common-java-libraries]()
+* Documentation and release notes: https://foreach.atlassian.net/wiki/display/FJCL/Common+Java+libraries+Home
+* Issue tracker: https://foreach.atlassian.net/projects/FJCL
+* Source code: https://bitbucket.org/beforeach/common-java-libraries
 
-Developed and maintained by [Foreach.be](http://www.foreach.be) 
-
+Developed and maintained by [Foreach.be](http://www.foreach.be)
