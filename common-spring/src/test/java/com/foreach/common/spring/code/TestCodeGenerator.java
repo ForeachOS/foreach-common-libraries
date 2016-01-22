@@ -37,6 +37,13 @@ public class TestCodeGenerator
 		generator.generate( 5000 );
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void illegalNumberOfCodesRequested() {
+		generator = CodeGenerator.forCodeLength( 10 );
+
+		generator.generate( -1 );
+	}
+
 	@Test
 	public void generatedCodesShouldHaveSameLengthAndBeDifferent() {
 		generator = CodeGenerator.forCodeLength( 10 );

@@ -44,6 +44,17 @@ public class TestMappedStringEncoder
 	}
 
 	@Test(expected = IllegalArgumentException.class)
+	public void nullEncodingMatrixRow() {
+		encoder.setEncodingMatrix(
+				new char[][] {
+						new char[] { 'A', 'B' },
+						null,
+						new char[] { 'B', 'C' },
+				}
+		);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
 	public void duplicateValuesOnTheSamePositionAreNotAllowed() {
 		encoder.setEncodingMatrix(
 				new char[][] {
@@ -52,6 +63,16 @@ public class TestMappedStringEncoder
 						new char[] { 'B', 'C' },
 				}
 		);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void negativeSignIndex() {
+		encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 2, false, -2 );
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void signIndexOutOfBounds() {
+		encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 2, false, 2 );
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -279,6 +300,19 @@ public class TestMappedStringEncoder
 	}
 
 	@Test
+	public void encoderWithSignPosition() {
+		encoder = new MappedStringEncoder( 3, 1 );
+
+		assertTrue( encoder.isNegativeValuesSupported() );
+		assertEquals( -840, encoder.getMinValue() );
+		assertEquals( 840, encoder.getMaxValue() );
+
+		assertEquals( "J3Q", encoder.encode( 0, true ) );
+		assertEquals( "J32", encoder.encode( 1, true ) );
+		assertEquals( "JQ2", encoder.encode( -1, true ) );
+	}
+
+	@Test
 	public void encoderForMaxValue() {
 		encoder = MappedStringEncoder.forMaximumValue( 7, false );
 		assertEquals( 1, encoder.getCodeLength() );
@@ -297,5 +331,10 @@ public class TestMappedStringEncoder
 
 		encoder = MappedStringEncoder.forMaximumValue( Long.MAX_VALUE, true );
 		assertEquals( 14, encoder.getCodeLength() );
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void illegalEncoderForNegativeMaxValue() {
+		MappedStringEncoder.forMaximumValue( -1, true );
 	}
 }
