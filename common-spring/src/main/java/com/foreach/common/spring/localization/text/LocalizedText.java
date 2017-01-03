@@ -19,6 +19,8 @@ import com.foreach.common.spring.localization.AbstractLocalizedFieldsObject;
 import com.foreach.common.spring.localization.Language;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LocalizedText extends AbstractLocalizedFieldsObject<LocalizedTextFields> implements Comparable<LocalizedText> {
     private String application, group, label;
@@ -136,5 +138,51 @@ public class LocalizedText extends AbstractLocalizedFieldsObject<LocalizedTextFi
         String thisValue = toString();
         String thatValue = o.toString();
         return thisValue.compareTo( thatValue );
+    }
+
+    public LocalizedTextBuilder builder(){
+        return new LocalizedTextBuilder();
+    }
+
+    public static class LocalizedTextBuilder {
+        private String application, group, label;
+        private Map<Language, String> localizedTextFieldMap = new HashMap<>(  );
+
+        LocalizedTextBuilder(){}
+
+        public LocalizedTextBuilder group(String group){
+            this.group = group;
+            return this;
+        }
+
+        public LocalizedTextBuilder application(String application){
+            this.application = application;
+            return this;
+        }
+
+        public LocalizedTextBuilder label(String label){
+            this.label = label;
+            return this;
+        }
+
+        public LocalizedTextBuilder field(Language language, String field){
+            localizedTextFieldMap.put( language,field);
+            return this;
+        }
+
+        public LocalizedText build(){
+            LocalizedText localizedText = new LocalizedText();
+            localizedText.setGroup( this.group );
+            localizedText.setLabel( this.label );
+            localizedText.setApplication( application );
+            for(Language l : localizedTextFieldMap.keySet()){
+                LocalizedTextFields localizedTextFields = new LocalizedTextFields( l );
+                localizedTextFields.setText( localizedTextFieldMap.get( l ) );
+                localizedText.addFields( localizedTextFields );
+            }
+
+            return localizedText;
+        }
+
     }
 }
