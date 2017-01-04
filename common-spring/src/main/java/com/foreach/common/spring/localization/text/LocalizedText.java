@@ -141,7 +141,7 @@ public class LocalizedText extends AbstractLocalizedFieldsObject<LocalizedTextFi
 		return thisValue.compareTo( thatValue );
 	}
 
-	public LocalizedTextBuilder builder() {
+	public static LocalizedTextBuilder builder() {
 		return new LocalizedTextBuilder();
 	}
 

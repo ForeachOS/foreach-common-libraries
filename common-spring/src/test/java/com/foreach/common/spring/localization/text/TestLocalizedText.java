@@ -16,7 +16,10 @@
 package com.foreach.common.spring.localization.text;
 
 import com.foreach.common.spring.localization.AbstractLocalizationTest;
+import com.foreach.common.spring.localization.MyLanguage;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -64,6 +67,31 @@ public class TestLocalizedText extends AbstractLocalizationTest
 		equal( left, right );
 	}
 
+	@Test
+	public void builderCreatesTheSameLocalizedText() {
+		LocalizedText noBuilder = new LocalizedText();
+		noBuilder.setGroup( "group" );
+		noBuilder.setLabel( "label" );
+		LocalizedTextFields localizedTextFields = new LocalizedTextFields( MyLanguage.EN );
+		localizedTextFields.setText( "text" );
+		noBuilder.setFieldsAsCollection( Arrays.asList( localizedTextFields ) );
+
+		LocalizedText withBuilder =
+				LocalizedText.builder().group( "group" ).label( "label" ).field( MyLanguage.EN, "text" ).build();
+
+		equal( noBuilder, withBuilder );
+	}
+
+	@Test
+	public void builderSupportsMoreThenOneLanguage(){
+		LocalizedText withBuilder =
+				LocalizedText.builder().group( "group" ).label( "label" ).field( MyLanguage.EN, "text" ).field( MyLanguage.FR,"text-fr" ).build();
+
+		assertEquals( 2,withBuilder.getFieldsAsCollection().size() );
+		assertEquals( "text", withBuilder.getFieldsForLanguage( MyLanguage.EN ).getText());
+		assertEquals( "text-fr", withBuilder.getFieldsForLanguage( MyLanguage.FR ).getText());
+	}
+
 	private void equal( LocalizedText left, LocalizedText right ) {
 		assertEquals( left, right );
 		assertEquals( right, left );
@@ -74,4 +102,5 @@ public class TestLocalizedText extends AbstractLocalizationTest
 		assertFalse( left.equals( right ) );
 		assertFalse( right.equals( left ) );
 	}
+
 }
