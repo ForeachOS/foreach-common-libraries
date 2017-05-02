@@ -1,3 +1,5 @@
-**/target
 target
 .idea/workspace.xml
+.idea/excludeFromValidation
+.idea/libraries
+*.iml
