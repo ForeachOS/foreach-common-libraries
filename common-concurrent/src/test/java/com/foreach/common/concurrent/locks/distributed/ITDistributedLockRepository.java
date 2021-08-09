@@ -33,6 +33,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -325,7 +326,7 @@ public class ITDistributedLockRepository
 		assertTrue( lock.isHeldByCurrentThread() );
 		doThrow( new DataAccessResourceFailureException( "Datasource broken" ) )
 				.when( spyJdbcTemplate )
-				.update( any( String.class ), Mockito.anyVararg() );
+				.update( any( String.class ), (PreparedStatementSetter) Mockito.anyVararg() );
 
 		doThrow( new DataAccessResourceFailureException( "Datasource broken" ) )
 				.when( spyJdbcTemplate )
