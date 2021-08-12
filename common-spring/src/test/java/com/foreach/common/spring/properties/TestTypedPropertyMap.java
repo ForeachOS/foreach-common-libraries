@@ -101,7 +101,7 @@ public class TestTypedPropertyMap
 
 		assertEquals( new Date( 0 ), map.getValue( "date" ) );
 		assertEquals( new BigDecimal( 10 ), map.getValue( "decimal" ) );
-		assertEquals( -1, map.getValue( "number" ) );
+		assertEquals( Integer.valueOf(  -1), map.getValue( "number" ) );
 		assertEquals( "", map.getValue( "text" ) );
 	}
 
