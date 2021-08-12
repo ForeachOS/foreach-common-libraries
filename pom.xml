@@ -14,12 +14,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.foreach.libs</groupId>
 	<artifactId>common-projects</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<packaging>pom</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>
@@ -188,7 +187,8 @@
 		<connection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</connection>
 		<developerConnection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</developerConnection>
 		<url>https://bitbucket.org/beforeach/common-java-libraries</url>
-	</scm>
+	  <tag>common-projects-1.2</tag>
+  </scm>
 	<developers>
 		<developer>
 			<name>Arne Vandamme</name>
@@ -236,9 +236,8 @@
 			<id>foreach</id>
 			<distributionManagement>
 				<repository>
-					<id>foreach-nexus</id>
-					<name>Foreach nexus</name>
-					<url>https://repository.foreach.be/nexus/repository/releases/</url>
+					<id>mfn-cloud-private</id>
+					<url>https://repository.cloud.mediafin.digital/repository/fe-private</url>
 				</repository>
 				<snapshotRepository>
 					<id>foreach-nexus</id>
@@ -248,11 +247,4 @@
 			</distributionManagement>
 		</profile>
 	</profiles>
-	<repositories>
-		<repository>
-			<id>mvnrepository</id>
-			<name>mvnrepository</name>
-			<url>http://www.mvnrepository.com</url>
-		</repository>
-	</repositories>
 </project>
