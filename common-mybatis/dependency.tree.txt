@@ -19,16 +19,15 @@ com.foreach.libs:common-mybatis:jar:2.0-SNAPSHOT
 +- org.apache.commons:commons-lang3:jar:3.12.0:compile
 +- org.springframework:spring-test:jar:5.3.37:test
 +- com.mockrunner:mockrunner-jdbc:jar:2.0.7:test
-|  +- com.mockrunner:mockrunner-core:jar:2.0.7:test
-|  |  +- org.jdom:jdom2:jar:2.0.6.1:test
-|  |  +- oro:oro:jar:2.0.8:test
-|  |  +- com.kirkk:jaranalyzer:jar:1.2:test
-|  |  |  +- bcel:bcel:jar:5.1:test
-|  |  |  |  \- regexp:regexp:jar:1.2:test
-|  |  |  \- jakarta-regexp:jakarta-regexp:jar:1.4:test
-|  |  \- nekohtml:nekohtml:jar:0.9.5:test
-|  |     \- xerces:xercesImpl:jar:2.4.0:test
-|  \- commons-logging:commons-logging:jar:1.0.4:test
+|  \- com.mockrunner:mockrunner-core:jar:2.0.7:test
+|     +- org.jdom:jdom2:jar:2.0.6.1:test
+|     +- oro:oro:jar:2.0.8:test
+|     +- com.kirkk:jaranalyzer:jar:1.2:test
+|     |  +- bcel:bcel:jar:5.1:test
+|     |  |  \- regexp:regexp:jar:1.2:test
+|     |  \- jakarta-regexp:jakarta-regexp:jar:1.4:test
+|     \- nekohtml:nekohtml:jar:0.9.5:test
+|        \- xerces:xercesImpl:jar:2.4.0:test
 +- org.assertj:assertj-core:jar:3.22.0:test
 +- org.junit.jupiter:junit-jupiter-api:jar:5.8.2:test
 |  +- org.opentest4j:opentest4j:jar:1.2.0:test
