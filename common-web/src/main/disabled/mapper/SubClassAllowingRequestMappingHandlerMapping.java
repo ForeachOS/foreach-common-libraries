@@ -23,7 +23,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -187,8 +187,8 @@ public class SubClassAllowingRequestMappingHandlerMapping extends RequestMapping
 	 * @param lookupPath mapping lookup path within the current servlet mapping
 	 * @param request    the current request
 	 * @return the best-matching handler method, or {@code null} if no match
-	 * @see #handleMatch(Object, String, javax.servlet.http.HttpServletRequest)
-	 * @see #handleNoMatch(java.util.Set, String, javax.servlet.http.HttpServletRequest)
+	 * @see #handleMatch(Object, String, jakarta.servlet.http.HttpServletRequest)
+	 * @see #handleNoMatch(java.util.Set, String, jakarta.servlet.http.HttpServletRequest)
 	 */
 	protected HandlerMethod lookupHandlerMethod( String lookupPath, HttpServletRequest request ) throws Exception {
 		List<Match> matches = new ArrayList<Match>();

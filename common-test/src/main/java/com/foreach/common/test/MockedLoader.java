@@ -78,6 +78,7 @@ public class MockedLoader extends DelegatingSmartContextLoader {
 
     private AnnotationConfigContextLoaderDecorator loader = new AnnotationConfigContextLoaderDecorator();
 
+    /*
     @SuppressWarnings("all")
     @Override
     public ApplicationContext loadContext( MergedContextConfiguration mergedConfig ) throws Exception {
@@ -85,6 +86,7 @@ public class MockedLoader extends DelegatingSmartContextLoader {
         ReflectionTestUtils.setField( this, "annotationConfigLoader", loader );
         return super.loadContext( mergedConfig );
     }
+    */
 
     @Override
     public void processContextConfiguration( ContextConfigurationAttributes configAttributes ) {

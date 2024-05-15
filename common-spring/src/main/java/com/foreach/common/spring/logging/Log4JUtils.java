@@ -15,9 +15,6 @@
  */
 package com.foreach.common.spring.logging;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -34,12 +31,13 @@ public class Log4JUtils
 		// protected constructor, so that this class can be extended.
 	}
 
-	/**
+	/*
 	 * To get a list of all registered loggers in current application.
 	 * Returned list of loggers will be sorted by its name
 	 *
 	 * @return List of loggers
 	 */
+/*
 	public static List<Logger> getClassLoggers() {
 		List<String> loggerNames = new ArrayList<String>();
 		Enumeration enumeration = LogManager.getCurrentLoggers();
@@ -58,4 +56,5 @@ public class Log4JUtils
 
 		return result;
 	}
+*/
 }

@@ -15,12 +15,12 @@
  */
 package com.foreach.common.hibernate.util;
 
+import jakarta.persistence.FlushModeType;
 import org.hibernate.CacheMode;
-import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.orm.hibernate3.SessionFactoryUtils;
-import org.springframework.orm.hibernate3.SessionHolder;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
+import org.springframework.orm.hibernate5.SessionHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
@@ -53,7 +53,7 @@ public final class HibernateSessionEmulator
 		Session session = sessionFactory.openSession();
 
 		if ( setFlushModeToManual ) {
-			session.setFlushMode( FlushMode.MANUAL );
+			session.setFlushMode( FlushModeType.COMMIT );
 		}
 
 		if ( !TransactionSynchronizationManager.hasResource( sessionFactory ) ) {

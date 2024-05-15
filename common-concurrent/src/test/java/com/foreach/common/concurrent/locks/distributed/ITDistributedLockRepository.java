@@ -18,13 +18,12 @@ package com.foreach.common.concurrent.locks.distributed;
 import com.foreach.common.concurrent.locks.CloseableObjectLock;
 import com.foreach.common.concurrent.locks.ObjectLockRepository;
 import liquibase.integration.spring.SpringLiquibase;
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang3.time.StopWatch;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +64,7 @@ public class ITDistributedLockRepository
 
 	private static final AtomicInteger REPOSITORY_COUNTER = new AtomicInteger();
 
-	private ExecutorService singleThread = Executors.newSingleThreadExecutor();
+	private final ExecutorService singleThread = Executors.newSingleThreadExecutor();
 
 	@Autowired
 	@Qualifier("real")
@@ -326,11 +325,11 @@ public class ITDistributedLockRepository
 		assertTrue( lock.isHeldByCurrentThread() );
 		doThrow( new DataAccessResourceFailureException( "Datasource broken" ) )
 				.when( spyJdbcTemplate )
-				.update( any( String.class ), (PreparedStatementSetter) Mockito.anyVararg() );
+				.update( any( String.class ), any( PreparedStatementSetter.class ) );
 
 		doThrow( new DataAccessResourceFailureException( "Datasource broken" ) )
 				.when( spyJdbcTemplate )
-				.queryForObject( any( String.class ), any( Object[].class ), any( RowMapper.class ) );
+				.queryForObject( any( String.class ), any( RowMapper.class ), any( Object[].class ) );
 
 		assertTrue( "Lock still held even though database interactions fail", lock.isHeldByCurrentThread() );
 
@@ -404,7 +403,7 @@ public class ITDistributedLockRepository
 
 		assertTrue( lock.isHeldByCurrentThread() );
 
-		try (CloseableObjectLock sameLock = lockRepository.lock( "somelock" )) {
+		try (CloseableObjectLock<String> sameLock = lockRepository.lock( "somelock" )) {
 			assertTrue( sameLock.isHeldByCurrentThread() );
 			assertTrue( lock.isHeldByCurrentThread() );
 		}
@@ -462,6 +461,7 @@ public class ITDistributedLockRepository
 		DelegatingJdcbUpdateAnswer answer = new DelegatingJdcbUpdateAnswer( true );
 
 		String sqlVerifyLock = (String) ReflectionTestUtils.getField( lockManagers.iterator().next(), "sqlVerifyLock" );
+		assertNotNull( sqlVerifyLock );
 		String lockId = lock.getKey();
 
 		doAnswer( answer ).when( spyJdbcTemplate ).update(

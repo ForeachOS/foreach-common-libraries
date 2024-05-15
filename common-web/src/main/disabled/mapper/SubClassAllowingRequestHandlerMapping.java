@@ -17,9 +17,8 @@ package com.foreach.common.web.mapper;
 
 import org.springframework.beans.BeansException;
 import org.springframework.util.Assert;
-import org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**

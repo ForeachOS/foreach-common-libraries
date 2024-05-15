@@ -29,7 +29,7 @@ public class ExcludedExceptionPredicate implements ExceptionPredicate
 	private Iterable<Class<? extends Exception>> exceptionClasses;
 
 	public ExcludedExceptionPredicate( Iterable<Class<? extends Exception>> exceptionClasses ) {
-		Assert.notNull( exceptionClasses );
+		Assert.notNull( exceptionClasses, "exceptionClasses must not be null" );
 		this.exceptionClasses = exceptionClasses;
 	}
 

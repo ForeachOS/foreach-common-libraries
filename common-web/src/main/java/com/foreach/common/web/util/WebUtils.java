@@ -17,7 +17,7 @@ package com.foreach.common.web.util;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Class contains utility methods for web related operations.

@@ -70,8 +70,8 @@ public class SqlBasedDistributedLockConfiguration
 	private long maxOwnerIdLength = DEFAULT_MAX_OWNER_ID_LENGTH;
 
 	public SqlBasedDistributedLockConfiguration( String tableName ) {
-		Assert.notNull( tableName );
-		Assert.hasText( tableName );
+		Assert.notNull( tableName, "tableName must not be null" );
+		Assert.hasText( tableName, "tableName must not be empty" );
 
 		this.tableName = tableName;
 	}

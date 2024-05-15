@@ -29,13 +29,13 @@ public class IncludedExceptionPredicate implements ExceptionPredicate
 	private Iterable<Class<? extends Exception>> exceptionClasses;
 
 	public IncludedExceptionPredicate( Iterable<Class<? extends Exception>> exceptionClasses ) {
-		Assert.notNull( exceptionClasses );
+		Assert.notNull( exceptionClasses, "exceptionClasses must not be null" );
 		this.exceptionClasses = exceptionClasses;
 	}
 
 	@SafeVarargs
 	public IncludedExceptionPredicate( Class<? extends Exception>... exceptionClass ) {
-		Assert.notNull( exceptionClass );
+		Assert.notNull( exceptionClass, "exceptionClass must not be null" );
 		this.exceptionClasses = Arrays.asList( exceptionClass );
 	}
 

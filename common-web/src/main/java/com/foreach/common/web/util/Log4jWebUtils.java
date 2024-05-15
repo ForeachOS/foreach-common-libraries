@@ -20,7 +20,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +44,7 @@ public class Log4jWebUtils
 		// protected constructor, so that this class can be extended.
 	}
 
-	/**
+	/*
 	 * This method generates the html content for a web page containing a form to change the log level of registered log4j loggers.
 	 * The html body can be directly sent to the browser by defining spring annotation @ResponseBody on a controller method.
 	 * <p/>
@@ -58,6 +58,7 @@ public class Log4jWebUtils
 	 * @param includePageTags true to include html start/end tags (eg. '<html><body></body></html>'), false to generate only html form content
 	 * @return a string with html content.
 	 */
+/*
 	public static String getLoggersHtmlContent( String applicationName, String formAction, boolean includePageTags ) {
 		List<Logger> loggers = Log4JUtils.getClassLoggers();
 		List<Level> levels =
@@ -98,6 +99,7 @@ public class Log4jWebUtils
 
 		return output.toString();
 	}
+*/
 
 	/**
 	 * This method will update the levels of registered Loggers to the new levels

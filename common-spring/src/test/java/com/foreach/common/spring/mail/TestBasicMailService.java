@@ -21,12 +21,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.Session;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -166,7 +166,7 @@ public class TestBasicMailService
 		RuntimeException expected = new RuntimeException();
 
 		when( mailSender.createMimeMessage() ).thenReturn( new MimeMessage( Session.getInstance( new Properties() ) ) );
-		doThrow( expected ).when( mailSender ).send( (MimeMessage) anyObject() );
+		doThrow( expected ).when( mailSender ).send( any( MimeMessage.class) );
 
 		Future<MailStatus> future = mailService.sendMimeMail( "from", "to", "", "subject", "body", null );
 		MailStatus status = future.get();
@@ -182,7 +182,7 @@ public class TestBasicMailService
 		RuntimeException expected = new RuntimeException();
 
 		when( mailSender.createMimeMessage() ).thenReturn( new MimeMessage( Session.getInstance( new Properties() ) ) );
-		doThrow( expected ).when( mailSender ).send( (MimeMessage) anyObject() );
+		doThrow( expected ).when( mailSender ).send( any( MimeMessage.class) );
 
 		Future<MailStatus> future = mailService.sendMimeMail( "from", "to", "", "subject", "body", null );
 

@@ -16,10 +16,11 @@
 package com.foreach.common.spring.validators;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.internal.constraintvalidators.EmailValidator;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
+
 import java.util.ArrayList;
 import java.util.List;
 

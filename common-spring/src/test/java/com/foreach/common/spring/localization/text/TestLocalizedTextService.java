@@ -72,7 +72,7 @@ public class TestLocalizedTextService extends AbstractLocalizationTest
 		LocalizedTextSet textSet = textService.getLocalizedTextSet( "myapp", "mygroup" );
 		assertSame( expected, textSet );
 
-		verifyZeroInteractions( textDao );
+		verifyNoInteractions( textDao );
 	}
 
 	@Test
@@ -217,7 +217,7 @@ public class TestLocalizedTextService extends AbstractLocalizationTest
 
 		textService.saveLocalizedText( null );
 
-		verifyZeroInteractions( textDao, cache );
+		verifyNoInteractions( textDao, cache );
 	}
 
 	@Test
@@ -245,14 +245,14 @@ public class TestLocalizedTextService extends AbstractLocalizationTest
 		saveItemThatDoesNotYetExist();
 
 		// Cache interaction should have been suppressed
-		verifyZeroInteractions( cache );
+		verifyNoInteractions( cache );
 		verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
 
 		reset( cache, textDao, executorService );
 
 		saveItemThatDoesExist();
 
-		verifyZeroInteractions( cache );
+		verifyNoInteractions( cache );
 		verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
 	}
 
@@ -293,7 +293,7 @@ public class TestLocalizedTextService extends AbstractLocalizationTest
 
 		textService.deleteLocalizedText( null );
 
-		verifyZeroInteractions( textDao, cache );
+		verifyNoInteractions( textDao, cache );
 	}
 
 	@Test
@@ -316,7 +316,7 @@ public class TestLocalizedTextService extends AbstractLocalizationTest
 		deleteItem();
 
 		// Cache interaction should have been suppressed
-		verifyZeroInteractions( cache );
+		verifyNoInteractions( cache );
 		verify( executorService, times( 1 ) ).submit( any( Runnable.class ) );
 	}
 
