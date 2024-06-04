@@ -21,21 +21,18 @@ import com.foreach.common.spring.mail.MailService;
 import com.foreach.common.web.logging.ExceptionToMailResolver;
 import com.foreach.common.web.logging.ExcludedExceptionPredicate;
 import com.foreach.common.web.logging.IncludedExceptionPredicate;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Matchers;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.util.Date;
-import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class TestExceptionToMailResolver
@@ -46,11 +43,10 @@ public class TestExceptionToMailResolver
 	private ExcludedExceptionPredicate excludedExceptionPredicate;
 
 	private MailService mailService;
-	private ApplicationContextInfo applicationContextInfo;
 	private String toAddress;
 	private String fromAddress;
 
-	@Before
+	@BeforeEach
 	public void prepareForTest() {
 		resolver = new ExceptionToMailResolver();
 
@@ -58,7 +54,7 @@ public class TestExceptionToMailResolver
 		includedExceptionPredicate = mock( IncludedExceptionPredicate.class );
 		excludedExceptionPredicate = mock( ExcludedExceptionPredicate.class );
 
-		applicationContextInfo = new ApplicationContextInfo();
+		ApplicationContextInfo applicationContextInfo = new ApplicationContextInfo();
 		applicationContextInfo.setApplicationName( "TestExceptionToMailResolver" );
 		applicationContextInfo.setBuildNumber( 1L );
 		applicationContextInfo.setEnvironment( ApplicationEnvironment.TEST );
@@ -81,8 +77,8 @@ public class TestExceptionToMailResolver
 
 		resolver.doResolveException( request, response, null, new Exception() );
 
-		verify( mailService ).sendMimeMail( eq( fromAddress ), eq( toAddress ), anyString(), anyString(), anyString(),
-		                                    Matchers.<Map<String, File>>anyObject() );
+		verify( mailService )
+				.sendMimeMail( eq( fromAddress ), eq( toAddress ), isNull(), anyString(), anyString(), isNull() );
 	}
 
 	@Test
@@ -90,9 +86,8 @@ public class TestExceptionToMailResolver
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		when( mailService.sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
-		                                Matchers.<Map<String, File>>anyObject() ) ).thenThrow(
-				new NullPointerException() );
+		when( mailService.sendMimeMail( anyString(), anyString(), isNull(), anyString(), anyString(), isNull() ) )
+				.thenThrow( new NullPointerException() );
 
 		resolver.doResolveException( request, response, null, new Exception() );
 	}
@@ -124,8 +119,8 @@ public class TestExceptionToMailResolver
 
 		resolver.doResolveException( request, response, null, new Exception() );
 
-		verify( mailService ).sendMimeMail( eq( fromAddress ), eq( toAddress ), anyString(), anyString(), anyString(),
-		                                    Matchers.<Map<String, File>>anyObject() );
+		verify( mailService )
+				.sendMimeMail( eq( fromAddress ), eq( toAddress ), isNull(), anyString(), anyString(), isNull() );
 	}
 
 	@Test
@@ -143,8 +138,8 @@ public class TestExceptionToMailResolver
 		verify( excludedExceptionPredicate ).evaluate( argumentCaptor.capture() );
 		assertEquals( exception, argumentCaptor.getValue() );
 
-		verify( mailService, never() ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
-		                                             Matchers.<Map<String, File>>anyObject() );
+		verify( mailService, never() )
+				.sendMimeMail( anyString(), anyString(), isNull(), anyString(), anyString(), anyMap() );
 	}
 
 	@Test
@@ -162,8 +157,8 @@ public class TestExceptionToMailResolver
 		verify( includedExceptionPredicate ).evaluate( argumentCaptor.capture() );
 		assertEquals( exception, argumentCaptor.getValue() );
 
-		verify( mailService ).sendMimeMail( anyString(), anyString(), anyString(), anyString(), anyString(),
-		                                    Matchers.<Map<String, File>>anyObject() );
+		verify( mailService )
+				.sendMimeMail( anyString(), anyString(), isNull(), anyString(), anyString(), isNull() );
 	}
 
 }

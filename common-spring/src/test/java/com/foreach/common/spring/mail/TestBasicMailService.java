@@ -16,9 +16,8 @@
 package com.foreach.common.spring.mail;
 
 import com.foreach.common.concurrent.SynchronousTaskExecutor;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.mail.MessagingException;
@@ -35,7 +34,7 @@ import java.util.Properties;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestBasicMailService
@@ -51,7 +50,7 @@ public class TestBasicMailService
 	private String subject;
 	private String body;
 
-	@Before
+	@BeforeEach
 	public void prepareForTest() {
 		originator = "testMailService@serverkot.be";
 		serviceBccRecipients = "bigbrother@serverkot.be";
@@ -82,9 +81,9 @@ public class TestBasicMailService
 
 		verify( mailSender ).send( message );
 
-		Assert.assertEquals( subject, message.getSubject() );
-		Assert.assertEquals( fromAddress, message.getFrom()[0] );
-		Assert.assertEquals( toAddress, message.getAllRecipients()[0] );
+		assertEquals( subject, message.getSubject() );
+		assertEquals( fromAddress, message.getFrom()[0] );
+		assertEquals( toAddress, message.getAllRecipients()[0] );
 	}
 
 	@Test
@@ -104,18 +103,18 @@ public class TestBasicMailService
 
 		verify( mailSender ).send( message );
 
-		Assert.assertEquals( subject, message.getSubject() );
-		Assert.assertEquals( fromAddress, message.getFrom()[0] );
+		assertEquals( subject, message.getSubject() );
+		assertEquals( fromAddress, message.getFrom()[0] );
 
 		// this could be rewritten...
 
-		Assert.assertEquals( toAddresses[0], message.getAllRecipients()[0] );
-		Assert.assertEquals( toAddresses[1], message.getAllRecipients()[1] );
-		Assert.assertEquals( toAddresses[2], message.getAllRecipients()[2] );
+		assertEquals( toAddresses[0], message.getAllRecipients()[0] );
+		assertEquals( toAddresses[1], message.getAllRecipients()[1] );
+		assertEquals( toAddresses[2], message.getAllRecipients()[2] );
 
-		Assert.assertEquals( bccAddresses[0], message.getAllRecipients()[3] );
-		Assert.assertEquals( bccAddresses[1], message.getAllRecipients()[4] );
-		Assert.assertEquals( bccAddresses[2], message.getAllRecipients()[5] );
+		assertEquals( bccAddresses[0], message.getAllRecipients()[3] );
+		assertEquals( bccAddresses[1], message.getAllRecipients()[4] );
+		assertEquals( bccAddresses[2], message.getAllRecipients()[5] );
 	}
 
 	@Test
@@ -140,10 +139,10 @@ public class TestBasicMailService
 
 		// also a bit messy
 
-		Assert.assertEquals( 3, mp.getCount() );
+		assertEquals( 3, mp.getCount() );
 
-		Assert.assertEquals( "f1", mp.getBodyPart( 1 ).getFileName() );
-		Assert.assertEquals( "f2", mp.getBodyPart( 2 ).getFileName() );
+		assertEquals( "f1", mp.getBodyPart( 1 ).getFileName() );
+		assertEquals( "f2", mp.getBodyPart( 2 ).getFileName() );
 	}
 
 	@Test
@@ -166,7 +165,7 @@ public class TestBasicMailService
 		RuntimeException expected = new RuntimeException();
 
 		when( mailSender.createMimeMessage() ).thenReturn( new MimeMessage( Session.getInstance( new Properties() ) ) );
-		doThrow( expected ).when( mailSender ).send( (MimeMessage) anyObject() );
+		doThrow( expected ).when( mailSender ).send( (MimeMessage) any() );
 
 		Future<MailStatus> future = mailService.sendMimeMail( "from", "to", "", "subject", "body", null );
 		MailStatus status = future.get();
@@ -182,7 +181,7 @@ public class TestBasicMailService
 		RuntimeException expected = new RuntimeException();
 
 		when( mailSender.createMimeMessage() ).thenReturn( new MimeMessage( Session.getInstance( new Properties() ) ) );
-		doThrow( expected ).when( mailSender ).send( (MimeMessage) anyObject() );
+		doThrow( expected ).when( mailSender ).send( (MimeMessage) any() );
 
 		Future<MailStatus> future = mailService.sendMimeMail( "from", "to", "", "subject", "body", null );
 

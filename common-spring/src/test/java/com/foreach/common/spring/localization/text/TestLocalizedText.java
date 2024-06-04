@@ -17,11 +17,11 @@ package com.foreach.common.spring.localization.text;
 
 import com.foreach.common.spring.localization.AbstractLocalizationTest;
 import com.foreach.common.spring.localization.MyLanguage;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestLocalizedText extends AbstractLocalizationTest
 {
@@ -99,8 +99,8 @@ public class TestLocalizedText extends AbstractLocalizationTest
 	}
 
 	private void different( LocalizedText left, LocalizedText right ) {
-		assertFalse( left.equals( right ) );
-		assertFalse( right.equals( left ) );
+		assertNotEquals( left, right );
+		assertNotEquals( right, left );
 	}
 
 }

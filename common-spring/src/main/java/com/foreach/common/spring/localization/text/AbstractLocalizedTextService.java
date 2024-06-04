@@ -21,7 +21,8 @@ import com.foreach.common.concurrent.locks.ObjectLockRepository;
 import com.foreach.common.concurrent.locks.ReentrantObjectLockRepository;
 import com.foreach.common.spring.localization.Language;
 import com.foreach.common.spring.localization.LanguageConfigurator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -67,7 +68,7 @@ public abstract class AbstractLocalizedTextService implements LocalizedTextServi
 	protected AbstractLocalizedTextService( LocalizedTextDataStore localizedTextDao ) {
 		this.localizedTextDao = localizedTextDao;
 
-		LOG = Logger.getLogger( this.getClass() );
+		LOG = LoggerFactory.getLogger( this.getClass() );
 	}
 
 	/**

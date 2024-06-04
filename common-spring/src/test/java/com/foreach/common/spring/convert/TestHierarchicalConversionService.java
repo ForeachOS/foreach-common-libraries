@@ -15,13 +15,13 @@
  */
 package com.foreach.common.spring.convert;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.Converter;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -32,7 +32,7 @@ public class TestHierarchicalConversionService
 	private ConversionService parent;
 	private HierarchicalConversionService local;
 
-	@Before
+	@BeforeEach
 	public void createHierarchy() {
 		parent = mock( ConversionService.class );
 		local = new HierarchicalConversionService( parent );

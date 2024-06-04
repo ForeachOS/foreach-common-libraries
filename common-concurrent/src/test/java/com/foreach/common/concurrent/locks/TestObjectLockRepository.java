@@ -15,19 +15,19 @@
  */
 package com.foreach.common.concurrent.locks;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestObjectLockRepository
 {
 	private ObjectLockRepository<String> repository;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		repository = new ReentrantObjectLockRepository<>();
 	}
@@ -156,7 +156,7 @@ public class TestObjectLockRepository
 
 		try (CloseableObjectLock<String> lock = repository.lock( "123" )) {
 			assertTrue( lock.isHeldByCurrentThread() );
-			assertTrue( otherLock.isHeldByCurrentThread());
+			assertTrue( otherLock.isHeldByCurrentThread() );
 		}
 
 		assertFalse( otherLock.isHeldByCurrentThread() );

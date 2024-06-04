@@ -17,15 +17,16 @@ package com.foreach.common.spring.convert;
 
 import com.foreach.common.spring.enums.CodeLookup;
 import com.foreach.common.spring.enums.IdLookup;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestDualInterface extends BaseConversionServiceTest
 {
 	@Test
 	public void useCodeLookup() {
-		Assert.assertEquals( Foo.FOO, conversionService.convert( "foo", Foo.class ) );
-		Assert.assertEquals( Foo.BOZ, conversionService.convert( "7", Foo.class ) );
+		assertEquals( Foo.FOO, conversionService.convert( "foo", Foo.class ) );
+		assertEquals( Foo.BOZ, conversionService.convert( "7", Foo.class ) );
 	}
 
 	public enum Foo implements CodeLookup<String>, IdLookup<Integer>

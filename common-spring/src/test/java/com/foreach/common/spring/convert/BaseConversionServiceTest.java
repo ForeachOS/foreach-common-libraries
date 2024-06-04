@@ -15,7 +15,7 @@
  */
 package com.foreach.common.spring.convert;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.core.convert.ConversionService;
 
 import java.util.HashSet;
@@ -25,7 +25,7 @@ public class BaseConversionServiceTest
 {
 	protected ConversionService conversionService;
 
-	@Before
+	@BeforeEach
 	public void prepareTest() {
 		CustomConversionServiceFactoryBean factory = new CustomConversionServiceFactoryBean();
 		Set<Object> converters = new HashSet<Object>();

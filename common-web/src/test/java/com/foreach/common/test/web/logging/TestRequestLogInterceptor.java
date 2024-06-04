@@ -16,17 +16,19 @@
 package com.foreach.common.test.web.logging;
 
 import com.foreach.common.web.logging.RequestLogInterceptor;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TestRequestLogInterceptor
 {
 	private RequestLogInterceptor interceptor;
 
-	@Before
+	@BeforeEach
 	public void prepareForTest() {
 		interceptor = new RequestLogInterceptor();
 	}
@@ -38,8 +40,8 @@ public class TestRequestLogInterceptor
 
 		interceptor.preHandle( request, response, null );
 
-		Assert.assertNotNull( response.getHeader( RequestLogInterceptor.HEADER_REQUEST_ID ) );
-		Assert.assertNotNull( request.getAttribute( RequestLogInterceptor.ATTRIBUTE_UNIQUE_ID ) );
-		Assert.assertNotNull( request.getAttribute( RequestLogInterceptor.ATTRIBUTE_START_TIME ) );
+		assertNotNull( response.getHeader( RequestLogInterceptor.HEADER_REQUEST_ID ) );
+		assertNotNull( request.getAttribute( RequestLogInterceptor.ATTRIBUTE_UNIQUE_ID ) );
+		assertNotNull( request.getAttribute( RequestLogInterceptor.ATTRIBUTE_START_TIME ) );
 	}
 }

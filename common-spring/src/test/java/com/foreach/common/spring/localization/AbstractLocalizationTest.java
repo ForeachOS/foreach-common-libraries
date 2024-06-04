@@ -15,11 +15,11 @@
  */
 package com.foreach.common.spring.localization;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 public abstract class AbstractLocalizationTest
 {
-	@BeforeClass
+	@BeforeAll
 	public static void initializeLanguageSystem() {
 		new LanguageConfigurator( MyLanguage.class );
 	}

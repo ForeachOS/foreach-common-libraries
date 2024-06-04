@@ -16,18 +16,18 @@
 package com.foreach.common.spring.properties;
 
 import com.foreach.common.spring.properties.support.SingletonPropertyFactory;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestTypedPropertyMap.Config.class)
 @DirtiesContext
 public class TestCachingTypedPropertyMap extends TestTypedPropertyMap
@@ -114,13 +114,7 @@ public class TestCachingTypedPropertyMap extends TestTypedPropertyMap
 
 	@Override
 	public void defaultValueIsSetButDetachedAfterGet() {
-		registry.register( "myprop", Set.class, new PropertyFactory<String, Set>()
-		{
-			@Override
-			public Set create( PropertyTypeRegistry registry, String propertyKey ) {
-				return new HashSet();
-			}
-		} );
+		registry.register( "myprop", Set.class, ( registry, propertyKey ) -> new HashSet() );
 
 		TypedPropertyMap<String> detached = map.detach();
 

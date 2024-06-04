@@ -15,13 +15,14 @@
  */
 package com.foreach.common.spring.code;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Arne Vandamme
@@ -30,18 +31,19 @@ public class TestCodeGenerator
 {
 	private CodeGenerator generator;
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void tooManyCodesRequested() {
 		generator = CodeGenerator.forCodeLength( 1 );
 
-		generator.generate( 5000 );
+		assertThrows( IllegalArgumentException.class, () -> generator.generate( 5000 ) );
+
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void illegalNumberOfCodesRequested() {
 		generator = CodeGenerator.forCodeLength( 10 );
 
-		generator.generate( -1 );
+		assertThrows( IllegalArgumentException.class,() ->generator.generate( -1 ) );
 	}
 
 	@Test
