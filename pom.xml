@@ -244,8 +244,8 @@
 									<goal>sign</goal>
 								</goals>
 								<configuration>
-									<keyname>${env.ACROSS_GPG_KEY_NAME}</keyname>
-									<passphrase>${env.ACROSS_GPG_PASSPHRASE}</passphrase>
+									<bestPractices>true</bestPractices>
+									<keyname>${env.MAVEN_GPG_KEY_NAME}</keyname>
 									<defaultKeyring>true</defaultKeyring>
 								</configuration>
 							</execution>
