@@ -19,10 +19,6 @@ variables:
   DOCKER_HOST: "tcp://docker:2375"
   DOCKER_TLS_CERTDIR: ""
   DOCKER_DRIVER: overlay2
-#  BUILD_VERSION: ${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}
-#  RELEASE_VERSION: ${BUILD_VERSION}
-
-  #REVISION: 2.0-SNAPSHOT
 
 services:
   - name: docker:dind
@@ -55,24 +51,7 @@ utest:backend:
       junit:
         - '**/target/surefire-reports/*.xml'
 
-#.deploy:
-#  stage: deploy
-#  image: ${MAVEN_IMAGE}
-#  rules:
-#    - when: always
-#  needs:
-#    - utest:backend
-#  script:
-#    - 'mvn $MAVEN_CLI_OPTS clean compile deploy -DskipTests=true -Pforeach -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true'
-#
-#deploy:snapshot:
-#  extends:
-#    - .deploy
-#  environment:
-#    name: snapshot
-
-#.deploy:
-deploy:
+.deploy:
   stage: deploy
   variables:
     TZ: "UTC" # Generally recommended for reproducible builds, and we're skipping tests in this job anyway.
@@ -82,35 +61,37 @@ deploy:
     - apt-get -y install gpg
     - gpg --pinentry-mode loopback --passphrase $ACROSS_GPG_PASSPHRASE --import $ACROSS_GPG_PRIVATE_KEY
     - gpg --list-keys
-  script: |
-    if [[ -n $CI_COMMIT_TAG ]]
-    then
-      # We are triggered because a tag has been pushed
-      export MAVEN_PROFILE=sonatype
-      export REVISION=echo $TAG | cut -c2-
-    else
-      # It's a regular branch push
-      export MAVEN_PROFILE=foreach
-      # We leave the REVISION var empty, so maven uses the default in the <revision> property in the pom.xml file
-    fi
+  script:
     # For reproducible builds, we have to run the build twice:
-    mvn $MAVEN_CLI_OPTS -Drevision=$REVISION clean install -DskipTests
-    mvn $MAVEN_CLI_OPTS -Drevision=$REVISION clean verify artifact:compare -DskipTests
-    mvn $MAVEN_CLI_OPTS -Drevision=$REVISION --settings ci_settings.xml --activate-profiles deploy,$MAVEN_PROFILE deploy -DskipTests
+    - mvn $MAVEN_CLI_OPTS clean install -DskipTests
+    - mvn $MAVEN_CLI_OPTS clean verify artifact:compare -DskipTests
+    - mvn $MAVEN_CLI_OPTS --settings ci_settings.xml --activate-profiles deploy,$MAVEN_PROFILE deploy -DskipTests
 
-#deploy:foreach:
-#  extends:
-#    - .deploy
-#  variables:
-#    MAVEN_PROFILE: foreach
-#  rules:
-#    - if: $CI_COMMIT_TAG == null
-#
-#deploy:sonatype:
-#  extends:
-#    - .deploy
-#  variables:
-#    REVISION: 2.0-SNAPSHOT
-#    MAVEN_PROFILE: sonatype
-#  rules:
-#    - if: $CI_COMMIT_TAG =~ /^v.*/
+# This job is triggered only on a branch push, and:
+# - When the pom.xml revision is set to a snapshot, this publishes to the internal snapshot repo
+# - When the pom.xml revision is set to a release, this publishes to the internal releases repo
+deploy:foreach:
+  extends:
+    - .deploy
+  variables:
+    MAVEN_PROFILE: foreach
+  rules:
+    - if: $CI_COMMIT_TAG == null
+
+# This job is triggered only on a tag push, and:
+# - A tag MUST NOT be pushed when the pom.xml revision is a snapshot
+# - This publishes the release to Maven Central
+deploy:sonatype:
+  extends:
+    - .deploy
+  variables:
+    MAVEN_PROFILE: sonatype
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v.*/
+
+# So the release procedure consists of:
+# 1. Change the revision in the top-level pom.xml and commit.
+# 2. Push to the remote. This will trigger the deploy:foreach job
+# 3. When the deploy:foreach job is successful, create a tag (format: the letter v followed by the revision property).
+#    This will trigger the release to Maven Central
+# 4. Close, release and drop the staging repository at https://oss.sonatype.org/#stagingRepositories
