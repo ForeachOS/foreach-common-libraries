@@ -34,16 +34,17 @@ workflow:
     - if: $CI_COMMIT_BRANCH
 
 stages:
-  - test-build
+  - test
   - deploy
+
+image: ${MAVEN_IMAGE}
 
 cache:
   paths:
     - $MAVEN_REPO_DIR
 
 utest:backend:
-  stage: test-build
-  image: ${MAVEN_IMAGE}
+  stage: test
   script:
     - 'mvn $MAVEN_CLI_OPTS verify'
   artifacts:
@@ -52,18 +53,50 @@ utest:backend:
       junit:
         - '**/target/surefire-reports/*.xml'
 
+#.deploy:
+#  stage: deploy
+#  image: ${MAVEN_IMAGE}
+#  rules:
+#    - when: always
+#  needs:
+#    - utest:backend
+#  script:
+#    - 'mvn $MAVEN_CLI_OPTS clean compile deploy -DskipTests=true -Pforeach -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true'
+#
+#deploy:snapshot:
+#  extends:
+#    - .deploy
+#  environment:
+#    name: snapshot
+
 .deploy:
   stage: deploy
-  image: ${MAVEN_IMAGE}
-  rules:
-    - when: always
-  needs:
-    - utest:backend
+  variables:
+    TZ: "UTC" # Generally recommended for reproducible builds, and we're skipping tests in this job anyway.
+  before_script:
+    - if [[ -f ci-before.sh ]]; then ./ci-before.sh; fi
+    - apt-get update
+    - apt-get -y install gpg
+    - gpg --pinentry-mode loopback --passphrase $ACROSS_GPG_PASSPHRASE --import $ACROSS_GPG_PRIVATE_KEY
+    - gpg --list-keys
   script:
-    - 'mvn $MAVEN_CLI_OPTS clean compile deploy -DskipTests=true -Pforeach -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true'
+    # For reproducible builds, we have to run the build twice:
+    - mvn $MAVEN_CLI_OPTS clean install -DskipTests
+    - mvn $MAVEN_CLI_OPTS clean verify artifact:compare -DskipTests
+    - mvn $MAVEN_CLI_OPTS --settings ci_settings.xml --activate-profiles deploy,$MAVEN_PROFILE deploy -DskipTests
 
-deploy:snapshot:
+deploy:foreach:
   extends:
     - .deploy
-  environment:
-    name: snapshot
+  variables:
+    MAVEN_PROFILE: foreach
+  rules:
+    - if: $CI_COMMIT_TAG == null
+
+deploy:sonatype:
+  extends:
+    - .deploy
+  variables:
+    MAVEN_PROFILE: sonatype
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v.*/

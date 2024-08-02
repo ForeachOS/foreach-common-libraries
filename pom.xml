@@ -59,7 +59,7 @@
 		<!-- Overrides from Spring Boot: -->
 		<maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
-		<spring-framework.version>5.3.36</spring-framework.version>
+		<spring-framework.version>5.3.37</spring-framework.version>
 
 		<!-- Not managed by Spring Boot: -->
 		<commons-validator.version>1.9.0</commons-validator.version>
