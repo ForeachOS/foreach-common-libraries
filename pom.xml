@@ -21,7 +21,6 @@
 	<artifactId>common-projects</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
-	<name>${project.groupId}:${project.artifactId}</name>
 
 	<parent>
 		<!-- IMPORTANT: It is explicitly not the intention to use Spring Boot in these libraries:
@@ -31,17 +30,15 @@
 		<version>2.7.18</version>
 	</parent>
 
-	<description>
-		A number of general purpose libraries for Java. Dependencies are kept minimal but Spring framework 3.x
-		is considered a base requirement for most libaries.
-	</description>
-	<url>https://foreach.atlassian.net/wiki/display/FJCL</url>
+	<url>https://github.com/ForeachOS/foreach-common-libraries</url>
+
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
+
 	<modules>
 		<module>common-spring</module>
 		<module>common-hibernate</module>
@@ -200,6 +197,7 @@
 
 	<scm>
 		<connection>scm:git:https://github.com/ForeachOS/foreach-common-libraries</connection>
+		<developerConnection>scm:git:https://gitlab.eindhoven.io-internal.dev/antwerpen/common/foreach-common-libraries</developerConnection>
 		<url>https://github.com/ForeachOS/foreach-common-libraries</url>
 	</scm>
 
