@@ -3,3 +3,7 @@ target
 .idea/excludeFromValidation
 .idea/libraries
 *.iml
+
+.flattened-pom.xml
+
+*~

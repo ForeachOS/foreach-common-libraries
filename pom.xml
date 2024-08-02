@@ -17,12 +17,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.foreach.libs</groupId>
-	<artifactId>common-projects</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>${project.groupId}:${project.artifactId}</name>
-
 	<parent>
 		<!-- IMPORTANT: It is explicitly not the intention to use Spring Boot in these libraries:
 			We use this only to specify a consistent set of libraries, compatible with Spring Boot -->
@@ -31,17 +25,25 @@
 		<version>2.7.18</version>
 	</parent>
 
+	<groupId>com.foreach.libs</groupId>
+	<artifactId>common-projects</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+
+	<name>${project.groupId}:${project.artifactId}</name>
 	<description>
-		A number of general purpose libraries for Java. Dependencies are kept minimal but Spring framework 3.x
-		is considered a base requirement for most libaries.
+		A number of general purpose libraries for Java. Dependencies are kept minimal but Spring framework
+		is considered a base requirement for most libraries.
 	</description>
-	<url>https://foreach.atlassian.net/wiki/display/FJCL</url>
+	<url>https://github.com/ForeachOS/foreach-common-java-libraries</url>
+
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
+
 	<modules>
 		<module>common-spring</module>
 		<module>common-hibernate</module>
@@ -56,15 +58,23 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<revision>2.0-SNAPSHOT</revision>
+
 		<!-- Overrides from Spring Boot: -->
 		<maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
-		<spring-framework.version>5.3.36</spring-framework.version>
+		<spring-framework.version>5.3.37</spring-framework.version>
 
 		<!-- Not managed by Spring Boot: -->
 		<commons-validator.version>1.9.0</commons-validator.version>
+		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+		<maven-artifact-plugin.version>3.5.1</maven-artifact-plugin.version>
 		<maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
+
+		<!-- Needed for https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
+		<project.build.outputTimestamp>2023-01-01T00:00:00Z</project.build.outputTimestamp>
+
 	</properties>
 
 	<build>
@@ -118,8 +128,32 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco-maven-plugin.version}</version>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<configuration>
+					<flattenMode>ossrh</flattenMode>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -132,6 +166,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -190,12 +225,13 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<scm>
-		<connection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</connection>
-		<developerConnection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</developerConnection>
-		<url>https://bitbucket.org/beforeach/common-java-libraries</url>
-		<tag>HEAD</tag>
+		<connection>scm:git:https://github.com/ForeachOS/foreach-common-java-libraries</connection>
+		<developerConnection>scm:git:https://gitlab.eindhoven.io-internal.dev/antwerpen/common/foreach-common-java-libraries</developerConnection>
+		<url>https://github.com/ForeachOS/foreach-common-java-libraries</url>
 	</scm>
+
 	<developers>
 		<developer>
 			<name>Arne Vandamme</name>
@@ -207,9 +243,26 @@
 
 	<profiles>
 		<profile>
-			<id>sonatype</id>
+			<id>deploy</id>
 			<build>
 				<plugins>
+					<plugin>
+						<!--
+						Unfortunately, in a multi-module build, this attaches the .buildinfo file
+						only to the last module; see the note at the end of:
+						https://maven.apache.org/plugins/maven-artifact-plugin/usage.html#recording-buildinfo-file
+						-->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-artifact-plugin</artifactId>
+						<version>${maven-artifact-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>buildinfo</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
@@ -221,11 +274,19 @@
 								<goals>
 									<goal>sign</goal>
 								</goals>
+								<configuration>
+									<bestPractices>true</bestPractices>
+									<keyname>${env.MAVEN_GPG_KEY_NAME}</keyname>
+									<defaultKeyring>true</defaultKeyring>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		<profile>
+			<id>sonatype</id>
 			<distributionManagement>
 				<snapshotRepository>
 					<id>sonatype</id>
@@ -245,14 +306,15 @@
 				<repository>
 					<id>foreach-nexus</id>
 					<name>Foreach nexus</name>
-					<url>https://repository.foreach.be/nexus/repository/releases/</url>
+					<url>https://repository.antwerpen.io-external.com/nexus/repository/releases/</url>
 				</repository>
 				<snapshotRepository>
 					<id>foreach-nexus</id>
 					<name>Foreach nexus</name>
-					<url>https://repository.foreach.be/nexus/repository/snapshots/</url>
+					<url>https://repository.antwerpen.io-external.com/nexus/repository/snapshots/</url>
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
 	</profiles>
+
 </project>
