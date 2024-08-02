@@ -190,12 +190,12 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<scm>
-		<connection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</connection>
-		<developerConnection>scm:git:https://bitbucket.org/beforeach/common-java-libraries.git</developerConnection>
-		<url>https://bitbucket.org/beforeach/common-java-libraries</url>
-		<tag>HEAD</tag>
+		<connection>scm:git:https://github.com/ForeachOS/foreach-common-libraries</connection>
+		<url>https://github.com/ForeachOS/foreach-common-libraries</url>
 	</scm>
+
 	<developers>
 		<developer>
 			<name>Arne Vandamme</name>
@@ -207,9 +207,26 @@
 
 	<profiles>
 		<profile>
-			<id>sonatype</id>
+			<id>deploy</id>
 			<build>
 				<plugins>
+					<plugin>
+						<!--
+						Unfortunately, in a multi-module build, this attaches the .buildinfo file
+						only to the last module; see the note at the end of:
+						https://maven.apache.org/plugins/maven-artifact-plugin/usage.html#recording-buildinfo-file
+						-->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-artifact-plugin</artifactId>
+						<version>${maven-artifact-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>buildinfo</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
@@ -221,11 +238,19 @@
 								<goals>
 									<goal>sign</goal>
 								</goals>
+								<configuration>
+									<keyname>${env.ACROSS_GPG_KEY_NAME}</keyname>
+									<passphrase>${env.ACROSS_GPG_PASSPHRASE}</passphrase>
+									<defaultKeyring>true</defaultKeyring>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		<profile>
+			<id>sonatype</id>
 			<distributionManagement>
 				<snapshotRepository>
 					<id>sonatype</id>
@@ -245,14 +270,15 @@
 				<repository>
 					<id>foreach-nexus</id>
 					<name>Foreach nexus</name>
-					<url>https://repository.foreach.be/nexus/repository/releases/</url>
+					<url>https://repository.antwerpen.io-external.com/nexus/repository/releases/</url>
 				</repository>
 				<snapshotRepository>
 					<id>foreach-nexus</id>
 					<name>Foreach nexus</name>
-					<url>https://repository.foreach.be/nexus/repository/snapshots/</url>
+					<url>https://repository.antwerpen.io-external.com/nexus/repository/snapshots/</url>
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
 	</profiles>
+
 </project>
