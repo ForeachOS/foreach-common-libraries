@@ -34,7 +34,6 @@ import java.util.Properties;
 
 /**
  * <p>This class converts the string value from the resultset to Java Enum and vice versa.</p>
- * <p/>
  * <p>
  * Usage Eg - To map a java enum object Role, define the following mapping in hbm file.
  * <pre>
