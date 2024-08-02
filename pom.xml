@@ -64,7 +64,12 @@
 		<!-- Not managed by Spring Boot: -->
 		<commons-validator.version>1.9.0</commons-validator.version>
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+		<maven-artifact-plugin.version>3.5.1</maven-artifact-plugin.version>
 		<maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
+
+		<!-- Needed for https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
+		<project.build.outputTimestamp>2023-01-01T00:00:00Z</project.build.outputTimestamp>
+
 	</properties>
 
 	<build>
