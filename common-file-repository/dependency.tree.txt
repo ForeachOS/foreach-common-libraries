@@ -1,4 +1,4 @@
-com.foreach.libs:file-manager-module:jar:2.0-SNAPSHOT
+com.foreach.libs:common-file-repository:jar:2.0-SNAPSHOT
 +- com.amazonaws:aws-java-sdk-s3:jar:1.11.1034:compile
 |  +- com.amazonaws:aws-java-sdk-kms:jar:1.11.1034:compile
 |  +- com.amazonaws:aws-java-sdk-core:jar:1.11.1034:compile
@@ -49,7 +49,6 @@ com.foreach.libs:file-manager-module:jar:2.0-SNAPSHOT
 |  \- com.fasterxml.jackson.dataformat:jackson-dataformat-xml:jar:2.13.5:compile
 |     +- org.codehaus.woodstox:stax2-api:jar:4.2.1:compile
 |     \- com.fasterxml.woodstox:woodstox-core:jar:6.4.0:compile
-+- com.foreach.libs:common-file-repository:jar:2.0-SNAPSHOT:compile
 +- com.google.guava:guava:jar:32.1.3-jre:test
 |  +- com.google.guava:failureaccess:jar:1.0.1:test
 |  +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:test

@@ -25,7 +25,7 @@
 		<version>${revision}</version>
 	</parent>
 
-	<artifactId>file-manager-module</artifactId>
+	<artifactId>common-file-repository</artifactId>
 	<name>${project.groupId}:${project.artifactId}</name>
 
 	<properties>
@@ -61,11 +61,6 @@
 			<groupId>com.azure</groupId>
 			<artifactId>azure-storage-blob</artifactId>
 			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>com.foreach.libs</groupId>
-			<artifactId>common-file-repository</artifactId>
 		</dependency>
 
 		<dependency>
