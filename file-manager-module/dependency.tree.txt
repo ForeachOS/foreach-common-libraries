@@ -143,7 +143,7 @@ com.foreach.libs:common-file-repository:jar:2.0-SNAPSHOT
 |  \- org.apache.sshd:sshd-common:jar:2.10.0:test
 +- org.apache.sshd:sshd-sftp:jar:2.10.0:compile
 +- commons-io:commons-io:jar:2.16.1:compile
-+- org.projectlombok:lombok:jar:1.18.30:compile
++- org.projectlombok:lombok:jar:1.18.30:provided
 +- org.springframework.boot:spring-boot-configuration-processor:jar:2.7.18:compile
 +- com.amazonaws:aws-java-sdk-s3:jar:1.11.1034:compile
 |  +- com.amazonaws:aws-java-sdk-kms:jar:1.11.1034:compile

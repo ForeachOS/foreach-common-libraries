@@ -120,7 +120,7 @@ org.mockito:mockito-junit-jupiter:jar:4.5.1:test
 org.objenesis:objenesis:jar:3.2:test
 org.opentest4j:opentest4j:jar:1.2.0:test
 org.postgresql:postgresql:jar:42.3.8:test
-org.projectlombok:lombok:jar:1.18.30:compile
+org.projectlombok:lombok:jar:1.18.30:provided
 org.reactivestreams:reactive-streams:jar:1.0.4:compile
 org.rnorth.duct-tape:duct-tape:jar:1.0.8:test
 org.slf4j:jcl-over-slf4j:jar:1.7.36:compile
