@@ -1,0 +1,23 @@
+com.foreach.libs:common-concurrent:jar:1.3-SNAPSHOT
++- org.springframework:spring-context:jar:4.0.8.RELEASE:test
+|  +- org.springframework:spring-aop:jar:4.0.8.RELEASE:test
+|  |  \- aopalliance:aopalliance:jar:1.0:test
+|  +- org.springframework:spring-beans:jar:4.0.8.RELEASE:compile
+|  +- org.springframework:spring-core:jar:4.0.8.RELEASE:compile
+|  |  \- commons-logging:commons-logging:jar:1.1.3:compile
+|  \- org.springframework:spring-expression:jar:4.0.8.RELEASE:test
++- org.slf4j:slf4j-api:jar:1.7.7:compile
++- org.springframework:spring-jdbc:jar:4.0.8.RELEASE:compile
+|  \- org.springframework:spring-tx:jar:4.0.8.RELEASE:compile
++- org.springframework:spring-test:jar:4.0.8.RELEASE:test
++- org.apache.commons:commons-lang3:jar:3.1:test
++- commons-dbcp:commons-dbcp:jar:1.4:test
+|  \- commons-pool:commons-pool:jar:1.5.4:test
++- org.liquibase:liquibase-core:jar:3.1.0:test
+|  \- org.yaml:snakeyaml:jar:1.13:test
++- org.hsqldb:hsqldb:jar:2.3.2:test
++- cglib:cglib:jar:3.1:test
+|  \- org.ow2.asm:asm:jar:4.2:test
++- junit:junit:jar:4.11:test
+|  \- org.hamcrest:hamcrest-core:jar:1.3:test
+\- org.mockito:mockito-all:jar:1.9.5:test
