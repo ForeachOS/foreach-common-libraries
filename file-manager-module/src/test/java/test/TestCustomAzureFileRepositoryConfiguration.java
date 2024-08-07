@@ -23,7 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.StreamUtils;
 import org.testcontainers.containers.wait.strategy.Wait;
-import utils.AzuriteContainer;
+import com.foreach.common.filerepo.test.utils.AzuriteContainer;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;

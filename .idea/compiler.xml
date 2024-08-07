@@ -21,6 +21,7 @@
         <module name="common-concurrent" />
         <module name="common-web" />
         <module name="common-spring" />
+        <module name="common-file-repository-test-utils" />
         <module name="common-hibernate" />
       </profile>
       <profile name="Annotation profile for com.foreach.libs:common-projects" enabled="true">
@@ -38,6 +39,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="common-concurrent" options="-parameters" />
       <module name="common-file-repository" options="-parameters" />
+      <module name="common-file-repository-test-utils" options="-parameters" />
       <module name="common-hibernate" options="-parameters" />
       <module name="common-mybatis" options="-parameters" />
       <module name="common-projects" options="-parameters" />

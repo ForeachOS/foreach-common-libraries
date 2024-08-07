@@ -64,6 +64,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.foreach.libs</groupId>
+			<artifactId>common-file-repository-test-utils</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<scope>test</scope>
@@ -105,6 +111,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apache.ftpserver</groupId>
 			<artifactId>ftpserver-core</artifactId>
 			<scope>test</scope>
@@ -118,6 +129,13 @@
 		<dependency>
 			<groupId>org.apache.sshd</groupId>
 			<artifactId>sshd-sftp</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
@@ -178,6 +196,7 @@
 		</dependency>
 
 		<!-- TODO Delete Across dependencies -->
+<!--
 		<dependency>
 			<groupId>com.foreach.across.modules</groupId>
 			<artifactId>properties-module</artifactId>
@@ -225,6 +244,7 @@
 			<version>${across-framework.version}</version>
 			<scope>test</scope>
 		</dependency>
+-->
 
 	</dependencies>
 

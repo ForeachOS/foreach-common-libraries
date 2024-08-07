@@ -21,7 +21,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.StreamUtils;
-import utils.AmazonS3Helper;
+import com.foreach.common.filerepo.test.utils.AmazonS3Helper;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;

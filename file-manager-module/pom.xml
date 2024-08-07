@@ -67,6 +67,11 @@
 			<groupId>com.foreach.libs</groupId>
 			<artifactId>common-file-repository</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.foreach.libs</groupId>
+			<artifactId>common-file-repository-test-utils</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.google.guava</groupId>
