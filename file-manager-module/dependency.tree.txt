@@ -155,7 +155,7 @@ com.foreach.libs:common-file-repository:jar:2.0-SNAPSHOT
 |  |  +- org.xmlunit:xmlunit-core:jar:2.9.1:test
 |  |  \- org.hamcrest:hamcrest-core:jar:2.2:test
 |  |     \- org.hamcrest:hamcrest:jar:2.2:test
-|  +- org.testcontainers:testcontainers:jar:1.19.7:test
+|  +- org.testcontainers:testcontainers:jar:1.19.8:test
 |  |  +- org.apache.commons:commons-compress:jar:1.24.0:test
 |  |  +- org.rnorth.duct-tape:duct-tape:jar:1.0.8:test
 |  |  |  \- org.jetbrains:annotations:jar:17.0.0:test
@@ -163,12 +163,18 @@ com.foreach.libs:common-file-repository:jar:2.0-SNAPSHOT
 |  |  \- com.github.docker-java:docker-java-transport-zerodep:jar:3.3.6:test
 |  |     +- com.github.docker-java:docker-java-transport:jar:3.3.6:test
 |  |     \- net.java.dev.jna:jna:jar:5.13.0:test
-|  +- org.testcontainers:mysql:jar:1.19.7:test
-|  |  \- org.testcontainers:jdbc:jar:1.19.7:test
-|  |     \- org.testcontainers:database-commons:jar:1.19.7:test
-|  +- org.testcontainers:postgresql:jar:1.19.7:test
-|  +- org.testcontainers:mssqlserver:jar:1.19.7:test
-|  \- org.testcontainers:oracle-xe:jar:1.19.7:test
+|  +- org.testcontainers:mysql:jar:1.19.8:test
+|  |  \- org.testcontainers:jdbc:jar:1.19.8:test
+|  |     \- org.testcontainers:database-commons:jar:1.19.8:test
+|  +- org.testcontainers:postgresql:jar:1.19.8:test
+|  +- org.testcontainers:mssqlserver:jar:1.19.8:test
+|  \- org.testcontainers:oracle-xe:jar:1.19.8:test
++- com.google.guava:guava:jar:32.1.3-jre:test
+|  +- com.google.guava:failureaccess:jar:1.0.1:test
+|  +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:test
+|  +- org.checkerframework:checker-qual:jar:3.42.0:test
+|  +- com.google.errorprone:error_prone_annotations:jar:2.21.1:test
+|  \- com.google.j2objc:j2objc-annotations:jar:2.8:test
 +- com.querydsl:querydsl-apt:jar:5.0.0:provided
 |  \- com.querydsl:querydsl-codegen:jar:5.0.0:provided
 |     +- com.querydsl:codegen-utils:jar:5.0.0:provided
@@ -213,10 +219,9 @@ com.foreach.libs:common-file-repository:jar:2.0-SNAPSHOT
 +- com.mysql:mysql-connector-j:jar:8.0.33:test
 +- com.oracle.database.jdbc:ojdbc8:jar:21.5.0.0:test
 +- org.postgresql:postgresql:jar:42.3.8:test
-|  \- org.checkerframework:checker-qual:jar:3.42.0:test
 +- com.h2database:h2:jar:2.1.214:test
 +- com.microsoft.sqlserver:mssql-jdbc:jar:10.2.3.jre8:test
-+- org.testcontainers:localstack:jar:1.19.7:test
++- org.testcontainers:localstack:jar:1.19.8:test
 +- org.mockito:mockito-junit-jupiter:jar:4.5.1:test
 +- org.assertj:assertj-core:jar:3.22.0:test
 +- org.junit.jupiter:junit-jupiter-api:jar:5.8.2:test

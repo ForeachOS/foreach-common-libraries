@@ -10,6 +10,7 @@ import com.foreach.across.modules.filemanager.services.CachingFileRepository;
 import com.foreach.across.modules.filemanager.services.FileManager;
 import com.foreach.across.modules.filemanager.services.FileRepository;
 import com.foreach.across.test.AcrossTestConfiguration;
+import com.google.common.collect.ImmutableList;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -93,7 +94,7 @@ class TestCustomAzureFileRepositoryConfiguration
 		@Bean
 		AzuriteContainer azurite() {
 			AzuriteContainer azurite = new AzuriteContainer();
-			azurite.addExposedPorts( 10000, 10001 );
+			azurite.setExposedPorts( ImmutableList.of( 10000, 10001 ) );
 			azurite.setCommand( "azurite", "-l", "/data", "--blobHost", "0.0.0.0", "--queueHost", "0.0.0.0" );
 			azurite.waitingFor( Wait.forListeningPort() );
 			azurite.start();

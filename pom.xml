@@ -76,7 +76,7 @@
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 		<maven-artifact-plugin.version>3.5.1</maven-artifact-plugin.version>
 		<maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
-		<testcontainers-bom.version>1.19.7</testcontainers-bom.version>
+		<testcontainers-bom.version>1.19.8</testcontainers-bom.version>
 
 		<!-- Needed for https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
 		<project.build.outputTimestamp>2023-01-01T00:00:00Z</project.build.outputTimestamp>
