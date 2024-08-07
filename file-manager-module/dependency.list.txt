@@ -123,7 +123,6 @@ org.apache.tomcat.embed:tomcat-embed-core:jar:9.0.83:compile
 org.apache.tomcat.embed:tomcat-embed-el:jar:9.0.83:compile
 org.apache.tomcat.embed:tomcat-embed-websocket:jar:9.0.83:compile
 org.apiguardian:apiguardian-api:jar:1.1.2:test
-org.aspectj:aspectjweaver:jar:1.9.7:compile
 org.assertj:assertj-core:jar:3.22.0:test
 org.atteo:evo-inflector:jar:1.2.2:compile
 org.attoparser:attoparser:jar:2.0.5.RELEASE:compile
@@ -164,8 +163,6 @@ org.slf4j:jul-to-slf4j:jar:1.7.36:compile
 org.slf4j:slf4j-api:jar:1.7.36:compile
 org.springframework.boot:spring-boot-autoconfigure:jar:2.7.18:compile
 org.springframework.boot:spring-boot-configuration-processor:jar:2.7.18:compile
-org.springframework.boot:spring-boot-starter-aop:jar:2.7.18:compile
-org.springframework.boot:spring-boot-starter-integration:jar:2.7.18:compile
 org.springframework.boot:spring-boot-starter-json:jar:2.7.18:compile
 org.springframework.boot:spring-boot-starter-logging:jar:2.7.18:compile
 org.springframework.boot:spring-boot-starter-tomcat:jar:2.7.18:compile
@@ -195,7 +192,7 @@ org.springframework:spring-jcl:jar:5.3.37:compile
 org.springframework:spring-jdbc:jar:5.3.37:compile
 org.springframework:spring-messaging:jar:5.3.37:compile
 org.springframework:spring-orm:jar:5.3.37:compile
-org.springframework:spring-test:jar:5.3.37:compile
+org.springframework:spring-test:jar:5.3.37:test
 org.springframework:spring-tx:jar:5.3.37:compile
 org.springframework:spring-web:jar:5.3.37:compile
 org.springframework:spring-webmvc:jar:5.3.37:compile

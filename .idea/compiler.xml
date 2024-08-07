@@ -24,6 +24,13 @@
         <module name="common-file-repository-test-utils" />
         <module name="common-hibernate" />
       </profile>
+      <profile name="Annotation profile for common-file-repository" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <module name="common-file-repository" />
+      </profile>
       <profile name="Annotation profile for com.foreach.libs:common-projects" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -31,7 +38,6 @@
         <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
         <processor name="com.querydsl.apt.jpa.JPAAnnotationProcessor" />
         <module name="file-manager-module" />
-        <module name="common-file-repository" />
       </profile>
     </annotationProcessing>
   </component>
