@@ -58,7 +58,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<revision>2.0.0-beta-1</revision>
+		<revision>2.0-SNAPSHOT</revision>
 
 		<!-- Overrides from Spring Boot: -->
 		<maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
