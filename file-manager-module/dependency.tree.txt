@@ -178,9 +178,9 @@ com.foreach.libs:common-file-repository:jar:2.0-SNAPSHOT
 +- org.apache.ftpserver:ftpserver-core:jar:1.2.0:test
 |  +- org.apache.ftpserver:ftplet-api:jar:1.2.0:test
 |  \- org.apache.mina:mina-core:jar:2.1.6:test
-+- org.apache.sshd:sshd-core:jar:2.10.0:test
-|  \- org.apache.sshd:sshd-common:jar:2.10.0:test
-+- org.apache.sshd:sshd-sftp:jar:2.10.0:compile
++- org.apache.sshd:sshd-core:jar:2.12.1:test
+|  \- org.apache.sshd:sshd-common:jar:2.12.1:test
++- org.apache.sshd:sshd-sftp:jar:2.12.1:compile
 +- commons-io:commons-io:jar:2.16.1:compile
 +- org.projectlombok:lombok:jar:1.18.30:provided
 +- org.springframework.boot:spring-boot-configuration-processor:jar:2.7.18:compile
@@ -206,7 +206,7 @@ com.foreach.libs:common-file-repository:jar:2.0-SNAPSHOT
 |     \- org.springframework.retry:spring-retry:jar:1.3.4:compile
 +- org.springframework.integration:spring-integration-ftp:jar:5.5.20:compile
 |  +- org.springframework.integration:spring-integration-file:jar:5.5.20:compile
-|  +- commons-net:commons-net:jar:3.9.0:compile
+|  +- commons-net:commons-net:jar:3.10.0:compile
 |  \- org.springframework:spring-context-support:jar:5.3.37:compile
 +- org.springframework.integration:spring-integration-sftp:jar:5.5.20:compile
 |  \- com.jcraft:jsch:jar:0.1.55:compile

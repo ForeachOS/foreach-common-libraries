@@ -67,7 +67,10 @@
 		<spring-framework.version>5.3.37</spring-framework.version>
 
 		<!-- Not managed by Spring Boot: -->
+		<apache-ftpserver.version>1.2.0</apache-ftpserver.version>
+		<apache-sshd.version>2.12.1</apache-sshd.version>
 		<commons-io.version>2.16.1</commons-io.version>
+		<commons-net.version>3.10.0</commons-net.version>
 		<commons-validator.version>1.9.0</commons-validator.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
@@ -259,7 +262,7 @@
 			<dependency>
 				<groupId>commons-net</groupId>
 				<artifactId>commons-net</artifactId>
-				<version>3.9.0</version>
+				<version>${commons-net.version}</version>
 			</dependency>
 
 			<dependency>
@@ -267,6 +270,34 @@
 				<artifactId>commons-validator</artifactId>
 				<version>${commons-validator.version}</version>
 				<optional>true</optional>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.apache.ftpserver/ftpserver-core -->
+			<dependency>
+				<groupId>org.apache.ftpserver</groupId>
+				<artifactId>ftpserver-core</artifactId>
+				<version>${apache-ftpserver.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-common</artifactId>
+				<version>${apache-sshd.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-core</artifactId>
+				<version>${apache-sshd.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-osgi</artifactId>
+				<version>${apache-sshd.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-sftp</artifactId>
+				<version>${apache-sshd.version}</version>
 			</dependency>
 
 			<dependency>

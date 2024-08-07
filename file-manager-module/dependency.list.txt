@@ -56,7 +56,7 @@ com.sun.istack:istack-commons-runtime:jar:3.0.12:compile
 com.zaxxer:HikariCP:jar:4.0.3:test
 commons-codec:commons-codec:jar:1.15:compile
 commons-io:commons-io:jar:2.16.1:compile
-commons-net:commons-net:jar:3.9.0:compile
+commons-net:commons-net:jar:3.10.0:compile
 io.github.classgraph:classgraph:jar:4.8.108:provided
 io.netty:netty-buffer:jar:4.1.101.Final:compile
 io.netty:netty-codec-dns:jar:4.1.101.Final:compile
@@ -109,9 +109,9 @@ org.apache.httpcomponents:httpcore:jar:4.4.16:compile
 org.apache.logging.log4j:log4j-api:jar:2.17.2:compile
 org.apache.logging.log4j:log4j-to-slf4j:jar:2.17.2:compile
 org.apache.mina:mina-core:jar:2.1.6:test
-org.apache.sshd:sshd-common:jar:2.10.0:test
-org.apache.sshd:sshd-core:jar:2.10.0:test
-org.apache.sshd:sshd-sftp:jar:2.10.0:compile
+org.apache.sshd:sshd-common:jar:2.12.1:test
+org.apache.sshd:sshd-core:jar:2.12.1:test
+org.apache.sshd:sshd-sftp:jar:2.12.1:compile
 org.apache.tomcat.embed:tomcat-embed-core:jar:9.0.83:compile
 org.apache.tomcat.embed:tomcat-embed-el:jar:9.0.83:compile
 org.apache.tomcat.embed:tomcat-embed-websocket:jar:9.0.83:compile
