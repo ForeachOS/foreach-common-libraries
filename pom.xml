@@ -53,6 +53,7 @@
 		<module>common-test</module>
 		-->
 		<module>common-concurrent</module>
+		<module>file-manager-module</module>
 	</modules>
 
 	<properties>
@@ -66,11 +67,13 @@
 		<spring-framework.version>5.3.37</spring-framework.version>
 
 		<!-- Not managed by Spring Boot: -->
+		<commons-io.version>2.16.1</commons-io.version>
 		<commons-validator.version>1.9.0</commons-validator.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 		<maven-artifact-plugin.version>3.5.1</maven-artifact-plugin.version>
 		<maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
+		<testcontainers-bom.version>1.19.7</testcontainers-bom.version>
 
 		<!-- Needed for https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
 		<project.build.outputTimestamp>2023-01-01T00:00:00Z</project.build.outputTimestamp>
@@ -156,6 +159,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<scope>test</scope>
@@ -201,11 +209,32 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.testcontainers</groupId>
+				<artifactId>testcontainers-bom</artifactId>
+				<version>${testcontainers-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>3.9.0</version>
+			</dependency>
+
+			<dependency>
 				<groupId>commons-validator</groupId>
 				<artifactId>commons-validator</artifactId>
 				<version>${commons-validator.version}</version>
 				<optional>true</optional>
 			</dependency>
+
 			<dependency>
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis</artifactId>
@@ -217,25 +246,73 @@
 				<artifactId>mybatis-spring</artifactId>
 				<version>2.1.2</version>
 			</dependency>
+
 			<dependency>
 				<groupId>com.mockrunner</groupId>
 				<artifactId>mockrunner-jdbc</artifactId>
 				<version>2.0.7</version>
 				<scope>test</scope>
 			</dependency>
+
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk-bom</artifactId>
+				<version>1.11.1034</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-aws-core</artifactId>
+				<version>2.2.6.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>com.microsoft.azure</groupId>
+				<artifactId>azure-storage</artifactId>
+				<version>8.6.6</version>
+			</dependency>
+
+			<!-- TODO: Delete Across dependencies: -->
+			<dependency>
+				<groupId>com.foreach.across.modules</groupId>
+				<artifactId>across-hibernate-module</artifactId>
+				<version>4.2.1.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>com.foreach.across.modules</groupId>
+				<artifactId>properties-module</artifactId>
+				<version>2.2.1.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>com.foreach.across.modules</groupId>
+				<artifactId>entity-module</artifactId>
+				<version>4.2.1.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>com.foreach.across.modules</groupId>
+				<artifactId>bootstrap-ui-module</artifactId>
+				<version>3.2.1.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>com.foreach.across.modules</groupId>
+				<artifactId>admin-web-module</artifactId>
+				<version>4.2.1.RELEASE</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
 	<scm>
 		<connection>scm:git:https://github.com/ForeachOS/foreach-common-java-libraries</connection>
-		<developerConnection>scm:git:https://gitlab.eindhoven.io-internal.dev/antwerpen/common/foreach-common-java-libraries</developerConnection>
+		<developerConnection>
+			scm:git:https://gitlab.eindhoven.io-internal.dev/antwerpen/common/foreach-common-java-libraries
+		</developerConnection>
 		<url>https://github.com/ForeachOS/foreach-common-java-libraries</url>
 	</scm>
 
 	<developers>
 		<developer>
-			<name>Arne Vandamme</name>
-			<email>arne@foreach.be</email>
+			<name>Foreach</name>
 			<organization>Foreach</organization>
 			<organizationUrl>https://www.foreach.be</organizationUrl>
 		</developer>

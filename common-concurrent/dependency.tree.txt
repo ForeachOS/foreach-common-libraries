@@ -16,6 +16,7 @@ com.foreach.libs:common-concurrent:jar:2.0-SNAPSHOT
 |  \- javax.xml.bind:jaxb-api:jar:2.3.1:test
 |     \- javax.activation:javax.activation-api:jar:1.2.0:test
 +- org.hsqldb:hsqldb:jar:2.5.2:test
++- org.assertj:assertj-core:jar:3.22.0:test
 +- org.junit.jupiter:junit-jupiter-api:jar:5.8.2:test
 |  +- org.opentest4j:opentest4j:jar:1.2.0:test
 |  +- org.junit.platform:junit-platform-commons:jar:1.8.2:test

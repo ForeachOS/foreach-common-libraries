@@ -12,6 +12,7 @@
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -22,11 +23,15 @@
         <module name="common-spring" />
         <module name="common-hibernate" />
       </profile>
+      <profile name="Annotation profile for com.foreach.libs:common-projects" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <processor name="com.querydsl.apt.jpa.JPAAnnotationProcessor" />
+        <module name="file-manager-module" />
+      </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="common-synchronizer" target="1.7" />
-      <module name="common-test" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -37,6 +42,7 @@
       <module name="common-spring" options="-parameters" />
       <module name="common-test" options="-parameters" />
       <module name="common-web" options="-parameters" />
+      <module name="file-manager-module" options="-parameters" />
     </option>
   </component>
 </project>

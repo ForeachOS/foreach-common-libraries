@@ -1,4 +1,5 @@
 com.foreach.libs:common-projects:pom:2.0-SNAPSHOT
++- org.assertj:assertj-core:jar:3.22.0:test
 +- org.junit.jupiter:junit-jupiter-api:jar:5.8.2:test
 |  +- org.opentest4j:opentest4j:jar:1.2.0:test
 |  +- org.junit.platform:junit-platform-commons:jar:1.8.2:test

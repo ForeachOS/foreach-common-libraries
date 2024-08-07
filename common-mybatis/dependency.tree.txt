@@ -29,6 +29,7 @@ com.foreach.libs:common-mybatis:jar:2.0-SNAPSHOT
 |  |  \- nekohtml:nekohtml:jar:0.9.5:test
 |  |     \- xerces:xercesImpl:jar:2.4.0:test
 |  \- commons-logging:commons-logging:jar:1.0.4:test
++- org.assertj:assertj-core:jar:3.22.0:test
 +- org.junit.jupiter:junit-jupiter-api:jar:5.8.2:test
 |  +- org.opentest4j:opentest4j:jar:1.2.0:test
 |  +- org.junit.platform:junit-platform-commons:jar:1.8.2:test
