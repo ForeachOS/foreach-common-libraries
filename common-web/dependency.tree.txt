@@ -1,0 +1,31 @@
+com.foreach.libs:common-web:jar:2.0-SNAPSHOT
++- com.foreach.libs:common-spring:jar:2.0-SNAPSHOT:compile
+|  +- com.foreach.libs:common-concurrent:jar:2.0-SNAPSHOT:compile
+|  +- javax.mail:javax.mail-api:jar:1.6.2:compile
+|  +- org.hibernate.validator:hibernate-validator:jar:6.2.5.Final:compile
+|  |  +- jakarta.validation:jakarta.validation-api:jar:2.0.2:compile
+|  |  +- org.jboss.logging:jboss-logging:jar:3.4.3.Final:compile
+|  |  \- com.fasterxml:classmate:jar:1.5.1:compile
+|  +- org.springframework:spring-context-support:jar:5.3.37:compile
+|  \- org.springframework:spring-core:jar:5.3.37:compile
+|     \- org.springframework:spring-jcl:jar:5.3.37:compile
++- org.apache.commons:commons-lang3:jar:3.12.0:compile
++- org.apache.logging.log4j:log4j-1.2-api:jar:2.17.2:compile
+|  \- org.apache.logging.log4j:log4j-api:jar:2.17.2:compile
++- org.slf4j:slf4j-api:jar:1.7.36:compile
++- org.springframework:spring-webmvc:jar:5.3.37:provided
+|  +- org.springframework:spring-aop:jar:5.3.37:compile
+|  +- org.springframework:spring-beans:jar:5.3.37:compile
+|  +- org.springframework:spring-context:jar:5.3.37:compile
+|  +- org.springframework:spring-expression:jar:5.3.37:compile
+|  \- org.springframework:spring-web:jar:5.3.37:provided
++- javax.servlet:javax.servlet-api:jar:4.0.1:provided
++- org.springframework:spring-test:jar:5.3.37:test
++- org.junit.jupiter:junit-jupiter-api:jar:5.8.2:test
+|  +- org.opentest4j:opentest4j:jar:1.2.0:test
+|  +- org.junit.platform:junit-platform-commons:jar:1.8.2:test
+|  \- org.apiguardian:apiguardian-api:jar:1.1.2:test
+\- org.mockito:mockito-core:jar:4.5.1:test
+   +- net.bytebuddy:byte-buddy:jar:1.12.23:test
+   +- net.bytebuddy:byte-buddy-agent:jar:1.12.23:test
+   \- org.objenesis:objenesis:jar:3.2:test
