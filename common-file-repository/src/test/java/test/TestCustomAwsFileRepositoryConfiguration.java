@@ -1,28 +1,26 @@
 package test;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.foreach.across.modules.filemanager.FileManagerModule;
 import com.foreach.across.modules.filemanager.business.FileDescriptor;
 import com.foreach.across.modules.filemanager.business.FileResource;
-import com.foreach.across.modules.filemanager.services.AmazonS3FileRepository;
-import com.foreach.across.modules.filemanager.services.CachingFileRepository;
-import com.foreach.across.modules.filemanager.services.FileManager;
-import com.foreach.across.modules.filemanager.services.FileRepository;
-import com.foreach.across.test.AcrossTestConfiguration;
+import com.foreach.across.modules.filemanager.services.*;
+import com.foreach.common.filerepo.test.utils.AmazonS3Helper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.StreamUtils;
-import com.foreach.common.filerepo.test.utils.AmazonS3Helper;
 
+import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
@@ -40,6 +38,9 @@ class TestCustomAwsFileRepositoryConfiguration
 {
 	private static final String BUCKET_NAME = "caching-test";
 	private static final Resource RES_TEXTFILE = new ClassPathResource( "textfile.txt" );
+
+	@TempDir
+	static File tempDir;
 
 	@Test
 	@SneakyThrows
@@ -71,7 +72,7 @@ class TestCustomAwsFileRepositoryConfiguration
 		}
 	}
 
-	@AcrossTestConfiguration
+	@Configuration
 	static class RepositoriesConfiguration
 	{
 		@Bean(destroyMethod = "shutdown")
@@ -80,22 +81,27 @@ class TestCustomAwsFileRepositoryConfiguration
 		}
 
 		@Bean
-		FileManagerModule fileManagerModule() {
-			return new FileManagerModule();
+		FileManagerImpl fileManager() {
+			FileManagerImpl fileManager = new FileManagerImpl();
+			fileManager.setFileRepositoryFactory( new LocalFileRepositoryFactory( tempDir.getAbsolutePath(), null ) );
+			return fileManager;
 		}
 
 		@Bean
-		FileRepository remoteRepository( AmazonS3 amazonS3 ) {
-			return CachingFileRepository.withTranslatedFileDescriptor()
-			                            .expireOnShutdown( true )
-			                            .targetFileRepository(
-					                            AmazonS3FileRepository.builder()
-					                                                  .repositoryId( "s3" )
-					                                                  .amazonS3( amazonS3 )
-					                                                  .bucketName( BUCKET_NAME )
-					                                                  .pathGenerator( () -> "12/34/56" )
-					                                                  .build()
-			                            ).build();
+		FileRepository remoteRepository( AmazonS3 amazonS3, FileManagerImpl fileManager ) {
+			CachingFileRepository repo = CachingFileRepository
+					.withTranslatedFileDescriptor()
+					.expireOnShutdown( true )
+					.targetFileRepository(
+							AmazonS3FileRepository.builder()
+							                      .repositoryId( "s3" )
+							                      .amazonS3( amazonS3 )
+							                      .bucketName( BUCKET_NAME )
+							                      .pathGenerator( () -> "12/34/56" )
+							                      .build()
+					).build();
+			fileManager.registerRepository( repo );
+			return repo;
 		}
 	}
 }

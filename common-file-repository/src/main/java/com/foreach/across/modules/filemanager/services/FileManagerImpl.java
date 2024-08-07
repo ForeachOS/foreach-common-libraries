@@ -44,7 +44,7 @@ import java.util.stream.Stream;
 public class FileManagerImpl implements FileManager, FileRepositoryRegistry
 {
 	private FileRepositoryFactory repositoryFactory;
-	private Map<String, FileRepositoryDelegate> repositories = new TreeMap<>();
+	private final Map<String, FileRepositoryDelegate> repositories = new TreeMap<>();
 
 	@Override
 	public FileResource createFileResource( String repositoryId ) {

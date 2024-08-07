@@ -1,30 +1,43 @@
+/*
+ * Copyright 2014 the original author or authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package test;
 
 import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobServiceClient;
-import com.foreach.across.modules.filemanager.FileManagerModule;
 import com.foreach.across.modules.filemanager.business.FileDescriptor;
 import com.foreach.across.modules.filemanager.business.FileResource;
-import com.foreach.across.modules.filemanager.services.AzureFileRepository;
-import com.foreach.across.modules.filemanager.services.CachingFileRepository;
-import com.foreach.across.modules.filemanager.services.FileManager;
-import com.foreach.across.modules.filemanager.services.FileRepository;
-import com.foreach.across.test.AcrossTestConfiguration;
+import com.foreach.across.modules.filemanager.services.*;
+import com.foreach.common.filerepo.test.utils.AzuriteContainer;
 import com.google.common.collect.ImmutableList;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.StreamUtils;
 import org.testcontainers.containers.wait.strategy.Wait;
-import com.foreach.common.filerepo.test.utils.AzuriteContainer;
 
+import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
@@ -41,6 +54,9 @@ class TestCustomAzureFileRepositoryConfiguration
 {
 	private static final String CONTAINER_NAME = "caching-test";
 	private static final Resource RES_TEXTFILE = new ClassPathResource( "textfile.txt" );
+
+	@TempDir
+	static File tempDir;
 
 	@Test
 	@SneakyThrows
@@ -79,7 +95,7 @@ class TestCustomAzureFileRepositoryConfiguration
 		}
 	}
 
-	@AcrossTestConfiguration
+	@Configuration
 	static class RepositoriesConfiguration
 	{
 
@@ -102,22 +118,27 @@ class TestCustomAzureFileRepositoryConfiguration
 		}
 
 		@Bean
-		FileManagerModule fileManagerModule() {
-			return new FileManagerModule();
+		FileManagerImpl fileManager() {
+			FileManagerImpl fileManager = new FileManagerImpl();
+			fileManager.setFileRepositoryFactory( new LocalFileRepositoryFactory( tempDir.getAbsolutePath(), null ) );
+			return fileManager;
 		}
 
 		@Bean
-		FileRepository remoteRepository( BlobServiceClient blobServiceClient ) {
-			return CachingFileRepository.withTranslatedFileDescriptor()
-			                            .expireOnShutdown( true )
-			                            .targetFileRepository(
-					                            AzureFileRepository.builder()
-					                                               .repositoryId( "az" )
-					                                               .blobServiceClient( blobServiceClient )
-					                                               .containerName( CONTAINER_NAME )
-					                                               .pathGenerator( () -> "12/34/56" )
-					                                               .build()
-			                            ).build();
+		FileRepository remoteRepository( BlobServiceClient blobServiceClient, FileManagerImpl fileManager ) {
+			CachingFileRepository repo = CachingFileRepository
+					.withTranslatedFileDescriptor()
+					.expireOnShutdown( true )
+					.targetFileRepository(
+							AzureFileRepository.builder()
+							                   .repositoryId( "az" )
+							                   .blobServiceClient( blobServiceClient )
+							                   .containerName( CONTAINER_NAME )
+							                   .pathGenerator( () -> "12/34/56" )
+							                   .build()
+					).build();
+			fileManager.registerRepository( repo );
+			return repo;
 		}
 	}
 }
