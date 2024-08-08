@@ -2,8 +2,8 @@ package com.foreach.across.modules.filemanager.config;
 
 import com.foreach.across.core.annotations.PostRefresh;
 import com.foreach.across.modules.filemanager.FileManagerModuleSettings;
-import com.foreach.across.modules.filemanager.services.AbstractExpiringFileRepository;
-import com.foreach.across.modules.filemanager.services.FileRepositoryRegistry;
+import com.foreach.common.filemanager.services.AbstractExpiringFileRepository;
+import com.foreach.common.filemanager.services.FileRepositoryRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

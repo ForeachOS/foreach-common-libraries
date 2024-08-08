@@ -33,7 +33,8 @@
 	<logger name="com.foreach.across.core.context.bootstrap" level="INFO"/>
 	<logger name="com.foreach.across.modules.web" level="INFO"/>
 	<logger name="com.foreach.across.test" level="INFO"/>
-	<logger name="com.foreach.across.modules.filemanager.services" level="trace"/>
+	<logger name="com.foreach.across.modules" level="trace"/>
+	<logger name="com.foreach.common" level="trace"/>
 	<logger name="com.amazonaws" level="info"/>
 	<logger name="com.github.dockerjava" level="info"/>
 	<logger name="com.jcraft.jsch" level="warn"/>

@@ -1,6 +1,6 @@
 package com.foreach.across.modules.filemanager.context;
 
-import com.foreach.across.modules.filemanager.business.FileDescriptor;
+import com.foreach.common.filemanager.business.FileDescriptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;

@@ -16,12 +16,12 @@
 
 package com.foreach.across.modules.filemanager.business.reference;
 
-import com.foreach.across.modules.filemanager.business.FileDescriptor;
-import com.foreach.across.modules.filemanager.business.FileResource;
+import com.foreach.common.filemanager.business.FileDescriptor;
+import com.foreach.common.filemanager.business.FileResource;
 import com.foreach.across.modules.filemanager.business.reference.properties.FileReferenceProperties;
 import com.foreach.across.modules.filemanager.business.reference.properties.FileReferencePropertiesService;
-import com.foreach.across.modules.filemanager.services.FileManager;
-import com.foreach.across.modules.filemanager.services.FileRepository;
+import com.foreach.common.filemanager.services.FileManager;
+import com.foreach.common.filemanager.services.FileRepository;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

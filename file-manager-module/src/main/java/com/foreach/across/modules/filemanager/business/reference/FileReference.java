@@ -16,7 +16,7 @@
 
 package com.foreach.across.modules.filemanager.business.reference;
 
-import com.foreach.across.modules.filemanager.business.FileDescriptor;
+import com.foreach.common.filemanager.business.FileDescriptor;
 import com.foreach.across.modules.hibernate.business.SettableIdAuditableEntity;
 import com.foreach.across.modules.hibernate.id.AcrossSequenceGenerator;
 import lombok.Builder;

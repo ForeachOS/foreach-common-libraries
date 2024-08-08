@@ -5,7 +5,7 @@ import com.foreach.across.modules.filemanager.business.reference.FileReferenceRe
 import com.foreach.across.modules.filemanager.business.reference.FileReferenceService;
 import com.foreach.across.modules.filemanager.business.reference.properties.FileReferenceProperties;
 import com.foreach.across.modules.filemanager.business.reference.properties.FileReferencePropertiesService;
-import com.foreach.across.modules.filemanager.services.FileManager;
+import com.foreach.common.filemanager.services.FileManager;
 import com.foreach.across.modules.hibernate.aop.EntityInterceptorAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;

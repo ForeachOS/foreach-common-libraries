@@ -1,7 +1,7 @@
 package com.foreach.across.modules.filemanager.context;
 
-import com.foreach.across.modules.filemanager.business.FileDescriptor;
-import com.foreach.across.modules.filemanager.services.FileManager;
+import com.foreach.common.filemanager.business.FileDescriptor;
+import com.foreach.common.filemanager.services.FileManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.core.io.ProtocolResolver;
@@ -9,7 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 /**
- * Allows resolving {@link com.foreach.across.modules.filemanager.services.FileManager} resources
+ * Allows resolving {@link FileManager} resources
  * as regular Spring resources, using the {@link ResourceLoader} interface.
  *
  * @author Arne Vandamme

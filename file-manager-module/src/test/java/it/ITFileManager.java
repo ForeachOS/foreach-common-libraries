@@ -17,12 +17,12 @@
 package it;
 
 import com.foreach.across.core.context.info.AcrossContextInfo;
-import com.foreach.across.modules.filemanager.business.FileDescriptor;
-import com.foreach.across.modules.filemanager.business.FileResource;
-import com.foreach.across.modules.filemanager.business.FileStorageException;
-import com.foreach.across.modules.filemanager.services.FileManager;
-import com.foreach.across.modules.filemanager.services.FileRepository;
-import com.foreach.across.modules.filemanager.services.FileRepositoryRegistry;
+import com.foreach.common.filemanager.business.FileDescriptor;
+import com.foreach.common.filemanager.business.FileResource;
+import com.foreach.common.filemanager.business.FileStorageException;
+import com.foreach.common.filemanager.services.FileManager;
+import com.foreach.common.filemanager.services.FileRepository;
+import com.foreach.common.filemanager.services.FileRepositoryRegistry;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

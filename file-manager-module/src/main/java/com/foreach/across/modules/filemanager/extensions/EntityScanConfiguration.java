@@ -18,7 +18,7 @@ package com.foreach.across.modules.filemanager.extensions;
 
 import com.foreach.across.core.annotations.ConditionalOnAcrossModule;
 import com.foreach.across.core.annotations.ModuleConfiguration;
-import com.foreach.across.modules.filemanager.business.FileManagerDomain;
+import com.foreach.common.filemanager.business.FileManagerDomain;
 import com.foreach.across.modules.hibernate.jpa.AcrossHibernateJpaModule;
 import com.foreach.across.modules.hibernate.provider.HibernatePackageConfigurer;
 import com.foreach.across.modules.hibernate.provider.HibernatePackageRegistry;

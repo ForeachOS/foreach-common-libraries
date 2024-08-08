@@ -4,7 +4,7 @@ import com.foreach.across.core.annotations.ConditionalOnAcrossModule;
 import com.foreach.across.modules.filemanager.business.reference.FileReference;
 import com.foreach.across.modules.filemanager.business.reference.FileReferenceRepository;
 import com.foreach.across.modules.filemanager.business.reference.QFileReference;
-import com.foreach.across.modules.filemanager.services.FileManager;
+import com.foreach.common.filemanager.services.FileManager;
 import com.foreach.across.modules.hibernate.jpa.AcrossHibernateJpaModule;
 import com.foreach.across.modules.web.AcrossWebModule;
 import lombok.RequiredArgsConstructor;
