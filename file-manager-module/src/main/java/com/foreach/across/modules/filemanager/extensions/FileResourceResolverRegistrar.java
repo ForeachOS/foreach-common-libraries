@@ -3,6 +3,7 @@ package com.foreach.across.modules.filemanager.extensions;
 import com.foreach.across.core.annotations.ModuleConfiguration;
 import com.foreach.across.modules.filemanager.context.FileResourcePatternResolver;
 import com.foreach.across.modules.filemanager.context.FileResourceProtocolResolver;
+import com.foreach.common.filemanager.services.FileManager;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -17,7 +18,7 @@ import java.lang.reflect.Field;
 
 /**
  * Configures both protocol and pattern resolver for file resources, based on the
- * presence of a {@link com.foreach.across.modules.filemanager.services.FileManager} bean in the bean factory.
+ * presence of a {@link FileManager} bean in the bean factory.
  *
  * @author Arne Vandamme
  * @since 1.4.0

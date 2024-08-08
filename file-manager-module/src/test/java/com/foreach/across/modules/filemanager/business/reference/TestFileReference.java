@@ -16,7 +16,7 @@
 
 package com.foreach.across.modules.filemanager.business.reference;
 
-import com.foreach.across.modules.filemanager.business.FileDescriptor;
+import com.foreach.common.filemanager.business.FileDescriptor;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

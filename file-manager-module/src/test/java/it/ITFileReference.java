@@ -1,6 +1,6 @@
 package it;
 
-import com.foreach.across.modules.filemanager.business.FileDescriptor;
+import com.foreach.common.filemanager.business.FileDescriptor;
 import com.foreach.across.modules.filemanager.business.reference.FileReference;
 import com.foreach.across.modules.filemanager.business.reference.FileReferenceRepository;
 import org.apache.commons.lang3.StringUtils;

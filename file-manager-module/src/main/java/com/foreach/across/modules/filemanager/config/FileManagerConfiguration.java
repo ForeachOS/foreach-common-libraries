@@ -22,7 +22,7 @@ import com.foreach.across.core.events.AcrossModuleBootstrappedEvent;
 import com.foreach.across.modules.filemanager.FileManagerModuleSettings;
 import com.foreach.across.modules.filemanager.context.FileResourceProtocolResolver;
 import com.foreach.across.modules.filemanager.extensions.FileResourceResolverRegistrar;
-import com.foreach.across.modules.filemanager.services.*;
+import com.foreach.common.filemanager.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
