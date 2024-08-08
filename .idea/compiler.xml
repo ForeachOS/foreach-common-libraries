@@ -38,6 +38,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="common-bom" options="-parameters" />
       <module name="common-concurrent" options="-parameters" />
       <module name="common-file-manager" options="-parameters" />
       <module name="common-file-manager-test-utils" options="-parameters" />

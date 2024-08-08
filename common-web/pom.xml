@@ -25,6 +25,11 @@
 	<artifactId>common-web</artifactId>
 	<name>${project.groupId}:${project.artifactId}</name>
 
+	<properties>
+		<maven.javadoc.skip>false</maven.javadoc.skip>
+		<maven.deploy.skip>false</maven.deploy.skip>
+	</properties>
+
 	<dependencies>
 
 		<dependency>
