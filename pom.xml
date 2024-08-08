@@ -53,6 +53,8 @@
 		<module>common-test</module>
 		-->
 		<module>common-concurrent</module>
+		<module>common-file-manager-test-utils</module>
+		<module>common-file-manager</module>
 		<module>file-manager-module</module>
 	</modules>
 
@@ -171,6 +173,16 @@
 			<dependency>
 				<groupId>com.foreach.libs</groupId>
 				<artifactId>common-concurrent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.foreach.libs</groupId>
+				<artifactId>common-file-manager</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.foreach.libs</groupId>
+				<artifactId>common-file-manager-test-utils</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -301,33 +313,6 @@
 				<version>${testcontainers-bom.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
-
-			<!-- TODO: Delete Across dependencies: -->
-			<dependency>
-				<groupId>com.foreach.across.modules</groupId>
-				<artifactId>across-hibernate-module</artifactId>
-				<version>4.2.1.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>com.foreach.across.modules</groupId>
-				<artifactId>properties-module</artifactId>
-				<version>2.2.1.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>com.foreach.across.modules</groupId>
-				<artifactId>entity-module</artifactId>
-				<version>4.2.1.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>com.foreach.across.modules</groupId>
-				<artifactId>bootstrap-ui-module</artifactId>
-				<version>3.2.1.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>com.foreach.across.modules</groupId>
-				<artifactId>admin-web-module</artifactId>
-				<version>4.2.1.RELEASE</version>
 			</dependency>
 
 		</dependencies>

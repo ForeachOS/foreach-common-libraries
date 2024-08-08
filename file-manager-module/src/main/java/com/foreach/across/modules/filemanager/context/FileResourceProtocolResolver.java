@@ -19,7 +19,6 @@ import org.springframework.core.io.ResourceLoader;
 @RequiredArgsConstructor
 public class FileResourceProtocolResolver implements ProtocolResolver
 {
-	public static final String PROTOCOL = "axfs://";
 
 	private final BeanFactory beanFactory;
 
@@ -27,7 +26,7 @@ public class FileResourceProtocolResolver implements ProtocolResolver
 
 	@Override
 	public Resource resolve( String location, ResourceLoader resourceLoader ) {
-		if ( location.startsWith( PROTOCOL ) ) {
+		if ( location.startsWith( FileDescriptor.PROTOCOL ) ) {
 			FileDescriptor descriptor = FileDescriptor.of( location );
 			return requireFileManager().getFileResource( descriptor );
 		}

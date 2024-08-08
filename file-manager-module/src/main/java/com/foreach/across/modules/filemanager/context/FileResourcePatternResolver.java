@@ -1,5 +1,6 @@
 package com.foreach.across.modules.filemanager.context;
 
+import com.foreach.across.modules.filemanager.business.FileDescriptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -18,7 +19,7 @@ public class FileResourcePatternResolver implements ResourcePatternResolver
 
 	@Override
 	public Resource[] getResources( String locationPattern ) throws IOException {
-		if ( locationPattern.startsWith( FileResourceProtocolResolver.PROTOCOL ) ) {
+		if ( locationPattern.startsWith( FileDescriptor.PROTOCOL ) ) {
 			return protocolResolver.getResources( locationPattern );
 		}
 		return resourcePatternResolverDelegate.getResources( locationPattern );

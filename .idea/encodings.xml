@@ -5,6 +5,8 @@
     <file url="file://$PROJECT_DIR$/common-concurrent" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-concurrent/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-concurrent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common-file-manager-test-utils/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common-file-manager/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-hibernate" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-hibernate/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-hibernate/src/main/resources" charset="UTF-8" />
@@ -24,8 +26,6 @@
     <file url="file://$PROJECT_DIR$/common-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-web/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/file-manager-module" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/file-manager-module-no-entity-module" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/file-manager-module-no-hibernate-module" charset="UTF-8" />
@@ -34,5 +34,7 @@
     <file url="file://$PROJECT_DIR$/file-manager-module-test/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/file-manager-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/file-manager-module/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
 </project>
