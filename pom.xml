@@ -66,7 +66,7 @@
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 		<maven.deploy.skip>true</maven.deploy.skip>
 
-		<revision>2.0-SNAPSHOT</revision>
+		<revision>2.0.0-beta-2</revision>
 
 		<!-- Overrides from Spring Boot: -->
 		<maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
