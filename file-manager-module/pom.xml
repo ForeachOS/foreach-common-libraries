@@ -65,11 +65,11 @@
 
 		<dependency>
 			<groupId>com.foreach.libs</groupId>
-			<artifactId>common-file-repository</artifactId>
+			<artifactId>common-file-manager</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.foreach.libs</groupId>
-			<artifactId>common-file-repository-test-utils</artifactId>
+			<artifactId>common-file-manager-test-utils</artifactId>
 			<scope>test</scope>
 		</dependency>
 

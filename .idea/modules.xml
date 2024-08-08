@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/common-file-repository/common-file-repository.iml" filepath="$PROJECT_DIR$/common-file-repository/common-file-repository.iml" />
-      <module fileurl="file://$PROJECT_DIR$/common-file-repository-test-utils/common-file-repository-test-utils.iml" filepath="$PROJECT_DIR$/common-file-repository-test-utils/common-file-repository-test-utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-file-manager/common-file-manager.iml" filepath="$PROJECT_DIR$/common-file-manager/common-file-manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-file-manager-test-utils/common-file-manager-test-utils.iml" filepath="$PROJECT_DIR$/common-file-manager-test-utils/common-file-manager-test-utils.iml" />
     </modules>
   </component>
 </project>

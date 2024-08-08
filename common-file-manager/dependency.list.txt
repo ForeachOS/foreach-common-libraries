@@ -17,7 +17,7 @@ com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:jar:2.13.5:compile
 com.fasterxml.jackson.dataformat:jackson-dataformat-xml:jar:2.13.5:compile
 com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.13.5:compile
 com.fasterxml.woodstox:woodstox-core:jar:6.4.0:compile
-com.foreach.libs:common-file-repository-test-utils:jar:2.0-SNAPSHOT:test
+com.foreach.libs:common-file-manager-test-utils:jar:2.0-SNAPSHOT:test
 com.github.docker-java:docker-java-api:jar:3.3.6:test
 com.github.docker-java:docker-java-transport-zerodep:jar:3.3.6:test
 com.github.docker-java:docker-java-transport:jar:3.3.6:test

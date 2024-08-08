@@ -35,8 +35,8 @@ com.foreach.across:across-core:jar:5.5.0:compile
 com.foreach.across:across-test:jar:5.5.0:test
 com.foreach.across:across-web:jar:5.5.0:compile
 com.foreach.libs:common-concurrent:jar:2.0-SNAPSHOT:compile
-com.foreach.libs:common-file-repository-test-utils:jar:2.0-SNAPSHOT:test
-com.foreach.libs:common-file-repository:jar:2.0-SNAPSHOT:compile
+com.foreach.libs:common-file-manager-test-utils:jar:2.0-SNAPSHOT:test
+com.foreach.libs:common-file-manager:jar:2.0-SNAPSHOT:compile
 com.foreach.libs:common-spring:jar:2.0-SNAPSHOT:compile
 com.github.docker-java:docker-java-api:jar:3.3.6:test
 com.github.docker-java:docker-java-transport-zerodep:jar:3.3.6:test
