@@ -55,7 +55,9 @@
 		<module>common-concurrent</module>
 		<module>common-file-manager-test-utils</module>
 		<module>common-file-manager</module>
+		<!--
 		<module>file-manager-module</module>
+		-->
 	</modules>
 
 	<properties>
