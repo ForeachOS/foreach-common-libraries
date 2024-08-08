@@ -60,7 +60,6 @@ io.netty:netty-transport:jar:4.1.101.Final:compile
 io.projectreactor.netty:reactor-netty-core:jar:1.0.39:compile
 io.projectreactor.netty:reactor-netty-http:jar:1.0.39:compile
 io.projectreactor:reactor-core:jar:3.4.34:compile
-javax.persistence:javax.persistence-api:jar:2.2:compile
 joda-time:joda-time:jar:2.8.1:compile
 junit:junit:jar:4.13.2:test
 net.bytebuddy:byte-buddy-agent:jar:1.12.23:test

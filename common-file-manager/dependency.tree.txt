@@ -72,7 +72,6 @@ com.foreach.libs:common-file-manager:jar:2.0-SNAPSHOT
 |  +- com.google.errorprone:error_prone_annotations:jar:2.21.1:test
 |  \- com.google.j2objc:j2objc-annotations:jar:2.8:test
 +- commons-io:commons-io:jar:2.16.1:compile
-+- javax.persistence:javax.persistence-api:jar:2.2:compile
 +- org.apache.commons:commons-lang3:jar:3.12.0:compile
 +- org.apache.ftpserver:ftpserver-core:jar:1.2.0:test
 |  +- org.apache.ftpserver:ftplet-api:jar:1.2.0:test
