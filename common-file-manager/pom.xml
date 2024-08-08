@@ -31,16 +31,6 @@
 	<properties>
 		<maven.javadoc.skip>false</maven.javadoc.skip>
 		<maven.deploy.skip>false</maven.deploy.skip>
-
-		<frontend.dir>src/main/frontend</frontend.dir>
-		<frontend.node.version>v9.10.1</frontend.node.version>
-		<frontend.yarn.version>v1.3.2</frontend.yarn.version>
-
-		<!-- TODO: delete -->
-		<across-framework.version>5.5.0</across-framework.version>
-		<across-autoconfigure.version>2.5.0</across-autoconfigure.version>
-		<across-base-modules.version>4.5.0</across-base-modules.version>
-		<across-entity-admin-modules.version>4.5.0</across-entity-admin-modules.version>
 	</properties>
 
 	<dependencies>
