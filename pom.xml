@@ -338,6 +338,14 @@
 		</developer>
 	</developers>
 
+	<repositories>
+		<repository>
+			<id>across</id> <!-- Don't try changing this -->
+			<name>Foreach Nexus Public</name>
+			<url>https://repository.antwerpen.io-external.com/nexus/repository/public/</url>
+		</repository>
+	</repositories>
+
 	<profiles>
 		<profile>
 			<id>deploy</id>
@@ -451,12 +459,12 @@
 				<repository>
 					<id>foreach-nexus</id>
 					<name>Foreach nexus</name>
-					<url>https://repository.antwerpen.io-external.com/nexus/repository/releases/</url>
+					<url>https://repository.antwerpen.io-external.com/nexus/repository/releases-public/</url>
 				</repository>
 				<snapshotRepository>
 					<id>foreach-nexus</id>
 					<name>Foreach nexus</name>
-					<url>https://repository.antwerpen.io-external.com/nexus/repository/snapshots/</url>
+					<url>https://repository.antwerpen.io-external.com/nexus/repository/snapshots-public/</url>
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>

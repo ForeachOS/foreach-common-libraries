@@ -87,6 +87,7 @@
 						<parent>remove</parent>
 						<properties>remove</properties>
 						<build>remove</build>
+						<repositories>remove</repositories>
 					</pomElements>
 				</configuration>
 			</plugin>
