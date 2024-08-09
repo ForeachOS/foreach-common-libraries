@@ -1,0 +1,5 @@
+alias mi='mvn install'
+alias mci='mvn clean install'
+alias miwt='mvn install -DskipTests'
+alias mciwt='mvn clean install -DskipTests'
+alias mvn-tree='mvn dependency:tree -DoutputFile=tree.txt'
