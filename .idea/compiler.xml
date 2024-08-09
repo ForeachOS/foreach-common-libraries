@@ -12,6 +12,7 @@
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -20,23 +21,34 @@
         <module name="common-concurrent" />
         <module name="common-web" />
         <module name="common-spring" />
+        <module name="common-file-manager-test-utils" />
         <module name="common-hibernate" />
+      </profile>
+      <profile name="Annotation profile for com.foreach.libs:common-projects" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <module name="common-file-manager" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="common-synchronizer" target="1.7" />
-      <module name="common-test" target="17" />
+      <module name="file-manager-module" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="common-bom" options="-parameters" />
       <module name="common-concurrent" options="-parameters" />
+      <module name="common-file-manager" options="-parameters" />
+      <module name="common-file-manager-test-utils" options="-parameters" />
       <module name="common-hibernate" options="-parameters" />
       <module name="common-mybatis" options="-parameters" />
-      <module name="common-projects" options="" />
+      <module name="common-projects" options="-parameters" />
       <module name="common-spring" options="-parameters" />
       <module name="common-test" options="-parameters" />
       <module name="common-web" options="-parameters" />
+      <module name="file-manager-module" options="-parameters" />
     </option>
   </component>
 </project>

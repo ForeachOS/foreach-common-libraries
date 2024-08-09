@@ -15,20 +15,21 @@
  */
 package com.foreach.common.spring.validators;
 
-import org.junit.Before;
-import org.junit.Test;
+
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAtLeastOneNotNullFieldValidator
 {
 	private AtLeastOneNotNullFieldValidator validator;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		validator = new AtLeastOneNotNullFieldValidator();
 	}
@@ -54,12 +55,12 @@ public class TestAtLeastOneNotNullFieldValidator
 		assertFalse( validator.isValid( testObject, null ) );
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void isValidWithMisconfigurationThrowsException() throws Exception {
 		TestObjectInvalidFieldList testObject = new TestObjectInvalidFieldList();
 		AtLeastOneNotNullField annotation = (AtLeastOneNotNullField) testObject.getClass().getDeclaredAnnotations()[0];
 		validator.initialize( annotation );
-		validator.isValid( testObject, null );
+		assertThrows( RuntimeException.class, () ->validator.isValid( testObject, null ));
 	}
 
 	@Test

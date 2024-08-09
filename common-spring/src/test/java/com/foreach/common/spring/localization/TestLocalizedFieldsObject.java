@@ -15,14 +15,14 @@
  */
 package com.foreach.common.spring.localization;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 {
@@ -30,7 +30,7 @@ public class TestLocalizedFieldsObject extends AbstractLocalizationTest
 	private Collection<MyFields> collection;
 	private Map<String, MyFields> map;
 
-	@Before
+	@BeforeEach
 	public void createInstance() {
 		text = new MyLocalizedText();
 

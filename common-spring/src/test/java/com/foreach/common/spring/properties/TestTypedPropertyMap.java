@@ -18,9 +18,10 @@ package com.foreach.common.spring.properties;
 import com.foreach.common.spring.convert.HierarchicalConversionService;
 import com.foreach.common.spring.properties.support.SingletonPropertyFactory;
 import org.apache.commons.lang3.time.FastDateFormat;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,15 +32,16 @@ import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestTypedPropertyMap.Config.class)
 @DirtiesContext
 public class TestTypedPropertyMap
@@ -51,7 +53,7 @@ public class TestTypedPropertyMap
 	protected Map<String, String> source;
 	protected TypedPropertyMap<String> map;
 
-	@Before
+	@BeforeEach
 	public void reset() {
 		registry = new PropertyTypeRegistry<>( conversionService );
 

@@ -15,19 +15,19 @@
  */
 package com.foreach.common.spring.localization.text;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestEternalLocalizedTextSetCache
 {
 	private LocalizedTextSetCache cache;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		cache = new EternalLocalizedTextSetCache();
 	}

@@ -51,7 +51,7 @@ public class Log4JUtils
 		List<Logger> result = new ArrayList<Logger>();
 
 		for ( String loggerName : loggerNames ) {
-			result.add( Logger.getLogger( loggerName ) );
+			result.add( LogManager.getLogger( loggerName ) );
 		}
 
 		return result;

@@ -17,12 +17,13 @@ package com.foreach.common.spring.convert;
 
 import com.foreach.common.spring.enums.CodeLookup;
 import com.foreach.common.spring.enums.IdLookup;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.Converter;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestConvertorFactory
 {
@@ -118,7 +119,7 @@ public class TestConvertorFactory
 	private EnumConverterFactory converterfactory;
 	private ConversionService conversionService;
 
-	@Before
+	@BeforeEach
 	public void prepareForTest() {
 		converterfactory = new EnumConverterFactory();
 
@@ -133,19 +134,19 @@ public class TestConvertorFactory
 		Converter<String, Flavour> flavourConvertor = converterfactory.getConverter( Flavour.class );
 
 		for ( Flavour flavour : Flavour.values() ) {
-			Assert.assertEquals( flavour, flavourConvertor.convert( flavour.getId().toString() ) );
+			assertEquals( flavour, flavourConvertor.convert( flavour.getId().toString() ) );
 		}
 
 		Converter<String, Color> colorConvertor = converterfactory.getConverter( Color.class );
 
 		for ( Color color : Color.values() ) {
-			Assert.assertEquals( color, colorConvertor.convert( color.getCode() ) );
+			assertEquals( color, colorConvertor.convert( color.getCode() ) );
 		}
 
 		Converter<String, Gender> genderConvertor = converterfactory.getConverter( Gender.class );
 
 		for ( Gender gender : Gender.values() ) {
-			Assert.assertEquals( gender, genderConvertor.convert( gender.getCode().toString() ) );
+			assertEquals( gender, genderConvertor.convert( gender.getCode().toString() ) );
 		}
 
 	}

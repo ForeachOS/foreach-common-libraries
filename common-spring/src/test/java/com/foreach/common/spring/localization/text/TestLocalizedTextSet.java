@@ -18,13 +18,13 @@ package com.foreach.common.spring.localization.text;
 import com.foreach.common.spring.localization.AbstractLocalizationTest;
 import com.foreach.common.spring.localization.Language;
 import com.foreach.common.spring.localization.MyLanguage;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestLocalizedTextSet extends AbstractLocalizationTest
@@ -33,7 +33,7 @@ public class TestLocalizedTextSet extends AbstractLocalizationTest
 	private LocalizedTextService textService;
 	private LocalizedText existingText;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		textService = mock( LocalizedTextService.class );
 

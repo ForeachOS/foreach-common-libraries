@@ -15,15 +15,16 @@
  */
 package com.foreach.common.spring.convert;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.Resource;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestSpringWorks extends BaseConversionServiceTest
 {
 	@Test
 	public void weConvertEnumsButNotResources() {
-		Assert.assertEquals( true, conversionService.canConvert( String.class, Enum.class ) );
-		Assert.assertEquals( false, conversionService.canConvert( String.class, Resource.class ) );
+		assertTrue( conversionService.canConvert( String.class, Enum.class ) );
+		assertFalse( conversionService.canConvert( String.class, Resource.class ) );
 	}
 }

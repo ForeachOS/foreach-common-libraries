@@ -23,8 +23,8 @@ import com.foreach.common.web.logging.ExcludedExceptionPredicate;
 import com.foreach.common.web.logging.IncludedExceptionPredicate;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -33,7 +33,7 @@ import org.springframework.mock.web.MockHttpSession;
 import java.util.Date;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class TestExceptionToMailResolver
@@ -47,7 +47,7 @@ public class TestExceptionToMailResolver
 	private String toAddress;
 	private String fromAddress;
 
-	@Before
+	@BeforeEach
 	public void prepareForTest() {
 		resolver = new ExceptionToMailResolver();
 

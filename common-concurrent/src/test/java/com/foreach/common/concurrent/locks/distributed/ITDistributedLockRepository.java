@@ -20,10 +20,11 @@ import com.foreach.common.concurrent.locks.ObjectLockRepository;
 import liquibase.integration.spring.SpringLiquibase;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang3.time.StopWatch;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.sql.DataSource;
@@ -47,13 +48,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static com.foreach.common.concurrent.locks.ExecutorBatch.Status;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
  * @author Arne Vandamme
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @DirtiesContext
 @ContextConfiguration(classes = ITDistributedLockRepository.Config.class)
 public class ITDistributedLockRepository
@@ -79,9 +80,9 @@ public class ITDistributedLockRepository
 	private SqlBasedDistributedLockConfiguration configuration;
 
 	private final Map<String, Integer> resultsByLock = Collections.synchronizedMap(
-			new HashMap<String, Integer>() );
+			new HashMap<>() );
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		configuration = new SqlBasedDistributedLockConfiguration( "test_locks" );
 		configuration.setVerifyInterval( 100 );
@@ -95,8 +96,8 @@ public class ITDistributedLockRepository
 		lockManagers = new HashSet<>();
 	}
 
-	@After
-	public void shutdown() throws InterruptedException {
+	@AfterEach
+	public void shutdown() {
 		for ( SqlBasedDistributedLockManager lockManager : lockManagers ) {
 			lockManager.close();
 		}
@@ -161,19 +162,15 @@ public class ITDistributedLockRepository
 		final AtomicLong duration = new AtomicLong( 0 );
 
 		// Same lock but from a different thread should fail
-		Future<Boolean> sameLockByOtherThreadLocked = singleThread.submit( new Callable<Boolean>()
-		{
-			@Override
-			public Boolean call() throws Exception {
-				StopWatch stopWatch = new StopWatch();
-				stopWatch.start();
+		Future<Boolean> sameLockByOtherThreadLocked = singleThread.submit( () -> {
+			StopWatch stopWatch = new StopWatch();
+			stopWatch.start();
 
-				boolean success = lock.tryLock();
+			boolean success = lock.tryLock();
 
-				duration.set( stopWatch.getTime() );
+			duration.set( stopWatch.getTime() );
 
-				return success;
-			}
+			return success;
 		} );
 
 		assertFalse( sameLockByOtherThreadLocked.get() );
@@ -264,16 +261,12 @@ public class ITDistributedLockRepository
 
 		final AtomicBoolean callbackExecuted = new AtomicBoolean( false );
 
-		DistributedLock.LockStolenCallback callback = new DistributedLock.LockStolenCallback()
-		{
-			@Override
-			public void stolen( String lockId, String ownerId, DistributedLock stolenLock ) {
-				assertEquals( lock.getKey(), lockId );
-				assertEquals( "owner-one", ownerId );
-				assertSame( lock, stolenLock );
+		DistributedLock.LockStolenCallback callback = ( lockId, ownerId, stolenLock ) -> {
+			assertEquals( lock.getKey(), lockId );
+			assertEquals( "owner-one", ownerId );
+			assertSame( lock, stolenLock );
 
-				callbackExecuted.set( true );
-			}
+			callbackExecuted.set( true );
 		};
 
 		lock.setStolenCallback( callback );
@@ -297,23 +290,14 @@ public class ITDistributedLockRepository
 
 		final AtomicBoolean callbackExecuted = new AtomicBoolean( false );
 
-		DistributedLock.LockUnstableCallback callback = new DistributedLock.LockUnstableCallback()
-		{
-			@Override
-			public void unstable( String lockKey,
-			                      String ownerId,
-			                      DistributedLock unstableLock,
-			                      long lastVerified,
-			                      Throwable t ) {
-				assertEquals( lock.getKey(), lockKey );
-				assertEquals( "owner", ownerId );
-				assertSame( lock, unstableLock );
-				assertTrue( System.currentTimeMillis() - lastVerified > configuration.getVerifyInterval() * 2 );
-				assertTrue( t instanceof DistributedLockException );
+		DistributedLock.LockUnstableCallback callback = ( lockKey, ownerId, unstableLock, lastVerified, t ) -> {
+			assertEquals( lock.getKey(), lockKey );
+			assertEquals( "owner", ownerId );
+			assertSame( lock, unstableLock );
+			assertTrue( System.currentTimeMillis() - lastVerified > configuration.getVerifyInterval() * 2 );
+			assertInstanceOf( DistributedLockException.class, t );
 
-				callbackExecuted.set( true );
-			}
-
+			callbackExecuted.set( true );
 		};
 
 		lock.setUnstableCallback( callback );
@@ -331,18 +315,16 @@ public class ITDistributedLockRepository
 				.when( spyJdbcTemplate )
 				.queryForObject( any( String.class ), any( RowMapper.class ), any( Object[].class ) );
 
-		assertTrue( "Lock still held even though database interactions fail", lock.isHeldByCurrentThread() );
+		assertTrue( lock.isHeldByCurrentThread(), "Lock still held even though database interactions fail" );
 
 		Thread.sleep( configuration.getVerifyInterval() + 20 );
-		assertTrue( "Lock should still be held after single verification failure", lock.isHeldByCurrentThread() );
-		assertFalse( "A single verification failure should not have resulted in callback", callbackExecuted.get() );
+		assertTrue( lock.isHeldByCurrentThread(), "Lock should still be held after single verification failure" );
+		assertFalse( callbackExecuted.get(), "A single verification failure should not have resulted in callback" );
 
 		Thread.sleep( configuration.getVerifyInterval() * 2 );
-		assertTrue(
-				"Lock checking is still possible without exception after 2 verification failures",
-				lock.isHeldByCurrentThread() );
-		assertTrue( "Two subsequent verification failures should have triggered the callback",
-		            callbackExecuted.get() );
+		assertTrue( lock.isHeldByCurrentThread(),
+		            "Lock checking is still possible without exception after 2 verification failures" );
+		assertTrue( callbackExecuted.get(), "Two subsequent verification failures should have triggered the callback" );
 
 		Thread.sleep( configuration.getMaxIdleBeforeSteal() - ( 2 * configuration.getVerifyInterval() ) );
 
@@ -355,9 +337,8 @@ public class ITDistributedLockRepository
 			exceptionCaught = true;
 		}
 
-		assertTrue(
-				"After the steal time has passed the lock hold check should go straight to database and exception should be bubbled as DistributedLockException",
-				exceptionCaught );
+		assertTrue( exceptionCaught,
+		            "After the steal time has passed the lock hold check should go straight to database and exception should be bubbled as DistributedLockException" );
 
 		// Releasing the lock should work without exception
 		lock.unlock();
@@ -365,12 +346,11 @@ public class ITDistributedLockRepository
 		// Re-enable the jdbc template
 		reset( spyJdbcTemplate );
 
-		assertTrue( "Lock is still held because no other thread has tried to take it, " +
-				            "the original thread simply dropped its interest in the lock... allowing other " +
-				            "threads to steal the lock if idle time is too long",
-		            lock.isHeldByCurrentThread() );
+		assertTrue( lock.isHeldByCurrentThread(), "Lock is still held because no other thread has tried to take it, " +
+				"the original thread simply dropped its interest in the lock... allowing other " +
+				"threads to steal the lock if idle time is too long" );
 
-		assertTrue( "Even though the lock is still held, another can now steal it", otherLock.tryLock() );
+		assertTrue( otherLock.tryLock(), "Even though the lock is still held, another can now steal it" );
 		assertFalse( lock.isHeldByCurrentThread() );
 		assertTrue( otherLock.isHeldByCurrentThread() );
 	}
@@ -428,7 +408,8 @@ public class ITDistributedLockRepository
 	}
 
 	//a variant on the stolenLockCallback callback above, that steals the lock via direct database access, and initially causes some errors during stolen lock verification
-	@Test(timeout = 500L)
+	@Test()
+	@Timeout(500L)
 	public void lockMonitorShouldHandleDatabaseExceptionsGracefully() throws InterruptedException {
 		configuration.setVerifyInterval( 10L );
 
@@ -441,16 +422,12 @@ public class ITDistributedLockRepository
 
 		assertEquals( 0, lockCount() );
 
-		DistributedLock.LockStolenCallback callback = new DistributedLock.LockStolenCallback()
-		{
-			@Override
-			public void stolen( String lockId, String ownerId, DistributedLock stolenLock ) {
-				assertEquals( lock.getKey(), lockId );
-				assertEquals( "owner-one", ownerId );
-				assertSame( lock, stolenLock );
+		DistributedLock.LockStolenCallback callback = ( lockId, ownerId, stolenLock ) -> {
+			assertEquals( lock.getKey(), lockId );
+			assertEquals( "owner-one", ownerId );
+			assertSame( lock, stolenLock );
 
-				callbackExecuted.set( true );
-			}
+			callbackExecuted.set( true );
 		};
 
 		lock.setStolenCallback( callback );
@@ -464,45 +441,41 @@ public class ITDistributedLockRepository
 		assertNotNull( sqlVerifyLock );
 		String lockId = lock.getKey();
 
-		doAnswer( answer ).when( spyJdbcTemplate ).update(
-				eq( sqlVerifyLock ),
-				anyLong(), eq( lockId ), anyString()
-		);
+		doAnswer( answer ).when( spyJdbcTemplate ).update( eq( sqlVerifyLock ), anyLong(), eq( lockId ), anyString() );
 
 		//Thread.sleep( 100 );
 		doAnswer( answer ).when( spyJdbcTemplate ).update( anyString(), anyLong(), anyString(), anyString() );
 
-		assertFalse( "otherLock shouldn't be active before we start messing with the data",
-		             otherLock.isHeldByCurrentThread() );
-		assertTrue( "lock should be active before we start messing with the data", lock.isHeldByCurrentThread() );
-		assertFalse( "callback shouldn't be invoked before we start messing with the data", callbackExecuted.get() );
+		assertFalse( otherLock.isHeldByCurrentThread(),
+		             "otherLock shouldn't be active before we start messing with the data" );
+		assertTrue( lock.isHeldByCurrentThread(), "lock should be active before we start messing with the data" );
+		assertFalse( callbackExecuted.get(), "callback shouldn't be invoked before we start messing with the data" );
 
 		stealLock( otherLock );
 
 		Thread.sleep( 100L );
 
-		assertFalse( "otherLock shouldn't be active while the monitor can't verify",
-		             otherLock.isHeldByCurrentThread() );
-		assertTrue( "lock should be active while the monitor can't verify", lock.isHeldByCurrentThread() );
-		assertFalse( "callback shouldn't be invoked while the monitor can't verify", callbackExecuted.get() );
+		assertFalse( otherLock.isHeldByCurrentThread(),
+		             "otherLock shouldn't be active while the monitor can't verify" );
+		assertTrue( lock.isHeldByCurrentThread(), "lock should be active while the monitor can't verify" );
+		assertFalse( callbackExecuted.get(), "callback shouldn't be invoked while the monitor can't verify" );
 
 		int numberOfLockVerificationAttemptsBeforeItStartsWorkingAgain = answer.getNrAttempts();
-		assertTrue(
-				"Should have done at least 5 attempts before it starts working again, but did " + numberOfLockVerificationAttemptsBeforeItStartsWorkingAgain,
-				numberOfLockVerificationAttemptsBeforeItStartsWorkingAgain > 5 );
+		assertTrue( numberOfLockVerificationAttemptsBeforeItStartsWorkingAgain > 5,
+		            "Should have done at least 5 attempts before it starts working again, but did " + numberOfLockVerificationAttemptsBeforeItStartsWorkingAgain );
 
 		answer.setShouldFail( false );
 
 		Thread.sleep( 100L );
 
-		assertTrue( "otherLock should be active now that the monitor can verify", otherLock.isHeldByCurrentThread() );
-		assertFalse( "lock shouldn't be active now that the monitor can verify", lock.isHeldByCurrentThread() );
-		assertTrue( "callback should be invoked now that the monitor can verify", callbackExecuted.get() );
+		assertTrue( otherLock.isHeldByCurrentThread(), "otherLock should be active now that the monitor can verify" );
+		assertFalse( lock.isHeldByCurrentThread(), "lock shouldn't be active now that the monitor can verify" );
+		assertTrue( callbackExecuted.get(), "callback should be invoked now that the monitor can verify" );
 
 		int numberOfLockVerificationAttemptsAfterItStartsWorkingAgain =
 				answer.getNrAttempts() - numberOfLockVerificationAttemptsBeforeItStartsWorkingAgain;
-		assertEquals( "Should have done 1 attempt after it started working again",
-		              numberOfLockVerificationAttemptsAfterItStartsWorkingAgain, 1 );
+		assertEquals( numberOfLockVerificationAttemptsAfterItStartsWorkingAgain, 1,
+		              "Should have done 1 attempt after it started working again" );
 	}
 
 	@Test
@@ -516,34 +489,34 @@ public class ITDistributedLockRepository
 		lock.tryLock();
 
 		DelegatingJdcbUpdateAnswer answer = new DelegatingJdcbUpdateAnswer( true );
+		String sqlCleanup = (String) ReflectionTestUtils.getField( lockManagers.iterator().next(), "sqlCleanup" );
+		assertNotNull( sqlCleanup );
 		doAnswer( answer ).when( spyJdbcTemplate ).update(
-				eq( (String) ReflectionTestUtils.getField( lockManagers.iterator().next(), "sqlCleanup" ) ), anyLong()
+				eq( sqlCleanup ), anyLong()
 		);
 
-		assertEquals( "should have 1 lock before we start messing with the data", 1, lockCount( lock ) );
+		assertEquals( 1, lockCount( lock ), "should have 1 lock before we start messing with the data" );
 
 		releaseLock( lock.getKey(), System.currentTimeMillis() - 2 * configuration.getCleanupAge() );
 
 		Thread.sleep( 300 );
 
-		assertEquals( "should have 1 lock the monitor can't cleanup", 1, lockCount( lock ) );
+		assertEquals( 1, lockCount( lock ), "should have 1 lock the monitor can't cleanup" );
 
 		int numberOfCleanupAttemptsBeforeItStartsWorkingAgain = answer.getNrAttempts();
-		assertTrue(
-				"Should have done at least 5 attempts before it starts working again, but did " + numberOfCleanupAttemptsBeforeItStartsWorkingAgain,
-				numberOfCleanupAttemptsBeforeItStartsWorkingAgain > 5 );
+		assertTrue( numberOfCleanupAttemptsBeforeItStartsWorkingAgain > 5,
+		            "Should have done at least 5 attempts before it starts working again, but did " + numberOfCleanupAttemptsBeforeItStartsWorkingAgain );
 
 		answer.setShouldFail( false );
 
 		Thread.sleep( 300 );
 
-		assertEquals( "should have 0 locks now that the monitor can cleanup", 0, lockCount( lock ) );
+		assertEquals( 0, lockCount( lock ), "should have 0 locks now that the monitor can cleanup" );
 
 		int numberOfCleanupAttemptsAfterItStartsWorkingAgain =
 				answer.getNrAttempts() - numberOfCleanupAttemptsBeforeItStartsWorkingAgain;
-		assertTrue(
-				"Should have done at least 5 attempts after it started working again, but did " + numberOfCleanupAttemptsAfterItStartsWorkingAgain,
-				numberOfCleanupAttemptsAfterItStartsWorkingAgain > 5 );
+		assertTrue( numberOfCleanupAttemptsAfterItStartsWorkingAgain > 5,
+		            "Should have done at least 5 attempts after it started working again, but did " + numberOfCleanupAttemptsAfterItStartsWorkingAgain );
 	}
 
 	private class DelegatingJdcbUpdateAnswer implements Answer<Integer>

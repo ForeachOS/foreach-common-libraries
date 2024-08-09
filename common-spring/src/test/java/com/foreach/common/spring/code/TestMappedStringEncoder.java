@@ -15,10 +15,10 @@
  */
 package com.foreach.common.spring.code;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Arne Vandamme
@@ -27,92 +27,95 @@ public class TestMappedStringEncoder
 {
 	private MappedStringEncoder encoder;
 
-	@Before
+	@BeforeEach
 	public void createEncoders() {
 		encoder = new MappedStringEncoder();
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void allPositionsMustHaveAtLeastOneValue() {
-		encoder.setEncodingMatrix(
+		assertThrows( IllegalArgumentException.class, () -> encoder.setEncodingMatrix(
 				new char[][] {
 						new char[] { 'A', 'B' },
 						new char[0],
 						new char[] { 'B' },
-				}
-		);
+						}
+		) );
+
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nullEncodingMatrixRow() {
-		encoder.setEncodingMatrix(
+		assertThrows( IllegalArgumentException.class, () -> encoder.setEncodingMatrix(
 				new char[][] {
 						new char[] { 'A', 'B' },
 						null,
 						new char[] { 'B', 'C' },
-				}
-		);
+						}
+		) );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void duplicateValuesOnTheSamePositionAreNotAllowed() {
-		encoder.setEncodingMatrix(
+		assertThrows( IllegalArgumentException.class, () -> encoder.setEncodingMatrix(
 				new char[][] {
 						new char[] { 'A', 'B' },
 						new char[] { 'B', 'B' },
 						new char[] { 'B', 'C' },
-				}
-		);
+						}
+		) );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void negativeSignIndex() {
-		encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 2, false, -2 );
+		assertThrows( IllegalArgumentException.class, () ->
+				encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 2, false, -2 ) );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void signIndexOutOfBounds() {
-		encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 2, false, 2 );
+		assertThrows( IllegalArgumentException.class, () ->
+				encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 2, false, 2 ) );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void negativeValuesCanOnlyBeSupportedOnAMatrixWithMinimumTwoPositions() {
-		encoder.setEncodingMatrix(
+		assertThrows( IllegalArgumentException.class, () -> encoder.setEncodingMatrix(
 				new char[][] {
 						new char[] { 'A', 'B' }
 				},
 				0
-		);
+		) );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void encodingTooLargeValue() {
 		encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 3, false );
-		encoder.encode( 100, false );
+		assertThrows( IllegalArgumentException.class, () -> encoder.encode( 100, false ) );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void encodingTooSmallValue() {
 		encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 3, true );
-		encoder.encode( -100, false );
+		assertThrows( IllegalArgumentException.class, () -> encoder.encode( -100, false ) );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void encodingNegativeValueOnUnsignedEncoder() {
 		encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 3, false );
-		encoder.encode( -1, false );
+		assertThrows( IllegalArgumentException.class, () -> encoder.encode( -1, false ) );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void decodingTooLongCode() {
 		encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 3, false );
-		encoder.decode( "AAAA" );
+		assertThrows( IllegalArgumentException.class, () -> encoder.decode( "AAAA" ) );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void decodingInvalidCode() {
 		encoder.buildEncodingMatrix( new char[] { 'A', 'B' }, 3, false );
-		encoder.decode( "ABC" );
+		assertThrows( IllegalArgumentException.class, () -> encoder.decode( "ABC" ) );
 	}
 
 	@Test
@@ -333,8 +336,8 @@ public class TestMappedStringEncoder
 		assertEquals( 14, encoder.getCodeLength() );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void illegalEncoderForNegativeMaxValue() {
-		MappedStringEncoder.forMaximumValue( -1, true );
+		assertThrows( IllegalArgumentException.class, () -> MappedStringEncoder.forMaximumValue( -1, true ) );
 	}
 }

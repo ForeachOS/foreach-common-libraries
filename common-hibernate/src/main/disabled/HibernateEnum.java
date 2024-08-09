@@ -16,8 +16,11 @@
 package com.foreach.common.hibernate.util;
 
 import org.hibernate.HibernateException;
-import org.hibernate.type.NullableType;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.type.BasicType;
 import org.hibernate.type.TypeFactory;
+import org.hibernate.type.TypeResolver;
+import org.hibernate.type.spi.TypeConfiguration;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
 
@@ -31,7 +34,6 @@ import java.util.Properties;
 
 /**
  * <p>This class converts the string value from the resultset to Java Enum and vice versa.</p>
- * <p/>
  * <p>
  * Usage Eg - To map a java enum object Role, define the following mapping in hbm file.
  * <pre>
@@ -58,7 +60,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 	private Class enumClass;
 	private Method identifierMethod;
 	private Method valueOfMethod;
-	private NullableType type;
+	private BasicType type;
 	private int[] sqlTypes;
 
 	public HibernateEnum() {
@@ -73,7 +75,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 
 	public final void setParameterValues( Properties parameters ) {
 		String enumClassName = parameters.getProperty( "enumClassName" );
-		Class identifierType = null;
+		Class identifierType;
 
 		try {
 			enumClass = Class.forName( enumClassName ).asSubclass( Enum.class );
@@ -83,22 +85,21 @@ public class HibernateEnum implements UserType, ParameterizedType
 		}
 		String identifierMethodName = parameters.getProperty( "identifierMethod", DEFAULT_IDENTIFIER_METHOD_NAME );
 		try {
-			identifierMethod = enumClass.getMethod( identifierMethodName, new Class[0] );
+			identifierMethod = enumClass.getMethod( identifierMethodName );
 			identifierType = identifierMethod.getReturnType();
 		}
 		catch ( Exception e ) {
 			throw new HibernateException( "Failed to obtain identifier method", e );
 		}
-
-		type = (NullableType) TypeFactory.basic( identifierType.getName() );
+		type =  new TypeConfiguration().getTypeResolver().basic( identifierType.getName() );
 		if ( type == null ) {
 			throw new HibernateException( "Unsupported identifier type " + identifierType.getName() );
 		}
 
-		sqlTypes = new int[] { type.sqlType() };
+		sqlTypes = new int[] { type.sqlTypes(null)[0] };
 		String valueOfMethodName = parameters.getProperty( "valueOfMethod", DEFAULT_VALUE_OF_METHOD_NAME );
 		try {
-			valueOfMethod = enumClass.getMethod( valueOfMethodName, new Class[] { identifierType } );
+			valueOfMethod = enumClass.getMethod( valueOfMethodName, identifierType );
 		}
 		catch ( Exception e ) {
 			throw new HibernateException( "Failed to obtain valueOf method", e );
@@ -109,8 +110,12 @@ public class HibernateEnum implements UserType, ParameterizedType
 		return enumClass;
 	}
 
-	public final Object nullSafeGet( ResultSet rs, String[] names, Object owner ) throws SQLException {
-		Object identifier = type.get( rs, names[0] );
+	@Override
+	public final Object nullSafeGet( ResultSet rs,
+	                                 String[] names,
+	                                 SharedSessionContractImplementor session,
+	                                 Object owner ) throws SQLException {
+		Object identifier = type.nullSafeGet( rs, names[0] ,session,owner);
 		if ( rs.wasNull() ) {
 			return null;
 		}
@@ -120,7 +125,7 @@ public class HibernateEnum implements UserType, ParameterizedType
 			errorMsg.append( valueOfMethod.getName() ).append( "\" of " ).append( "enumeration class \"" ).append(
 					enumClass ).append( '\"' );
 
-			return valueOfMethod.invoke( enumClass, new Object[] { identifier } );
+			return valueOfMethod.invoke( enumClass, identifier );
 		}
 		catch ( IllegalAccessException exc ) {
 			throw new HibernateException( errorMsg.toString(), exc );
@@ -130,24 +135,25 @@ public class HibernateEnum implements UserType, ParameterizedType
 		}
 	}
 
-	public final void nullSafeSet( PreparedStatement st, Object value, int index ) throws SQLException {
+	@Override
+	public final void nullSafeSet( PreparedStatement st,
+	                               Object value,
+	                               int index,
+	                               SharedSessionContractImplementor session ) throws SQLException {
 		StringBuffer errorMsg = new StringBuffer( "Exception while invoking identifierMethod method \"" );
 		try {
 			errorMsg.append( identifierMethod.getName() ).append( "\" of " ).append( "enumeration class \"" ).append(
 					enumClass ).append( '\"' );
 
 			if ( value == null ) {
-				st.setNull( index, type.sqlType() );
+				st.setNull( index, type.sqlTypes(null)[0] );
 			}
 			else {
-				Object identifier = identifierMethod.invoke( value, new Object[0] );
-				type.set( st, identifier, index );
+				Object identifier = identifierMethod.invoke( value );
+				type.nullSafeSet( st, identifier, index, session );
 			}
 		}
-		catch ( IllegalAccessException exc ) {
-			throw new HibernateException( errorMsg.toString(), exc );
-		}
-		catch ( InvocationTargetException exc ) {
+		catch ( IllegalAccessException | InvocationTargetException exc ) {
 			throw new HibernateException( errorMsg.toString(), exc );
 		}
 	}

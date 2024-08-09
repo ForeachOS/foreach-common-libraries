@@ -15,8 +15,8 @@
  */
 package com.foreach.common.spring.convert;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.ConfigurableConversionService;
@@ -24,7 +24,7 @@ import org.springframework.core.convert.support.DefaultConversionService;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,7 +39,7 @@ public class TestConversionServiceBehaviour
 
 	private ConfigurableConversionService conversionService;
 
-	@Before
+	@BeforeEach
 	public void createConversionService() {
 		conversionService = new DefaultConversionService();
 		Converter<String, User> userConverter = mock( Converter.class );

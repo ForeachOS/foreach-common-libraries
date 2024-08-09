@@ -15,24 +15,24 @@
  */
 package com.foreach.common.spring.localization;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestLanguageConfigurator
 {
-	@Test(expected = LanguageConfigurator.LanguagesNotConfiguredException.class)
+	@Test
 	public void notConfigured() {
 		new LanguageConfigurator( (Class) null );
 
-		LanguageConfigurator.getLanguages();
+		assertThrows( LanguageConfigurator.LanguagesNotConfiguredException.class, LanguageConfigurator::getLanguages );
 	}
 
-	@Test(expected = LanguageConfigurator.LanguagesNotConfiguredException.class)
+	@Test
 	public void notConfiguredAlternative() {
 		new LanguageConfigurator( (Class) null );
 
-		LanguageConfigurator.getLanguageByCode( "en" );
+		assertThrows( LanguageConfigurator.LanguagesNotConfiguredException.class, () ->LanguageConfigurator.getLanguageByCode( "en" ));
 	}
 
 	@Test

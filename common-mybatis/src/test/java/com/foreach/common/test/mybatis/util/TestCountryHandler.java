@@ -23,11 +23,12 @@ import com.mockrunner.mock.jdbc.MockPreparedStatement;
 import com.mockrunner.mock.jdbc.MockResultSet;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.JdbcType;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCountryHandler
 {
@@ -39,7 +40,7 @@ public class TestCountryHandler
 
 	private CountryHandler handler;
 
-	@Before
+	@BeforeEach
 	public void prepareForTest() {
 		handler = new CountryHandler();
 	}
@@ -54,10 +55,10 @@ public class TestCountryHandler
 			Country country = (Country) handler.getResult( rs, "country" );
 			String code = (String) rs.getObject( "country" );
 
-			Assert.assertSame( EnumUtils.getByCode( Country.class, code ), country );
+			assertSame( EnumUtils.getByCode( Country.class, code ), country );
 
 			if ( country != null ) {
-				Assert.assertTrue( country.getCode().equalsIgnoreCase( code ) );
+				assertTrue( country.getCode().equalsIgnoreCase( code ) );
 			}
 		}
 	}
@@ -73,19 +74,19 @@ public class TestCountryHandler
 			handler.setParameter( stmt, 1, country, JdbcType.VARCHAR );
 
 			if ( country != null ) {
-				Assert.assertTrue( StringUtils.equalsIgnoreCase( code, (String) stmt.getParameter( 1 ) ) );
+				assertTrue( StringUtils.equalsIgnoreCase( code, (String) stmt.getParameter( 1 ) ) );
 			}
 			else {
-				Assert.assertNull( stmt.getParameter( 1 ) );
+				assertNull( stmt.getParameter( 1 ) );
 			}
 		}
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
-	public void callableNotSupported() throws SQLException {
+	@Test()
+	public void callableNotSupported() {
 		MockCallableStatement stmt = new MockCallableStatement( new MockConnection(), "" );
 
-		handler.getResult( stmt, 1 );
+		assertThrows(UnsupportedOperationException.class, ()->handler.getResult( stmt, 1 ));
 	}
 
 }
