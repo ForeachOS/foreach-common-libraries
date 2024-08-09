@@ -28,7 +28,6 @@ import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 import org.springframework.integration.sftp.session.SftpRemoteFileTemplate;
 
 import java.io.File;
-import java.time.Duration;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,7 +48,7 @@ public class TestSpringIntegrationSftpFileRepository extends BaseFileRepositoryT
 			defaultFtpSessionFactory.setHost( "localhost" );
 			defaultFtpSessionFactory.setPort( SftpContainer.TEST_PORT );
 			defaultFtpSessionFactory.setTimeout( 5000 );
-			defaultFtpSessionFactory.setChannelConnectTimeout( Duration.ofSeconds( 5 ) );
+			//defaultFtpSessionFactory.setChannelConnectTimeout( Duration.ofSeconds( 5 ) );
 			defaultFtpSessionFactory.setAllowUnknownKeys( true );
 
 			template = new SftpRemoteFileTemplate( defaultFtpSessionFactory );

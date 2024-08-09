@@ -21,6 +21,8 @@ import com.foreach.common.spring.mail.MailService;
 import com.foreach.common.web.logging.ExceptionToMailResolver;
 import com.foreach.common.web.logging.ExcludedExceptionPredicate;
 import com.foreach.common.web.logging.IncludedExceptionPredicate;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -28,9 +30,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;

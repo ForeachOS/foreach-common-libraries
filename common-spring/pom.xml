@@ -14,7 +14,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.foreach.libs</groupId>
@@ -38,12 +39,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>jakarta.mail</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<optional>true</optional>
@@ -62,8 +57,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>javax.mail-api</artifactId>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.mail</groupId>
+			<artifactId>jakarta.mail-api</artifactId>
 		</dependency>
 
 		<dependency>
@@ -83,14 +83,21 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<optional>true</optional>
+			<groupId>org.eclipse.angus</groupId>
+			<artifactId>angus-mail</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>

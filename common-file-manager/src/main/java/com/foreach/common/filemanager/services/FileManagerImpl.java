@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

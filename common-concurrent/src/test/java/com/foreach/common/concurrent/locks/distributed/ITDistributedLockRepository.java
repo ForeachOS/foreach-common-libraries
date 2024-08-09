@@ -25,7 +25,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -310,11 +309,11 @@ public class ITDistributedLockRepository
 		assertTrue( lock.isHeldByCurrentThread() );
 		doThrow( new DataAccessResourceFailureException( "Datasource broken" ) )
 				.when( spyJdbcTemplate )
-				.update( any( String.class ), (PreparedStatementSetter) Mockito.any() );
+				.update( any( String.class ), any( PreparedStatementSetter.class ) );
 
 		doThrow( new DataAccessResourceFailureException( "Datasource broken" ) )
 				.when( spyJdbcTemplate )
-				.queryForObject( any( String.class ), any( Object[].class ), any( RowMapper.class ) );
+				.queryForObject( any( String.class ), any( RowMapper.class ), any( Object[].class ) );
 
 		assertTrue( lock.isHeldByCurrentThread(), "Lock still held even though database interactions fail" );
 

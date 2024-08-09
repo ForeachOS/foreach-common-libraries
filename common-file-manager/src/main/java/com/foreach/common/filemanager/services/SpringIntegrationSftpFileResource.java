@@ -18,13 +18,16 @@ package com.foreach.common.filemanager.services;
 import com.foreach.common.filemanager.business.FileDescriptor;
 import com.foreach.common.filemanager.business.FileResource;
 import com.foreach.common.filemanager.business.FolderResource;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.sshd.sftp.client.SftpClient;
+import org.apache.sshd.sftp.common.SftpException;
 import org.springframework.integration.file.remote.session.Session;
 import org.springframework.integration.sftp.session.SftpRemoteFileTemplate;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 /**
@@ -100,15 +103,15 @@ public class SpringIntegrationSftpFileResource extends SpringIntegrationFileReso
 	@Override
 	public OutputStream getOutputStream() throws IOException {
 		boolean shouldCreateFile = !exists();
-		Session<ChannelSftp.LsEntry> session = remoteFileTemplate.getSession();
-		ChannelSftp client = (ChannelSftp) session.getClientInstance();
+		Session<SftpClient.DirEntry> session = remoteFileTemplate.getSession();
+		SftpClient client = (SftpClient) session.getClientInstance();
 
 		if ( shouldCreateFile ) {
 			instantiateAsEmptyFile( client );
 		}
 		resetFileMetadata();
 		try {
-			return client.put( getPath() );
+			return client.write( getPath() );
 		}
 		catch ( SftpException e ) {
 			LOG.error( "Unexpected error whilst opening an OutputStream for file {}", getPath() );
@@ -120,22 +123,19 @@ public class SpringIntegrationSftpFileResource extends SpringIntegrationFileReso
 		this.file = null;
 	}
 
-	private Void instantiateAsEmptyFile( ChannelSftp client ) throws IOException {
-		try (InputStream bin = new ByteArrayInputStream( new byte[0] )) {
-			FolderResource folder = getFolderResource();
-			if ( !folder.exists() ) {
-				folder.create();
-			}
-
-			try {
-				client.put( bin, getPath() );//client.storeFile( getPath(), bin );
-			}
-			catch ( SftpException e ) {
-				LOG.error( "Unable to create empty file at {}", getPath() );
-				throw new IOException( e );
-			}
+	private void instantiateAsEmptyFile( SftpClient client ) throws IOException {
+		FolderResource folder = getFolderResource();
+		if ( !folder.exists() ) {
+			folder.create();
 		}
-		return null;
+
+		//noinspection EmptyTryBlock
+		try (var ignore = client.write( getPath() )) {
+		}
+		catch ( SftpException e ) {
+			LOG.error( "Unable to create empty file at {}", getPath() );
+			throw new IOException( e );
+		}
 	}
 
 	@Override
@@ -143,10 +143,10 @@ public class SpringIntegrationSftpFileResource extends SpringIntegrationFileReso
 		if ( !exists() ) {
 			throw new FileNotFoundException( "Unable to locate file " + fileDescriptor );
 		}
-		Session<ChannelSftp.LsEntry> session = remoteFileTemplate.getSession();
-		ChannelSftp client = (ChannelSftp) session.getClientInstance();
+		Session<SftpClient.DirEntry> session = remoteFileTemplate.getSession();
+		SftpClient client = (SftpClient) session.getClientInstance();
 		try {
-			return client.get( getPath() );
+			return client.read( getPath() );
 		}
 		catch ( SftpException e ) {
 			LOG.error( "Unable to create inputstream for file {} ", getPath() );
@@ -161,7 +161,7 @@ public class SpringIntegrationSftpFileResource extends SpringIntegrationFileReso
 		return file;
 	}
 
-	private SFTPFile fetchFileInfo( ChannelSftp client ) {
+	private SFTPFile fetchFileInfo( SftpClient client ) {
 		return new SFTPFile( remoteFileTemplate /*client*/, getPath() );
 	}
 }

@@ -19,9 +19,9 @@ import com.foreach.common.filemanager.business.FileDescriptor;
 import com.foreach.common.filemanager.business.FileResource;
 import com.foreach.common.filemanager.business.FolderDescriptor;
 import com.foreach.common.filemanager.business.FolderResource;
-import com.jcraft.jsch.ChannelSftp;
 import lombok.Builder;
 import lombok.NonNull;
+import org.apache.sshd.sftp.client.SftpClient;
 import org.springframework.integration.sftp.session.SftpRemoteFileTemplate;
 
 /**
@@ -47,7 +47,7 @@ public class SpringIntegrationSftpFileRepository extends AbstractFileRepository
 		String path = SpringIntegrationSftpFileResource.getPath( descriptor );
 		SFTPFile file = null;
 		if ( remoteFileTemplate.exists( path ) ) {
-			file = remoteFileTemplate.<SFTPFile, ChannelSftp>executeWithClient( client -> new SFTPFile( remoteFileTemplate, path ) );
+			file = remoteFileTemplate.<SFTPFile, SftpClient>executeWithClient( client -> new SFTPFile( remoteFileTemplate, path ) );
 		}
 		return new SpringIntegrationSftpFileResource( descriptor, file, remoteFileTemplate );
 	}

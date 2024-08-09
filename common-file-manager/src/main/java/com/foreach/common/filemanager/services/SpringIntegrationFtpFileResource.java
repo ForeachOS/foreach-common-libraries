@@ -113,7 +113,7 @@ public class SpringIntegrationFtpFileResource extends SpringIntegrationFileResou
 		this.file = null;
 	}
 
-	private Void instantiateAsEmptyFile( FTPClient client ) throws IOException {
+	private void instantiateAsEmptyFile( FTPClient client ) throws IOException {
 		try (InputStream bin = new ByteArrayInputStream( new byte[0] )) {
 			FolderResource folder = getFolderResource();
 			if ( !folder.exists() ) {
@@ -126,7 +126,6 @@ public class SpringIntegrationFtpFileResource extends SpringIntegrationFileResou
 				throw new FileStorageException( "Unable to create a basic empty file" );
 			}
 		}
-		return null;
 	}
 
 	@Override

@@ -16,15 +16,15 @@
 package com.foreach.common.filemanager.services;
 
 import com.foreach.common.filemanager.business.*;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sshd.sftp.client.SftpClient;
 import org.springframework.integration.file.remote.session.Session;
 import org.springframework.integration.sftp.session.SftpRemoteFileTemplate;
 import org.springframework.util.AntPathMatcher;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
@@ -52,7 +52,7 @@ public class SpringIntegrationSftpFolderResource extends SpringIntegrationFolder
 		return retrieveRemoteFile( getPath() ).exists();
 	}
 
-	protected boolean exists( ChannelSftp client ) {
+	protected boolean exists( SftpClient client ) {
 		return retrieveRemoteFile( client, getPath() ) != null;
 	}
 
@@ -85,14 +85,14 @@ public class SpringIntegrationSftpFolderResource extends SpringIntegrationFolder
 	@SuppressWarnings("Duplicates")
 	public Collection<FileRepositoryResource> findResources( @NonNull String pattern ) {
 		try (Session session = remoteFileTemplate.getSession();) {
-			ChannelSftp client = (ChannelSftp) session.getClientInstance();
+			SftpClient client = (SftpClient) session.getClientInstance();
 			return findResources( pattern, client );
 		}
 	}
 
 	@SuppressWarnings("Duplicates")
-	protected Collection<FileRepositoryResource> findResources( @NonNull String pattern, ChannelSftp client ) {
-		if ( exists( client ) ) {
+	protected Collection<FileRepositoryResource> findResources( @NonNull String pattern, SftpClient client ) {
+		if ( exists() ) {
 			Set<FileRepositoryResource> resources = new LinkedHashSet<>();
 			AntPathMatcher pathMatcher = new AntPathMatcher( "/" );
 			String p = StringUtils.startsWith( pattern, "/" ) ? pattern.substring( 1 ) : pattern;
@@ -128,7 +128,7 @@ public class SpringIntegrationSftpFolderResource extends SpringIntegrationFolder
 		return Collections.emptyList();
 	}
 
-	private Collection<FileRepositoryResource> resolveExactPath( String p, ChannelSftp client ) {
+	private Collection<FileRepositoryResource> resolveExactPath( String p, SftpClient client ) {
 		String pathToSearch = StringUtils.removeEnd( getPath(), "/" ) + "/" + StringUtils.removeStart( p, "/" );
 		SFTPFile ftpFile = retrieveRemoteFile( client, pathToSearch );
 
@@ -148,7 +148,7 @@ public class SpringIntegrationSftpFolderResource extends SpringIntegrationFolder
 	private Collection<FileRepositoryResource> resolvePatternForListing( String p,
 	                                                                     boolean matchOnlyDirectories,
 	                                                                     BiPredicate<String, String> keyMatcher,
-	                                                                     ChannelSftp client ) {
+	                                                                     SftpClient client ) {
 		String validPrefix = getValidPrefix( p );
 		String remainingPattern = StringUtils.removeStart( p, validPrefix );
 
@@ -202,17 +202,17 @@ public class SpringIntegrationSftpFolderResource extends SpringIntegrationFolder
 	}
 
 	private SFTPFile retrieveRemoteFile( String pathToSearch ) {
-		return remoteFileTemplate.<SFTPFile, ChannelSftp>executeWithClient( client -> retrieveRemoteFile( client, pathToSearch ) );
+		return remoteFileTemplate.<SFTPFile, SftpClient>executeWithClient( client -> retrieveRemoteFile( client, pathToSearch ) );
 	}
 
-	private SFTPFile retrieveRemoteFile( ChannelSftp client, String path ) {
+	private SFTPFile retrieveRemoteFile( SftpClient client, String path ) {
 		return new SFTPFile( remoteFileTemplate, path );
 	}
 
 	private void findResourcesWithMatchingKeys( BiPredicate<String, String> keyMatcher,
 	                                            Set<FileRepositoryResource> resources,
 	                                            String currentPath,
-	                                            String keyPattern, boolean matchOnlyDirectories, ChannelSftp client ) {
+	                                            String keyPattern, boolean matchOnlyDirectories, SftpClient client ) {
 		if ( !keyPattern.endsWith( "/" ) ) {
 			retrieveFilesForPath( client, currentPath )
 					.stream()
@@ -276,17 +276,17 @@ public class SpringIntegrationSftpFolderResource extends SpringIntegrationFolder
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<SpringIntegrationSftpFolderResource> retrieveFoldersForPath( ChannelSftp client, String path ) {
+	private List<SpringIntegrationSftpFolderResource> retrieveFoldersForPath( SftpClient client, String path ) {
 		List<String> ftpFolderNames = new ArrayList<>();
 		try {
-			Vector<ChannelSftp.LsEntry> files = client.ls( path );
-			for ( ChannelSftp.LsEntry entry : files ) {
-				if ( !entry.getFilename().equals( "." ) && !entry.getFilename().equals( ".." ) && entry.getAttrs().isDir() ) {
+			Iterable<SftpClient.DirEntry> files = client.readDir( path );
+			for ( SftpClient.DirEntry entry : files ) {
+				if ( !entry.getFilename().equals( "." ) && !entry.getFilename().equals( ".." ) && entry.getAttributes().isDirectory() ) {
 					ftpFolderNames.add( entry.getFilename() );
 				}
 			}
 		}
-		catch ( SftpException e ) {
+		catch ( IOException e ) {
 			LOG.error( "Unexpected error whilst listing directories for path '{}'. Falling back to no directories found.", path, e );
 		}
 
@@ -298,18 +298,18 @@ public class SpringIntegrationSftpFolderResource extends SpringIntegrationFolder
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<SpringIntegrationSftpFileResource> retrieveFilesForPath( ChannelSftp client, String path ) {
+	private List<SpringIntegrationSftpFileResource> retrieveFilesForPath( SftpClient client, String path ) {
 		List<String> ftpFileNames = new ArrayList<>();
 
 		try {
-			Vector<ChannelSftp.LsEntry> files = client.ls( path );
-			for ( ChannelSftp.LsEntry entry : files ) {
-				if ( !entry.getAttrs().isDir() ) {
+			Iterable<SftpClient.DirEntry> files = client.readDir( path );
+			for ( SftpClient.DirEntry entry : files ) {
+				if ( !entry.getAttributes().isDirectory() ) {
 					ftpFileNames.add( entry.getFilename() );
 				}
 			}
 		}
-		catch ( SftpException e ) {
+		catch ( IOException e ) {
 			LOG.error( "Unexpected error whilst listing files for path '{}'. Falling back to no directories found.", path, e );
 		}
 

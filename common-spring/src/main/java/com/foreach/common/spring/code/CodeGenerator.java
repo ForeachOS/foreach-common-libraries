@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.String.format;
+
 /**
  * Generator that creates unique codes using an underlying {@link MappedStringEncoder}.
  * Codes are first generated as random numbers that are uniformly distributed across
@@ -66,7 +68,7 @@ public class CodeGenerator
 	 * @throws java.lang.IllegalArgumentException if the number of codes is too large for the configured encoder.
 	 */
 	public List<String> generate( int numberOfCodes, boolean padToLength ) {
-		Assert.isTrue( numberOfCodes >= 0 );
+		Assert.isTrue( numberOfCodes >= 0, () -> format("Expected numberOfCodes >= 0 but got: %s", numberOfCodes) );
 
 		List<String> codes = new ArrayList<>( numberOfCodes );
 

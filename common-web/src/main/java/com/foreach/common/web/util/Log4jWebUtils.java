@@ -16,11 +16,11 @@
 package com.foreach.common.web.util;
 
 import com.foreach.common.spring.logging.Log4JUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

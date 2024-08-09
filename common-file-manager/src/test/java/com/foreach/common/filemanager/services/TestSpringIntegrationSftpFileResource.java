@@ -18,12 +18,11 @@ package com.foreach.common.filemanager.services;
 import com.foreach.common.filemanager.business.FileDescriptor;
 import com.foreach.common.filemanager.business.FileResource;
 import com.foreach.common.filemanager.test.utils.SftpContainer;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.sshd.sftp.client.SftpClient;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +35,7 @@ import org.springframework.util.StreamUtils;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.time.Duration;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,7 +64,7 @@ class TestSpringIntegrationSftpFileResource
 			defaultFtpSessionFactory.setHost( "localhost" );
 			defaultFtpSessionFactory.setPort( SftpContainer.TEST_PORT );
 			defaultFtpSessionFactory.setTimeout( 5000 );
-			defaultFtpSessionFactory.setChannelConnectTimeout( Duration.ofSeconds( 5 ) );
+			//defaultFtpSessionFactory.setChannelConnectTimeout( Duration.ofSeconds( 5 ) );
 			defaultFtpSessionFactory.setAllowUnknownKeys( true );
 
 			template = new SftpRemoteFileTemplate( defaultFtpSessionFactory );
@@ -89,10 +88,12 @@ class TestSpringIntegrationSftpFileResource
 	void createResource() {
 		objectName = UUID.randomUUID().toString();
 		descriptor = FileDescriptor.of( "my-repo", "123/456", objectName );
-		resource = new SpringIntegrationSftpFileResource( descriptor, null, getSftpRemoteFileTemplate() );
+		SftpRemoteFileTemplate template = getSftpRemoteFileTemplate();
+		resource = new SpringIntegrationSftpFileResource( descriptor, null, template );
 		if ( !resource.getFolderResource().exists() ) {
 			resource.getFolderResource().create();
 		}
+		assertThat(template.exists( "123/456" )).isTrue();
 	}
 
 	@Test
@@ -235,15 +236,15 @@ class TestSpringIntegrationSftpFileResource
 		assertThat( resource.exists() ).isTrue();
 		assertThat( resource.contentLength() ).isNotEqualTo( 9 ).isEqualTo( RES_TEXTFILE.contentLength() );
 
-		String fileContent = getSftpRemoteFileTemplate().<String, ChannelSftp>executeWithClient( client -> {
+		String fileContent = getSftpRemoteFileTemplate().<String, SftpClient>executeWithClient( client -> {
 			String path = SpringIntegrationFileResource.getPath( resource.getDescriptor() );
 			try {
-				InputStream is = client.get( path );
+				InputStream is = client.read( path );
 				String content = IOUtils.toString( is, Charset.forName( "UTF-8" ) );
 				is.close();
 				return content;
 			}
-			catch ( IOException | SftpException ignore ) {
+			catch ( IOException ignore ) {
 				return "";
 			}
 		} );
@@ -394,14 +395,12 @@ class TestSpringIntegrationSftpFileResource
 	}
 
 	private void createFileViaFtp() {
-		getSftpRemoteFileTemplate().<Void, ChannelSftp>executeWithClient( client -> {
+		getSftpRemoteFileTemplate().<Void, SftpClient>executeWithClient( client -> {
 			String path = SpringIntegrationFileResource.getPath( resource.getDescriptor() );
-			try {
-				InputStream inputStream = IOUtils.toInputStream( "some-data", "UTF-8" );
-				client.put( inputStream, path );
-				inputStream.close();
+			try (OutputStream outputStream = client.write( path )){
+				outputStream.write( "some-data".getBytes(StandardCharsets.UTF_8 ) );
 			}
-			catch ( IOException | SftpException ignore ) {
+			catch ( IOException ignore ) {
 				LOG.error( "Unable to create file via SFTP", ignore );
 			}
 			return null;
@@ -409,12 +408,12 @@ class TestSpringIntegrationSftpFileResource
 	}
 
 	private boolean verifyFileExistsViaFtp() {
-		return getSftpRemoteFileTemplate().<Boolean, ChannelSftp>executeWithClient( client -> {
+		return getSftpRemoteFileTemplate().<Boolean, SftpClient>executeWithClient( client -> {
 			String path = SpringIntegrationFileResource.getPath( resource.getDescriptor() );
 			try {
 				return client.stat( path ) != null;
 			}
-			catch ( SftpException e ) {
+			catch ( IOException e ) {
 				return false;
 			}
 		} );

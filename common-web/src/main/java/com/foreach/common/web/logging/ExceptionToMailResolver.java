@@ -26,10 +26,10 @@ import org.springframework.util.Assert;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
@@ -148,7 +148,7 @@ public class ExceptionToMailResolver extends SimpleMappingExceptionResolver
 	 * @param exceptionPredicate
 	 */
 	public void setExceptionPredicate( ExceptionPredicate exceptionPredicate ) {
-		Assert.notNull( exceptionPredicate );
+		Assert.notNull( exceptionPredicate, "exceptionPredicate must not be null" );
 		this.exceptionPredicate = exceptionPredicate;
 	}
 

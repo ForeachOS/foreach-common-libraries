@@ -17,14 +17,12 @@ package com.foreach.common.filemanager.services;
 
 import com.foreach.common.filemanager.business.*;
 import com.foreach.common.filemanager.test.utils.SftpContainer;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpATTRS;
-import com.jcraft.jsch.SftpException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sshd.sftp.client.SftpClient;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +33,7 @@ import org.springframework.integration.sftp.session.SftpRemoteFileTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Duration;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -67,7 +65,7 @@ class TestSpringIntegrationSftpFolderResource
 			defaultFtpSessionFactory.setHost( "localhost" );
 			defaultFtpSessionFactory.setPort( SftpContainer.TEST_PORT );
 			defaultFtpSessionFactory.setTimeout( 5000 );
-			defaultFtpSessionFactory.setChannelConnectTimeout( Duration.ofSeconds( 5 ) );
+			//defaultFtpSessionFactory.setChannelConnectTimeout( Duration.ofSeconds( 5 ) );
 			defaultFtpSessionFactory.setAllowUnknownKeys( true );
 
 			template = new SftpRemoteFileTemplate( defaultFtpSessionFactory );
@@ -430,7 +428,7 @@ class TestSpringIntegrationSftpFolderResource
 	}
 
 	private void createFolderViaFtp( String path ) {
-		getSftpRemoteFileTemplate().<Void, ChannelSftp>executeWithClient( client -> {
+		getSftpRemoteFileTemplate().<Void, SftpClient>executeWithClient( client -> {
 			String[] parts = path.split( "/" );
 			parts = Arrays.stream( parts )
 			              .filter( x -> !"".equals( x ) )
@@ -441,17 +439,17 @@ class TestSpringIntegrationSftpFolderResource
 					part = StringUtils.prependIfMissing( part, "/" );
 
 					try {
-						SftpATTRS attrs = client.stat( part );
-						if ( !attrs.isDir() ) {
+						SftpClient.Attributes attrs = client.stat( part );
+						if ( !attrs.isDirectory() ) {
 							client.mkdir( part );
 						}
 					}
-					catch ( SftpException ignore ) {
+					catch ( IOException ignore ) {
 						client.mkdir( part );
 					}
 				}
 			}
-			catch ( SftpException ignore ) {
+			catch ( IOException ignore ) {
 				LOG.error( "Unexpected error whilst creating folder {}", path, ignore );
 			}
 			return null;
@@ -459,13 +457,11 @@ class TestSpringIntegrationSftpFolderResource
 	}
 
 	private void createFileViaFtp( String path, String content ) {
-		getSftpRemoteFileTemplate().<Void, ChannelSftp>executeWithClient( client -> {
-			try {
-				InputStream inputStream = IOUtils.toInputStream( content, "UTF-8" );
-				client.put( inputStream, path );
-				inputStream.close();
+		getSftpRemoteFileTemplate().<Void, SftpClient>executeWithClient( client -> {
+			try (var inputStream = client.write( path )) {
+				inputStream.write( content.getBytes( StandardCharsets.UTF_8 ) );
 			}
-			catch ( IOException | SftpException ignore ) {
+			catch ( IOException ignore ) {
 				LOG.error( "Unexpected error whilst creating file {}", path, ignore );
 			}
 			return null;
@@ -477,9 +473,9 @@ class TestSpringIntegrationSftpFolderResource
 	}
 
 	private boolean verifyFolderExistsViaFtp( String path ) {
-		return getSftpRemoteFileTemplate().<Boolean, ChannelSftp>executeWithClient( client -> {
+		return getSftpRemoteFileTemplate().<Boolean, SftpClient>executeWithClient( client -> {
 			try {
-				return client.stat( path ).isDir();
+				return client.stat( path ).isDirectory();
 			}
 			catch ( Exception e ) {
 			}

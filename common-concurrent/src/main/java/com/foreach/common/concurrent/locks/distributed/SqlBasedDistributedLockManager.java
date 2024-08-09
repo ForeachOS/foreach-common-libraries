@@ -443,7 +443,7 @@ public class SqlBasedDistributedLockManager implements DistributedLockManager
 
 	@Override
 	public boolean isLockedByOwner( String ownerId, String lockId ) {
-		Assert.notNull( ownerId );
+		Assert.notNull( ownerId, "ownerId must not be null" );
 		checkDestroyed();
 		return ownerId.equals( getLockOwner( lockId ) );
 	}
