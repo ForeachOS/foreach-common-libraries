@@ -71,7 +71,7 @@
 		<!-- Overrides from Spring Boot: -->
 		<maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
-		<spring-framework.version>5.3.37</spring-framework.version>
+		<spring-framework.version>5.3.39</spring-framework.version>
 
 		<!-- Not managed by Spring Boot: -->
 		<apache-ftpserver.version>1.2.0</apache-ftpserver.version>
