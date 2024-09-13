@@ -103,7 +103,7 @@ deploy:sonatype:
 
 # So the release procedure consists of:
 # 1. Change the revision in the top-level pom.xml and commit.
-# 2. Push to the remote. This will trigger the deploy:foreach job
+# 2. Push to GitLab. This will trigger the deploy:foreach job to deploy to the Foreach Nexus.
 # 3. When the deploy:foreach job is successful, create a tag (format: the letter v followed by the revision property).
-#    This will trigger the release to Maven Central
-# 4. Close, release and drop the staging repository at https://oss.sonatype.org/#stagingRepositories
+# 4. Push to GitLab. This will trigger the deploy:sonatype job to deploy to Maven Central.
+# 5. Close, release and drop the staging repository at https://oss.sonatype.org/#stagingRepositories
