@@ -22,7 +22,7 @@
 			We use this only to specify a consistent set of libraries, compatible with Spring Boot -->
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.8</version>
+		<version>3.2.12</version>
 	</parent>
 
 	<groupId>com.foreach.libs</groupId>
@@ -55,9 +55,6 @@
 		<module>common-concurrent</module>
 		<module>common-file-manager-test-utils</module>
 		<module>common-file-manager</module>
-		<!--
-		<module>file-manager-module</module>
-		-->
 		<module>common-bom</module>
 	</modules>
 
@@ -69,8 +66,8 @@
 		<revision>3.0-SNAPSHOT</revision>
 
 		<!-- Overrides from Spring Boot: -->
-		<maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
-		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+		<maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+		<maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
 
 		<!-- Not managed by Spring Boot: -->
 		<apache-ftpserver.version>1.2.0</apache-ftpserver.version>
@@ -80,9 +77,9 @@
 		<commons-validator.version>1.9.0</commons-validator.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-		<maven-artifact-plugin.version>3.5.1</maven-artifact-plugin.version>
-		<maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
-		<testcontainers-bom.version>1.19.8</testcontainers-bom.version>
+		<maven-artifact-plugin.version>3.5.3</maven-artifact-plugin.version>
+		<maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+		<testcontainers-bom.version>1.20.4</testcontainers-bom.version>
 
 		<!-- Needed for https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
 		<project.build.outputTimestamp>2023-01-01T00:00:00Z</project.build.outputTimestamp>
