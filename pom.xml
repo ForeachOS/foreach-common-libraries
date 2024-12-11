@@ -22,7 +22,7 @@
 			We use this only to specify a consistent set of libraries, compatible with Spring Boot -->
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.12</version>
+		<version>3.4.0</version>
 	</parent>
 
 	<groupId>com.foreach.libs</groupId>
@@ -63,7 +63,7 @@
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 		<maven.deploy.skip>true</maven.deploy.skip>
 
-		<revision>3.0-SNAPSHOT</revision>
+		<revision>3.1-SNAPSHOT</revision>
 
 		<!-- Overrides from Spring Boot: -->
 		<maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
