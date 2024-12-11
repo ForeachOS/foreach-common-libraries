@@ -18,6 +18,8 @@ Developed and maintained by [Foreach.be](https://www.foreach.be).
 
 ### Local development
 
+Note: This section is likely out of date: testcontainers are used instead.
+
 Some tests are AWS specific, they require [Localstack][] with the S3 service to be running.
 Some tests are Azure specific, they require [Azurite][] with the blob service to be runnning.
 A `docker-compose` file is available in the root of this repository, running `docker-compose up` should start the required AWS and Azure services with data being stored in `local-data/storage/localstack` & `local-data/storage/azurite`.
@@ -25,6 +27,10 @@ A `docker-compose` file is available in the root of this repository, running `do
  > On macOS you might have to do `TMPDIR=/private$TMPDIR docker-compose up` to workaround tmp dir issues.
 
 In order to start the test application in development mode with support for one of the cloud providers an additional profile is required, `azure` for azure support and `aws` for aws support.
+
+### Release procedure
+
+The release procedure can be found in the comments at the bottom of the `.gitlab-ci.yml` file.
 
 ### License
 
