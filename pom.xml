@@ -338,14 +338,6 @@
 		</developer>
 	</developers>
 
-	<repositories>
-		<repository>
-			<id>across</id> <!-- Don't try changing this -->
-			<name>Foreach Nexus Public</name>
-			<url>https://repository.antwerpen.io-external.com/nexus/repository/public/</url>
-		</repository>
-	</repositories>
-
 	<profiles>
 		<profile>
 			<id>deploy</id>
